@@ -1,8 +1,5 @@
 # The continuous integration pipeline for Carpenter Azure Pipelines.
 
-trigger:
-- main
-
 pool:
   name: Default
 
