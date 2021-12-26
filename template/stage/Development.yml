@@ -1,4 +1,4 @@
-The Development stage builds the project and performs testing.
+# The Development stage builds the project and performs testing.
 
 stages:
 - stage: Dev
