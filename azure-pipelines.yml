@@ -1,0 +1,10 @@
+# The continuous integration pipeline for Carpenter Azure Pipelines.
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- template: template/Carpenter.yml
