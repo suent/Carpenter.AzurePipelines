@@ -20,8 +20,11 @@ stages:
     - powershell: |
         Write-Verbose "Validating pipelineVersion"
         if (-not ($env:CARPENTER_PIPELINEVERSION -gt 0)) {
+            Write-Host "##vso[task.logissue type=error]pipelineVersion parameter not supplied to Carpenter Azure Pipelines template."
             Throw "pipelineVersion parameter not supplied to Carpenter Azure Pipelines template."
         }
+      displayName: 'Validate job parameters'
+
     - script: |
         echo PipelineVersion: $(Carpenter.PipelineVersion)
       displayName: 'Display build variables'
