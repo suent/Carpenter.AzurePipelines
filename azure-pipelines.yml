@@ -26,6 +26,6 @@
 
 stages:
 - template: template/carpenter-default.yml
-  parameters:
+  #parameters:
     # See template/carpenter-default.yml
     #pipelineVersion: 1
