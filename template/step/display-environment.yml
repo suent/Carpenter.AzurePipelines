@@ -1,5 +1,5 @@
-# azure-pipelines.yml
-# The continuous integration pipeline for the Carpenter Azure Pipelines project.
+# display-environment.yml
+# Displays environment variables using PowerShell.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -24,8 +24,7 @@
 # SPDX-License-Identifier: MIT
 
 
-stages:
-- template: template/carpenter-default.yml
-  parameters:
-    # See template/carpenter-default.yml
-    pipelineVersion: 1
+steps:
+- powershell: |
+     dir env:
+  displayName: Display environment variables
