@@ -24,6 +24,8 @@
 # SPDX-License-Identifier: MIT
 
 
-
 stages:
 - template: template/carpenter-default.yml
+  parameters:
+    # See template/carpenter-default.yml
+    #pipelineVersion: 1

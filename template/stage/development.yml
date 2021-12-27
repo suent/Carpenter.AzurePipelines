@@ -1,4 +1,9 @@
+# development.yml
 # The Development stage builds the project and performs testing.
+
+parameters:
+  # See template/carpenter-default.yml
+  pipelineVersion: '' # Required
 
 stages:
 - stage: Dev
@@ -8,9 +13,12 @@ stages:
   - job: Build
     displayName: Build
 
+    variables:
+        Carpenter.PipelineVersion: ${{ parameters.pipelineVersion }}
+    
     steps:
-    - script: echo Hello, world!
-      displayName: 'Run a one-line script'
+    - script: echo PipelineVersion $(Carpenter.PipelineVersion)
+      displayName: 'Display build variables'
 
     - script: |
         echo Add other tasks to build, test, and deploy your project.
