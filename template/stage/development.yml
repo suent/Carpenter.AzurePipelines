@@ -13,8 +13,8 @@ stages:
   - job: Build
     displayName: Build
 
-    variables:
-        Carpenter.PipelineVersion: ${{ parameters.pipelineVersion }}
+    #variables:
+        #Carpenter.PipelineVersion: ${{ parameters.pipelineVersion }}
     
     steps:
     - powershell: |
