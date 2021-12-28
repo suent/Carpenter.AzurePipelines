@@ -1,5 +1,5 @@
-# azure-pipelines.yml
-# The continuous integration pipeline for the Carpenter Azure Pipelines project.
+# carpenter-default.yml
+# The default Carpenter Azure Pipelines pipeline.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -23,9 +23,13 @@
 
 # SPDX-License-Identifier: MIT
 
+parameters:
+  # The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
+  # A breaking change could implement new functionality under an incremented version number, and move
+  # dependent pipelines over separately. Defaults to pipelineVersion 1.
+  pipelineVersion: 1 # DO NOT CHANGE HERE. Supply a different value if needed.
 
 stages:
-- template: template/carpenter-default.yml
+- template: stage/development.yml
   parameters:
-    # See template/carpenter-default.yml
-    pipelineVersion: 1
+    pipelineVersion: ${{ parameters.pipelineVersion }}
