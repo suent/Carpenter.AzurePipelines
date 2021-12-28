@@ -32,7 +32,7 @@ parameters:
 
 
 jobs:
-- job: initialize-pipeline
+- job: initialize_pipeline
   displayName: Initialize pipeline
 
   steps:
