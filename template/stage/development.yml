@@ -37,7 +37,7 @@ stages:
 
 
   variables:
-  - template: variable/carpenter-pipeline.yml
+  - template: ../variable/carpenter-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
 
