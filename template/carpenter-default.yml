@@ -35,12 +35,6 @@ parameters:
   default: 1
 
 
-variables:
-- template: variable/carpenter-pipeline.yml
-  parameters:
-    pipelineVersion: ${{ parameters.pipelineVersion }}
-
-
 stages:
 - template: stage/development.yml
   parameters:
