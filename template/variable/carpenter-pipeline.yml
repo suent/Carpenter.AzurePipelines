@@ -1,5 +1,5 @@
-# development.yml
-# The Development stage builds the project and performs testing.
+# carpenter-pipeline.yml
+# Contains variables used by the Carpenter pipeline.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -31,29 +31,6 @@ parameters:
   default: 0 # Required to be supplied by templates which extend this one
 
 
-stages:
-- stage: Dev
-  displayName: Development
-
-  jobs:
-  - template: ../job/initialize-pipeline.yml
-    parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-
-  - job: Build
-    displayName: Build
-    
-    steps:
-    - template: ../step/display-environment.yml
-
-    - powershell: |
-        Write-Verbose "Validating pipelineVersion"
-        if (-not ($env:CARPENTER_PIPELINEVERSION -gt 0)) {
-            Write-Host "##vso[task.logissue type=error]pipelineVersion parameter not supplied to Carpenter Azure Pipelines template."
-            Throw "pipelineVersion parameter not supplied to Carpenter Azure Pipelines template."
-        }
-      displayName: 'Validate job parameters'
-
-    - script: |
-        echo PipelineVersion: $(Carpenter.PipelineVersion)
-      displayName: 'Display build variables'
+variables:
+- name: Carpenter.PipelineVersion
+  value: ${{ parameters.pipelineVersion }}
