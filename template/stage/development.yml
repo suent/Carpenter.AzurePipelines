@@ -26,7 +26,10 @@
 
 parameters:
   # See template/carpenter-default.yml
-  pipelineVersion: '' # Required
+- name: pipelineVersion
+  type: number
+  default: 0 # Required to be supplied by templates which extend this one
+
 
 stages:
 - stage: Dev
