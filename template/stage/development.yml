@@ -44,5 +44,3 @@ stages:
 
   jobs:
   - template: ../job/initialize-pipeline.yml
-    parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
