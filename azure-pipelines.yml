@@ -1,7 +1,7 @@
 # azure-pipelines.yml
 # The continuous integration pipeline for the Carpenter Azure Pipelines project.
 
-#    Copyright © 2015-2021 Suent Networks, All rights reserved.
+#    Copyright Â© 2015-2021 Suent Networks, All rights reserved.
 #
 #    Permission is hereby granted, free of charge, to any person obtaining a copy
 #    of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,10 @@
 #    SOFTWARE.
 
 # SPDX-License-Identifier: MIT
+
+# Note: This build uses the pipeline templates directly to avoid getting into a
+# state where the deployed pipeline does not work, and a fix cannot be
+# deployed.
 
 
 stages:
