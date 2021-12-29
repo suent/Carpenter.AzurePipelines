@@ -34,6 +34,31 @@ parameters:
   type: number
   default: 1
 
+  # The default pool type to use for jobs.
+  # 'Hosted' - Microsoft Hosted Pool (Default)
+  # 'Private' - Private Pool
+- name: defaultPoolType
+  type: string
+  default: Hosted
+  values:
+  - Hosted
+  - Private
+
+  # The pool name to use when using Private pool type. Defaults to 'Default'.
+- name: defaultPoolName
+  type: string
+  default: Default
+
+  # The demands for the agent when using a Private pool type.
+- name: defaultPoolDemands
+  type: object
+  default: []
+
+  # The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
+- name: defaultPoolVMImage
+  type: string
+  default: 'ubuntu-latest'
+
 
 stages:
 - template: stage/development.yml

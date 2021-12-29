@@ -30,6 +30,29 @@ parameters:
   type: number
   default: 0 # Required to be supplied by templates which extend this one
 
+  # See template/carpenter-default.yml
+- name: defaultPoolType
+  type: string
+  default: Hosted
+  values:
+  - Hosted
+  - Private
+
+  # See template/carpenter-default.yml
+- name: defaultPoolName
+  type: string
+  default: Default
+
+  # See template/carpenter-default.yml
+- name: defaultPoolDemands
+  type: object
+  default: []
+
+  # See template/carpenter-default.yml
+- name: defaultPoolVMImage
+  type: string
+  default: 'ubuntu-latest'
+
 
 stages:
 - stage: Dev
@@ -40,7 +63,10 @@ stages:
   - template: ../variable/carpenter-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-
+      defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolName: ${{ parameters.defaultPoolName }}
+      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
 
   jobs:
   - template: ../job/initialize-pipeline.yml

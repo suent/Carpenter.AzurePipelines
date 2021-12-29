@@ -30,7 +30,49 @@ parameters:
   type: number
   default: 0 # Required to be supplied by templates which extend this one
 
+  # See template/carpenter-default.yml
+- name: defaultPoolType
+  type: string
+  default: Hosted
+  values:
+  - Hosted
+  - Private
+
+  # See template/carpenter-default.yml
+- name: defaultPoolName
+  type: string
+  default: Default
+
+  # See template/carpenter-default.yml
+- name: defaultPoolDemands
+  type: object
+  default: []
+
+  # See template/carpenter-default.yml
+- name: defaultPoolVMImage
+  type: string
+  default: 'ubuntu-latest'
+
 
 variables:
 - name: Carpenter.PipelineVersion
   value: ${{ parameters.pipelineVersion }}
+
+- name: Carpenter.Pool.Default.Type
+  value: ${{ parameters.defaultPoolType }}
+
+- ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+  - name: Carpenter.Pool.Default.VMImage
+    value: ${{ parameters.defaultPoolVMImage}}
+
+- ${{ if eq(parameters.defaultPoolType,'Private') }}:
+  - name: Carpenter.Pool.Default.Name
+    value: ${{ parameters.defaultPoolName }}
+  
+  - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
+    - name: Carpenter.Pool.Default.Demands
+      value: Yes
+  
+  - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+    - name: Carpenter.Pool.Default.Demands
+      value: Yes
