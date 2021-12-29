@@ -71,7 +71,7 @@ variables:
   
   - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
     - name: Carpenter.Pool.Default.Demands
-      value: Yes
+      value: No
   
   - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
     - name: Carpenter.Pool.Default.Demands
