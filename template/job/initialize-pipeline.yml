@@ -24,9 +24,43 @@
 # SPDX-License-Identifier: MIT
 
 
+parameters:
+  # See template/carpenter-default.yml
+- name: defaultPoolType
+  type: string
+  default: Hosted
+  values:
+  - Hosted
+  - Private
+
+  # See template/carpenter-default.yml
+- name: defaultPoolName
+  type: string
+  default: Default
+
+  # See template/carpenter-default.yml
+- name: defaultPoolDemands
+  type: object
+  default: {}
+
+  # See template/carpenter-default.yml
+- name: defaultPoolVMImage
+  type: string
+  default: 'ubuntu-latest'
+
+
 jobs:
 - job: initialize_pipeline
   displayName: Initialize pipeline
+
+  pool:
+    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+      vmImage: ${{ parameters.defaultPoolVMImage }}
+    ${{ if eq(parameters.defaultPoolType,'Private') }}:
+      name: ${{ parameters.defaultPoolName }}
+      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+        demands:
+        ${{ insert }}: ${{ parameters.defaultPoolDemands }}
 
   steps:
   - template: ../step/display-environment.yml

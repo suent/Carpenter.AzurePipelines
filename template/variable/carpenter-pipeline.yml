@@ -46,7 +46,7 @@ parameters:
   # See template/carpenter-default.yml
 - name: defaultPoolDemands
   type: object
-  default: []
+  default: {}
 
   # See template/carpenter-default.yml
 - name: defaultPoolVMImage

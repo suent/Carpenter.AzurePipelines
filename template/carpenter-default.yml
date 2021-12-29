@@ -52,7 +52,7 @@ parameters:
   # The demands for the agent when using a Private pool type.
 - name: defaultPoolDemands
   type: object
-  default: []
+  default: {}
 
   # The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
 - name: defaultPoolVMImage
@@ -64,3 +64,7 @@ stages:
 - template: stage/development.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
+    defaultPoolType: ${{ parameters.defaultPoolType }}
+    defaultPoolName: ${{ parameters.defaultPoolName }}
+    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}

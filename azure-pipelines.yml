@@ -33,10 +33,11 @@ stages:
     # See template/carpenter-default.yml
     pipelineVersion: 1
     # See template/carpenter-default.yml
-    #defaultPoolType: 'Hosted'
+    defaultPoolType: 'Private'
     # See template/carpenter-default.yml
-    #defaultPoolName: 'Default'
+    defaultPoolName: 'Default'
     # See template/carpenter-default.yml
-    #defaultPoolDemands: []
+    defaultPoolDemands:
+    - Agent.OS -equals Windows_NT
     # See template/carpenter-default.yml
     #defaultPoolVMImage: 'ubuntu-latest'
