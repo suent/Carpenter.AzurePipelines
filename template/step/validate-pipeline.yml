@@ -1,5 +1,5 @@
-# initialize-pipeline.yml
-# Initializes the Carpenter pipeline.
+# validate-pipeline.yml
+# Validates variables used by the Carpenter pipeline.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -24,43 +24,11 @@
 # SPDX-License-Identifier: MIT
 
 
-parameters:
-  # See template/carpenter-default.yml
-- name: defaultPoolType
-  type: string
-  default: Hosted
-  values:
-  - Hosted
-  - Private
-
-  # See template/carpenter-default.yml
-- name: defaultPoolName
-  type: string
-  default: Default
-
-  # See template/carpenter-default.yml
-- name: defaultPoolDemands
-  type: object
-  default: {}
-
-  # See template/carpenter-default.yml
-- name: defaultPoolVMImage
-  type: string
-  default: 'ubuntu-latest'
-
-
-jobs:
-- job: initialize_pipeline
-  displayName: Initialize pipeline
-
-  pool:
-    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
-      vmImage: ${{ parameters.defaultPoolVMImage }}
-    ${{ if eq(parameters.defaultPoolType,'Private') }}:
-      name: ${{ parameters.defaultPoolName }}
-      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
-        demands: ${{ parameters.defaultPoolDemands }}
-
-  steps:
-  - template: ../step/display-environment.yml
-  - template: ../step/validate-pipeline.yml
+steps:
+- powershell: |
+    Write-Verbose "Validating pipelineVersion"
+    if (-not ($env:CARPENTER_PIPELINEVERSION -gt 0)) {
+        Write-Host "##vso[task.logissue type=error]The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
+        Throw "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
+    }
+  displayName: 'Validate pipeline parameters'
