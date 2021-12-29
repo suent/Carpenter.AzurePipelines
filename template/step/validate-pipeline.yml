@@ -1,5 +1,5 @@
-# initialize-pipeline.yml
-# Initializes the Carpenter pipeline.
+# validate-pipeline.yml
+# Validates variables used by the Carpenter pipeline.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -24,17 +24,11 @@
 # SPDX-License-Identifier: MIT
 
 
-parameters:
-  # See template/carpenter-default.yml
-- name: pipelineVersion
-  type: number
-  default: 0 # Required to be supplied by templates which extend this one
-
-
-jobs:
-- job: initialize_pipeline
-  displayName: Initialize pipeline
-
-  steps:
-  - template: ../step/display-environment.yml
-  - template: ../step/validate-pipeline.yml
+steps:
+- powershell: |
+    Write-Verbose "Validating pipelineVersion"
+    if (-not ($env:CARPENTER_PIPELINEVERSION -gt 0)) {
+        Write-Host "##vso[task.logissue type=error]The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
+        Throw "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
+    }
+  displayName: 'Validate pipeline parameters'
