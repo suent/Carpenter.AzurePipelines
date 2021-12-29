@@ -30,6 +30,8 @@ parameters:
   # dependent pipelines over separately. Defaults to pipelineVersion 1. To ensure that future changes
   # to the pipeline do not break build which extend this template, it is recommended that this parameter
   # is passed to the template.
+  # For more information:
+  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/pipeline-versioning.md
 - name: pipelineVersion
   type: number
   default: 1
