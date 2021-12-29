@@ -36,11 +36,6 @@ parameters:
 
 
 stages:
-- stage: Test
-  jobs:
-  - job: Test1
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - script: echo Hello, world!
-      displayName: 'Run a one-line script'
+- template: stage/development.yml
+  parameters:
+    pipelineVersion: ${{ parameters.pipelineVersion }}
