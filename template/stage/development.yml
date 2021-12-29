@@ -43,9 +43,4 @@ stages:
 
 
   jobs:
-  - job: Test1
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - script: echo Hello, world!
-      displayName: 'Run a one-line script'
+  - template: ../job/initialize-pipeline.yml
