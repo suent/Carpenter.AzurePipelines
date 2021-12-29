@@ -5,3 +5,4 @@ The Carpenter.AzurePipelines project provides common YAML templates and scripts 
 
 ## Features
 * [Pipeline Versioning](doc/pipeline-versioning.md)
+* [Carpenter Variables](doc/variables.md)
