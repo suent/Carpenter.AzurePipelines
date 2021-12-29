@@ -37,8 +37,6 @@ stages:
     # See template/carpenter-default.yml
     defaultPoolName: 'Default'
     # See template/carpenter-default.yml
-    defaultPoolDemands:
-    - Agent.OS -equals Windows_NT
-    - Agent.Name -equals win10x64-1_2
+    #defaultPoolDemands:
     # See template/carpenter-default.yml
     #defaultPoolVMImage: 'ubuntu-latest'
