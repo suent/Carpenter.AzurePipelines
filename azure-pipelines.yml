@@ -30,13 +30,26 @@
 stages:
 - template: template/carpenter-default.yml
   parameters:
-    # See template/carpenter-default.yml
+    # The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
+    # A breaking change could implement new functionality under an incremented version number, and move
+    # dependent pipelines over separately. Defaults to pipelineVersion 1. To ensure that future changes
+    # to the pipeline do not break build which extend this template, it is recommended that this parameter
+    # is passed to the template.
+    # For more information:
+    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/pipeline-versioning.md
+    #
     pipelineVersion: 1
-    # See template/carpenter-default.yml
+
+    # The default pool type to use for jobs.
+    # 'Hosted' - Microsoft Hosted Pool (Default)
+    # 'Private' - Private Pool
     defaultPoolType: 'Private'
-    # See template/carpenter-default.yml
+
+    # The pool name to use when using Private pool type. Defaults to 'Default'.
     defaultPoolName: 'Default'
-    # See template/carpenter-default.yml
+
+    # The demands for the agent when using a Private pool type.
     #defaultPoolDemands:
-    # See template/carpenter-default.yml
+    
+    # The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
     #defaultPoolVMImage: 'ubuntu-latest'
