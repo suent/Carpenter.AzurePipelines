@@ -40,6 +40,10 @@ stages:
     #
     pipelineVersion: 1
 
+    # CONFIGURE POOL
+    # For more information:
+    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/configure-pool.md
+
     # The default pool type to use for jobs.
     # 'Hosted' - Microsoft Hosted Pool (Default)
     # 'Private' - Private Pool
