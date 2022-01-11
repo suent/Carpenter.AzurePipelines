@@ -26,7 +26,11 @@
 # Note: This build uses the pipeline templates directly to avoid getting into a
 # state where the deployed pipeline does not work and a fix cannot be deployed.
 
+# Default name for the build, prior to build versioning
+# $(Build.BuildId) is the default value used when YAML cannot be parsed
+name: $(Build.BuildId)
 
+# Use pipeline template
 stages:
 - template: template/carpenter-default.yml
   parameters:
