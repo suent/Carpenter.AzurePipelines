@@ -51,10 +51,10 @@ stages:
     # The default pool type to use for jobs.
     # 'Hosted' - Microsoft Hosted Pool (Default)
     # 'Private' - Private Pool
-    defaultPoolType: 'Private'
+    #defaultPoolType: 'Private'
 
     # The pool name to use when using Private pool type. Defaults to 'Default'.
-    defaultPoolName: 'Default'
+    #defaultPoolName: 'Default'
 
     # The demands for the agent when using a Private pool type.
     #defaultPoolDemands:
