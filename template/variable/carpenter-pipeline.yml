@@ -86,4 +86,4 @@ variables:
       value: True
 
 - name: Carpenter.Version.Type
-  value: ${{ parameters.buildVerisonType }}
+  value: ${{ parameters.buildVersionType }}
