@@ -57,8 +57,8 @@ steps:
     echo "##vso[task.setvariable variable=Carpenter.Version.Major;isOutput=true]$VERSIONMAJOR"
     echo "Carpenter.Version.Major: $VERSIONMAJOR"
     echo "##vso[task.setvariable variable=Carpenter.Version.Minor;isOutput=true]$VERSIONMINOR"
-    echo "Carpenter.Version.Minor: $VERSIONMAJOR"
+    echo "Carpenter.Version.Minor: $VERSIONMINOR"
     echo "##vso[task.setvariable variable=Carpenter.Version.Patch;isOutput=true]$VERSIONPATCH"
-    echo "Carpenter.Version.Patch: $VERSIONMAJOR"
+    echo "Carpenter.Version.Patch: $VERSIONPATCH"
   displayName: Initialize build version
   name: initializeBuildVersion
