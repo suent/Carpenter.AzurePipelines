@@ -64,7 +64,7 @@ parameters:
   # See template/carpenter-default.yml
 - name: buildVersionFile
   type: string
-  defualt: VERSION
+  default: VERSION
 
 
 variables:
