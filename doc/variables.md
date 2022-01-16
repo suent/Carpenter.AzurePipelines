@@ -43,3 +43,7 @@ The type of build versioning to use.
 | SemVer | Semantic Versioning 2.0.0 |
 
 The default value is `None`.
+
+#### Carpenter.Version.VersionFile
+
+The path to the VERSION file.

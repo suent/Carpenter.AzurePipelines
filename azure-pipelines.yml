@@ -70,3 +70,6 @@ stages:
     # None - No build versioning (Default)
     # SemVer - Semantic Versioning 2.0.0
     buildVersionType: SemVer
+
+    # The path to the VERSION file.
+    #buildVersionFile: VERSION

@@ -61,6 +61,11 @@ parameters:
   - None
   - SemVer
 
+  # See template/carpenter-default.yml
+- name: buildVersionFile
+  type: string
+  default: VERSION
+
 
 stages:
 - stage: Dev
@@ -76,6 +81,7 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       buildVersionType: ${{ parameters.buildVersionType }}
+      buildVersionFile: ${{ parameters.buildVersionFile }}
 
   jobs:
   - template: ../job/initialize-pipeline.yml
@@ -85,3 +91,4 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       buildVersionType: ${{ parameters.buildVersionType }}
+      buildVersionFile: ${{ parameters.buildVersionFile }}

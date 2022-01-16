@@ -81,6 +81,11 @@ parameters:
   - None
   - SemVer
 
+  # The path to the VERSION file.
+- name: buildVersionFile
+  type: string
+  default: VERSION
+
 
 stages:
 - template: stage/development.yml
@@ -91,3 +96,4 @@ stages:
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     buildVersionType: ${{ parameters.buildVersionType }}
+    buildVersionFile: ${{ parameters.buildVersionFile }}

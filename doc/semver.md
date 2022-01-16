@@ -12,3 +12,9 @@ stages:
   parameters:
     buildVersionType: semver
 ```
+
+## The `VERSION` file
+
+The version file is used to populate the build version.
+
+By default, VERSION in the root of the source path is used.

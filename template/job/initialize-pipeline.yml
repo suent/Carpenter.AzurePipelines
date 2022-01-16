@@ -72,3 +72,5 @@ jobs:
   steps:
   - template: ../step/display-environment.yml
   - template: ../step/validate-pipeline.yml
+  - template: ../step/initialize-build-version.yml
+  - template: ../step/display-environment.yml

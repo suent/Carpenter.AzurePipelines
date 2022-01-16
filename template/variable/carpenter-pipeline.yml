@@ -61,6 +61,11 @@ parameters:
   - None
   - SemVer
 
+  # See template/carpenter-default.yml
+- name: buildVersionFile
+  type: string
+  defualt: VERSION
+
 
 variables:
 - name: Carpenter.PipelineVersion
@@ -87,3 +92,6 @@ variables:
 
 - name: Carpenter.Version.Type
   value: ${{ parameters.buildVersionType }}
+
+- name: Carpenter.Version.VersionFile
+  value: ${{ parameters.buildVersionFile }}
