@@ -47,6 +47,14 @@ parameters:
 - name: defaultPoolVMImage
   type: string
   default: 'ubuntu-latest'
+    
+  # See template/carpenter-default.yml
+- name: buildVersionType
+  type: string
+  default: None
+  values:
+  - None
+  - SemVer
 
 
 jobs:
