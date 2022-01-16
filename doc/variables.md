@@ -30,3 +30,16 @@ The default value is `Hosted`.
 #### Carpenter.Pool.Default.VMImage
 
 The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
+
+### Build Versioning
+
+#### Carpenter.Version.Type
+
+The type of build versioning to use.
+
+| Version Type | Description |
+|:--|:--|
+| None | No build versioning |
+| SemVer | Semantic Versioning 2.0.0 |
+
+The default value is `None`.

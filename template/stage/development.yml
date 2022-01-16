@@ -52,6 +52,14 @@ parameters:
 - name: defaultPoolVMImage
   type: string
   default: 'ubuntu-latest'
+  
+  # See template/carpenter-default.yml
+- name: buildVersionType
+  type: string
+  default: None
+  values:
+  - None
+  - SemVer
 
 
 stages:
@@ -67,6 +75,7 @@ stages:
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      buildVersionType: ${{ parameters.buildVersionType }}
 
   jobs:
   - template: ../job/initialize-pipeline.yml
@@ -75,3 +84,4 @@ stages:
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      buildVersionType: ${{ parameters.buildVersionType }}

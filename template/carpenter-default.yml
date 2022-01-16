@@ -36,6 +36,7 @@ parameters:
   type: number
   default: 1
 
+
   # CONFIGURE POOL
   # For more information:
   # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/configure-pool.md
@@ -66,6 +67,21 @@ parameters:
   default: 'ubuntu-latest'
 
 
+  # BUILD VERSIONING
+  # For more information:
+  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build-versioning.md
+
+  # The type of build versioning to use.
+  # None - No build versioning (Default)
+  # SemVer - Semantic Versioning 2.0.0
+- name: buildVersionType
+  type: string
+  default: None
+  values:
+  - None
+  - SemVer
+
+
 stages:
 - template: stage/development.yml
   parameters:
@@ -74,3 +90,4 @@ stages:
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+    buildVersionType: ${{ parameters.buildVersionType }}
