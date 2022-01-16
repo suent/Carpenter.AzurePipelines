@@ -73,4 +73,6 @@ jobs:
   - template: ../step/display-environment.yml
   - template: ../step/validate-pipeline.yml
   - template: ../step/initialize-build-version.yml
+    parameters:
+      buildVersionType: ${{ parameters.buildVersionType }}
   - template: ../step/display-environment.yml

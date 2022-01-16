@@ -91,4 +91,3 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       buildVersionType: ${{ parameters.buildVersionType }}
-      buildVersionFile: ${{ parameters.buildVersionFile }}
