@@ -7,7 +7,7 @@
 
 [CmdletBinding()]
 param(
-	[string] $SourcesDirectory = $env:SOURCES_DIRECTORY,
+	[string] $SourcesDirectory = $env:BUILD_SOURCESDIRECTORY,
 	[string] $VersionFile = $env:CARPENTER_VERSION_VERSIONFILE
 )
 
