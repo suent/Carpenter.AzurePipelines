@@ -55,6 +55,7 @@ steps:
     fi
 
     echo "##vso[task.setvariable variable=Carpenter.Version.Major;isOutput=true]$VERSIONMAJOR"
+    echo "##vso[task.setvariable variable=Carpenter.Version.Major]$VERSIONMAJOR"
     echo "Carpenter.Version.Major: $VERSIONMAJOR"
     echo "##vso[task.setvariable variable=Carpenter.Version.Minor;isOutput=true]$VERSIONMINOR"
     echo "Carpenter.Version.Minor: $VERSIONMINOR"
