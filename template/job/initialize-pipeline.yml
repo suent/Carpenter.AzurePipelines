@@ -58,7 +58,7 @@ parameters:
 
 
 jobs:
-- job: initialize_pipeline
+- job: initializePipeline
   displayName: Initialize pipeline
 
   pool:
@@ -72,6 +72,7 @@ jobs:
   steps:
   - template: ../step/display-environment.yml
   - template: ../step/validate-pipeline.yml
+  - template: ../step/initialize-pipeline.yml
   - template: ../step/initialize-build-version.yml
     parameters:
       buildVersionType: ${{ parameters.buildVersionType }}

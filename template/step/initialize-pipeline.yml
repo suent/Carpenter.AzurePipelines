@@ -1,5 +1,5 @@
-# validate-pipeline.yml
-# Validates variables used by the Carpenter pipeline.
+# initialize-pipeline.yml
+# Initializes the pipeline.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -28,6 +28,7 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'filePath'
-    filePath: $(System.DefaultWorkingDirectory)/script/ValidatePipeline.ps1
+    filePath: $(System.DefaultWorkingDirectory)/script/InitializePipeline.ps1
     arguments: -Verbose
-  displayName: Validate pipeline parameters
+  displayName: Initialize pipeline
+  name: initializePipeline

@@ -25,7 +25,9 @@ If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
 	$targetVersion = Get-Content -Path $versionFilePath
 	Write-Verbose "Base Version: $targetVersion"
 	$version = [Version]::new($targetVersion)
-	Set-CarpenterVariable -VariableName "Carpenter.Version.Major" -Value $version.Major
-	Set-CarpenterVariable -VariableName "Carpenter.Version.Minor" -Value $version.Minor
-	Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -Value $version.Build
+	$baseVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.BaseVersion" -Value "$($version.Major).$($version.Minor).$($version.Build)"
+	$majorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Major" -Value $version.Major
+	$minorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Minor" -Value $version.Minor
+	$patchVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -Value $version.Build
 }
+
