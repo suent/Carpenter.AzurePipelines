@@ -13,11 +13,11 @@ param(
 
 $scriptName = Split-Path $PSCommandPath -Leaf
 
-. "$PSScriptRoot\include\Carpenter.AzurePipelines.Common.ps1"
+. "$PSScriptRoot/include/Carpenter.AzurePipelines.Common.ps1"
 
 Write-ScriptHeader "$scriptName"
 
-$versionFilePath = "$SourcesDirectory\$VersionFile"
+$versionFilePath = "$SourcesDirectory/$VersionFile"
 If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
 	Write-Error "VERSION file does not exist at expected path. Path: $versionFilePath"
 } else {
