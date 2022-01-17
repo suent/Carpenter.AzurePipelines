@@ -35,6 +35,11 @@ parameters:
 - name: pipelineVersion
   type: number
   default: 1
+  
+  # The project this pipeline belongs to.
+- name: project
+  type: string
+  default: $(Build.DefinitionName)
 
 
   # CONFIGURE POOL
@@ -92,10 +97,12 @@ parameters:
   default: 1
 
 
+
 stages:
 - template: stage/development.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
+    project: ${{ parameters.project }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}

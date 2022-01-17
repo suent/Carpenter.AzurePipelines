@@ -52,6 +52,11 @@ parameters:
 - name: defaultPoolVMImage
   type: string
   default: 'ubuntu-latest'
+
+  # See template/carpenter-default.yml
+- name: project
+  type: string
+  default: $(Build.DefinitionName)
   
   # See template/carpenter-default.yml
 - name: buildVersionType
@@ -72,6 +77,8 @@ parameters:
   default: 1
 
 
+
+
 stages:
 - stage: Dev
   displayName: Development
@@ -81,6 +88,7 @@ stages:
   - template: ../variable/carpenter-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
+      project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
