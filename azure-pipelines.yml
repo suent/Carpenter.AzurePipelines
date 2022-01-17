@@ -75,4 +75,4 @@ stages:
     #buildVersionFile: VERSION
 
     # The starting value of the revision counter.
-    revisionOffset: 101
+    revisionOffset: 102
