@@ -66,6 +66,9 @@ parameters:
   type: string
   default: VERSION
 
+- name: project
+  type: string
+  default: $[ variables.Build.DefinitionName ]
 
 variables:
 - name: Carpenter.PipelineVersion
@@ -95,3 +98,6 @@ variables:
 
 - name: Carpenter.Version.VersionFile
   value: ${{ parameters.buildVersionFile }}
+
+- name: Carpenter.Project
+  value: ${{ parameters.project }}

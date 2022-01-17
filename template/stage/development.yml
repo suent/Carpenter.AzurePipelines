@@ -82,6 +82,7 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       buildVersionType: ${{ parameters.buildVersionType }}
       buildVersionFile: ${{ parameters.buildVersionFile }}
+  - template: ../variable/version-init.yml
 
   jobs:
   - template: ../job/initialize-pipeline.yml
