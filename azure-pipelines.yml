@@ -32,7 +32,7 @@ name: $(Build.BuildId)
 
 # Use pipeline template
 stages:
-- template: pipeline/template/carpenter-default.yml
+- template: template/carpenter-default.yml
   parameters:
     # The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
     # A breaking change could implement new functionality under an incremented version number, and move
@@ -69,7 +69,7 @@ stages:
     # The type of build versioning to use.
     # None - No build versioning (Default)
     # SemVer - Semantic Versioning 2.0.0
-    #buildVersionType: SemVer
+    buildVersionType: SemVer
 
     # The path to the VERSION file.
     #buildVersionFile: VERSION
