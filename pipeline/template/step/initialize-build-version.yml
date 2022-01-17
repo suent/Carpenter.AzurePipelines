@@ -23,11 +23,23 @@
 
 # SPDX-License-Identifier: MIT
 
+
+parameters:
+  # See template/carpenter-default.yml
+- name: buildVersionType
+  type: string
+  default: None
+  values:
+  - None
+  - SemVer
+
+
 steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'filePath'
-    filePath: $(System.DefaultWorkingDirectory)/pipeline/script/InitializeBuildVersion.ps1
-    arguments: -Verbose
-  displayName: Initialize build version
-  name: initializeBuildVersion
+- ${{ if ne(parameters.buildVersionType,'None') }}:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: $(System.DefaultWorkingDirectory)/pipeline/script/InitializeBuildVersion.ps1
+      arguments: -Verbose
+    displayName: Initialize build version
+    name: initializeBuildVersion
