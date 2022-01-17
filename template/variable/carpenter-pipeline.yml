@@ -52,6 +52,19 @@ parameters:
 - name: defaultPoolVMImage
   type: string
   default: 'ubuntu-latest'
+  
+  # See template/carpenter-default.yml
+- name: buildVersionType
+  type: string
+  default: None
+  values:
+  - None
+  - SemVer
+
+  # See template/carpenter-default.yml
+- name: buildVersionFile
+  type: string
+  default: VERSION
 
 
 variables:
@@ -76,3 +89,9 @@ variables:
   - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
     - name: Carpenter.Pool.Default.Demands
       value: True
+
+- name: Carpenter.Version.Type
+  value: ${{ parameters.buildVersionType }}
+
+- name: Carpenter.Version.VersionFile
+  value: ${{ parameters.buildVersionFile }}

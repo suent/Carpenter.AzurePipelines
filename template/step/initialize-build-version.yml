@@ -1,5 +1,5 @@
-# initialize-pipeline.yml
-# Initializes the Carpenter pipeline.
+# initialize-build-version.yml
+# Initializes the build versioning.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -26,29 +26,6 @@
 
 parameters:
   # See template/carpenter-default.yml
-- name: defaultPoolType
-  type: string
-  default: Hosted
-  values:
-  - Hosted
-  - Private
-
-  # See template/carpenter-default.yml
-- name: defaultPoolName
-  type: string
-  default: Default
-
-  # See template/carpenter-default.yml
-- name: defaultPoolDemands
-  type: object
-  default: {}
-
-  # See template/carpenter-default.yml
-- name: defaultPoolVMImage
-  type: string
-  default: 'ubuntu-latest'
-    
-  # See template/carpenter-default.yml
 - name: buildVersionType
   type: string
   default: None
@@ -57,21 +34,12 @@ parameters:
   - SemVer
 
 
-jobs:
-- job: initialize_pipeline
-  displayName: Initialize pipeline
-
-  pool:
-    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
-      vmImage: ${{ parameters.defaultPoolVMImage }}
-    ${{ if eq(parameters.defaultPoolType,'Private') }}:
-      name: ${{ parameters.defaultPoolName }}
-      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
-        demands: ${{ parameters.defaultPoolDemands }}
-
-  steps:
-  - template: ../step/display-environment.yml
-  - template: ../step/validate-pipeline.yml
-  - template: ../step/initialize-build-version.yml
-    parameters:
-      buildVersionType: ${{ parameters.buildVersionType }}
+steps:
+- ${{ if ne(parameters.buildVersionType,'None') }}:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: $(System.DefaultWorkingDirectory)/script/InitializeBuildVersion.ps1
+      arguments: -Verbose
+    displayName: Initialize build version
+    name: initializeBuildVersion

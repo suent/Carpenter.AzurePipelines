@@ -51,13 +51,25 @@ stages:
     # The default pool type to use for jobs.
     # 'Hosted' - Microsoft Hosted Pool (Default)
     # 'Private' - Private Pool
-    defaultPoolType: 'Private'
+    #defaultPoolType: 'Private'
 
     # The pool name to use when using Private pool type. Defaults to 'Default'.
-    defaultPoolName: 'Default'
+    #defaultPoolName: 'Default'
 
     # The demands for the agent when using a Private pool type.
     #defaultPoolDemands:
     
     # The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
     #defaultPoolVMImage: 'ubuntu-latest'
+
+    # BUILD VERSIONING
+    # For more information:
+    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build-versioning.md
+
+    # The type of build versioning to use.
+    # None - No build versioning (Default)
+    # SemVer - Semantic Versioning 2.0.0
+    buildVersionType: SemVer
+
+    # The path to the VERSION file.
+    #buildVersionFile: VERSION
