@@ -10,4 +10,6 @@ param(
 
 )
 
-Write-Host "Test script"
+$scriptName = Split-Path $PSCommandPath -Leaf
+
+Write-Host "$Name"
