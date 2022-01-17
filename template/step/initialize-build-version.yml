@@ -24,42 +24,10 @@
 # SPDX-License-Identifier: MIT
 
 steps:
-- bash: |
-    # get version prefix from VERSION file
-    if [ -z "$CARPENTER_VERSION_VERSIONFILE" ]; then
-        echo "##vso[task.logissue type=warning;]Carpenter.Version.VersionFile (CARPENTER_VERSION_VERSIONFILE) variable has not been defined. Using version 0.1.0."
-        echo "##vso[task.complete result=SucceededWithIssues;]Carpenter.Version.VersionFile (CARPENTER_VERSION_VERSIONFILE) variable has not been defined."
-        VERSIONPREFIX=0.1.0
-        VERSIONMAJOR=0
-        VERSIONMINOR=1
-        VERSIONPATCH=0
-    else
-        VERSIONFILEPATH=$BUILD_SOURCESDIRECTORY/$CARPENTER_VERSION_VERSIONFILE
-        if [[ -f "$VERSIONFILEPATH" ]]; then
-            echo "Using VERSION file $VERSIONFILEPATH"
-            VERSIONPREFIXSTRING=`cat $VERSIONFILEPATH`
-            regex='^([[:digit:]]+)\.([[:digit:]]+)\.([[:digit:]]+)$'
-            if [[ $VERSIONPREFIXSTRING =~ $regex ]]; then
-            VERSIONPREFIX=$VERSIONPREFIXSTRING
-            VERSIONMAJOR="${BASH_REMATCH[1]}"
-            VERSIONMINOR="${BASH_REMATCH[2]}"
-            VERSIONPATCH="${BASH_REMATCH[3]}"
-            else
-            echo "##vso[task.logissue type=error;]VERSION file should contain only the Major.Minor.Patch elements of the version number (e.g. 1.2.3). Version File: $VERSIONFILEPATH"
-            echo "##vso[task.complete result=Failed;]VERSION file should contain only the Major.Minor.Patch elements of the version number."
-            fi
-        else
-            echo "##vso[task.logissue type=error;]Could not locate version file. File not found: $VERSIONFILEPATH"
-            echo "##vso[task.complete result=Failed;]Could not locate version file."
-        fi
-    fi
-
-    echo "##vso[task.setvariable variable=Carpenter.Version.Major;isOutput=true]$VERSIONMAJOR"
-    echo "##vso[task.setvariable variable=Carpenter.Version.Major]$VERSIONMAJOR"
-    echo "Carpenter.Version.Major: $VERSIONMAJOR"
-    echo "##vso[task.setvariable variable=Carpenter.Version.Minor;isOutput=true]$VERSIONMINOR"
-    echo "Carpenter.Version.Minor: $VERSIONMINOR"
-    echo "##vso[task.setvariable variable=Carpenter.Version.Patch;isOutput=true]$VERSIONPATCH"
-    echo "Carpenter.Version.Patch: $VERSIONPATCH"
+- task: PowerShell@2
+  inputs:
+    targetType: 'filePath'
+    filePath: $(System.DefaultWorkingDirectory)/pipeline/scripts/InitializeBuildVersion.ps1
+    arguments: -Verbose
   displayName: Initialize build version
   name: initializeBuildVersion
