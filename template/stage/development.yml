@@ -66,6 +66,11 @@ parameters:
   type: string
   default: VERSION
 
+  # See template/carpenter-default.yml
+- name: revisionOffset
+  type: string
+  default: 1
+
 
 stages:
 - stage: Dev
@@ -83,6 +88,8 @@ stages:
       buildVersionType: ${{ parameters.buildVersionType }}
       buildVersionFile: ${{ parameters.buildVersionFile }}
   - template: ../variable/version-init.yml
+    parameters:
+      revisionOffset: ${{ parameters.revisionOffset }}
 
   jobs:
   - template: ../job/initialize-pipeline.yml

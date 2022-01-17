@@ -73,3 +73,6 @@ stages:
 
     # The path to the VERSION file.
     #buildVersionFile: VERSION
+
+    # The starting value of the revision counter.
+    revisionOffset: 101

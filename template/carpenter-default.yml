@@ -86,6 +86,11 @@ parameters:
   type: string
   default: VERSION
 
+  # The starting value of the revision counter.
+- name: revisionOffset
+  type: string
+  default: 1
+
 
 stages:
 - template: stage/development.yml
@@ -97,3 +102,4 @@ stages:
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     buildVersionType: ${{ parameters.buildVersionType }}
     buildVersionFile: ${{ parameters.buildVersionFile }}
+    revisionOffset: ${{ parameters.revisionOffset }}

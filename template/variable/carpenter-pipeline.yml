@@ -66,6 +66,7 @@ parameters:
   type: string
   default: VERSION
 
+  # See template/carpenter-default.yml
 - name: project
   type: string
   default: $(Build.DefinitionName)
