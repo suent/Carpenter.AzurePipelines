@@ -75,4 +75,3 @@ jobs:
   - template: ../step/initialize-build-version.yml
     parameters:
       buildVersionType: ${{ parameters.buildVersionType }}
-  - template: ../step/display-environment.yml
