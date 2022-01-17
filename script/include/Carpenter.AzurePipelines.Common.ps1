@@ -11,7 +11,7 @@ Function Set-CarpenterVariable {
 		[string] $VariableName,
 		[object] $Value
 	)
-	Write-Verbose "$VariableName: $Value"
+	Write-Verbose "$($VariableName): $Value"
 	Write-Host "##vso[task.setvariable variable=$VariableName]$Value"
 	Write-Host "##vso[task.setvariable variable=$VariableName;isOutput=true]$Value"
 }
