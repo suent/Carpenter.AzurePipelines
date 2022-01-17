@@ -32,5 +32,8 @@ parameters:
 
 
 variables:
+- name: Carpenter.Version.RevisionOffset
+  value: ${{ parameters.revisionOffset }}
+
 - name: Carpenter.Version.Revision
-  value: $[counter(variables['Carpenter.Project'], parameters.revisionOffset)]
+  value: $[counter(variables['Carpenter.Project'], variables['Carpenter.Version.RevisionOffset'])]
