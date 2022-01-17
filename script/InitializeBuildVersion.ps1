@@ -12,4 +12,4 @@ param(
 
 $scriptName = Split-Path $PSCommandPath -Leaf
 
-Write-Host "$Name"
+Write-Host "$scriptName"
