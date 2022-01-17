@@ -68,7 +68,7 @@ parameters:
 
 - name: project
   type: string
-  default: ${{ variables.Build.DefinitionName }}
+  default: $(Build.DefinitionName)
 
 variables:
 - name: Carpenter.PipelineVersion
