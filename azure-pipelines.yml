@@ -44,6 +44,9 @@ stages:
     #
     pipelineVersion: 1
 
+    # The project this pipeline belongs to.
+    project: Carpenter.AzurePipelines
+
     # CONFIGURE POOL
     # For more information:
     # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/configure-pool.md
@@ -73,3 +76,6 @@ stages:
 
     # The path to the VERSION file.
     #buildVersionFile: VERSION
+
+    # The starting value of the revision counter.
+    revisionOffset: 107
