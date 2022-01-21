@@ -10,8 +10,8 @@ param(
 	[string] $SourcesDirectory = $env:BUILD_SOURCESDIRECTORY,
 	[string] $VersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
-	[string] $ContinuousIntegrationDateTime = $env:CARPENTER.CONTINUOUSINTEGRATION.DATETIME,
-	[string] $ContinuousIntegrationRevision = $env:CARPENTER.CONTINUOUSINTEGRATION.REVISION
+	[string] $ContinuousIntegrationDateTime = $env:CARPENTER_CONTINUOUSINTEGRATION_DATETIME,
+	[string] $ContinuousIntegrationRevision = $env:CARPENTER_CONTINUOUSINTEGRATION_REVISION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
