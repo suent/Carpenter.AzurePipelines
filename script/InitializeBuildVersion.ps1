@@ -33,6 +33,6 @@ If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
 	$minorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Minor" -Value $targetVersion.Minor
 	$patchVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -Value $targetVersion.Build
 	if ($BuildType -eq "CI") {
-	  $version = "$($baseVersion)-CI.$($ContinuousIntegrationDateTime).$($ContinuousIntegrationRevision)"
+	  $version = Set-CarpenterVariable -VariableName "Carpenter.Version" -Value "$($baseVersion)-CI.$($ContinuousIntegrationDateTime).$($ContinuousIntegrationRevision)"
 	}
 }
