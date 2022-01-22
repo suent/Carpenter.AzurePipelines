@@ -89,3 +89,13 @@ The date code of the continuous integration build.
 ##### Carpenter.ContinuousIntegration.Revsision
 
 The revision of the continuous integration build. Increments for each build under a specific date.
+
+#### Pull Request
+
+##### Carpenter.PullRequest.Semantic
+
+The semantic used to generate the pull request revision.
+
+##### Carpenter.PullRequest.Revision
+
+The pull request revision.

@@ -28,3 +28,11 @@ Continuous integration builds adds datecode and revision to the version label.
 For example:
 
 0.2.0-CI.20220122.1
+
+### Pull Request
+
+Pull request builds add the pull request number and revision to the version label.
+
+For example:
+
+0.2.0-PR.4.1

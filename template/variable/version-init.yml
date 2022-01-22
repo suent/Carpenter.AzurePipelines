@@ -45,3 +45,10 @@ variables:
 
   - name: Carpenter.ContinuousIntegration.Revision
     value: $[ counter(variables['Carpenter.ContinuousIntegration.Date'],1) ]
+
+- ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
+  - name: Carpenter.PullRequest.Semantic
+    value: $[ format('{0}.{1}', variables['Build.Reason'], variables['System.PullRequest.PullRequestNumber']) ]
+
+  - name: Carpenter.PullRequest.Revision
+    value: $[ counter(variables['Carpenter.PullRequest.Semantic'], 1) ]
