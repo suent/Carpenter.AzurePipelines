@@ -41,4 +41,6 @@ If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
 		$versionLabel = Set-CarpenterVariable -VariableName Carpenter.Version.Label -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
 	}
     $version = Set-CarpenterVariable -VariableName "Carpenter.Version" -Value "$($baseVersion)-$($versionLabel)"
+	Write-Host "##vso[build.updatebuildnumber]$version"
 }
+
