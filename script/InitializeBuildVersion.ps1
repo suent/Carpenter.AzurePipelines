@@ -11,7 +11,9 @@ param(
 	[string] $VersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
-	[string] $ContinuousIntegrationRevision = $env:CARPENTER_CONTINUOUSINTEGRATION_REVISION
+	[string] $ContinuousIntegrationRevision = $env:CARPENTER_CONTINUOUSINTEGRATION_REVISION,
+	[string] $PullRequestNumber = $env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER,
+	[string] $PullRequestRevision = $env:CARPENTER_PULLREQUEST_REVISION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -34,6 +36,9 @@ If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
 	$patchVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -Value $targetVersion.Build
 	if ($BuildType -eq "CI") {
 		$versionLabel = Set-CarpenterVariable -VariableName Carpenter.Version.Label -Value "CI.$($ContinuousIntegrationDate).$($ContinuousIntegrationRevision)"
+	}
+	if ($BuildType -eq "PR") {
+		$versionLabel = Set-CarpenterVariable -VariableName Carpenter.Version.Label -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
 	}
     $version = Set-CarpenterVariable -VariableName "Carpenter.Version" -Value "$($baseVersion)-$($versionLabel)"
 }

@@ -18,4 +18,7 @@ Write-ScriptHeader "$scriptName"
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI")) {
 	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -Value "CI"
+} 
+ElseIf ($BuildReason -eq "PullRequest") {
+	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -Value "PR"
 }
