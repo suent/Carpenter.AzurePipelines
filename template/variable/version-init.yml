@@ -48,7 +48,7 @@ variables:
 
 - ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
   - name: Carpenter.PullRequest.Semantic
-    value: $[ format('{0}.{1}', "PR", variables['System.PullRequest.PullRequestNumber']) ]
+    value: $[ format('{0}.{1}', variables['Build.Reason'], variables['System.PullRequest.PullRequestNumber']) ]
 
   - name: Carpenter.PullRequest.Revision
     value: $[ counter(variables['Carpenter.PullRequest.Semantic'], 1) ]
