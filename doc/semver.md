@@ -18,3 +18,13 @@ stages:
 The version file is used to populate the build version.
 
 By default, VERSION in the root of the source path is used.
+
+## Build Labels
+
+### Continuous Integration
+
+Continuous integration builds adds datecode and revision to the version label.
+
+For example:
+
+0.2.0-CI.20220122.1

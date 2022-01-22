@@ -10,7 +10,7 @@ param(
 	[string] $SourcesDirectory = $env:BUILD_SOURCESDIRECTORY,
 	[string] $VersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
-	[string] $ContinuousIntegrationDateTime = $env:CARPENTER_CONTINUOUSINTEGRATION_DATETIME,
+	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
 	[string] $ContinuousIntegrationRevision = $env:CARPENTER_CONTINUOUSINTEGRATION_REVISION
 )
 

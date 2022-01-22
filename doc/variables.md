@@ -59,3 +59,33 @@ The number of times the project has been built by this pipeline.
 #### Carpenter.Version.RevisionOffset
 
 The starting value of the revision counter.
+
+#### Carpenter.Version.Major
+
+The Major version number.
+
+#### Carpenter.Version.Minor
+
+The Minor version number.
+
+#### Carpenter.Version.Patch
+
+The Patch version number.
+
+#### Carpenter.Version.Label
+
+The version label.
+
+#### Carpenter.Version
+
+The version string. (without version metadata)
+
+#### Continuous Integration
+
+##### Carpenter.ContinuousIntegration.Date
+
+The date code of the continuous integration build.
+
+##### Carpenter.ContinuousIntegration.Revsision
+
+The revision of the continuous integration build. Increments for each build under a specific date.
