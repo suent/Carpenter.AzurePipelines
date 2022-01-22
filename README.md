@@ -6,6 +6,7 @@ The carpenter-azure-pipelines project provides common YAML templates and scripts
 ## Features
 
 * [Build Versioning](doc/build-versioning.md)
+  * [Build Revision](doc/build-revision.md)]
   * [Semantic Versioning 2.0.0](doc/semver.md)
 * [Configurable Pool](doc/configure-pool.md)
 * [Pipeline Versioning](doc/pipeline-versioning.md)

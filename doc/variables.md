@@ -6,6 +6,10 @@
 
 The pipeline version is used to gate breaking changes. More info: [pipeline-versioning.md](pipeline-versioning.md)
 
+### Carpenter.Project
+
+The project this pipeline belongs to.
+
 ### Pool Configuration
 
 #### Carpenter.Pool.Default.Demands
@@ -47,3 +51,11 @@ The default value is `None`.
 #### Carpenter.Version.VersionFile
 
 The path to the VERSION file.
+
+#### Carpenter.Version.Revision
+
+The number of times the project has been built by this pipeline.
+
+#### Carpenter.Version.RevisionOffset
+
+The starting value of the revision counter.
