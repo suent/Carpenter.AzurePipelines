@@ -124,4 +124,9 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       buildVersionType: ${{ parameters.buildVersionType }}
-  - template: ../job/finalize-initialize.yml
+  - template: ../job/finalize-pipeline.yml
+    parameters:
+      defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolName: ${{ parameters.defaultPoolName }}
+      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
