@@ -50,8 +50,8 @@ parameters:
 
 
 jobs:
-- job: finalizePipeline
-  displayName: Finalize pipeline
+- job: performBuild
+  displayName: Perform build
 
   dependsOn:
   - initializePipeline
