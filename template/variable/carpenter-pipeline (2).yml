@@ -1,5 +1,5 @@
-# perform-build.yml
-# Performs the build and executes unit tests.
+# carpenter-pipeline.yml
+# Contains variables used by the Carpenter pipeline.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -25,6 +25,12 @@
 
 
 parameters:
+
+  # See template/carpenter-default.yml
+- name: project
+  type: string
+  default: $(Build.DefinitionName)
+
   # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
@@ -49,24 +55,32 @@ parameters:
   default: 'ubuntu-latest'
 
 
-jobs:
-- job: finalizePipeline
-  displayName: Finalize pipeline
 
-  dependsOn:
-  - initializePipeline
-  - finalizePipeline
+variables:
+- name: Carpenter.PipelineVersion
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.Carpenter.PipelineVersion'] ]
 
-  pool:
-    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
-      vmImage: ${{ parameters.defaultPoolVMImage }}
-    ${{ if eq(parameters.defaultPoolType,'Private') }}:
-      name: ${{ parameters.defaultPoolName }}
-      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
-        demands: ${{ parameters.defaultPoolDemands }}
+- name: Carpenter.Build.Type
+  value: ${{ parameters.buildType }}
 
-  variables:
-  - template: ../variable/carpenter-pipeline.yml
+- name: Carpenter.Project
+  value: ${{ parameters.project }}
 
-  steps:
-  - template: ../step/display-environment.yml
+- name: Carpenter.Pool.Default.Type
+  value: ${{ parameters.defaultPoolType }}
+
+- ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+  - name: Carpenter.Pool.Default.VMImage
+    value: ${{ parameters.defaultPoolVMImage}}
+
+- ${{ if eq(parameters.defaultPoolType,'Private') }}:
+  - name: Carpenter.Pool.Default.Name
+    value: ${{ parameters.defaultPoolName }}
+  
+  - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
+    - name: Carpenter.Pool.Default.Demands
+      value: False
+  
+  - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+    - name: Carpenter.Pool.Default.Demands
+      value: True
