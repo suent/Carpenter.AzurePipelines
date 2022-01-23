@@ -38,7 +38,7 @@ parameters:
   type: string
   default: 1
 
-  # The prerelease label. This value is only used if buildType is Prerelease.
+  # See template/carpenter-default.yml
 - name: prereleaseLabel
   type: string
   default: Alpha
@@ -46,7 +46,19 @@ parameters:
   - Alpha
   - Beta
   - RC
+    
+  # See template/carpenter-default.yml
+- name: buildVersionType
+  type: string
+  default: None
+  values:
+  - None
+  - SemVer
 
+  # See template/carpenter-default.yml
+- name: buildVersionFile
+  type: string
+  default: VERSION
 
 variables:
 
