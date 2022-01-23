@@ -64,17 +64,17 @@ jobs:
         demands: ${{ parameters.defaultPoolDemands }}
 
   variables:
-  - template: ../variable/carpenter-pipeline.yml
-    parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      buildType: ${{ parameters.buildType }}
-      project: ${{ parameters.project }}
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      buildVersionType: ${{ parameters.buildVersionType }}
-      buildVersionFile: ${{ parameters.buildVersionFile }}
+  #- template: ../variable/carpenter-pipeline.yml
+  #  parameters:
+  #    pipelineVersion: ${{ parameters.pipelineVersion }}
+  #    buildType: ${{ parameters.buildType }}
+  #    project: ${{ parameters.project }}
+  #    defaultPoolType: ${{ parameters.defaultPoolType }}
+  #    defaultPoolName: ${{ parameters.defaultPoolName }}
+  #    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+  #    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+  #    buildVersionType: ${{ parameters.buildVersionType }}
+  #    buildVersionFile: ${{ parameters.buildVersionFile }}
 
 
   steps:
