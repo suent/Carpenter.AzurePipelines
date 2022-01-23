@@ -30,6 +30,7 @@
 parameters:
   # The build type if a build is manually run. This value gets overridden by automated builds.
 - name: buildType
+  displayName: 'Build Type'
   type: string
   default: Manual
   values:
@@ -38,6 +39,7 @@ parameters:
 
   # The prerelease label. This value is only used if buildType is Prerelease.
 - name: prereleaseLabel
+  displayName: 'Prerelease Label'
   type: string
   default: Alpha
   values:
