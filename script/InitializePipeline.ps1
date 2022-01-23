@@ -17,7 +17,7 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "Manual")) {
+If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "Manual"))) {
 	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -Value "CI"
 } 
 ElseIf ($BuildReason -eq "PullRequest") {
