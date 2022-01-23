@@ -21,13 +21,13 @@ Write-ScriptHeader "$scriptName"
 $pipelineVersion = Set-CarpenterVariable -OutputVariableName "pipelineVersion" -Value $PipelineVersion
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "Manual"))) {
-	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -Value "CI"
+	$buildType = Set-CarpenterVariable -OutputVariableName "buildType" -Value "CI"
 } 
 ElseIf ($BuildReason -eq "PullRequest") {
-	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -Value "PR"
+	$buildType = Set-CarpenterVariable -OutputVariableName "buildType" -Value "PR"
 }
 ElseIf (($BuildReason -eq "Manual") -and ($BuildType -eq "Prerelease")) {
-	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -Value "Prerelease"
+	$buildType = Set-CarpenterVariable -OutputVariableName "buildType" -Value "Prerelease"
 }
 Else {
 	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, BuildType=$BuildType"
