@@ -50,8 +50,10 @@ parameters:
 
 
 jobs:
-- job: finalizePipelineInitialization
-  displayName: Finalize pipeline initialization
+- job: finalizePipeline
+  displayName: Finalize pipeline
+
+  dependsOn: initializePipeline
 
   pool:
     ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
