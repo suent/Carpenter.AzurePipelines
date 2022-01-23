@@ -13,7 +13,9 @@ param(
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
 	[string] $ContinuousIntegrationRevision = $env:CARPENTER_CONTINUOUSINTEGRATION_REVISION,
 	[string] $PullRequestNumber = $env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER,
-	[string] $PullRequestRevision = $env:CARPENTER_PULLREQUEST_REVISION
+	[string] $PullRequestRevision = $env:CARPENTER_PULLREQUEST_REVISION,
+	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
+	[string] $PrereleaseRevision = $env:CARPENTER_PRERELEASE_REVISION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -39,6 +41,9 @@ If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
 	}
 	if ($BuildType -eq "PR") {
 		$versionLabel = Set-CarpenterVariable -VariableName Carpenter.Version.Label -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
+	}
+	if ($BuildType -eq "Prerelease") {
+		$versionLabel = Set-CarpenterVariable -VariableName Carpenter.Version.Label -Value "$($PrereleaseLabel).$($PrereleaseRevision)"
 	}
     $version = Set-CarpenterVariable -VariableName "Carpenter.Version" -Value "$($baseVersion)-$($versionLabel)"
 	Write-Host "##vso[build.updatebuildnumber]$version"

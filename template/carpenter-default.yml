@@ -42,6 +42,16 @@ parameters:
   default: Manual
   values:
   - Manual
+  - Prerelease
+
+  # The prerelease label. This value is only used if buildType is Prerelease.
+- name: prereleaseLabel
+  type: string
+  default: Alpha
+  values:
+  - Alpha
+  - Beta
+  - RC
 
   # The project this pipeline belongs to.
 - name: project
@@ -110,6 +120,7 @@ stages:
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
     buildType: ${{ parameters.buildType }}
+    prereleaseLabel: ${{ parameters.prereleaseLabel }}
     project: ${{ parameters.project }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
     defaultPoolName: ${{ parameters.defaultPoolName }}

@@ -23,8 +23,27 @@
 
 # SPDX-License-Identifier: MIT
 
+
 # Note: This build uses the pipeline templates directly to avoid getting into a
 # state where the deployed pipeline does not work and a fix cannot be deployed.
+
+parameters:
+  # The build type if a build is manually run. This value gets overridden by automated builds.
+- name: buildType
+  type: string
+  default: Manual
+  values:
+  - Manual
+  - Prerelease
+
+  # The prerelease label. This value is only used if buildType is Prerelease.
+- name: prereleaseLabel
+  type: string
+  default: Alpha
+  values:
+  - Alpha
+  - Beta
+  - RC
 
 # Default name for the build, prior to build versioning
 # $(Build.BuildId) is the default value used when YAML cannot be parsed
@@ -43,6 +62,12 @@ stages:
     # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/pipeline-versioning.md
     #
     pipelineVersion: 1
+
+    # The build type if a build is manually run. This value gets overridden by automated builds.
+    buildType: ${{ parameters.buildType }}
+
+    # The prerelease label. This value is only used if buildType is Prerelease.
+    prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
     # The project this pipeline belongs to.
     project: Carpenter.AzurePipelines

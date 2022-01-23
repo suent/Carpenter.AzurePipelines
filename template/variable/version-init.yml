@@ -31,6 +31,7 @@ parameters:
   default: Manual
   values:
   - Manual
+  - Prerelease
 
   # See template/carpenter-default.yml
 - name: revisionOffset
@@ -59,3 +60,10 @@ variables:
 
   - name: Carpenter.PullRequest.Revision
     value: $[ counter(variables['Carpenter.PullRequest.Semantic'], 1) ]
+
+- ${{ if eq(parameters['buildType'],'Prerelease')}}:
+  - name: Carpenter.Prerelease.Label
+    value: ${{ parameters.prereleaseLabel }}
+
+  - name: Carpenter.Prerelease.Revision
+    value: $[ counter(variables['Carpenter.Prerelease.Label'], 1)]

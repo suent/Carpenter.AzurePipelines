@@ -36,6 +36,16 @@ parameters:
   default: Manual
   values:
   - Manual
+  - Prerelease
+
+  # The prerelease label. This value is only used if buildType is Prerelease.
+- name: prereleaseLabel
+  type: string
+  default: Alpha
+  values:
+  - Alpha
+  - Beta
+  - RC
 
   # See template/carpenter-default.yml
 - name: project
