@@ -38,6 +38,15 @@ parameters:
   type: string
   default: 1
 
+  # The prerelease label. This value is only used if buildType is Prerelease.
+- name: prereleaseLabel
+  type: string
+  default: Alpha
+  values:
+  - Alpha
+  - Beta
+  - RC
+
 
 variables:
 - name: Carpenter.Version.RevisionOffset

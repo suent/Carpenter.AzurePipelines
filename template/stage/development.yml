@@ -103,7 +103,6 @@ stages:
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       buildType: ${{ parameters.buildType }}
-      prereleaseLabel: ${{ parameters.prereleaseLabel }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
