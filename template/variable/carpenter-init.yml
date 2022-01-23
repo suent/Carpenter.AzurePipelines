@@ -43,5 +43,6 @@ variables:
 - name: Carpenter.PipelineVersion
   value: ${{ parameters.pipelineVersion }}
 
-- name: Carpenter.Build.Type
-  value: ${{ parameters.buildType }}
+- ${{ if eq(variables['Build.Reason'],'Manual') }}:
+  - name: Carpenter.Build.Type
+    value: ${{ parameters.buildType }}
