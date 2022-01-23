@@ -7,6 +7,7 @@
 
 [CmdletBinding()]
 param(
+	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -16,6 +17,6 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 Write-ScriptHeader "$scriptName"
 
 Write-Verbose "Validating pipelineVersion"
-if (-not ($env:CARPENTER_PIPELINEVERSION -gt 0)) {
+if ((-not (IsNumeric($PipelineVersion))) -or (-not ($PipelineVersion -gt 0))) {
 	Write-PipelineError "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
 }
