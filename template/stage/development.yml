@@ -105,12 +105,12 @@ stages:
       buildVersionFile: ${{ parameters.buildVersionFile }}
   - template: ../variable/version-init.yml
     parameters:
+      buildType: ${{ parameters.buildType }}
       revisionOffset: ${{ parameters.revisionOffset }}
 
   jobs:
   - template: ../job/initialize-pipeline.yml
     parameters:
-      buildType: ${{ parameters.buildType }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
