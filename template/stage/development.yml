@@ -98,13 +98,13 @@ stages:
 - stage: Dev
   displayName: Development
 
-  variables:
+  #variables:
 
-  - template: ../variable/version-init.yml
-    parameters:
-      buildType: ${{ parameters.buildType }}
-      prereleaseLabel: ${{ parameters.prereleaseLabel }}
-      revisionOffset: ${{ parameters.revisionOffset }}
+  #- template: ../variable/version-init.yml
+  #  parameters:
+  #    buildType: ${{ parameters.buildType }}
+  #    prereleaseLabel: ${{ parameters.prereleaseLabel }}
+  #    revisionOffset: ${{ parameters.revisionOffset }}
 
   jobs:
   - template: ../job/initialize-pipeline.yml
