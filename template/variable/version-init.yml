@@ -39,7 +39,7 @@ variables:
   value: $[counter(variables['Carpenter.Project'], variables['Carpenter.Version.RevisionOffset'])]
 
 
-- ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI')) }}:
+- ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(variables['Carpenter.Build.Type'],'Manual'))) }}:
   - name: Carpenter.ContinuousIntegration.Date
     value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
 

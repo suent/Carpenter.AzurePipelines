@@ -6,6 +6,10 @@
 
 The pipeline version is used to gate breaking changes. More info: [pipeline-versioning.md](pipeline-versioning.md)
 
+### Carpenter.Build.Type
+
+The type of build being executed.
+
 ### Carpenter.Project
 
 The project this pipeline belongs to.

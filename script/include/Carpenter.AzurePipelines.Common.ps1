@@ -16,3 +16,11 @@ Function Set-CarpenterVariable {
 	Write-Host "##vso[task.setvariable variable=$VariableName;isOutput=true]$Value"
 	return $Value
 }
+
+Function Write-PipelineError {
+	param(
+		[string] $Message
+	)
+    Write-Host "##vso[task.logissue type=error]$Message"
+	Throw $Message
+}
