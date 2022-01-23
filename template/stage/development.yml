@@ -109,6 +109,8 @@ stages:
   jobs:
   - template: ../job/initialize-pipeline.yml
     parameters:
+      pipelineVersion: ${{ parameters.pipelineVersion }}
+      buildType: ${{ parameters.buildType}}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
