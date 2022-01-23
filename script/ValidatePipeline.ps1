@@ -17,6 +17,5 @@ Write-ScriptHeader "$scriptName"
 
 Write-Verbose "Validating pipelineVersion"
 if (-not ($env:CARPENTER_PIPELINEVERSION -gt 0)) {
-    Write-Host "##vso[task.logissue type=error]The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
-    Throw "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
+	Write-PipelineError "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
 }

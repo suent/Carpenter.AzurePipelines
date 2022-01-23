@@ -31,6 +31,18 @@ parameters:
   default: 0 # Required to be supplied by templates which extend this one
 
   # See template/carpenter-default.yml
+- name: buildType
+  type: string
+  default: Manual
+  values:
+  - Manual
+
+  # See template/carpenter-default.yml
+- name: project
+  type: string
+  default: $(Build.DefinitionName)
+
+  # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
   default: Hosted
@@ -53,11 +65,6 @@ parameters:
   type: string
   default: 'ubuntu-latest'
 
-  # See template/carpenter-default.yml
-- name: project
-  type: string
-  default: $(Build.DefinitionName)
-  
   # See template/carpenter-default.yml
 - name: buildVersionType
   type: string
@@ -88,6 +95,7 @@ stages:
   - template: ../variable/carpenter-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
+      buildType: ${{ parameters.buildType }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -97,6 +105,7 @@ stages:
       buildVersionFile: ${{ parameters.buildVersionFile }}
   - template: ../variable/version-init.yml
     parameters:
+      buildType: ${{ parameters.buildType }}
       revisionOffset: ${{ parameters.revisionOffset }}
 
   jobs:

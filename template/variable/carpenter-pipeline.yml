@@ -31,6 +31,13 @@ parameters:
   default: 0 # Required to be supplied by templates which extend this one
 
   # See template/carpenter-default.yml
+- name: buildType
+  type: string
+  default: Manual
+  values:
+  - Manual
+
+  # See template/carpenter-default.yml
 - name: project
   type: string
   default: $(Build.DefinitionName)
@@ -76,6 +83,12 @@ variables:
 - name: Carpenter.PipelineVersion
   value: ${{ parameters.pipelineVersion }}
 
+- name: Carpenter.Build.Type
+  value: ${{ parameters.buildType }}
+
+- name: Carpenter.Project
+  value: ${{ parameters.project }}
+
 - name: Carpenter.Pool.Default.Type
   value: ${{ parameters.defaultPoolType }}
 
@@ -100,6 +113,3 @@ variables:
 
 - name: Carpenter.Version.VersionFile
   value: ${{ parameters.buildVersionFile }}
-
-- name: Carpenter.Project
-  value: ${{ parameters.project }}
