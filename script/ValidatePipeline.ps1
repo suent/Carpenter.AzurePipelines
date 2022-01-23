@@ -17,6 +17,6 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 Write-ScriptHeader "$scriptName"
 
 Write-Verbose "Validating pipelineVersion"
-if ((-not (IsNumeric($PipelineVersion))) -or (-not ($PipelineVersion -gt 0))) {
+if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVersion -gt 0))) {
 	Write-PipelineError "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
 }
