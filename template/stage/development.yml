@@ -33,9 +33,9 @@ parameters:
   # See template/carpenter-default.yml
 - name: buildType
   type: string
-  default: Manual
+  default: CI
   values:
-  - Manual
+  - CI
   - Prerelease
 
   # The prerelease label. This value is only used if buildType is Prerelease.

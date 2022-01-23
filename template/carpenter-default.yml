@@ -39,9 +39,9 @@ parameters:
   # The build type if a build is manually run. This value gets overridden by automated builds.
 - name: buildType
   type: string
-  default: Manual
+  default: CI
   values:
-  - Manual
+  - CI
   - Prerelease
 
   # The prerelease label. This value is only used if buildType is Prerelease.
