@@ -26,6 +26,13 @@
 
 parameters:
   # See template/carpenter-default.yml
+- name: buildType
+  type: string
+  default: Manual
+  values:
+  - Manual
+
+  # See template/carpenter-default.yml
 - name: revisionOffset
   type: string
   default: 1
@@ -39,7 +46,7 @@ variables:
   value: $[counter(variables['Carpenter.Project'], variables['Carpenter.Version.RevisionOffset'])]
 
 
-- ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(variables['Carpenter.Build.Type'],'Manual'))) }}:
+- ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'Manual'))) }}:
   - name: Carpenter.ContinuousIntegration.Date
     value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
 
