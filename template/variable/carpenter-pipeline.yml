@@ -25,18 +25,6 @@
 
 
 parameters:
-  # See template/carpenter-default.yml
-- name: pipelineVersion
-  type: number
-  default: 0 # Required to be supplied by templates which extend this one
-
-  # See template/carpenter-default.yml
-- name: buildType
-  type: string
-  default: Manual
-  values:
-  - Manual
-  - Prerelease
 
   # See template/carpenter-default.yml
 - name: project
@@ -82,7 +70,7 @@ parameters:
 
 variables:
 - name: Carpenter.PipelineVersion
-  value: ${{ parameters.pipelineVersion }}
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.Carpenter.PipelineVersion'] ]
 
 - name: Carpenter.Build.Type
   value: ${{ parameters.buildType }}
@@ -108,9 +96,3 @@ variables:
   - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
     - name: Carpenter.Pool.Default.Demands
       value: True
-
-- name: Carpenter.Version.Type
-  value: ${{ parameters.buildVersionType }}
-
-- name: Carpenter.Version.VersionFile
-  value: ${{ parameters.buildVersionFile }}

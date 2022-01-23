@@ -7,6 +7,7 @@
 
 [CmdletBinding()]
 param(
+	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE
 )
@@ -16,6 +17,8 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 . "$PSScriptRoot/include/Carpenter.AzurePipelines.Common.ps1"
 
 Write-ScriptHeader "$scriptName"
+
+$pipelineVersion = Set-CarpenterVariable -OutputVariableName "pipelineVersion" -Value $PipelineVersion
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "Manual"))) {
 	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -Value "CI"

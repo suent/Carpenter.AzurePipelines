@@ -49,6 +49,14 @@ parameters:
 
 
 variables:
+
+- name: Carpenter.Version.Type
+  value: ${{ parameters.buildVersionType }}
+
+- name: Carpenter.Version.VersionFile
+  value: ${{ parameters.buildVersionFile }}
+
+
 - name: Carpenter.Version.RevisionOffset
   value: ${{ parameters.revisionOffset }}
 

@@ -8,12 +8,17 @@ Function Write-ScriptHeader {
 
 Function Set-CarpenterVariable {
 	param(
+		[string] $OutputVariableName,
 		[string] $VariableName,
 		[object] $Value
 	)
-	Write-Verbose "$($VariableName): $Value"
-	Write-Host "##vso[task.setvariable variable=$VariableName]$Value"
-	Write-Host "##vso[task.setvariable variable=$VariableName;isOutput=true]$Value"
+	If ($VariableName) {
+		Write-Verbose "$($VariableName): $Value"
+		Write-Host "##vso[task.setvariable variable=$VariableName]$Value" 
+	} elseif ($OutputVariableName) {
+		Write-Verbose "$($OutputVariableName): $Value"
+	}
+	if ($OutputVariableName) { Write-Host "##vso[task.setvariable variable=$OutputVariableName;isOutput=true]$Value" }
 	return $Value
 }
 
