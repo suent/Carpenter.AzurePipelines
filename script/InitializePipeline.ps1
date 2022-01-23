@@ -7,7 +7,7 @@
 
 [CmdletBinding()]
 param(
-	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION
+	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE
 )
