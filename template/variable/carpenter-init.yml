@@ -23,6 +23,7 @@
 
 # SPDX-License-Identifier: MIT
 
+
 parameters:
   # See template/carpenter-default.yml
 - name: pipelineVersion
