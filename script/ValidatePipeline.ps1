@@ -24,12 +24,12 @@ if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVe
 }
 
 Write-Verbose "Validating buildType"
-if ($BuildReason = "Manual") {
+if ($BuildReason -eq "Manual") {
 	if (($BuildType -ne "CI") -and ($BuildType -ne "Prerelease")) {
 		Write-PipelineError "Unrecognized buildType parameter '$BuildType'."
 	}
 } else {
-	if ($BuildType -ne "CI") {
-		Write-PipelineWarning "The buildType parameter is being ignored because Build.Reason is not Manual."
+	if ($BuildType -ne "") {
+		Write-PipelineWarning "The buildType parameter '$BuildType' is being ignored because Build.Reason is not Manual."
 	}
 }
