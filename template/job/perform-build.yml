@@ -65,8 +65,12 @@ jobs:
       ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
         demands: ${{ parameters.defaultPoolDemands }}
 
+
   variables:
   - template: ../variable/carpenter-pipeline.yml
+    parameters:
+      defaultPoolType: ${{ parameters.defaultPoolType }}
+
 
   steps:
   - template: ../step/display-environment.yml

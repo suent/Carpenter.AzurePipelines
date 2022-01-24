@@ -10,7 +10,11 @@ param(
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
-	[string] $Project = $env:CARPENTER_PROJECT
+	[string] $Project = $env:CARPENTER_PROJECT,
+	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
+	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
+	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
+	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -35,3 +39,12 @@ Else {
 }
 
 $project = Set-CarpenterVariable -OutputVariableName project -Value $Project
+
+$defaultPoolType = Set-CarpenterVariable -OutputVariableName defaultPoolType -Value $DefaultPoolType
+if ($defaultPoolType -eq "Private") {
+	$defaultPoolName = Set-CarpenterVariable -OutputVariableName defaultPoolName -Value $DefaultPoolName
+	$defaultPoolDemands = Set-CarpenterVariable -OutputVariableDemands defaultPoolType -Value $DefaultPoolDemands
+}
+if ($defaultPoolType -eq "Hosted") {
+	$defaultPoolVMImage = Set-CarpenterVariable -OutputVariableName defaultPoolVMImage -Value $DefaultPoolVMImage
+}

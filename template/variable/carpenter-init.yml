@@ -37,6 +37,22 @@ parameters:
 - name: project
   type: string
 
+  # See template/carpenter-default.yml
+- name: defaultPoolType
+  type: string
+
+  # See template/carpenter-default.yml
+- name: defaultPoolName
+  type: string
+
+  # See template/carpenter-default.yml
+- name: defaultPoolDemands
+  type: object
+
+  # See template/carpenter-default.yml
+- name: defaultPoolVMImage
+  type: string
+
 
 variables:
 - name: Carpenter.PipelineVersion
@@ -48,3 +64,22 @@ variables:
 
 - name: Carpenter.Project
   value: ${{ parameters.project }}
+
+- name: Carpenter.Pool.Default.Type
+  value: ${{ parameters.defaultPoolType }}
+
+- ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+  - name: Carpenter.Pool.Default.VMImage
+    value: ${{ parameters.defaultPoolVMImage}}
+
+- ${{ if eq(parameters.defaultPoolType,'Private') }}:
+  - name: Carpenter.Pool.Default.Name
+    value: ${{ parameters.defaultPoolName }}
+  
+  - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
+    - name: Carpenter.Pool.Default.Demands
+      value: False
+  
+  - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+    - name: Carpenter.Pool.Default.Demands
+      value: True

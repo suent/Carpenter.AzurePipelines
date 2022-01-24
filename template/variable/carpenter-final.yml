@@ -23,6 +23,13 @@
 
 # SPDX-License-Identifier: MIT
 
+
+parameters:
+  # See template/carpenter-default.yml
+- name: defaultPoolType
+  type: string
+
+
 variables:
 - name: Carpenter.PipelineVersion
   value: $[ dependencies.initializePipeline.outputs['initializePipeline.pipelineVersion'] ]
@@ -32,3 +39,18 @@ variables:
 
 - name: Carpenter.Project
   value: $[ dependencies.initializePipeline.outputs['initializePipeline.project'] ]
+
+- name: Carpenter.Pool.Default.Type
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolType'] ]
+
+- ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+  - name: Carpenter.Pool.Default.VMImage
+    value:  $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolVMImage'] ]
+
+- ${{ if eq(parameters.defaultPoolType,'Private') }}:
+  - name: Carpenter.Pool.Default.Name
+    value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolName'] ]
+  
+  - name: Carpenter.Pool.Default.Demands
+    value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolDemands'] ]
+  

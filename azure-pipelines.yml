@@ -71,8 +71,6 @@ stages:
     # The project this pipeline belongs to.
     project: Carpenter.AzurePipelines
 
-    # The prerelease label. This value is only used if buildType is Prerelease.
-    prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
     # CONFIGURE POOL
     # For more information:
@@ -92,6 +90,7 @@ stages:
     # The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
     #defaultPoolVMImage: 'ubuntu-latest'
 
+
     # BUILD VERSIONING
     # For more information:
     # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build-versioning.md
@@ -106,3 +105,6 @@ stages:
 
     # The starting value of the revision counter.
     revisionOffset: 107
+
+    # The prerelease label. This value is only used if buildType is Prerelease.
+    prereleaseLabel: ${{ parameters.prereleaseLabel }}

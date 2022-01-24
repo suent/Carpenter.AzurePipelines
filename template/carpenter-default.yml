@@ -49,15 +49,6 @@ parameters:
   type: string
   default: $(Build.DefinitionName)
 
-  # The prerelease label. This value is only used if buildType is Prerelease.
-- name: prereleaseLabel
-  type: string
-  default: Alpha
-  values:
-  - Alpha
-  - Beta
-  - RC
-
 
   # CONFIGURE POOL
   # For more information:
@@ -113,6 +104,14 @@ parameters:
   type: string
   default: 1
 
+  # The prerelease label. This value is only used if buildType is Prerelease.
+- name: prereleaseLabel
+  type: string
+  default: Alpha
+  values:
+  - Alpha
+  - Beta
+  - RC
 
 
 stages:
@@ -121,7 +120,6 @@ stages:
     pipelineVersion: ${{ parameters.pipelineVersion }}
     buildType: ${{ parameters.buildType }}
     project: ${{ parameters.project }}
-    prereleaseLabel: ${{ parameters.prereleaseLabel }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
@@ -129,3 +127,4 @@ stages:
     buildVersionType: ${{ parameters.buildVersionType }}
     buildVersionFile: ${{ parameters.buildVersionFile }}
     revisionOffset: ${{ parameters.revisionOffset }}
+    prereleaseLabel: ${{ parameters.prereleaseLabel }}

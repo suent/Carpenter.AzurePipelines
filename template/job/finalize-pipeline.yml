@@ -63,21 +63,11 @@ jobs:
       ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
         demands: ${{ parameters.defaultPoolDemands }}
 
+
   variables:
   - template: ../variable/carpenter-final.yml
-
-  #variables:
-  #- template: ../variable/carpenter-pipeline.yml
-  #  parameters:
-  #    pipelineVersion: ${{ parameters.pipelineVersion }}
-  #    buildType: ${{ parameters.buildType }}
-  #    project: ${{ parameters.project }}
-  #    defaultPoolType: ${{ parameters.defaultPoolType }}
-  #    defaultPoolName: ${{ parameters.defaultPoolName }}
-  #    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-  #    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-  #    buildVersionType: ${{ parameters.buildVersionType }}
-  #    buildVersionFile: ${{ parameters.buildVersionFile }}
+    parameters:
+      defaultPoolType: ${{ parameters.defaultPoolType }}
 
 
   steps:
