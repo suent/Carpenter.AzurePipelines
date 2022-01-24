@@ -32,10 +32,6 @@ parameters:
   # See template/carpenter-default.yml
 - name: buildType
   type: string
-  default: CI
-  values:
-  - CI
-  - Prerelease
 
   # See template/carpenter-default.yml
 - name: defaultPoolType

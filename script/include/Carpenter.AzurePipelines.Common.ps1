@@ -154,3 +154,11 @@ Function Write-PipelineError {
     Write-Host "##vso[task.logissue type=error]$Message"
 	Throw $Message
 }
+
+Function Write-PipelineWarning {
+	param(
+		[string] $Message
+	)
+    Write-Host "##vso[task.logissue type=warning]$Message"
+	Write-Warning $Message
+}

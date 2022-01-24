@@ -28,15 +28,10 @@ parameters:
   # See template/carpenter-default.yml
 - name: pipelineVersion
   type: number
-  default: 0 # Required to be supplied by templates which extend this one
 
   # See template/carpenter-default.yml
 - name: buildType
   type: string
-  default: CI
-  values:
-  - CI
-  - Prerelease
 
 
 variables:
