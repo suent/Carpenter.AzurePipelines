@@ -65,7 +65,7 @@ if ($DefaultPoolType -eq "Private") {
 
 Write-Verbose "Validating defaultPoolDemands"
 if ($DefaultPoolType -eq "Private") {
-	if (($DefaultPoolDemands -ne "True") -and ($DefaultPoolDemands -ne "False") {
+	if (($DefaultPoolDemands -ne "True") -and ($DefaultPoolDemands -ne "False")) {
 		Write-PipelineError "The defaultPoolDemands parameter must either be True or False."
 	}
 } else {
