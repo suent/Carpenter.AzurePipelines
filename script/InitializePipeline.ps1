@@ -9,7 +9,8 @@
 param(
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
 	[string] $BuildReason = $env:BUILD_REASON,
-	[string] $BuildType = $env:CARPENTER_BUILD_TYPE
+	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
+	[string] $Project = $env:CARPENTER_PROJECT
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -32,3 +33,5 @@ ElseIf (($BuildReason -eq "Manual") -and ($BuildType -eq "Prerelease")) {
 Else {
 	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, BuildType=$BuildType"
 }
+
+$project = Set-CarpenterVariable -OutputVariableName project -Value $Project

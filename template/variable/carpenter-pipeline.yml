@@ -30,3 +30,6 @@ variables:
 
 - name: Carpenter.Build.Type
   value: $[ dependencies.initializePipeline.outputs['initializePipeline.buildType'] ]
+
+- name: Carpenter.Build.Project
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.project'] ]
