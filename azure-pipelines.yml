@@ -68,11 +68,11 @@ stages:
     # The build type if a build is manually run. This value gets overridden by automated builds.
     buildType: ${{ parameters.buildType }}
 
-    # The prerelease label. This value is only used if buildType is Prerelease.
-    prereleaseLabel: ${{ parameters.prereleaseLabel }}
-
     # The project this pipeline belongs to.
     project: Carpenter.AzurePipelines
+
+    # The prerelease label. This value is only used if buildType is Prerelease.
+    prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
     # CONFIGURE POOL
     # For more information:

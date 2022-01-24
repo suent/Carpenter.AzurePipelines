@@ -9,7 +9,8 @@
 param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
-	[string] $BuildType = $env:CARPENTER_BUILD_TYPE
+	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
+	[string] $Project = $env:CARPENTER_PROJECT
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -32,4 +33,9 @@ if ($BuildReason -eq "Manual") {
 	if ($BuildType -ne "") {
 		Write-PipelineWarning "The buildType parameter '$BuildType' is being ignored because Build.Reason is not Manual."
 	}
+}
+
+Write-Verbose "Validating project"
+if (-Not ($Project)) {
+	Write-PipelineError "the project parameter must be supplied to Carpenter Azure Pipelines template."
 }

@@ -26,10 +26,6 @@
 
 parameters:
 
-  # See template/carpenter-default.yml
-- name: project
-  type: string
-  default: $(Build.DefinitionName)
 
   # See template/carpenter-default.yml
 - name: defaultPoolType
@@ -57,14 +53,6 @@ parameters:
 
 
 variables:
-- name: Carpenter.PipelineVersion
-  value: $[ dependencies.initializePipeline.outputs['initializePipeline.Carpenter.PipelineVersion'] ]
-
-- name: Carpenter.Build.Type
-  value: ${{ parameters.buildType }}
-
-- name: Carpenter.Project
-  value: ${{ parameters.project }}
 
 - name: Carpenter.Pool.Default.Type
   value: ${{ parameters.defaultPoolType }}

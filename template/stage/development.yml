@@ -32,10 +32,10 @@ parameters:
   # See template/carpenter-default.yml
 - name: buildType
   type: string
-  default: CI
-  values:
-  - CI
-  - Prerelease
+
+  # See template/carpenter-default.yml
+- name: project
+  type: string
 
   # The prerelease label. This value is only used if buildType is Prerelease.
 - name: prereleaseLabel
@@ -45,11 +45,6 @@ parameters:
   - Alpha
   - Beta
   - RC
-
-  # See template/carpenter-default.yml
-- name: project
-  type: string
-  default: $(Build.DefinitionName)
 
   # See template/carpenter-default.yml
 - name: defaultPoolType
@@ -97,19 +92,12 @@ stages:
 - stage: Dev
   displayName: Development
 
-  #variables:
-
-  #- template: ../variable/version-init.yml
-  #  parameters:
-  #    buildType: ${{ parameters.buildType }}
-  #    prereleaseLabel: ${{ parameters.prereleaseLabel }}
-  #    revisionOffset: ${{ parameters.revisionOffset }}
-
   jobs:
   - template: ../job/initialize-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       buildType: ${{ parameters.buildType}}
+      project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}

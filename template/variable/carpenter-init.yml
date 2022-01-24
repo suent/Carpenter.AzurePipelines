@@ -33,6 +33,10 @@ parameters:
 - name: buildType
   type: string
 
+  # See template/carpenter-default.yml
+- name: project
+  type: string
+
 
 variables:
 - name: Carpenter.PipelineVersion
@@ -41,3 +45,6 @@ variables:
 - ${{ if eq(variables['Build.Reason'],'Manual') }}:
   - name: Carpenter.Build.Type
     value: ${{ parameters.buildType }}
+
+- name: Carpenter.Project
+  value: ${{ parameters.project }}
