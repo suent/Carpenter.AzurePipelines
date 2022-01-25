@@ -1,0 +1,3 @@
+
+  - name: Carpenter.Prerelease.Revision
+    value: $[ counter(variables['Carpenter.Prerelease.Label'], 1)]

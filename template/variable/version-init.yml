@@ -28,37 +28,23 @@ parameters:
   # See template/carpenter-default.yml
 - name: buildType
   type: string
-  default: Manual
-  values:
-  - Manual
-  - Prerelease
-
-  # See template/carpenter-default.yml
-- name: revisionOffset
-  type: string
-  default: 1
-
-  # See template/carpenter-default.yml
-- name: prereleaseLabel
-  type: string
-  default: Alpha
-  values:
-  - Alpha
-  - Beta
-  - RC
     
   # See template/carpenter-default.yml
 - name: buildVersionType
   type: string
-  default: None
-  values:
-  - None
-  - SemVer
-
+  
   # See template/carpenter-default.yml
 - name: buildVersionFile
   type: string
-  default: VERSION
+
+  # See template/carpenter-default.yml
+- name: revisionOffset
+  type: string
+
+  # See template/carpenter-default.yml
+- name: prereleaseLabel
+  type: string
+
 
 variables:
 
@@ -68,15 +54,13 @@ variables:
 - name: Carpenter.Version.VersionFile
   value: ${{ parameters.buildVersionFile }}
 
-
 - name: Carpenter.Version.RevisionOffset
   value: ${{ parameters.revisionOffset }}
 
 - name: Carpenter.Version.Revision
   value: $[counter(variables['Carpenter.Project'], variables['Carpenter.Version.RevisionOffset'])]
 
-
-- ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'Manual'))) }}:
+- ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'CI'))) }}:
   - name: Carpenter.ContinuousIntegration.Date
     value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
 
@@ -93,6 +77,3 @@ variables:
 - ${{ if eq(parameters['buildType'],'Prerelease')}}:
   - name: Carpenter.Prerelease.Label
     value: ${{ parameters.prereleaseLabel }}
-
-  - name: Carpenter.Prerelease.Revision
-    value: $[ counter(variables['Carpenter.Prerelease.Label'], 1)]

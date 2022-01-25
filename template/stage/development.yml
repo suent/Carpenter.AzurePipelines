@@ -56,22 +56,16 @@ parameters:
   # See template/carpenter-default.yml
 - name: buildVersionType
   type: string
-  default: None
-  values:
-  - None
-  - SemVer
 
   # See template/carpenter-default.yml
 - name: buildVersionFile
   type: string
-  default: VERSION
 
   # See template/carpenter-default.yml
 - name: revisionOffset
   type: string
-  default: 1
 
-  # The prerelease label. This value is only used if buildType is Prerelease.
+  # See template/carpenter-default.yml
 - name: prereleaseLabel
   type: string
 
@@ -91,6 +85,9 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       buildVersionType: ${{ parameters.buildVersionType }}
+      buildVersionFile: ${{ parameters.buildVersionFile }}
+      revisionOffset: ${{ parameters.revisionOffset }}
+      prereleaseLabel: ${{ parameters.prereleaseLabel }}
   - template: ../job/finalize-pipeline.yml
     parameters:
       defaultPoolType: ${{ parameters.defaultPoolType }}

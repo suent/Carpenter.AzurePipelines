@@ -56,10 +56,18 @@ parameters:
   # See template/carpenter-default.yml
 - name: buildVersionType
   type: string
-  default: None
-  values:
-  - None
-  - SemVer
+
+  # See template/carpenter-default.yml
+- name: buildVersionFile
+  type: string
+
+  # See template/carpenter-default.yml
+- name: revisionOffset
+  type: string
+
+  # See template/carpenter-default.yml
+- name: prereleaseLabel
+  type: string
 
 
 jobs:
@@ -86,6 +94,13 @@ jobs:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
 
+  - template: ../variable/version-init.yml
+    parameters:
+      buildType: ${{ parameters.buildType }}
+      buildVersionType: ${{ parameters.buildVersionType }}
+      buildVersionFile: ${{ parameters.buildVersionFile }}
+      revisionOffset: ${{ parameters.revisionOffset }}
+      prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
   steps:
   - template: ../step/display-environment.yml

@@ -14,7 +14,10 @@ param(
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
-	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE
+	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
+	[string] $BuildVersionType = $env:CARPENTER_VERSION_TYPE,
+	[string] $BuildVersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
+	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -82,5 +85,35 @@ if ($DefaultPoolType -eq "Hosted") {
 } else {
 	if ($DefaultPoolVMImage) {
 		Write-Warning "The defaultPoolVMImage parameter '$DefaultPoolVMImage' is being ignored because defaultPoolType is not Hosted."
+	}
+}
+
+Write-Verbose "Validating buildVersionType"
+if (-Not ($BuildVersionType)) {
+	Write-PipelineError "The buildVersionType parameter must be supplied to Carpenter Azure Pipelines template."
+} else {
+	if (($BuildVersionType -ne "None") -and ($BuildVersionType -ne "SemVer")) {
+		Write-PipelineError "Unrecognized buildVersionType parameter '$BuildVersionType'."
+	}
+}
+
+Write-Verbose "Validating buildVersionFile"
+if (-Not ($BuildVersionFile)) {
+	Write-PipelineError "The buildVersionFile parameter must be supplied to Carpenter Azure Pipelines template."
+}
+
+Write-Verbose "Validating revisionOffset"
+if ((-not ($RevisionOffset | IsNumeric -Verbose:$false)) -or (-not ($RevisionOffset -ge 0))) {
+	Write-PipelineError "The revisionOffset parameter must be supplied to Carpenter Azure Pipelines template."
+}
+
+Write-Verbose "Validating prereleaseLabel"
+if ($BuildType -eq "Prerelease") {
+	if (-Not ($PrereleaseLabel)) {
+		Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
+	}
+} else {
+	if ($PrereleaseLabel) {
+		Write-Warning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildType is not Prerelease."
 	}
 }
