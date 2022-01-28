@@ -115,7 +115,7 @@ jobs:
   - ${{ if eq(parameters.pipelineScripts, 'true') }}:
     - checkout: Carpenter
       persistCredentials: true
-      path: $(Carpenter.Pipeline.ScriptPath)
+      path: s/carpenter
 
   - template: ../step/display-environment.yml
   - template: ../step/validate-pipeline.yml

@@ -66,12 +66,12 @@ variables:
   - name: Carpenter.Pipeline.Scripts
     value: true
   - name: Carpenter.Pipeline.ScriptPath
-    value: ${{ format('{0}/{1}', variables['Build.SourcesDirectory'], 'carpenter') }}
+    value: s/carpenter
 - ${{ if ne(parameters.pipelineScripts,'true') }}:
   - name: Carpenter.Pipeline.Scripts
     value: false
   - name: Carpenter.Pipeline.ScriptPath
-    value: ${{ variables['Build.SourcesDirectory'] }}
+    value: s/
 
 - ${{ if eq(variables['Build.Reason'],'Manual') }}:
   - name: Carpenter.Build.Type
