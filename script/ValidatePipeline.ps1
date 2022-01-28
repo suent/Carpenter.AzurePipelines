@@ -34,7 +34,7 @@ if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVe
 
 Write-Verbose "Validating buildType"
 if ($BuildReason -eq "Manual") {
-	if (($BuildType -ne "CI") -and ($BuildType -ne "Prerelease") -and ($BuildType -ne "Release") {
+	if (($BuildType -ne "CI") -and ($BuildType -ne "Prerelease") -and ($BuildType -ne "Release")) {
 		Write-PipelineError "Unrecognized buildType parameter '$BuildType'."
 	}
 } else {
