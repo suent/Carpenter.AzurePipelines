@@ -17,7 +17,8 @@ param(
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
 	[string] $BuildVersionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $BuildVersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
-	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET
+	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
+	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
