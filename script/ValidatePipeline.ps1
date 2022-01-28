@@ -96,25 +96,26 @@ if (-Not ($VersionType)) {
 	if (($VersionType -ne "None") -and ($VersionType -ne "SemVer")) {
 		Write-PipelineError "Unrecognized versionType parameter '$VersionType'."
 	}
-}
-
-Write-Verbose "Validating versionFile"
-if (-Not ($VersionFile)) {
-	Write-PipelineError "The versionFile parameter must be supplied to Carpenter Azure Pipelines template."
-}
-
-Write-Verbose "Validating revisionOffset"
-if ((-not ($RevisionOffset | IsNumeric -Verbose:$false)) -or (-not ($RevisionOffset -ge 0))) {
-	Write-PipelineError "The revisionOffset parameter must be supplied to Carpenter Azure Pipelines template."
-}
-
-Write-Verbose "Validating prereleaseLabel"
-if ($BuildType -eq "Prerelease") {
-	if (-Not ($PrereleaseLabel)) {
-		Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
+	Write-Verbose "Validating versionFile"
+	if (-Not ($VersionFile)) {
+		Write-PipelineError "The versionFile parameter must be supplied to Carpenter Azure Pipelines template."
 	}
-} else {
-	if ($PrereleaseLabel) {
-		Write-Warning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildType is not Prerelease."
+
+	Write-Verbose "Validating revisionOffset"
+	if ((-not ($RevisionOffset | IsNumeric -Verbose:$false)) -or (-not ($RevisionOffset -ge 0))) {
+		Write-PipelineError "The revisionOffset parameter must be supplied to Carpenter Azure Pipelines template."
 	}
+
+	Write-Verbose "Validating prereleaseLabel"
+	if ($BuildType -eq "Prerelease") {
+		if (-Not ($PrereleaseLabel)) {
+			Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
+		}
+	} else {
+		if ($PrereleaseLabel) {
+			Write-Warning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildType is not Prerelease."
+		}
+	}
+
 }
+
