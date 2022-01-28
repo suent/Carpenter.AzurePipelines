@@ -14,7 +14,8 @@ param(
 	[string] $PullRequestRevision = $env:CARPENTER_PULLREQUEST_REVISION,
 	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
 	[string] $PrereleaseSemantic = $env:CARPENTER_PRERELEASE_SEMANTIC,
-	[string] $PrereleaseRevision = $env:CARPENTER_PRERELEASE_REVISION
+	[string] $PrereleaseRevision = $env:CARPENTER_PRERELEASE_REVISION,
+	[string] $BaseVersion = $env:CARPENTER_VERSION_BASEVERSION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -35,5 +36,5 @@ if ($BuildType -eq "Prerelease") {
 	$prereleaseRevision = Set-CarpenterVariable -OutputVariableName "prereleaseRevision" -Value $PrereleaseRevision
 	$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value "$($PrereleaseLabel).$($PrereleaseRevision)"
 }
-$version = Set-CarpenterVariable -OutputVariableName "version" -Value "$($baseVersion)-$($versionLabel)"
+$version = Set-CarpenterVariable -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
 Write-Host "##vso[build.updatebuildnumber]$version"
