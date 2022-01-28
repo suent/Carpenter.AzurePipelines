@@ -29,7 +29,7 @@ $pipelineVersion = Set-CarpenterVariable -OutputVariableName "pipelineVersion" -
 $pipelineScripts = Set-CarpenterVariable -OutputVariableName "pipelineScripts" -Value $PipelineScripts
 $pipelineScriptPath = Set-CarpenterVariable -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 
-If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "Manual"))) {
+If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "CI"))) {
 	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "CI"
 } 
 ElseIf ($BuildReason -eq "PullRequest") {
