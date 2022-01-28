@@ -38,6 +38,9 @@ ElseIf ($BuildReason -eq "PullRequest") {
 ElseIf (($BuildReason -eq "Manual") -and ($BuildType -eq "Prerelease")) {
 	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "Prerelease"
 }
+ElseIf (($BuildReason -eq "Manual") -and ($BuildType -eq "Release")) {
+	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "Release"
+}
 Else {
 	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, BuildType=$BuildType"
 }
