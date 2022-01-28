@@ -96,6 +96,7 @@ stages:
   - template: ../job/finalize-pipeline.yml
     parameters:
       buildType: ${{ parameters.buildType }}
+      pipelineScripts: ${{ parameters.pipelineScripts }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
@@ -104,6 +105,7 @@ stages:
   - template: ../job/perform-build.yml
     parameters:
       buildType: ${{ parameters.buildType }}
+      pipelineScripts: ${{ parameters.pipelineScripts }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
