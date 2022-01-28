@@ -36,6 +36,7 @@ parameters:
   values:
   - CI
   - Prerelease
+  - Release
 
   # The prerelease label. This value is only used if buildType is Prerelease.
 - name: prereleaseLabel

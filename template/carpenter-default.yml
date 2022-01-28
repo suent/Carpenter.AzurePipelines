@@ -47,6 +47,7 @@ parameters:
   values:
   - CI
   - Prerelease
+  - Release
 
   # The project this pipeline belongs to.
 - name: project

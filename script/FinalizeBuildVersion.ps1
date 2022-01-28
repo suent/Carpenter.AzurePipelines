@@ -26,15 +26,20 @@ Write-ScriptHeader "$scriptName"
 
 
 if ($BuildType -eq "CI") {
-	$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value "CI.$($ContinuousIntegrationDate).$($ContinuousIntegrationRevision)"
+	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "CI.$($ContinuousIntegrationDate).$($ContinuousIntegrationRevision)"
 }
 if ($BuildType -eq "PR") {
-	$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
+	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
 }
 if ($BuildType -eq "Prerelease") {
 	$prereleaseSemantic = Set-CarpenterVariable -OutputVariableName "prereleaseSemantic" -Value $PrereleaseSemantic
 	$prereleaseRevision = Set-CarpenterVariable -OutputVariableName "prereleaseRevision" -Value $PrereleaseRevision
-	$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value "$($PrereleaseLabel).$($PrereleaseRevision)"
+	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "$($PrereleaseLabel).$($PrereleaseRevision)"
 }
-$version = Set-CarpenterVariable -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
+If ($BuildType -eq "Release") {
+	$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value $null
+	$version = Set-CarpenterVariable -OutputVariableName "version" -Value $BaseVersion
+} else {
+	$version = Set-CarpenterVariable -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
+}
 Write-Host "##vso[build.updatebuildnumber]$version"
