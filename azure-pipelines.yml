@@ -68,8 +68,8 @@ stages:
     # The build type if a build is manually run. This value gets overridden by automated builds.
     buildType: ${{ parameters.buildType }}
 
-    # Should the pipeline scripts be included.
-    pipelineScripts: false
+    # Should the pipeline be included in the sources directory.
+    includePipeline: false
 
     # The project this pipeline belongs to.
     project: Carpenter.AzurePipelines

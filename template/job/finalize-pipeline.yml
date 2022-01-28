@@ -30,7 +30,7 @@ parameters:
   type: string
 
   # See template/carpenter-default.yml
-- name: pipelineScripts
+- name: includePipeline
   type: boolean
 
   # See template/carpenter-default.yml
@@ -82,10 +82,9 @@ jobs:
   - checkout: self
     path: s
 
-  - ${{ if eq(parameters.pipelineScripts, 'true') }}:
+  - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
       persistCredentials: true
-      path: s/carpenter
 
   - template: ../step/display-environment.yml
   - template: ../step/finalize-build-version.yml

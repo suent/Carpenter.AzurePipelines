@@ -8,8 +8,8 @@
 [CmdletBinding()]
 param(
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
-	[string] $PipelineScripts = $env:CARPENTER_PIPELINE_SCRIPTS,
-	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
+	[string] $IncludePipeline = $env:CARPENTER_PIPELINE,
+	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
 	[string] $Project = $env:CARPENTER_PROJECT,
@@ -26,8 +26,8 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 Write-ScriptHeader "$scriptName"
 
 $pipelineVersion = Set-CarpenterVariable -OutputVariableName "pipelineVersion" -Value $PipelineVersion
-$pipelineScripts = Set-CarpenterVariable -OutputVariableName "pipelineScripts" -Value $PipelineScripts
-$pipelineScriptPath = Set-CarpenterVariable -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
+$includePipeline = Set-CarpenterVariable -OutputVariableName "includePipeline" -Value $IncludePipeline
+$pipelinePath = Set-CarpenterVariable -OutputVariableName "pipelinePath" -Value $PipelinePath
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "CI"))) {
 	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "CI"

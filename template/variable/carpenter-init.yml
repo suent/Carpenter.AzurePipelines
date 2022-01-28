@@ -30,7 +30,7 @@ parameters:
   type: number
 
   # See template/carpenter-default.yml
-- name: pipelineScripts
+- name: includePipeline
   type: boolean
 
   # See template/carpenter-default.yml
@@ -62,15 +62,15 @@ variables:
 - name: Carpenter.PipelineVersion
   value: ${{ parameters.pipelineVersion }}
 
-- ${{ if eq(parameters.pipelineScripts,'true') }}:
-  - name: Carpenter.Pipeline.Scripts
+- ${{ if eq(parameters.includePipeline,'true') }}:
+  - name: Carpenter.Pipeline
     value: true
-  - name: Carpenter.Pipeline.ScriptPath
-    value: s/carpenter
-- ${{ if ne(parameters.pipelineScripts,'true') }}:
-  - name: Carpenter.Pipeline.Scripts
+  - name: Carpenter.Pipeline.Path
+    value: s/carpenter-azure-pipelines
+- ${{ if ne(parameters.includePipeline,'true') }}:
+  - name: Carpenter.Pipeline
     value: false
-  - name: Carpenter.Pipeline.ScriptPath
+  - name: Carpenter.Pipeline.Path
     value: s/
 
 - ${{ if eq(variables['Build.Reason'],'Manual') }}:

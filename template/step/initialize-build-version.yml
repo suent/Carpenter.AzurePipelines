@@ -35,7 +35,7 @@ steps:
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.ScriptPath)/script/InitializeBuildVersion.ps1
+      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/InitializeBuildVersion.ps1
       arguments: -Verbose
     displayName: Initialize build version
     name: initializeBuildVersion

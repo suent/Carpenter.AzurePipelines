@@ -30,7 +30,7 @@ parameters:
   type: number
 
   # See template/carpenter-default.yml
-- name: pipelineScripts
+- name: includePipeline
   type: boolean
 
   # See template/carpenter-default.yml
@@ -82,7 +82,7 @@ stages:
   - template: ../job/initialize-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      pipelineScripts: ${{ parameters.pipelineScripts }}
+      includePipeline: ${{ parameters.includePipeline }}
       buildType: ${{ parameters.buildType }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
@@ -96,7 +96,7 @@ stages:
   - template: ../job/finalize-pipeline.yml
     parameters:
       buildType: ${{ parameters.buildType }}
-      pipelineScripts: ${{ parameters.pipelineScripts }}
+      includePipeline: ${{ parameters.includePipeline }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
@@ -105,7 +105,7 @@ stages:
   - template: ../job/perform-build.yml
     parameters:
       buildType: ${{ parameters.buildType }}
-      pipelineScripts: ${{ parameters.pipelineScripts }}
+      includePipeline: ${{ parameters.includePipeline }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
