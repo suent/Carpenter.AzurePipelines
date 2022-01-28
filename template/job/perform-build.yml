@@ -26,6 +26,10 @@
 
 parameters:
   # See template/carpenter-default.yml
+- name: buildType
+  type: string
+
+  # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
   default: Hosted
@@ -75,7 +79,8 @@ jobs:
       defaultPoolType: ${{ parameters.defaultPoolType }}
   - ${{ if ne(parameters.versionType,'None') }}:
     - template: ../variable/version-pipeline.yml
-
+      parameters:
+        buildType: ${{ parameters.buildType }}
 
   steps:
   - template: ../step/display-environment.yml

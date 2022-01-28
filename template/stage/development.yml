@@ -78,7 +78,7 @@ stages:
   - template: ../job/initialize-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      buildType: ${{ parameters.buildType}}
+      buildType: ${{ parameters.buildType }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -90,6 +90,7 @@ stages:
       prereleaseLabel: ${{ parameters.prereleaseLabel }}
   - template: ../job/finalize-pipeline.yml
     parameters:
+      buildType: ${{ parameters.buildType }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
@@ -97,6 +98,7 @@ stages:
       versionType: ${{ parameters.versionType }}
   - template: ../job/perform-build.yml
     parameters:
+      buildType: ${{ parameters.buildType }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
