@@ -30,6 +30,10 @@ parameters:
   type: string
 
   # See template/carpenter-default.yml
+- name: pipelineScripts
+  type: boolean
+
+  # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
   default: Hosted
@@ -83,4 +87,12 @@ jobs:
         buildType: ${{ parameters.buildType }}
 
   steps:
+  - checkout: self
+    path: s
+
+  - ${{ if eq(parameters.pipelineScripts, 'true') }}:
+    - checkout: Carpenter
+      persistCredentials: true
+      path: s/carpenter
+
   - template: ../step/display-environment.yml

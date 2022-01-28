@@ -35,6 +35,10 @@ parameters:
 - name: pipelineVersion
   type: number
   default: 1
+
+- name: pipelineScripts
+  type: string
+  default: true
   
   # The build type if a build is manually run. This value gets overridden by automated builds.
 - name: buildType
@@ -118,6 +122,7 @@ stages:
 - template: stage/development.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
+    pipelineScripts: ${{ parameters.pipelineScripts }}
     buildType: ${{ parameters.buildType }}
     project: ${{ parameters.project }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
