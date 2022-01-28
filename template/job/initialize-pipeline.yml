@@ -110,7 +110,7 @@ jobs:
 
   steps:
   - checkout: self
-    path: $(Build.SourcesDirectory)
+    path: s
 
   - ${{ if eq(parameters.pipelineScripts, 'true') }}:
     - checkout: Carpenter
