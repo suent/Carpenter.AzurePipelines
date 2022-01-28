@@ -36,3 +36,12 @@ Pull request builds add the pull request number and revision to the version labe
 For example:
 
 0.2.0-PR.4.1
+
+### Prerelease
+
+Prerelease builds can be initiated manually and selecting Prerelease as the buildType.
+
+A prereleaseLabel is also required.
+
+Fox example:
+0.2.0-alpha.3
