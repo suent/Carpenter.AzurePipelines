@@ -28,6 +28,6 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'filePath'
-    filePath: $(System.DefaultWorkingDirectory)/script/ValidatePipeline.ps1
+    filePath: $(Carpenter.Pipeline.ScriptPath)/script/ValidatePipeline.ps1
     arguments: -Verbose
   displayName: Validate pipeline parameters

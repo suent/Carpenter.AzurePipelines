@@ -30,6 +30,10 @@ parameters:
   type: number
 
   # See template/carpenter-default.yml
+- name: pipelineScripts
+  type: boolean
+
+  # See template/carpenter-default.yml
 - name: buildType
   type: string
 
