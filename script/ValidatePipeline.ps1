@@ -96,6 +96,9 @@ if (-Not ($VersionType)) {
 	if (($VersionType -ne "None") -and ($VersionType -ne "SemVer")) {
 		Write-PipelineError "Unrecognized versionType parameter '$VersionType'."
 	}
+}
+
+if ($VersionType -ne "None") {
 	Write-Verbose "Validating versionFile"
 	if (-Not ($VersionFile)) {
 		Write-PipelineError "The versionFile parameter must be supplied to Carpenter Azure Pipelines template."
@@ -116,6 +119,4 @@ if (-Not ($VersionType)) {
 			Write-Warning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildType is not Prerelease."
 		}
 	}
-
 }
-
