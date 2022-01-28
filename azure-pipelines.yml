@@ -41,10 +41,10 @@ parameters:
 - name: prereleaseLabel
   displayName: 'Prerelease Label'
   type: string
-  default: Alpha
+  default: alpha
   values:
-  - Alpha
-  - Beta
+  - alpha
+  - beta
   - RC
 
 # Default name for the build, prior to build versioning
