@@ -28,71 +28,54 @@ parameters:
   # See template/carpenter-default.yml
 - name: pipelineVersion
   type: number
-  default: 0 # Required to be supplied by templates which extend this one
 
   # See template/carpenter-default.yml
 - name: buildType
   type: string
-  default: Manual
-  values:
-  - Manual
 
   # See template/carpenter-default.yml
 - name: project
   type: string
-  default: $(Build.DefinitionName)
 
   # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
-  default: Hosted
-  values:
-  - Hosted
-  - Private
 
   # See template/carpenter-default.yml
 - name: defaultPoolName
   type: string
-  default: Default
 
   # See template/carpenter-default.yml
 - name: defaultPoolDemands
   type: object
-  default: {}
 
   # See template/carpenter-default.yml
 - name: defaultPoolVMImage
   type: string
-  default: 'ubuntu-latest'
 
   # See template/carpenter-default.yml
-- name: buildVersionType
+- name: versionType
   type: string
-  default: None
-  values:
-  - None
-  - SemVer
 
   # See template/carpenter-default.yml
-- name: buildVersionFile
+- name: versionFile
   type: string
-  default: VERSION
 
   # See template/carpenter-default.yml
 - name: revisionOffset
   type: string
-  default: 1
 
-
+  # See template/carpenter-default.yml
+- name: prereleaseLabel
+  type: string
 
 
 stages:
 - stage: Dev
   displayName: Development
 
-
-  variables:
-  - template: ../variable/carpenter-pipeline.yml
+  jobs:
+  - template: ../job/initialize-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       buildType: ${{ parameters.buildType }}
@@ -101,18 +84,23 @@ stages:
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      buildVersionType: ${{ parameters.buildVersionType }}
-      buildVersionFile: ${{ parameters.buildVersionFile }}
-  - template: ../variable/version-init.yml
+      versionType: ${{ parameters.versionType }}
+      versionFile: ${{ parameters.versionFile }}
+      revisionOffset: ${{ parameters.revisionOffset }}
+      prereleaseLabel: ${{ parameters.prereleaseLabel }}
+  - template: ../job/finalize-pipeline.yml
     parameters:
       buildType: ${{ parameters.buildType }}
-      revisionOffset: ${{ parameters.revisionOffset }}
-
-  jobs:
-  - template: ../job/initialize-pipeline.yml
-    parameters:
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      buildVersionType: ${{ parameters.buildVersionType }}
+      versionType: ${{ parameters.versionType }}
+  - template: ../job/perform-build.yml
+    parameters:
+      buildType: ${{ parameters.buildType }}
+      defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolName: ${{ parameters.defaultPoolName }}
+      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      versionType: ${{ parameters.versionType }}

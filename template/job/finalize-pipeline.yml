@@ -1,5 +1,5 @@
 # initialize-pipeline.yml
-# Initializes the Carpenter pipeline.
+# Finalizes the Carpenter pipeline initialization.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -26,15 +26,7 @@
 
 parameters:
   # See template/carpenter-default.yml
-- name: pipelineVersion
-  type: number
-
-  # See template/carpenter-default.yml
 - name: buildType
-  type: string
-
-  # See template/carpenter-default.yml
-- name: project
   type: string
 
   # See template/carpenter-default.yml
@@ -57,22 +49,12 @@ parameters:
 - name: versionType
   type: string
 
-  # See template/carpenter-default.yml
-- name: versionFile
-  type: string
-
-  # See template/carpenter-default.yml
-- name: revisionOffset
-  type: string
-
-  # See template/carpenter-default.yml
-- name: prereleaseLabel
-  type: string
-
 
 jobs:
-- job: initializePipeline
-  displayName: Initialize pipeline
+- job: finalizePipeline
+  displayName: Finalize pipeline
+
+  dependsOn: initializePipeline
 
   pool:
     ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
@@ -84,29 +66,16 @@ jobs:
 
 
   variables:
-  - template: ../variable/carpenter-init.yml
+  - template: ../variable/carpenter-final.yml
     parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      buildType: ${{ parameters.buildType }}
-      project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-
   - ${{ if ne(parameters.versionType,'None') }}:
-    - template: ../variable/version-init.yml
+    - template: ../variable/version-final.yml
       parameters:
         buildType: ${{ parameters.buildType }}
-        versionType: ${{ parameters.versionType }}
-        versionFile: ${{ parameters.versionFile }}
-        revisionOffset: ${{ parameters.revisionOffset }}
-        prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
   steps:
   - template: ../step/display-environment.yml
-  - template: ../step/validate-pipeline.yml
-  - template: ../step/initialize-pipeline.yml
-  - template: ../step/initialize-build-version.yml
+  - template: ../step/finalize-build-version.yml
     parameters:
       versionType: ${{ parameters.versionType }}

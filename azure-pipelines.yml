@@ -23,8 +23,29 @@
 
 # SPDX-License-Identifier: MIT
 
+
 # Note: This build uses the pipeline templates directly to avoid getting into a
 # state where the deployed pipeline does not work and a fix cannot be deployed.
+
+parameters:
+  # The build type if a build is manually run. This value gets overridden by automated builds.
+- name: buildType
+  displayName: 'Build Type'
+  type: string
+  default: CI
+  values:
+  - CI
+  - Prerelease
+
+  # The prerelease label. This value is only used if buildType is Prerelease.
+- name: prereleaseLabel
+  displayName: 'Prerelease Label'
+  type: string
+  default: alpha
+  values:
+  - alpha
+  - beta
+  - RC
 
 # Default name for the build, prior to build versioning
 # $(Build.BuildId) is the default value used when YAML cannot be parsed
@@ -44,8 +65,12 @@ stages:
     #
     pipelineVersion: 1
 
+    # The build type if a build is manually run. This value gets overridden by automated builds.
+    buildType: ${{ parameters.buildType }}
+
     # The project this pipeline belongs to.
     project: Carpenter.AzurePipelines
+
 
     # CONFIGURE POOL
     # For more information:
@@ -65,6 +90,7 @@ stages:
     # The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
     #defaultPoolVMImage: 'ubuntu-latest'
 
+
     # BUILD VERSIONING
     # For more information:
     # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build-versioning.md
@@ -72,10 +98,13 @@ stages:
     # The type of build versioning to use.
     # None - No build versioning (Default)
     # SemVer - Semantic Versioning 2.0.0
-    buildVersionType: SemVer
+    versionType: SemVer
 
     # The path to the VERSION file.
-    #buildVersionFile: VERSION
+    #versionFile: VERSION
 
     # The starting value of the revision counter.
     revisionOffset: 107
+
+    # The prerelease label. This value is only used if buildType is Prerelease.
+    prereleaseLabel: ${{ parameters.prereleaseLabel }}

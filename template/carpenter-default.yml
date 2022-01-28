@@ -39,9 +39,10 @@ parameters:
   # The build type if a build is manually run. This value gets overridden by automated builds.
 - name: buildType
   type: string
-  default: Manual
+  default: CI
   values:
-  - Manual
+  - CI
+  - Prerelease
 
   # The project this pipeline belongs to.
 - name: project
@@ -86,7 +87,7 @@ parameters:
   # The type of build versioning to use.
   # None - No build versioning (Default)
   # SemVer - Semantic Versioning 2.0.0
-- name: buildVersionType
+- name: versionType
   type: string
   default: None
   values:
@@ -94,7 +95,7 @@ parameters:
   - SemVer
 
   # The path to the VERSION file.
-- name: buildVersionFile
+- name: versionFile
   type: string
   default: VERSION
 
@@ -103,6 +104,14 @@ parameters:
   type: string
   default: 1
 
+  # The prerelease label. This value is only used if buildType is Prerelease.
+- name: prereleaseLabel
+  type: string
+  default: alpha
+  values:
+  - alpha
+  - beta
+  - RC
 
 
 stages:
@@ -115,6 +124,7 @@ stages:
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-    buildVersionType: ${{ parameters.buildVersionType }}
-    buildVersionFile: ${{ parameters.buildVersionFile }}
+    versionType: ${{ parameters.versionType }}
+    versionFile: ${{ parameters.versionFile }}
     revisionOffset: ${{ parameters.revisionOffset }}
+    prereleaseLabel: ${{ parameters.prereleaseLabel }}

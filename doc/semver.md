@@ -10,7 +10,7 @@ To enable SemVer versioning, add the following parameter to your yaml.
 stages:
 - template: template/carpenter-default.yml
   parameters:
-    buildVersionType: semver
+    versionType: SemVer
 ```
 
 ## The `VERSION` file

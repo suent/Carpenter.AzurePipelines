@@ -1,5 +1,5 @@
-# initialize-pipeline.yml
-# Initializes the Carpenter pipeline.
+# perform-build.yml
+# Performs the build and executes unit tests.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -26,53 +26,43 @@
 
 parameters:
   # See template/carpenter-default.yml
-- name: pipelineVersion
-  type: number
-
-  # See template/carpenter-default.yml
 - name: buildType
-  type: string
-
-  # See template/carpenter-default.yml
-- name: project
   type: string
 
   # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
+  default: Hosted
+  values:
+  - Hosted
+  - Private
 
   # See template/carpenter-default.yml
 - name: defaultPoolName
   type: string
+  default: Default
 
   # See template/carpenter-default.yml
 - name: defaultPoolDemands
   type: object
+  default: {}
 
   # See template/carpenter-default.yml
 - name: defaultPoolVMImage
   type: string
+  default: 'ubuntu-latest'
     
   # See template/carpenter-default.yml
 - name: versionType
   type: string
 
-  # See template/carpenter-default.yml
-- name: versionFile
-  type: string
-
-  # See template/carpenter-default.yml
-- name: revisionOffset
-  type: string
-
-  # See template/carpenter-default.yml
-- name: prereleaseLabel
-  type: string
-
-
 jobs:
-- job: initializePipeline
-  displayName: Initialize pipeline
+- job: performBuild
+  displayName: Perform build
+
+  dependsOn:
+  - initializePipeline
+  - finalizePipeline
 
   pool:
     ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
@@ -84,29 +74,13 @@ jobs:
 
 
   variables:
-  - template: ../variable/carpenter-init.yml
+  - template: ../variable/carpenter-pipeline.yml
     parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      buildType: ${{ parameters.buildType }}
-      project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-
   - ${{ if ne(parameters.versionType,'None') }}:
-    - template: ../variable/version-init.yml
+    - template: ../variable/version-pipeline.yml
       parameters:
         buildType: ${{ parameters.buildType }}
-        versionType: ${{ parameters.versionType }}
-        versionFile: ${{ parameters.versionFile }}
-        revisionOffset: ${{ parameters.revisionOffset }}
-        prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
   steps:
   - template: ../step/display-environment.yml
-  - template: ../step/validate-pipeline.yml
-  - template: ../step/initialize-pipeline.yml
-  - template: ../step/initialize-build-version.yml
-    parameters:
-      versionType: ${{ parameters.versionType }}

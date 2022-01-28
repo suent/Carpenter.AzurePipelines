@@ -1,5 +1,5 @@
-# carpenter-pipeline.yml
-# Contains variables used by the Carpenter pipeline.
+# carpenter-init.yml
+# Initialization variables used by the Carpenter pipeline.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -26,54 +26,60 @@
 
 parameters:
   # See template/carpenter-default.yml
+- name: pipelineVersion
+  type: number
+
+  # See template/carpenter-default.yml
 - name: buildType
   type: string
-    
+
   # See template/carpenter-default.yml
-- name: versionType
-  type: string
-  
-  # See template/carpenter-default.yml
-- name: versionFile
+- name: project
   type: string
 
   # See template/carpenter-default.yml
-- name: revisionOffset
+- name: defaultPoolType
   type: string
 
   # See template/carpenter-default.yml
-- name: prereleaseLabel
+- name: defaultPoolName
+  type: string
+
+  # See template/carpenter-default.yml
+- name: defaultPoolDemands
+  type: object
+
+  # See template/carpenter-default.yml
+- name: defaultPoolVMImage
   type: string
 
 
 variables:
+- name: Carpenter.PipelineVersion
+  value: ${{ parameters.pipelineVersion }}
 
-- name: Carpenter.Version.Type
-  value: ${{ parameters.versionType }}
+- ${{ if eq(variables['Build.Reason'],'Manual') }}:
+  - name: Carpenter.Build.Type
+    value: ${{ parameters.buildType }}
 
-- name: Carpenter.Version.VersionFile
-  value: ${{ parameters.versionFile }}
+- name: Carpenter.Project
+  value: ${{ parameters.project }}
 
-- name: Carpenter.Version.RevisionOffset
-  value: ${{ parameters.revisionOffset }}
+- name: Carpenter.Pool.Default.Type
+  value: ${{ parameters.defaultPoolType }}
 
-- name: Carpenter.Version.Revision
-  value: $[counter(variables['Carpenter.Project'], variables['Carpenter.Version.RevisionOffset'])]
+- ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+  - name: Carpenter.Pool.Default.VMImage
+    value: ${{ parameters.defaultPoolVMImage}}
 
-- ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'CI'))) }}:
-  - name: Carpenter.ContinuousIntegration.Date
-    value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
-
-  - name: Carpenter.ContinuousIntegration.Revision
-    value: $[ counter(variables['Carpenter.ContinuousIntegration.Date'],1) ]
-
-- ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
-  - name: Carpenter.PullRequest.Semantic
-    value: $[ format('{0}.{1}', variables['Build.Reason'], variables['System.PullRequest.PullRequestNumber']) ]
-
-  - name: Carpenter.PullRequest.Revision
-    value: $[ counter(variables['Carpenter.PullRequest.Semantic'], 1) ]
-
-- ${{ if eq(parameters['buildType'],'Prerelease')}}:
-  - name: Carpenter.Prerelease.Label
-    value: ${{ parameters.prereleaseLabel }}
+- ${{ if eq(parameters.defaultPoolType,'Private') }}:
+  - name: Carpenter.Pool.Default.Name
+    value: ${{ parameters.defaultPoolName }}
+  
+  - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
+    - name: Carpenter.Pool.Default.Demands
+      value: False
+  
+  - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+    - name: Carpenter.Pool.Default.Demands
+      value: True

@@ -26,90 +26,31 @@
 
 parameters:
   # See template/carpenter-default.yml
-- name: pipelineVersion
-  type: number
-  default: 0 # Required to be supplied by templates which extend this one
-
-  # See template/carpenter-default.yml
-- name: buildType
-  type: string
-  default: Manual
-  values:
-  - Manual
-
-  # See template/carpenter-default.yml
-- name: project
-  type: string
-  default: $(Build.DefinitionName)
-
-  # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
-  default: Hosted
-  values:
-  - Hosted
-  - Private
-
-  # See template/carpenter-default.yml
-- name: defaultPoolName
-  type: string
-  default: Default
-
-  # See template/carpenter-default.yml
-- name: defaultPoolDemands
-  type: object
-  default: {}
-
-  # See template/carpenter-default.yml
-- name: defaultPoolVMImage
-  type: string
-  default: 'ubuntu-latest'
-  
-  # See template/carpenter-default.yml
-- name: buildVersionType
-  type: string
-  default: None
-  values:
-  - None
-  - SemVer
-
-  # See template/carpenter-default.yml
-- name: buildVersionFile
-  type: string
-  default: VERSION
 
 
 variables:
 - name: Carpenter.PipelineVersion
-  value: ${{ parameters.pipelineVersion }}
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.pipelineVersion'] ]
 
 - name: Carpenter.Build.Type
-  value: ${{ parameters.buildType }}
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.buildType'] ]
 
 - name: Carpenter.Project
-  value: ${{ parameters.project }}
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.project'] ]
 
 - name: Carpenter.Pool.Default.Type
-  value: ${{ parameters.defaultPoolType }}
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolType'] ]
 
 - ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
   - name: Carpenter.Pool.Default.VMImage
-    value: ${{ parameters.defaultPoolVMImage}}
+    value:  $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolVMImage'] ]
 
 - ${{ if eq(parameters.defaultPoolType,'Private') }}:
   - name: Carpenter.Pool.Default.Name
-    value: ${{ parameters.defaultPoolName }}
+    value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolName'] ]
   
-  - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
-    - name: Carpenter.Pool.Default.Demands
-      value: False
+  - name: Carpenter.Pool.Default.Demands
+    value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolDemands'] ]
   
-  - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
-    - name: Carpenter.Pool.Default.Demands
-      value: True
-
-- name: Carpenter.Version.Type
-  value: ${{ parameters.buildVersionType }}
-
-- name: Carpenter.Version.VersionFile
-  value: ${{ parameters.buildVersionFile }}

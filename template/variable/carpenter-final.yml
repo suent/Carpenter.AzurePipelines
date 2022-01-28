@@ -1,5 +1,5 @@
-# initialize-build-version.yml
-# Initializes the build versioning.
+# carpenter-final.yml
+# Final variables used by the Carpenter pipeline.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -26,16 +26,31 @@
 
 parameters:
   # See template/carpenter-default.yml
-- name: versionType
+- name: defaultPoolType
   type: string
 
 
-steps:
-- ${{ if ne(parameters.versionType,'None') }}:
-  - task: PowerShell@2
-    inputs:
-      targetType: 'filePath'
-      filePath: $(System.DefaultWorkingDirectory)/script/InitializeBuildVersion.ps1
-      arguments: -Verbose
-    displayName: Initialize build version
-    name: initializeBuildVersion
+variables:
+- name: Carpenter.PipelineVersion
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.pipelineVersion'] ]
+
+- name: Carpenter.Build.Type
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.buildType'] ]
+
+- name: Carpenter.Project
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.project'] ]
+
+- name: Carpenter.Pool.Default.Type
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolType'] ]
+
+- ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+  - name: Carpenter.Pool.Default.VMImage
+    value:  $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolVMImage'] ]
+
+- ${{ if eq(parameters.defaultPoolType,'Private') }}:
+  - name: Carpenter.Pool.Default.Name
+    value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolName'] ]
+  
+  - name: Carpenter.Pool.Default.Demands
+    value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolDemands'] ]
+  
