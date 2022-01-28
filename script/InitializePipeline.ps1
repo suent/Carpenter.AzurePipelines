@@ -38,6 +38,9 @@ Else {
 	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, BuildType=$BuildType"
 }
 
+# Add buildType as tag
+Write-Host "##vso[build.addbuildtag]$buildType"
+
 $project = Set-CarpenterVariable -OutputVariableName project -Value $Project
 
 $defaultPoolType = Set-CarpenterVariable -OutputVariableName defaultPoolType -Value $DefaultPoolType
