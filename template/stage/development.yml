@@ -82,6 +82,7 @@ stages:
   - template: ../job/initialize-pipeline.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
+      pipelineScripts: ${{ parameters.pipelineScripts }}
       buildType: ${{ parameters.buildType }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
