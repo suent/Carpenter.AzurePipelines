@@ -56,7 +56,10 @@ parameters:
   # See template/carpenter-default.yml
 - name: defaultPoolVMImage
   type: string
-
+    
+  # See template/carpenter-default.yml
+- name: versionType
+  type: string
 
 variables:
 - name: Carpenter.PipelineVersion
@@ -98,3 +101,6 @@ variables:
   - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
     - name: Carpenter.Pool.Default.Demands
       value: True
+
+- name: Carpenter.Version.Type
+  value: ${{ parameters.versionType }}

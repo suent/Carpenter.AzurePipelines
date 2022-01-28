@@ -28,10 +28,6 @@ parameters:
   # See template/carpenter-default.yml
 - name: buildType
   type: string
-    
-  # See template/carpenter-default.yml
-- name: versionType
-  type: string
   
   # See template/carpenter-default.yml
 - name: versionFile
@@ -47,9 +43,6 @@ parameters:
 
 
 variables:
-
-- name: Carpenter.Version.Type
-  value: ${{ parameters.versionType }}
 
 - name: Carpenter.Version.VersionFile
   value: ${{ parameters.versionFile }}

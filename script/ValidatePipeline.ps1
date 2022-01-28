@@ -15,8 +15,8 @@ param(
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
-	[string] $BuildVersionType = $env:CARPENTER_VERSION_TYPE,
-	[string] $BuildVersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
+	[string] $versionType = $env:CARPENTER_VERSION_TYPE,
+	[string] $versionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL
 )
@@ -89,18 +89,18 @@ if ($DefaultPoolType -eq "Hosted") {
 	}
 }
 
-Write-Verbose "Validating buildVersionType"
-if (-Not ($BuildVersionType)) {
-	Write-PipelineError "The buildVersionType parameter must be supplied to Carpenter Azure Pipelines template."
+Write-Verbose "Validating versionType"
+if (-Not ($VersionType)) {
+	Write-PipelineError "The versionType parameter must be supplied to Carpenter Azure Pipelines template."
 } else {
-	if (($BuildVersionType -ne "None") -and ($BuildVersionType -ne "SemVer")) {
-		Write-PipelineError "Unrecognized buildVersionType parameter '$BuildVersionType'."
+	if (($VersionType -ne "None") -and ($VersionType -ne "SemVer")) {
+		Write-PipelineError "Unrecognized versionType parameter '$VersionType'."
 	}
 }
 
-Write-Verbose "Validating buildVersionFile"
-if (-Not ($BuildVersionFile)) {
-	Write-PipelineError "The buildVersionFile parameter must be supplied to Carpenter Azure Pipelines template."
+Write-Verbose "Validating versionFile"
+if (-Not ($VersionFile)) {
+	Write-PipelineError "The versionFile parameter must be supplied to Carpenter Azure Pipelines template."
 }
 
 Write-Verbose "Validating revisionOffset"
