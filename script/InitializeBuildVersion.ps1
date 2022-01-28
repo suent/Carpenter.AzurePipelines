@@ -33,9 +33,7 @@ $versionFilePath = Set-CarpenterVariable -OutputVariableName "versionFilePath" -
 If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
 	Write-Error "VERSION file does not exist at expected path. Path: $versionFilePath"
 } else {
-	Write-Verbose "Using version file: $versionFilePath"
 	$versionFileContent = Get-Content -Path $versionFilePath
-	Write-Verbose "VersionFile: $versionFileContent"
 	$targetVersion = [Version]::new($versionFileContent)
 	$baseVersion = Set-CarpenterVariable -OutputVariableName "baseVersion" -Value "$($targetVersion.Major).$($targetVersion.Minor).$($targetVersion.Build)"
 	$majorVersion = Set-CarpenterVariable -OutputVariableName "majorVersion" -Value $targetVersion.Major
