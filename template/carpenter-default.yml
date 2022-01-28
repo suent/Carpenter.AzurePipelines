@@ -122,6 +122,7 @@ stages:
 - template: stage/development.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
+    pipelineScripts: ${{ parameters.pipelineScripts }}
     buildType: ${{ parameters.buildType }}
     project: ${{ parameters.project }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
