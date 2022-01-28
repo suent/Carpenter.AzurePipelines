@@ -28,25 +28,22 @@ parameters:
   # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
-  default: Hosted
-  values:
-  - Hosted
-  - Private
 
   # See template/carpenter-default.yml
 - name: defaultPoolName
   type: string
-  default: Default
 
   # See template/carpenter-default.yml
 - name: defaultPoolDemands
   type: object
-  default: {}
 
   # See template/carpenter-default.yml
 - name: defaultPoolVMImage
   type: string
-  default: 'ubuntu-latest'
+    
+  # See template/carpenter-default.yml
+- name: versionType
+  type: string
 
 
 jobs:
@@ -68,7 +65,11 @@ jobs:
   - template: ../variable/carpenter-final.yml
     parameters:
       defaultPoolType: ${{ parameters.defaultPoolType }}
-
+  - ${{ if ne(parameters.versionType,'None') }}:
+    - template: ../variable/version-final.yml
 
   steps:
   - template: ../step/display-environment.yml
+  - template: ../step/finalize-build-version.yml
+    parameters:
+      versionType: ${{ parameters.versionType }}

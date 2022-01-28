@@ -87,7 +87,7 @@ parameters:
   # The type of build versioning to use.
   # None - No build versioning (Default)
   # SemVer - Semantic Versioning 2.0.0
-- name: buildVersionType
+- name: versionType
   type: string
   default: None
   values:
@@ -95,7 +95,7 @@ parameters:
   - SemVer
 
   # The path to the VERSION file.
-- name: buildVersionFile
+- name: versionFile
   type: string
   default: VERSION
 
@@ -124,7 +124,7 @@ stages:
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-    buildVersionType: ${{ parameters.buildVersionType }}
-    buildVersionFile: ${{ parameters.buildVersionFile }}
+    versionType: ${{ parameters.versionType }}
+    versionFile: ${{ parameters.versionFile }}
     revisionOffset: ${{ parameters.revisionOffset }}
     prereleaseLabel: ${{ parameters.prereleaseLabel }}

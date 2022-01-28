@@ -47,7 +47,10 @@ parameters:
 - name: defaultPoolVMImage
   type: string
   default: 'ubuntu-latest'
-
+    
+  # See template/carpenter-default.yml
+- name: versionType
+  type: string
 
 jobs:
 - job: performBuild
@@ -70,6 +73,8 @@ jobs:
   - template: ../variable/carpenter-pipeline.yml
     parameters:
       defaultPoolType: ${{ parameters.defaultPoolType }}
+  - ${{ if ne(parameters.versionType,'None') }}:
+    - template: ../variable/version-pipeline.yml
 
 
   steps:

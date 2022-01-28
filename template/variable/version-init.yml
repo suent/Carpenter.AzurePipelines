@@ -30,11 +30,11 @@ parameters:
   type: string
     
   # See template/carpenter-default.yml
-- name: buildVersionType
+- name: versionType
   type: string
   
   # See template/carpenter-default.yml
-- name: buildVersionFile
+- name: versionFile
   type: string
 
   # See template/carpenter-default.yml
@@ -49,10 +49,10 @@ parameters:
 variables:
 
 - name: Carpenter.Version.Type
-  value: ${{ parameters.buildVersionType }}
+  value: ${{ parameters.versionType }}
 
 - name: Carpenter.Version.VersionFile
-  value: ${{ parameters.buildVersionFile }}
+  value: ${{ parameters.versionFile }}
 
 - name: Carpenter.Version.RevisionOffset
   value: ${{ parameters.revisionOffset }}

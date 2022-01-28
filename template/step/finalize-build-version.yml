@@ -1,5 +1,5 @@
-# initialize-build-version.yml
-# Initializes the build versioning.
+# finalize-build-version.yml
+# Finalizes the build versioning.
 
 #    Copyright © 2015-2021 Suent Networks, All rights reserved.
 #
@@ -35,7 +35,7 @@ steps:
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: $(System.DefaultWorkingDirectory)/script/InitializeBuildVersion.ps1
+      filePath: $(System.DefaultWorkingDirectory)/script/FinalizeBuildVersion.ps1
       arguments: -Verbose
-    displayName: Initialize build version
-    name: initializeBuildVersion
+    displayName: Finalize build version
+    name: finalizeBuildVersion

@@ -54,11 +54,11 @@ parameters:
   type: string
     
   # See template/carpenter-default.yml
-- name: buildVersionType
+- name: versionType
   type: string
 
   # See template/carpenter-default.yml
-- name: buildVersionFile
+- name: versionFile
   type: string
 
   # See template/carpenter-default.yml
@@ -94,18 +94,19 @@ jobs:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
 
-  - template: ../variable/version-init.yml
-    parameters:
-      buildType: ${{ parameters.buildType }}
-      buildVersionType: ${{ parameters.buildVersionType }}
-      buildVersionFile: ${{ parameters.buildVersionFile }}
-      revisionOffset: ${{ parameters.revisionOffset }}
-      prereleaseLabel: ${{ parameters.prereleaseLabel }}
+  - ${{ if ne(parameters.versionType,'None') }}:
+    - template: ../variable/version-init.yml
+      parameters:
+        buildType: ${{ parameters.buildType }}
+        versionType: ${{ parameters.versionType }}
+        versionFile: ${{ parameters.versionFile }}
+        revisionOffset: ${{ parameters.revisionOffset }}
+        prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
   steps:
   - template: ../step/display-environment.yml
   - template: ../step/validate-pipeline.yml
   - template: ../step/initialize-pipeline.yml
-  #- template: ../step/initialize-build-version.yml
-  #  parameters:
-  #    buildVersionType: ${{ parameters.buildVersionType }}
+  - template: ../step/initialize-build-version.yml
+    parameters:
+      versionType: ${{ parameters.versionType }}

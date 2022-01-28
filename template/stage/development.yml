@@ -54,11 +54,11 @@ parameters:
   type: string
 
   # See template/carpenter-default.yml
-- name: buildVersionType
+- name: versionType
   type: string
 
   # See template/carpenter-default.yml
-- name: buildVersionFile
+- name: versionFile
   type: string
 
   # See template/carpenter-default.yml
@@ -84,8 +84,8 @@ stages:
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      buildVersionType: ${{ parameters.buildVersionType }}
-      buildVersionFile: ${{ parameters.buildVersionFile }}
+      versionType: ${{ parameters.versionType }}
+      versionFile: ${{ parameters.versionFile }}
       revisionOffset: ${{ parameters.revisionOffset }}
       prereleaseLabel: ${{ parameters.prereleaseLabel }}
   - template: ../job/finalize-pipeline.yml
@@ -94,9 +94,11 @@ stages:
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      versionType: ${{ parameters.versionType }}
   - template: ../job/perform-build.yml
     parameters:
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      versionType: ${{ parameters.versionType }}

@@ -98,10 +98,10 @@ stages:
     # The type of build versioning to use.
     # None - No build versioning (Default)
     # SemVer - Semantic Versioning 2.0.0
-    buildVersionType: SemVer
+    versionType: SemVer
 
     # The path to the VERSION file.
-    #buildVersionFile: VERSION
+    #versionFile: VERSION
 
     # The starting value of the revision counter.
     revisionOffset: 107
