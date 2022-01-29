@@ -65,23 +65,28 @@ variables:
 - name: Carpenter.PipelineVersion
   value: ${{ parameters.pipelineVersion }}
 
+- name: Carpenter.Project
+  value: ${{ parameters.project }}
+
 - ${{ if eq(parameters.includePipeline,'true') }}:
   - name: Carpenter.Pipeline
     value: true
   - name: Carpenter.Pipeline.Path
     value: s/carpenter-azure-pipelines
+  - name: Carpenter.Project.Path
+    value: $[ format('{0}/{1}', 's', variables['Build.DefinitionName']) ]
 - ${{ if ne(parameters.includePipeline,'true') }}:
   - name: Carpenter.Pipeline
     value: false
   - name: Carpenter.Pipeline.Path
-    value: s/
+    value: s
+  - name: Carpenter.Project.Path
+    value: s
 
 - ${{ if eq(variables['Build.Reason'],'Manual') }}:
   - name: Carpenter.Build.Type
     value: ${{ parameters.buildType }}
 
-- name: Carpenter.Project
-  value: ${{ parameters.project }}
 
 - name: Carpenter.Pool.Default.Type
   value: ${{ parameters.defaultPoolType }}
