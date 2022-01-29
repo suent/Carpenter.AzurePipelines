@@ -74,7 +74,7 @@ variables:
   - name: Carpenter.Pipeline
     value: false
   - name: Carpenter.Pipeline.Path
-    value: s/
+    value: ${{ format('{0}/{1}', 's', parameters.project) }}
 
 - ${{ if eq(variables['Build.Reason'],'Manual') }}:
   - name: Carpenter.Build.Type
