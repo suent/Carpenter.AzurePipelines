@@ -83,6 +83,9 @@ variables:
 - name: Carpenter.Project
   value: ${{ parameters.project }}
 
+- name: Carpenter.Project.Path
+  value: $[ format('{0}/{1}', 's', variables['Carpenter.Project']) ]
+
 - name: Carpenter.Pool.Default.Type
   value: ${{ parameters.defaultPoolType }}
 

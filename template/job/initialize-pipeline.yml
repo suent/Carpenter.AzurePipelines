@@ -110,7 +110,7 @@ jobs:
 
   steps:
   - checkout: self
-    path: s
+    path: $[ variables['Carpenter.ProjectPath'] ]
 
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter

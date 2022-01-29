@@ -46,6 +46,9 @@ variables:
 - name: Carpenter.Project
   value: $[ dependencies.initializePipeline.outputs['initializePipeline.project'] ]
 
+- name: Carpenter.Project.Path
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.projectPath'] ]
+
 - name: Carpenter.Pool.Default.Type
   value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolType'] ]
 

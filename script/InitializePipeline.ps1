@@ -13,6 +13,7 @@ param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
 	[string] $Project = $env:CARPENTER_PROJECT,
+	[string] $ProjectPath = $env:CARPENTER_PROJECT_PATH,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
@@ -48,7 +49,8 @@ Else {
 # Add buildType as tag
 Write-Host "##vso[build.addbuildtag]$buildType"
 
-$project = Set-CarpenterVariable -OutputVariableName project -Value $Project
+$project = Set-CarpenterVariable -OutputVariableName "project" -Value $Project
+$projectPath = Set-CarpenterVariable -OutputVariableName "projectPath" -Value $ProjectPath
 
 $defaultPoolType = Set-CarpenterVariable -OutputVariableName defaultPoolType -Value $DefaultPoolType
 if ($defaultPoolType -eq "Private") {
