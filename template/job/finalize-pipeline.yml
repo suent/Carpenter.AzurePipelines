@@ -99,7 +99,9 @@ jobs:
         Push-Location $env:CARPENTER_PROJECT_PATH
 
         # update VERSION file
-        Set-Content -Path $env:CARPENTER_VERSION_VERSIONFILEPATH -Value $newVersion
+        $versionFile = "$($env:AGENT_BUILDDIRECTORY)/$($env:CARPENTER_VERSION_VERSIONFILEPATH)"
+        Write-Host "Using VERSION file: $versionFile"
+        Set-Content -Path $verisonFile -Value $newVersion
 
         # commit changes
         git add .
