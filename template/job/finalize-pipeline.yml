@@ -96,10 +96,10 @@ jobs:
     - powershell: |
         $newVersion = "$($env:CARPENTER_VERSION_MAJOR).$($env:CARPENTER_VERSION_MINOR).$($env:CARPENTER_VERSION_PATCH + 1)"
         Write-Host "Updating project version to $newVersion"
-        Push-Location $env:CARPENTER_PROJECT_PATH
+        Push-Location "$($env:AGENT_BUILDDIRECTORY)/$env:CARPENTER_PROJECT_PATH"
 
         # update VERSION file
-        $versionFile = "$($env:AGENT_BUILDDIRECTORY)/$($env:CARPENTER_VERSION_VERSIONFILEPATH)"
+        $versionFile = $env:CARPENTER_VERSION_VERSIONFILEPATH
         Write-Host "Using VERSION file: $versionFile"
         Set-Content -Path $verisonFile -Value $newVersion
 
