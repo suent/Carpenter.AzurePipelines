@@ -103,6 +103,10 @@ jobs:
         Write-Host "Using VERSION file: $versionFile"
         Set-Content -Path $versionFile -Value $newVersion
 
+        # configure user
+        git config user.email "$($env:BUILD_REQUESTEDFOREMAIL)"
+        git config user.name "$($env:BUILD_REQUESTEDFOR)"
+
         # commit changes
         git add .
         git commit -m "Updating VERSION to $newVersion ***NO_CI***"
