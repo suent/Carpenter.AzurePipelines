@@ -110,6 +110,6 @@ jobs:
         # commit changes
         git add .
         git commit -m "Updating VERSION to $newVersion ***NO_CI***"
-        git push origin HEAD:$($env:BUILD_SOURCEBRANCHNAME)
+        git push origin HEAD:$($env:BUILD_SOURCEBRANCH)
         Pop-Location
       displayName: Update project version
