@@ -1,7 +1,7 @@
 # initialize-pipeline.yml
 # Finalizes the Carpenter pipeline initialization.
 
-#    Copyright © 2015-2021 Suent Networks, All rights reserved.
+#    Copyright © 2015-2022 Suent Networks, All rights reserved.
 #
 #    Permission is hereby granted, free of charge, to any person obtaining a copy
 #    of this software and associated documentation files (the "Software"), to deal
@@ -80,6 +80,7 @@ jobs:
 
   steps:
   - checkout: self
+    persistCredentials: true
 
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
@@ -89,3 +90,26 @@ jobs:
   - template: ../step/finalize-build-version.yml
     parameters:
       versionType: ${{ parameters.versionType }}
+
+  # Increment build version
+  - ${{ if eq(parameters.buildType, 'Release') }}:
+    - powershell: |
+        $newVersion = "$($env:CARPENTER_VERSION_MAJOR).$($env:CARPENTER_VERSION_MINOR).$($env:CARPENTER_VERSION_PATCH + 1)"
+        Write-Host "Updating project version to $newVersion"
+        Push-Location "$($env:AGENT_BUILDDIRECTORY)/$env:CARPENTER_PROJECT_PATH"
+
+        # update VERSION file
+        $versionFile = $env:CARPENTER_VERSION_VERSIONFILEPATH
+        Write-Host "Using VERSION file: $versionFile"
+        Set-Content -Path $versionFile -Value $newVersion
+
+        # configure user
+        git config user.email "$($env:BUILD_REQUESTEDFOREMAIL)"
+        git config user.name "$($env:BUILD_REQUESTEDFOR)"
+
+        # commit changes
+        git add .
+        git commit -m "Updating VERSION to $newVersion ***NO_CI***"
+        git push origin HEAD:$($env:BUILD_SOURCEBRANCH)
+        Pop-Location
+      displayName: Update project version
