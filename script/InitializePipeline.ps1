@@ -19,7 +19,7 @@ param(
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
-	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE
+	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
 	[string] $VersionType = $env:CARPENTER_VERSION_TYPE
 )
 
