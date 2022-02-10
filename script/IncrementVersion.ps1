@@ -36,7 +36,6 @@ Push-Location $workingDirectory
 Write-Host "Current path: $workingDirectory"
         
 # initialize repository
-$repositoryUri = $repositoryUri -replace "github.com","$($PipelineBot)@github.com"
 git config --global init.defaultBranch main
 git init "$workingDirectory"
 git config advice.detachedHead false
@@ -52,10 +51,7 @@ if ($PipelineBotTokenSecret) {
     Write-Host "Using: Carpenter.PipelineBot.Token"
     $token = $PipelineBotToken
 }
-
-$encodedAuthorization = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$token"))
-$authorizationHeader = "AUTHORIZATION: Basic $encodedAuthorization"
-git config --add http.$repositoryUri/.extraHeader $authorizationHeader
+$repositoryUri = $repositoryUri -replace "github.com","$($PipelineBot):$($token)@github.com"
 
 # configure user
 if ($PipelineBotName -and $PipelineBotEmail) {
