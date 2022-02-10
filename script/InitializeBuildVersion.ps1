@@ -7,6 +7,7 @@
 
 [CmdletBinding()]
 param(
+	[string] $BuildDirectory = $env:AGENT_BUILDDIRECTORY,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
 	[string] $ProjectDirectory = $env:CARPENTER_PROJECT_PATH,
 	[string] $VersionType = $env:CARPENTER_VERSION_TYPE,
@@ -28,7 +29,7 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 Write-ScriptHeader "$scriptName"
 
 $versionFile = Set-CarpenterVariable -OutputVariableName "versionFile" -Value $VersionFile
-$versionFilePath = Set-CarpenterVariable -OutputVariableName "versionFilePath" -Value "$ProjectDirectory/$versionFile"
+$versionFilePath = Set-CarpenterVariable -OutputVariableName "versionFilePath" -Value "$BuildDirectory/$ProjectDirectory/$versionFile"
 
 If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
 	Write-PipelineError "VERSION file does not exist at expected path. Path: $versionFilePath"
