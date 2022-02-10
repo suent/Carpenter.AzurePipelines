@@ -95,7 +95,7 @@ jobs:
   - ${{ if eq(parameters.buildType, 'Release') }}:
     - powershell: 
         $newPatch = $env:CARPENTER_VERSION_PATCH + 1
-        $newVersion = "$($env:CARPENTER_VERSION_MAJOR).$($env:CARPENTER_VERSION_MINOR).$($newPatch)"
+        $newVersion = "$($env:CARPENTER_VERSION_MAJOR).$($env:CARPENTER_VERSION_MINOR).$newPatch"
         Write-Host "Updating project version to $newVersion"
         Push-Location "$($env:AGENT_BUILDDIRECTORY)/$env:CARPENTER_PROJECT_PATH"
 
