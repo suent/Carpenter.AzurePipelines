@@ -98,60 +98,11 @@ jobs:
 
   # Increment build version
   - ${{ if and(eq(parameters.buildType, 'Release'),eq(parameters.incrementVersionOnRelease, 'true')) }}:
-    - powershell: |
-        # determine new version
-        $newPatch = ([int]$env:CARPENTER_VERSION_PATCH) + 1
-        $newVersion = "$($env:CARPENTER_VERSION_MAJOR).$($env:CARPENTER_VERSION_MINOR).$newPatch"
-        Write-Host "Updating project version to $newVersion"
-
-        # create working directory
-        $workingDirectory = "$($env:AGENT_BUILDDIRECTORY)/bot-project"
-        New-Item -Path $workingDirectory -ItemType Directory
-        Push-Location $workingDirectory
-        Write-Host "Current path: $workingDirectory"
-        
-        # initialize repository
-        git init "$workingDirectory"
-
-        # determine authorization
-        if ($env:CARPENTER_PIPELINEBOT_TOKENSECRET) {
-            $token = Get-Variable -Name $env:CARPENTER_PIPELINEBOT_TOKENSECRET
-        } else {
-            $token = $env:CARPENTER_PIPELINEBOT_TOKEN
-        }
-        $encodedAuthorization = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$token"))
-        $authorizationHeader = "AUTHORIZATION: Basic $encodedAuthorization"
-        git config --add http.$($env:BUILD_REPOSITORY_URI)/.extraHeader $authorizationHeader
-
-        # configure user
-        if ($env:CARPENTER_PIPELINEBOT -and $env:CARPENTER_PIPELINEBOT_EMAIL) {
-          $gitUserEmail = $env:CARPENTER_PIPELINEBOT_EMAIL
-          $gitUser = $env:CARPENTER_PIPELINEBOT
-        } else {
-          $gitUserEmail = $env:BUILD_REQUESTEDFOREMAIL
-          $gitUser = $env:BUILD_REQUESTEDFOR
-        }
-        git config user.email "$gitUserEmail"
-        git config user.name "$gitUser"
-
-        # clone repository
-        git remote add origin $($env:BUILD_REPOSITORY_URI)
-        git config gc.auto 0
-        git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin
-        git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin  +$($env:BUILD_SOURCEVERSION)
-        git checkout --progress --force $($env:BUILD_SOURCEVERSION)
-
-        # update VERSION file
-        $versionFile = "./$($env:CARPENTER_VERSION_VERSIONFILE)"
-        Write-Host "Using VERSION file: $versionFile"
-        Set-Content -Path $versionFile -Value $newVersion -NoNewLine
-
-        # commit changes
-        git add .
-        git commit -m "Updating VERSION to $newVersion ***NO_CI***"
-        git push origin HEAD:$($env:BUILD_SOURCEBRANCH)
-
-        Pop-Location
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/IncrementVersion.ps1
+        arguments: -Verbose
       displayName: Update project version
       env:
         CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
