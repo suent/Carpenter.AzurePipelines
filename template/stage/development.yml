@@ -72,6 +72,10 @@ parameters:
   # See template/carpenter-default.yml
 - name: prereleaseLabel
   type: string
+  
+  # See template/carpenter-default.yml
+- name: incrementVersionOnRelease
+  type: boolean
 
 
 stages:
@@ -93,6 +97,8 @@ stages:
       versionFile: ${{ parameters.versionFile }}
       revisionOffset: ${{ parameters.revisionOffset }}
       prereleaseLabel: ${{ parameters.prereleaseLabel }}
+      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+
   - template: ../job/finalize-pipeline.yml
     parameters:
       buildType: ${{ parameters.buildType }}
@@ -102,6 +108,8 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
+      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+
   - template: ../job/perform-build.yml
     parameters:
       buildType: ${{ parameters.buildType }}

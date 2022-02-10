@@ -118,6 +118,10 @@ parameters:
   - beta
   - RC
 
+  # Increment the VERSION file on release and check into source control.
+- name: incrementVersionOnRelease
+  type: boolean
+  default: false
 
 stages:
 - template: stage/development.yml
@@ -134,3 +138,4 @@ stages:
     versionFile: ${{ parameters.versionFile }}
     revisionOffset: ${{ parameters.revisionOffset }}
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
+    incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}

@@ -39,9 +39,22 @@ For example:
 
 ### Prerelease
 
-Prerelease builds can be initiated manually and selecting Prerelease as the buildType.
+Prerelease builds can be initiated manually by selecting Prerelease as the buildType.
 
 A prereleaseLabel is also required.
 
 Fox example:
 0.2.0-alpha.3
+
+### Release
+
+Release builds can be initiated manually by selecting Release as the buildType.
+
+For example:
+0.2.0
+
+#### Automatically increment version file
+
+If the incrementVersionOnRelease parameter is true, the VERSION file will be incremented.
+
+The Carpenter.PipelineBot.Token variable or PipelineBot-GitHub-PAT vault secret will need to be populated. This can be done by adding the variable to your pipeline definition, or creating a Variable Group and adding it to your azure-pipelines.yml file.

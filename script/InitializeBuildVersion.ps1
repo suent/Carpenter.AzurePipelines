@@ -17,7 +17,8 @@ param(
 	[string] $ContinuousIntegrationRevision = $env:CARPENTER_CONTINUOUSINTEGRATION_REVISION,
 	[string] $PullRequestSemantic = $env:CARPENTER_PULLREQUEST_SEMANTIC,
 	[string] $PullRequestRevision = $env:CARPENTER_PULLREQUEST_REVISION,
-	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL
+	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
+	[string] $IncrementVersionOnRelease = $env:CARPENTER_VERSION_INCREMENTONRELEASE
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -56,4 +57,8 @@ If ($BuildType -eq "PR") {
 
 If ($BuildType -eq "Prerelease") {
 	$prereleaseLabel = Set-CarpenterVariable -OutputVariableName "prereleaseLabel" -Value $PrereleaseLabel
+}
+
+If ($BuildType -eq "Release") {
+	$versionType = Set-CarpenterVariable -OutputVariableName "incrementVersionOnRelease" -Value $IncrementVersionOnRelease
 }

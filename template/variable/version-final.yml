@@ -55,3 +55,7 @@ variables:
 
   - name: Carpenter.Prerelease.Revision
     value: $[ counter(variables['Carpenter.Prerelease.Semantic'], 1)]
+
+- ${{ if eq(parameters['buildType'],'Release')}}:
+  - name: Carpenter.Version.IncrementOnRelease
+    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]

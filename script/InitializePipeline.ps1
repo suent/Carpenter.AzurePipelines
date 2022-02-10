@@ -13,6 +13,8 @@ param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
 	[string] $Project = $env:CARPENTER_PROJECT,
+	[string] $PipelineBot = $env:CARPENTER_PIPELINE_BOT,
+	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
 	[string] $ProjectPath = $env:CARPENTER_PROJECT_PATH,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,

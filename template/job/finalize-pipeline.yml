@@ -52,6 +52,10 @@ parameters:
   # See template/carpenter-default.yml
 - name: versionType
   type: string
+  
+  # See template/carpenter-default.yml
+- name: incrementVersionOnRelease
+  type: boolean
 
 
 jobs:
@@ -79,10 +83,11 @@ jobs:
         buildType: ${{ parameters.buildType }}
 
   steps:
-  - checkout: self
-    persistCredentials: true
+  - ${{ if ne(parameters.includePipeline, 'true') }}:
+    - checkout: self
 
   - ${{ if eq(parameters.includePipeline, 'true') }}:
+    - checkout: none
     - checkout: Carpenter
       persistCredentials: true
 
@@ -92,24 +97,12 @@ jobs:
       versionType: ${{ parameters.versionType }}
 
   # Increment build version
-  - ${{ if eq(parameters.buildType, 'Release') }}:
-    - powershell: |
-        $newVersion = "$($env:CARPENTER_VERSION_MAJOR).$($env:CARPENTER_VERSION_MINOR).$($env:CARPENTER_VERSION_PATCH + 1)"
-        Write-Host "Updating project version to $newVersion"
-        Push-Location "$($env:AGENT_BUILDDIRECTORY)/$env:CARPENTER_PROJECT_PATH"
-
-        # update VERSION file
-        $versionFile = $env:CARPENTER_VERSION_VERSIONFILEPATH
-        Write-Host "Using VERSION file: $versionFile"
-        Set-Content -Path $versionFile -Value $newVersion
-
-        # configure user
-        git config user.email "$($env:BUILD_REQUESTEDFOREMAIL)"
-        git config user.name "$($env:BUILD_REQUESTEDFOR)"
-
-        # commit changes
-        git add .
-        git commit -m "Updating VERSION to $newVersion ***NO_CI***"
-        git push origin HEAD:$($env:BUILD_SOURCEBRANCH)
-        Pop-Location
+  - ${{ if and(eq(parameters.buildType, 'Release'),eq(parameters.incrementVersionOnRelease, 'true')) }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/IncrementVersion.ps1
+        arguments: -Verbose
       displayName: Update project version
+      env:
+        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)

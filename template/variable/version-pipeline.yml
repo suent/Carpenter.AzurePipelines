@@ -56,8 +56,14 @@ variables:
   - name: Carpenter.Prerelease.Revision
     value: $[ dependencies.finalizePipeline.outputs['finalizeBuildVersion.prereleaseRevision'] ]
 
+- ${{ if eq(parameters['buildType'],'Release')}}:
+  - name: Carpenter.Version.IncrementOnRelease
+    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
+
 - name: Carpenter.Version.Label
   value: $[ dependencies.finalizePipeline.outputs['finalizeBuildVersion.versionLabel'] ]
 
 - name: Carpenter.Version
   value: $[ dependencies.finalizePipeline.outputs['finalizeBuildVersion.version'] ]
+
+
