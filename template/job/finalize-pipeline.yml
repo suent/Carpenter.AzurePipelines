@@ -87,7 +87,6 @@ jobs:
     - checkout: self
 
   - ${{ if eq(parameters.includePipeline, 'true') }}:
-    - checkout: none
     - checkout: Carpenter
       persistCredentials: true
 

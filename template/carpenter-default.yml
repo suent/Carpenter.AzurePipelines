@@ -36,6 +36,7 @@ parameters:
   type: number
   default: 1
 
+  # Should the pipeline be included in the sources directory.
 - name: includePipeline
   type: boolean
   default: true

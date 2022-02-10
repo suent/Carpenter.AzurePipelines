@@ -48,6 +48,7 @@ parameters:
   - beta
   - RC
 
+
 # Default name for the build, prior to build versioning
 # $(Build.BuildId) is the default value used when YAML cannot be parsed
 name: $(Build.BuildId)
