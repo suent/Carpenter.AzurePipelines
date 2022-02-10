@@ -83,8 +83,7 @@ jobs:
       versionType: ${{ parameters.versionType }}
 
   steps:
-  - ${{ if ne(parameters.includePipeline, 'true') }}:
-    - checkout: self
+  - checkout: self
 
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
