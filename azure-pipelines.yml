@@ -54,7 +54,7 @@ name: $(Build.BuildId)
 
 
 # Define endpoint to use for pipeline bot
- if ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
    resources:
     repositories:
     - repository: botRepoAccess
