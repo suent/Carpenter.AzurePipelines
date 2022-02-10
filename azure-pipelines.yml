@@ -112,3 +112,6 @@ stages:
 
     # The prerelease label. This value is only used if buildType is Prerelease.
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
+
+    # Increment the VERSION file on release and check into source control.
+    incrementVersionOnRelease: true

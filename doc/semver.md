@@ -39,9 +39,18 @@ For example:
 
 ### Prerelease
 
-Prerelease builds can be initiated manually and selecting Prerelease as the buildType.
+Prerelease builds can be initiated manually by selecting Prerelease as the buildType.
 
 A prereleaseLabel is also required.
 
 Fox example:
 0.2.0-alpha.3
+
+### Release
+
+Release builds can be initiated manually by selecting Release as the buildType.
+
+For example:
+0.2.0
+
+If the incrementVersionOnRelease parameter is true, the VERSION file will be incremented.
