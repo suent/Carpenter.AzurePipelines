@@ -73,6 +73,10 @@ parameters:
 - name: prereleaseLabel
   type: string
 
+  # See template/carpenter-default.yml
+- name: incrementVersionOnRelease
+  type: boolean
+
 
 jobs:
 - job: initializePipeline
@@ -98,15 +102,16 @@ jobs:
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
 
-  - ${{ if ne(parameters.versionType,'None') }}:
-    - template: ../variable/version-init.yml
-      parameters:
-        buildType: ${{ parameters.buildType }}
-        versionFile: ${{ parameters.versionFile }}
-        revisionOffset: ${{ parameters.revisionOffset }}
-        prereleaseLabel: ${{ parameters.prereleaseLabel }}
+  - template: ../variable/version-init.yml
+    parameters:
+      buildType: ${{ parameters.buildType }}
+      versionType: ${{ parameters.versionType }}
+      versionFile: ${{ parameters.versionFile }}
+      revisionOffset: ${{ parameters.revisionOffset }}
+      prereleaseLabel: ${{ parameters.prereleaseLabel }}
+      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+
 
   steps:
   - checkout: self

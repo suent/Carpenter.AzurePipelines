@@ -52,6 +52,10 @@ parameters:
   # See template/carpenter-default.yml
 - name: versionType
   type: string
+  
+  # See template/carpenter-default.yml
+- name: incrementVersionOnRelease
+  type: boolean
 
 
 jobs:
@@ -79,8 +83,12 @@ jobs:
         buildType: ${{ parameters.buildType }}
 
   steps:
-  - checkout: self
-    persistCredentials: true
+  - ${{ if and(eq(parameters.buildType, 'Release'), ne(parameters.incrementVersionOnRelease, 'true'))}}:
+    - checkout: none
+
+  - ${{ if and(eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true'))}}:
+    - checkout: botRepoAccess
+      persistCredentials: true
 
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
@@ -92,7 +100,7 @@ jobs:
       versionType: ${{ parameters.versionType }}
 
   # Increment build version
-  - ${{ if eq(parameters.buildType, 'Release') }}:
+  - ${{ if and(eq(parameters.buildType, 'Release'),eq(parameters.incrementVersionOnRelease, 'true') }}:
     - powershell: |
         $newPatch = ([int]$env:CARPENTER_VERSION_PATCH) + 1
         $newVersion = "$($env:CARPENTER_VERSION_MAJOR).$($env:CARPENTER_VERSION_MINOR).$newPatch"

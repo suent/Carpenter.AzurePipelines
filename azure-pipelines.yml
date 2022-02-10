@@ -52,6 +52,16 @@ parameters:
 # $(Build.BuildId) is the default value used when YAML cannot be parsed
 name: $(Build.BuildId)
 
+
+# Define endpoint to use for pipeline bot
+resources:
+  repositories:
+  - repository: botRepoAccess
+    type: github
+    name: suent/carpenter-azure-pipelines
+     endpoint: botRepositoryAccess
+
+
 # Use pipeline template
 stages:
 - template: template/carpenter-default.yml
@@ -114,4 +124,4 @@ stages:
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
     # Increment the VERSION file on release and check into source control.
-    #incrementVersionOnRelease: true
+    incrementVersionOnRelease: true
