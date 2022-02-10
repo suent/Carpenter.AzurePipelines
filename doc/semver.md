@@ -57,7 +57,4 @@ For example:
 
 If the incrementVersionOnRelease parameter is true, the VERSION file will be incremented.
 
-The Carpenter.PipelineBot.Token or Carpenter.PipelineBot.TokenSecret variable will need to be populated. This can be done by adding the variable to your pipeline definition, or creating a Variable Group and adding it to your azure-pipelines.yml file.
-
-If using the token directly, use Carpenter.PipelineBot.Token to hold the token.
-If using a token in Azure key vault, use Carpenter.PipelineBot.TokenSecret to hold the name of the object in the linked key vault.
+The Carpenter.PipelineBot.Token variable or PipelineBot-GitHub-PAT vault secret will need to be populated. This can be done by adding the variable to your pipeline definition, or creating a Variable Group and adding it to your azure-pipelines.yml file.
