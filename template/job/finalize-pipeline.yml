@@ -83,12 +83,7 @@ jobs:
         buildType: ${{ parameters.buildType }}
 
   steps:
-  - ${{ if and(eq(parameters.buildType, 'Release'), ne(parameters.incrementVersionOnRelease, 'true'))}}:
-    - checkout: none
-
-  - ${{ if and(eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true'))}}:
-    - checkout: botRepoAccess
-      persistCredentials: true
+  - checkout: none
 
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
@@ -102,20 +97,41 @@ jobs:
   # Increment build version
   - ${{ if and(eq(parameters.buildType, 'Release'),eq(parameters.incrementVersionOnRelease, 'true')) }}:
     - powershell: |
+        # determine new version
         $newPatch = ([int]$env:CARPENTER_VERSION_PATCH) + 1
         $newVersion = "$($env:CARPENTER_VERSION_MAJOR).$($env:CARPENTER_VERSION_MINOR).$newPatch"
         Write-Host "Updating project version to $newVersion"
-        Push-Location "$($env:AGENT_BUILDDIRECTORY)/$env:CARPENTER_PROJECT_PATH"
+
+        # create working directory
+        $workingDirectory = "$($env:AGENT_BUILDDIRECTORY)/bot-project"
+        New-Item -Path $workingDirectory -ItemType Directory
+        Push-Location $workingDirectory
+        Write-Host "Current path: $workingDirectory"
+        
+        # determine authorization
+        if ($env:CARPENTER_PIPELINEBOT_TOKENSECRET) {
+            $token = Get-Variable -Name $env:CARPENTER_PIPELINEBOT_TOKENSECRET
+        } else {
+            $token = $env:CARPENTER_PIPELINEBOT_TOKEN
+        }
+        $encodedAuthorization = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$token"))
+        $authorizationHeader = "AUTHORIZATION: Basic $encodedAuthorization"
+
+        # clone repository
+        git -c http.$($env:BUILD_REPOSITORY_URI)/.extraHeader $authorizationHeader clone $($env:BUILD_REPOSITORY_URI) .
 
         # update VERSION file
-        $versionFile = $env:CARPENTER_VERSION_VERSIONFILEPATH
+        $versionFile = "./$($env:CARPENTER_VERSION_VERSIONFILE)"
         Write-Host "Using VERSION file: $versionFile"
         Set-Content -Path $versionFile -Value $newVersion -NoNewLine
 
+        # configure authorization
+        git config --add http.$($env:BUILD_REPOSITORY_URI)/.extraHeader $authorizationHeader
+
         # configure user
-        if ($env:CARPENTER_PIPELINE_BOT -and $env:CARPENTER_PIPELINE_BOTEMAIL) {
-          $gitUserEmail = $env:CARPENTER_PIPELINE_BOTEMAIL
-          $gitUser = $env:CARPENTER_PIPELINE_BOT
+        if ($env:CARPENTER_PIPELINEBOT -and $env:CARPENTER_PIPELINEBOT_EMAIL) {
+          $gitUserEmail = $env:CARPENTER_PIPELINEBOT_EMAIL
+          $gitUser = $env:CARPENTER_PIPELINEBOT
         } else {
           $gitUserEmail = $env:BUILD_REQUESTEDFOREMAIL
           $gitUser = $env:BUILD_REQUESTEDFOR

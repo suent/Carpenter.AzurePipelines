@@ -53,14 +53,6 @@ parameters:
 - name: project
   type: string
   default: $(Build.DefinitionName)
-  
-  # The bot account used for pipelines. Used for things like updating VERSION file or dependencies.
-- name: pipelineBot
-  type: string
-
-  # The email address of the bot account.
-- name: pipelineBotEmail
-  type: string
 
 
   # CONFIGURE POOL
@@ -138,8 +130,6 @@ stages:
     includePipeline: ${{ parameters.includePipeline }}
     buildType: ${{ parameters.buildType }}
     project: ${{ parameters.project }}
-    pipelineBot: ${{ parameters.pipelineBot }}
-    pipelineBotEmail: ${{ parameters.pipelineBotEmail }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}

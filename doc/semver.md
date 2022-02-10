@@ -53,19 +53,11 @@ Release builds can be initiated manually by selecting Release as the buildType.
 For example:
 0.2.0
 
-#### Automaticall increment version file
+#### Automatically increment version file
 
 If the incrementVersionOnRelease parameter is true, the VERSION file will be incremented.
 
-Access to the repository must be available through a service connection using a personal access token.
+The Carpenter.PipelineBot.Token or Carpenter.PipelineBot.TokenSecret variable will need to be populated. This can be done by adding the variable to your pipeline definition, or creating a Variable Group and adding it to your azure-pipelines.yml file.
 
-For example (from azure-pipelines.yml):
-```
-# Define endpoint to use for pipeline bot
-resources:
-  repositories:
-  - repository: botRepoAccess
-    type: github
-    name: suent/carpenter-azure-pipelines
-     endpoint: botRepositoryAccess
-```
+If using the token directly, use Carpenter.PipelineBot.Token to hold the token.
+If using a token in Azure key vault, use Carpenter.PipelineBot.TokenSecret to hold the name of the object in the linked key vault.

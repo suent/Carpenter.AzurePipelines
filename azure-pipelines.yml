@@ -53,14 +53,10 @@ parameters:
 name: $(Build.BuildId)
 
 
-# Define endpoint to use for pipeline bot
-${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
-   resources:
-    repositories:
-    - repository: botRepoAccess
-      type: github
-      name: suent/carpenter-azure-pipelines
-      endpoint: botRepositoryAccess
+# Infrastructure variables
+variables:
+- group: Infrastructure
+- group: Infrastructure-Vault
 
 
 # Use pipeline template
@@ -86,11 +82,6 @@ stages:
     # The project this pipeline belongs to.
     project: Carpenter.AzurePipelines
 
-    # The bot account used for pipelines. Used for things like updating VERSION file or dependencies.
-    pipelineBot: 'Suent Bot'
-
-    # The email address of the bot account.
-    pipelineBotEmail: 'bot@suent.net'
 
     # CONFIGURE POOL
     # For more information:

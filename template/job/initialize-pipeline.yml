@@ -42,14 +42,6 @@ parameters:
   type: string
 
   # See template/carpenter-default.yml
-- name: pipelineBot
-  type: string
-
-  # See template/carpenter-default.yml
-- name: pipelineBotEmail
-  type: string
-
-  # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
 
@@ -106,8 +98,6 @@ jobs:
       includePipeline: ${{ parameters.includePipeline }}
       buildType: ${{ parameters.buildType }}
       project: ${{ parameters.project }}
-      pipelineBot: ${{ parameters.pipelineBot }}
-      pipelineBotEmail: ${{ parameters.pipelineBotEmail }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
