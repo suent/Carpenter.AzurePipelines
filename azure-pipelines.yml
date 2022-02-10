@@ -54,13 +54,13 @@ name: $(Build.BuildId)
 
 
 # Define endpoint to use for pipeline bot
-resources:
-  repositories:
-  - repository: botRepoAccess
-    type: github
-    name: suent/carpenter-azure-pipelines
-    endpoint: botRepositoryAccess
-    ref: $[ variables['Build.SourceBranch'] ]
+ if ${{ eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+   resources:
+    repositories:
+    - repository: botRepoAccess
+      type: github
+      name: suent/carpenter-azure-pipelines
+      endpoint: botRepositoryAccess
 
 
 # Use pipeline template
