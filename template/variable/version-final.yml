@@ -8,54 +8,56 @@ variables:
 - name: Carpenter.Version.Type
   value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.versionType'] ]
 
-- name: Carpenter.Version.VersionFile
-  value:  $[ dependencies.initializePipeline.outputs['initializeBuildVersion.versionFile'] ]
+- ${{ if ne(parameters.versionType,'None') }}:
 
-- name: Carpenter.Version.VersionFilePath
-  value:  $[ dependencies.initializePipeline.outputs['initializeBuildVersion.versionFilePath'] ]
+  - name: Carpenter.Version.VersionFile
+    value:  $[ dependencies.initializePipeline.outputs['initializeBuildVersion.versionFile'] ]
 
-- name: Carpenter.Version.RevisionOffset
-  value:  $[ dependencies.initializePipeline.outputs['initializeBuildVersion.revisionOffset'] ]
+  - name: Carpenter.Version.VersionFilePath
+    value:  $[ dependencies.initializePipeline.outputs['initializeBuildVersion.versionFilePath'] ]
 
-- name: Carpenter.Version.BaseVersion
-  value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.baseVersion'] ]
+  - name: Carpenter.Version.RevisionOffset
+    value:  $[ dependencies.initializePipeline.outputs['initializeBuildVersion.revisionOffset'] ]
 
-- name: Carpenter.Version.Major
-  value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.majorVersion'] ]
+  - name: Carpenter.Version.BaseVersion
+    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.baseVersion'] ]
 
-- name: Carpenter.Version.Minor
-  value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.minorVersion'] ]
+  - name: Carpenter.Version.Major
+    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.majorVersion'] ]
 
-- name: Carpenter.Version.Patch
-  value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.patchVersion'] ]
+  - name: Carpenter.Version.Minor
+    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.minorVersion'] ]
 
-- name: Carpenter.Version.Revision
-  value:  $[ dependencies.initializePipeline.outputs['initializeBuildVersion.revision'] ]
+  - name: Carpenter.Version.Patch
+    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.patchVersion'] ]
 
-- ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'CI'))) }}:
-  - name: Carpenter.ContinuousIntegration.Date
-    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
+  - name: Carpenter.Version.Revision
+    value:  $[ dependencies.initializePipeline.outputs['initializeBuildVersion.revision'] ]
 
-  - name: Carpenter.ContinuousIntegration.Revision
-    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.continuousIntegrationRevision'] ]
+  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'CI'))) }}:
+    - name: Carpenter.ContinuousIntegration.Date
+      value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
 
-- ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
-  - name: Carpenter.PullRequest.Semantic
-    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.pullRequestSemantic'] ]
+    - name: Carpenter.ContinuousIntegration.Revision
+      value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.continuousIntegrationRevision'] ]
 
-  - name: Carpenter.PullRequest.Revision
-    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.pullRequestRevision'] ]
+  - ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
+    - name: Carpenter.PullRequest.Semantic
+      value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.pullRequestSemantic'] ]
 
-- ${{ if eq(parameters['buildType'],'Prerelease')}}:
-  - name: Carpenter.Prerelease.Label
-    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.prereleaseLabel'] ]
+    - name: Carpenter.PullRequest.Revision
+      value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.pullRequestRevision'] ]
+
+  - ${{ if eq(parameters['buildType'],'Prerelease')}}:
+    - name: Carpenter.Prerelease.Label
+      value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.prereleaseLabel'] ]
   
-  - name: Carpenter.Prerelease.Semantic
-    value: $[ format('{0}-{1}', variables['Carpenter.Version.BaseVersion'], variables['Carpenter.Prerelease.Label']) ]
+    - name: Carpenter.Prerelease.Semantic
+      value: $[ format('{0}-{1}', variables['Carpenter.Version.BaseVersion'], variables['Carpenter.Prerelease.Label']) ]
 
-  - name: Carpenter.Prerelease.Revision
-    value: $[ counter(variables['Carpenter.Prerelease.Semantic'], 1)]
+    - name: Carpenter.Prerelease.Revision
+      value: $[ counter(variables['Carpenter.Prerelease.Semantic'], 1)]
 
-- ${{ if eq(parameters['buildType'],'Release')}}:
-  - name: Carpenter.Version.IncrementOnRelease
-    value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
+  - ${{ if eq(parameters['buildType'],'Release')}}:
+    - name: Carpenter.Version.IncrementOnRelease
+      value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]

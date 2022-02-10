@@ -77,10 +77,10 @@ jobs:
   - template: ../variable/carpenter-final.yml
     parameters:
       defaultPoolType: ${{ parameters.defaultPoolType }}
-  - ${{ if ne(parameters.versionType,'None') }}:
-    - template: ../variable/version-final.yml
-      parameters:
-        buildType: ${{ parameters.buildType }}
+  - template: ../variable/version-final.yml
+    parameters:
+      buildType: ${{ parameters.buildType }}
+      versionType: ${{ parameters.versionType }}
 
   steps:
   - ${{ if ne(parameters.includePipeline, 'true') }}:
