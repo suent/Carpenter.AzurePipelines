@@ -44,7 +44,7 @@ if ($PipelineBotTokenSecret) {
         Write-PipelineError "The PipelineBot-GitHub-PAT secret variable could not be found."
     }
     Write-Host "Using: PipelineBot-GitHub-PAT"
-    $token = Get-Variable -Name $PipelineBotTokenSecret
+    $token = $PipelineBotTokenSecret
 } else {
     Write-Host "Using: Carpenter.PipelineBot.Token"
     $token = $PipelineBotToken
