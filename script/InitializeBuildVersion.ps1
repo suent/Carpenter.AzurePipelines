@@ -31,7 +31,7 @@ $versionFile = Set-CarpenterVariable -OutputVariableName "versionFile" -Value $V
 $versionFilePath = Set-CarpenterVariable -OutputVariableName "versionFilePath" -Value "$SourcesDirectory/$versionFile"
 
 If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
-	Write-Error "VERSION file does not exist at expected path. Path: $versionFilePath"
+	Write-PipelineError "VERSION file does not exist at expected path. Path: $versionFilePath"
 } else {
 	$versionFileContent = Get-Content -Path $versionFilePath
 	$targetVersion = [Version]::new($versionFileContent)
