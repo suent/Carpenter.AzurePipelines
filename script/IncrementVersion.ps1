@@ -35,11 +35,12 @@ Push-Location $workingDirectory
 Write-Host "Current path: $workingDirectory"
         
 # initialize repository
+git config --global init.defaultBranch main
 git init "$workingDirectory"
 
 # determine authorization
 if ($PipelineBotTokenSecret) {
-    if ($PipelineBotTokenSecret -eq "$(PipelineBot-GitHub-PAT)") {
+    if ($PipelineBotTokenSecret -eq "`$(PipelineBot-GitHub-PAT)") {
         Write-PipelineError "The PipelineBot-GitHub-PAT secret variable could not be found."
     }
     Write-Host "Using: PipelineBot-GitHub-PAT"
