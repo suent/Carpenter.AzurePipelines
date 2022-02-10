@@ -20,6 +20,7 @@ param(
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE
+	[string] $VersionType = $env:CARPENTER_VERSION_TYPE
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -62,3 +63,5 @@ if ($defaultPoolType -eq "Private") {
 if ($defaultPoolType -eq "Hosted") {
 	$defaultPoolVMImage = Set-CarpenterVariable -OutputVariableName defaultPoolVMImage -Value $DefaultPoolVMImage
 }
+
+$versionType = Set-CarpenterVariable -OutputVariableName "versionType" -Value $VersionType

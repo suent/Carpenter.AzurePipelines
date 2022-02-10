@@ -11,7 +11,7 @@ parameters:
 variables:
 
 - name: Carpenter.Version.Type
-  value: $[ dependencies.initializePipeline.outputs['initializeBuildVersion.versionType'] ]
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.versionType'] ]
 
 - ${{ if ne(parameters.versionType,'None') }}:
 

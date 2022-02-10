@@ -27,7 +27,6 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-$versionType = Set-CarpenterVariable -OutputVariableName "versionType" -Value $VersionType
 $versionFile = Set-CarpenterVariable -OutputVariableName "versionFile" -Value $VersionFile
 $versionFilePath = Set-CarpenterVariable -OutputVariableName "versionFilePath" -Value "$SourcesDirectory/$versionFile"
 
