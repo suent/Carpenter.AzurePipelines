@@ -59,7 +59,7 @@ resources:
   - repository: botRepoAccess
     type: github
     name: suent/carpenter-azure-pipelines
-     endpoint: botRepositoryAccess
+    endpoint: botRepositoryAccess
 
 
 # Use pipeline template
