@@ -42,10 +42,13 @@ if ($PipelineBotTokenSecret) {
     if ($PipelineBotTokenSecret -eq "$(PipelineBot-GitHub-PAT)") {
         Write-PipelineError "The PipelineBot-GitHub-PAT secret variable could not be found."
     }
+    Write-Host "Using: PipelineBot-GitHub-PAT"
     $token = Get-Variable -Name $PipelineBotTokenSecret
 } else {
+    Write-Host "Using: Carpenter.PipelineBot.Token"
     $token = $PipelineBotToken
 }
+
 $encodedAuthorization = [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(":$token"))
 $authorizationHeader = "AUTHORIZATION: Basic $encodedAuthorization"
 git config --add http.$RepositoryUri/.extraHeader $authorizationHeader
