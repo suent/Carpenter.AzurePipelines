@@ -40,6 +40,12 @@ variables:
 - name: Carpenter.Pipeline.Path
   value: $[ dependencies.initializePipeline.outputs['initializePipeline.pipelinePath'] ]
 
+- name: Carpenter.Pipeline.Bot
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.pipelineBot'] ]
+
+- name: Carpenter.Pipeline.BotEmail
+  value: $[ dependencies.initializePipeline.outputs['initializePipeline.pipelineBotEmail'] ]
+
 - name: Carpenter.Build.Type
   value: $[ dependencies.initializePipeline.outputs['initializePipeline.buildType'] ]
 

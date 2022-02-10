@@ -85,6 +85,11 @@ stages:
     # The project this pipeline belongs to.
     project: Carpenter.AzurePipelines
 
+    # The bot account used for pipelines. Used for things like updating VERSION file or dependencies.
+    pipelineBot: 'Suent Bot'
+
+    # The email address of the bot account.
+    pipelineBotEmail: 'bot@suent.net'
 
     # CONFIGURE POOL
     # For more information:

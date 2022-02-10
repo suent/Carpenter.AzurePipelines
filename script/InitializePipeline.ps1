@@ -13,6 +13,8 @@ param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
 	[string] $Project = $env:CARPENTER_PROJECT,
+	[string] $PipelineBot = $env:CARPENTER_PIPELINE_BOT,
+	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
 	[string] $ProjectPath = $env:CARPENTER_PROJECT_PATH,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
@@ -29,6 +31,8 @@ Write-ScriptHeader "$scriptName"
 $pipelineVersion = Set-CarpenterVariable -OutputVariableName "pipelineVersion" -Value $PipelineVersion
 $includePipeline = Set-CarpenterVariable -OutputVariableName "includePipeline" -Value $IncludePipeline
 $pipelinePath = Set-CarpenterVariable -OutputVariableName "pipelinePath" -Value $PipelinePath
+$pipelineBot = Set-CarpenterVariable -OutputVariableName "pipelineBot" -Value $PipelineBot
+$pipelineBotEmail = Set-CarpenterVariable -OutputVariableName "pipelineBotEmail" -Value $PipelineBotEmail
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "CI"))) {
 	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "CI"

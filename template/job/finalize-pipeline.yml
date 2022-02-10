@@ -113,8 +113,15 @@ jobs:
         Set-Content -Path $versionFile -Value $newVersion -NoNewLine
 
         # configure user
-        git config user.email "$($env:BUILD_REQUESTEDFOREMAIL)"
-        git config user.name "$($env:BUILD_REQUESTEDFOR)"
+        if ($env:CARPENTER_PIPELINE_BOT -and $env:CARPENTER_PIPELINE_BOTEMAIL) {
+          $gitUserEmail = $env:CARPENTER_PIPELINE_BOTEMAIL
+          $gitUser = $env:CARPENTER_PIPELINE_BOT
+        } else {
+          $gitUserEmail = $env:BUILD_REQUESTEDFOREMAIL
+          $gitUser = $env:BUILD_REQUESTEDFOR
+        }
+        git config user.email "$gitUserEmail"
+        git config user.name "$gitUser"
 
         # commit changes
         git add .
