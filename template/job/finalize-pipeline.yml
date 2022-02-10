@@ -147,3 +147,5 @@ jobs:
         git push origin HEAD:$($env:BUILD_SOURCEBRANCH)
         Pop-Location
       displayName: Update project version
+      env:
+        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
