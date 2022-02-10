@@ -60,7 +60,7 @@ resources:
     type: github
     name: suent/carpenter-azure-pipelines
     endpoint: botRepositoryAccess
-    ref: ${{ variables['Build.SourceBranch'] }}
+    ref: $[ variables['Build.SourceBranch'] ]
 
 
 # Use pipeline template
