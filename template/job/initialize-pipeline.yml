@@ -117,8 +117,8 @@ jobs:
   - checkout: self
 
   - publish: $(System.DefaultWorkingDirectory)
-    artifact: Source
-    displayName: Publish Source artifact
+    artifact: source
+    displayName: Publish source artifact
 
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
