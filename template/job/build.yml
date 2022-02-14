@@ -88,9 +88,17 @@ jobs:
 
   steps:
   - checkout: self
+  
+  # Publish source artifact
+  - publish: $(System.DefaultWorkingDirectory)
+    artifact: source
+    displayName: Publish source artifact
 
+  # Include pipeline for access to pipeline scripts
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
       persistCredentials: true
 
   - template: ../step/display-environment.yml
+
+  - template: ../step/validate-pipeline.yml
