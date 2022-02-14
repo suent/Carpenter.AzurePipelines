@@ -26,12 +26,20 @@
 
 parameters:
   # See template/carpenter-default.yml
-- name: buildType
-  type: string
+- name: pipelineVersion
+  type: number
 
   # See template/carpenter-default.yml
 - name: includePipeline
   type: boolean
+
+  # See template/carpenter-default.yml
+- name: buildType
+  type: string
+
+  # See template/carpenter-default.yml
+- name: project
+  type: number
 
   # See template/carpenter-default.yml
 - name: defaultPoolType
