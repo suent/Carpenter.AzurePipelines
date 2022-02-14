@@ -77,14 +77,15 @@ jobs:
         demands: ${{ parameters.defaultPoolDemands }}
 
 
-  variables:
-  - template: ../variable/carpenter-pipeline.yml
-    parameters:
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-  - template: ../variable/version-pipeline.yml
-    parameters:
-      buildType: ${{ parameters.buildType }}
-      versionType: ${{ parameters.versionType }}
+  #variables:
+  #- template: ../variable/carpenter-pipeline.yml
+  #  parameters:
+  #    defaultPoolType: ${{ parameters.defaultPoolType }}
+  #- template: ../variable/version-pipeline.yml
+  #  parameters:
+  #    buildType: ${{ parameters.buildType }}
+  #    versionType: ${{ parameters.versionType }}
+
   steps:
   - checkout: self
 

@@ -83,32 +83,32 @@ stages:
   displayName: Development
 
   jobs:
-  - template: ../job/initialize-pipeline.yml
-    parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
-      buildType: ${{ parameters.buildType }}
-      project: ${{ parameters.project }}
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      versionFile: ${{ parameters.versionFile }}
-      revisionOffset: ${{ parameters.revisionOffset }}
-      prereleaseLabel: ${{ parameters.prereleaseLabel }}
-      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+  #- template: ../job/initialize-pipeline.yml
+  #  parameters:
+  #    pipelineVersion: ${{ parameters.pipelineVersion }}
+  #    includePipeline: ${{ parameters.includePipeline }}
+  #    buildType: ${{ parameters.buildType }}
+  #    project: ${{ parameters.project }}
+  #    defaultPoolType: ${{ parameters.defaultPoolType }}
+  #    defaultPoolName: ${{ parameters.defaultPoolName }}
+  #    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+  #    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+  #    versionType: ${{ parameters.versionType }}
+  #    versionFile: ${{ parameters.versionFile }}
+  #    revisionOffset: ${{ parameters.revisionOffset }}
+  #    prereleaseLabel: ${{ parameters.prereleaseLabel }}
+  #   incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
 
-  - template: ../job/finalize-pipeline.yml
-    parameters:
-      buildType: ${{ parameters.buildType }}
-      includePipeline: ${{ parameters.includePipeline }}
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+  #- template: ../job/finalize-pipeline.yml
+  #  parameters:
+  #    buildType: ${{ parameters.buildType }}
+  #    includePipeline: ${{ parameters.includePipeline }}
+  #    defaultPoolType: ${{ parameters.defaultPoolType }}
+  #    defaultPoolName: ${{ parameters.defaultPoolName }}
+  #    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+  #    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+  #    versionType: ${{ parameters.versionType }}
+  #    incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
 
   - template: ../job/perform-build.yml
     parameters:
