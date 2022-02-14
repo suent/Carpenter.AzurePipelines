@@ -61,8 +61,8 @@ parameters:
   type: string
 
 jobs:
-- job: performBuild
-  displayName: Perform build
+- job: build
+  displayName: Build
 
   #dependsOn:
   #- initializePipeline

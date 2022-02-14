@@ -79,8 +79,8 @@ parameters:
 
 
 stages:
-- stage: Dev
-  displayName: Development
+- stage: dev
+  displayName: Dev
 
   jobs:
   #- template: ../job/initialize-pipeline.yml
@@ -110,7 +110,7 @@ stages:
   #    versionType: ${{ parameters.versionType }}
   #    incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
 
-  - template: ../job/perform-build.yml
+  - template: ../job/build.yml
     parameters:
       buildType: ${{ parameters.buildType }}
       includePipeline: ${{ parameters.includePipeline }}
