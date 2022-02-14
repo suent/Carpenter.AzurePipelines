@@ -39,7 +39,7 @@ parameters:
 
   # See template/carpenter-default.yml
 - name: project
-  type: number
+  type: string
 
   # See template/carpenter-default.yml
 - name: defaultPoolType
