@@ -77,14 +77,51 @@ jobs:
         demands: ${{ parameters.defaultPoolDemands }}
 
 
-  #variables:
-  #- template: ../variable/carpenter-pipeline.yml
-  #  parameters:
-  #    defaultPoolType: ${{ parameters.defaultPoolType }}
-  #- template: ../variable/version-pipeline.yml
-  #  parameters:
-  #    buildType: ${{ parameters.buildType }}
-  #    versionType: ${{ parameters.versionType }}
+  variables:
+  - name: Carpenter.PipelineVersion
+    value: ${{ parameters.pipelineVersion }}
+
+  - name: Carpenter.Project
+    value: ${{ parameters.project }}
+
+  - ${{ if eq(parameters.includePipeline,'true') }}:
+    - name: Carpenter.Pipeline
+      value: true
+    - name: Carpenter.Pipeline.Path
+      value: s/carpenter-azure-pipelines
+    - name: Carpenter.Project.Path
+      value: $[ format('{0}/{1}', 's', variables['Build.DefinitionName']) ]
+  - ${{ if ne(parameters.includePipeline,'true') }}:
+    - name: Carpenter.Pipeline
+      value: false
+    - name: Carpenter.Pipeline.Path
+      value: s
+    - name: Carpenter.Project.Path
+      value: s
+
+  - ${{ if eq(variables['Build.Reason'],'Manual') }}:
+    - name: Carpenter.Build.Type
+      value: ${{ parameters.buildType }}
+
+  - name: Carpenter.Pool.Default.Type
+    value: ${{ parameters.defaultPoolType }}
+
+  - ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+    - name: Carpenter.Pool.Default.VMImage
+      value: ${{ parameters.defaultPoolVMImage}}
+
+  - ${{ if eq(parameters.defaultPoolType,'Private') }}:
+    - name: Carpenter.Pool.Default.Name
+      value: ${{ parameters.defaultPoolName }}
+  
+    - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
+      - name: Carpenter.Pool.Default.Demands
+        value: False
+  
+    - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+      - name: Carpenter.Pool.Default.Demands
+        value: True
+
 
   steps:
   - checkout: self
