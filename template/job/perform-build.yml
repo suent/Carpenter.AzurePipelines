@@ -64,9 +64,9 @@ jobs:
 - job: performBuild
   displayName: Perform build
 
-  dependsOn:
-  - initializePipeline
-  - finalizePipeline
+  #dependsOn:
+  #- initializePipeline
+  #- finalizePipeline
 
   pool:
     ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
