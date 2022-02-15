@@ -25,5 +25,10 @@
   <ItemGroup>
     <PackageReference Include="Carpenter" Version="0.4.0" />
   </ItemGroup>
-
+  <ItemGroup>
+	<None Include="..\..\media\Carpenter-Icon_128x128.png">
+	  <Pack>True</Pack>
+	  <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 </Project>

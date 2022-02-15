@@ -105,6 +105,10 @@ jobs:
         demands: ${{ parameters.defaultPoolDemands }}
 
 
+  workspace:
+    clean: all
+
+
   variables:
   - name: Carpenter.PipelineVersion
     value: ${{ parameters.pipelineVersion }}
@@ -219,7 +223,7 @@ jobs:
       condition: succeeded()
       inputs:
         packageType: sdk
-        version: 2.x
+        version: 6.x
         installationPath: $(Agent.ToolsDirectory)/dotnet
 
     - task: DotNetCoreCLI@2
@@ -254,6 +258,47 @@ jobs:
     - publish: '$(System.DefaultWorkingDirectory)/out/nuget'
       displayName: 'Publish nuget artifact'
       artifact: package.nuget
+      condition: succeeded()
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Execute unit tests'
+      condition: succeeded()
+      inputs:
+        command: test
+        projects: '$(Carpenter.Project).sln'
+        arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --filter Category=UnitTest --logger trx --results-directory $(System.DefaultWorkingDirectory)/out/tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(System.DefaultWorkingDirectory)/out/tests/ /p:CoverletOutputFormat="cobertura%2copencover"'
+        publishTestResults: false # manually publish later, we want trx results saved to specific location
+        nobuild: true
+
+    - task: PublishTestResults@2
+      displayName: 'Publish test results'
+      condition: succeeded()
+      inputs:
+        testResultsFormat: 'VSTest'
+        testResultsFiles: $(System.DefaultWorkingDirectory)/out/tests/*.trx
+        testRunTitle: Carpenter.AzurePipelines L0 - Unit Tests
+        buildConfiguration: Debug
+        buildPlatform: Any CPU
+        publishRunAttachments: true
+    
+    - script: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+        reportgenerator -reports:$(System.DefaultWorkingDirectory)/out/tests/coverage.cobertura.xml -targetdir:$(System.DefaultWorkingDirectory)/out/testCoverage "-reporttypes:Cobertura"
+      displayName: Create code coverage report
+      condition: succeeded()
+      continueOnError: true
+    
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage'
+      condition: succeeded()
+      continueOnError: true
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/out/testCoverage/Cobertura.xml'
+
+    - publish: '$(System.DefaultWorkingDirectory)/out/tests'
+      displayName: 'Publish testOutput artifact'
+      artifact: testOutput
       condition: succeeded()
 
   - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
