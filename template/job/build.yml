@@ -213,16 +213,6 @@ jobs:
       displayName: Initialize build version
       name: initializeBuildVersion
 
-  - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
-    - task: PowerShell@2
-      inputs:
-        targetType: 'filePath'
-        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/IncrementVersion.ps1
-        arguments: -Verbose
-      displayName: Update project version
-      env:
-        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
-
   - ${{ if eq(parameters.buildDotNet, 'true') }}:
     - task: UseDotNet@2
       displayName: 'Use .Net Core sdk'
@@ -238,7 +228,7 @@ jobs:
       inputs:
         command: build
         projects: '$(Carpenter.Project).sln'
-        arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.AssemblyVersion) /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version.Major).0.0.0 /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
+        arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
 
     - task: CopyFiles@2
       displayName: 'Copy nupkg files to nuget artifact staging'
@@ -264,3 +254,13 @@ jobs:
       displayName: 'Publish nuget artifact'
       artifact: package.nuget
       condition: succeeded()
+
+  - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/IncrementVersion.ps1
+        arguments: -Verbose
+      displayName: Update project version
+      env:
+        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
