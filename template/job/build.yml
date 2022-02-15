@@ -157,9 +157,6 @@ jobs:
     - name: Carpenter.Version.RevisionOffset
       value: ${{ parameters.revisionOffset }}
 
-    - name: Carpenter.Version.Revision
-      value: $[counter(variables['Carpenter.Project'], variables['Carpenter.Version.RevisionOffset'])]
-
     - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'CI'))) }}:
       - name: Carpenter.ContinuousIntegration.Date
         value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
@@ -212,3 +209,12 @@ jobs:
       arguments: -Verbose
     displayName: Initialize pipeline
     name: initializePipeline
+
+  - ${{ if ne(parameters.versionType,'None') }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/InitializeBuildVersion.ps1
+        arguments: -Verbose
+      displayName: Initialize build version
+      name: initializeBuildVersion

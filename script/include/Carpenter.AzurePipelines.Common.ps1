@@ -166,14 +166,15 @@ Function Write-PipelineWarning {
 Function Get-NextCounterValue {
 	[CmdletBinding()]
 	param(
-		[string] $Key
+		[string] $Key,
+        [int] $Offset = 0
 	)
 
 	if (-Not ($Key)) {
 		Write-PipelineError "Key parameter must be supplied."
 	}
     $baseUri = "https://counter-dev.azurewebsites.net/Counter"
-    $uri = "$($baseUri)?Key=$($Key)"
+    $uri = "$($baseUri)?Key=$($Key)&Offset=$($Offset)"
 
     $response = Invoke-RestMethod -Uri $uri -Method Post
     return $response.Count
