@@ -80,7 +80,7 @@ parameters:
 
 stages:
 - stage: dev
-  displayName: Dev
+  displayName: Developer
 
   jobs:
   #- template: ../job/initialize-pipeline.yml
