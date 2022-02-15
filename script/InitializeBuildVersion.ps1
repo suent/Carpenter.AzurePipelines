@@ -16,8 +16,7 @@ param(
 	[string] $VersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
-	[string] $PullRequestSemantic = $env:CARPENTER_PULLREQUEST_SEMANTIC,
-	[string] $PullRequestRevision = $env:CARPENTER_PULLREQUEST_REVISION,
+	[string] $PullRequestNumber = $env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER,
 	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
 	[string] $IncrementVersionOnRelease = $env:CARPENTER_VERSION_INCREMENTONRELEASE
 )
@@ -56,8 +55,9 @@ If ($BuildType -eq "CI") {
 }
 
 If ($BuildType -eq "PR") {
-	$pullRequestSemantic = Set-CarpenterVariable -OutputVariableName "pullRequestSemantic" -Value $PullRequestSemantic
-	$pullRequestRevision = Set-CarpenterVariable -OutputVariableName "pullRequestRevision" -Value $PullRequestRevision
+	$pullRequestRevisionKey = "suent_carpenter_$($DefinitionName)_$($Project)_PR_$($PullRequestNumber)"
+	$pullRequestRevision = Get-NextCounterValue -Key $pullRequestRevisionKey
+	$pullRequestRevision = Set-CarpenterVariable -OutputVariableName "pullRequestRevision" -Value $pullRequestRevision
 	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
 }
 

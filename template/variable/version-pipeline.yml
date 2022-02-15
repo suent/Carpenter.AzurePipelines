@@ -47,9 +47,6 @@ variables:
       value: $[ dependencies.build.outputs['initializeBuildVersion.continuousIntegrationRevision'] ]
 
   - ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
-    - name: Carpenter.PullRequest.Semantic
-      value: $[ dependencies.build.outputs['initializeBuildVersion.pullRequestSemantic'] ]
-
     - name: Carpenter.PullRequest.Revision
       value: $[ dependencies.build.outputs['initializeBuildVersion.pullRequestRevision'] ]
 
