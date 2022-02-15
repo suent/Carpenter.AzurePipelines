@@ -256,6 +256,41 @@ jobs:
       artifact: package.nuget
       condition: succeeded()
 
+    - task: DotNetCoreCLI@2
+      displayName: 'Execute unit tests'
+      condition: succeeded()
+      inputs:
+        command: test
+        projects: $(Carpenter.SolutionPath)
+        arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --filter Category=UnitTest --logger trx --results-directory $(System.DefaultWorkingDirectory)/out/tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(System.DefaultWorkingDirectory)/out/tests/ /p:CoverletOutputFormat="cobertura%2copencover"'
+        publishTestResults: false # manually publish later, we want trx results saved to specific location
+        nobuild: true
+
+    - task: PublishTestResults@2
+      condition: succeeded()
+      inputs:
+        testResultsFormat: 'VSTest'
+        testResultsFiles: $(System.DefaultWorkingDirectory)/out/tests/*.trx
+        testRunTitle: Carpenter.AzurePipelines L0 - Unit Tests
+        buildConfiguration: Debug
+        buildPlatform: Any CPU
+        publishRunAttachments: true
+    
+    - script: |
+        dotnet tool install -g dotnet-reportgenerator-globaltool
+        reportgenerator -reports:$(System.DefaultWorkingDirectory)/out/tests/coverage.cobertura.xml -targetdir:$(System.DefaultWorkingDirectory)/out/testCoverage "-reporttypes:Cobertura"
+      displayName: Create code coverage report
+      condition: and(succeeded(), eq(variables['Carpenter.Build.Enabled'], 'true'))
+      continueOnError: true
+    
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage'
+      condition: and(succeeded(), eq(variables['Carpenter.Build.Enabled'], 'true'))
+      continueOnError: true
+      inputs:
+        codeCoverageTool: Cobertura
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/out/testCoverage/Cobertura.xml'
+
   - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
     - task: PowerShell@2
       inputs:
