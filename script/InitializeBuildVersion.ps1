@@ -47,33 +47,34 @@ $revision = Get-NextCounterValue -Key $revisionKey -Offset $revisionOffset
 $revision = Set-CarpenterVariable -VariableName "Carpenter.Version.Revision" -OutputVariableName "revision" -Value $revision
 
 If ($BuildType -eq "CI") {
-	$continuousIntegrationDate = Set-CarpenterVariable -OutputVariableName "continuousIntegrationDate" -Value $ContinuousIntegrationDate
+	$continuousIntegrationDate = Set-CarpenterVariable -VariableName "Carpenter.ContinuousIntegration.Date" -OutputVariableName "continuousIntegrationDate" -Value $ContinuousIntegrationDate
 	$continuousIntegrationRevisionKey = "suent_carpenter_$($DefinitionName)_$($Project)_CI_$($continuousIntegrationDate)"
 	$continuousIntegrationRevision = Get-NextCounterValue -Key $continuousIntegrationRevisionKey
-	$continuousIntegrationRevision = Set-CarpenterVariable -OutputVariableName "continuousIntegrationRevision" -Value $continuousIntegrationRevision
-	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "CI.$($continuousIntegrationDate).$($continuousIntegrationRevision)"
+	$continuousIntegrationRevision = Set-CarpenterVariable -VariableName "Carpenter.ContinuousIntegration.Revision" -OutputVariableName "continuousIntegrationRevision" -Value $continuousIntegrationRevision
+	$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "CI.$($continuousIntegrationDate).$($continuousIntegrationRevision)"
 }
 
 If ($BuildType -eq "PR") {
 	$pullRequestRevisionKey = "suent_carpenter_$($DefinitionName)_$($Project)_PR_$($PullRequestNumber)"
 	$pullRequestRevision = Get-NextCounterValue -Key $pullRequestRevisionKey
-	$pullRequestRevision = Set-CarpenterVariable -OutputVariableName "pullRequestRevision" -Value $pullRequestRevision
-	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
+	$pullRequestRevision = Set-CarpenterVariable -VariableName "Carpenter.PullRequest.Revision" -OutputVariableName "pullRequestRevision" -Value $pullRequestRevision
+	$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
 }
 
 If ($BuildType -eq "Prerelease") {
-	$prereleaseLabel = Set-CarpenterVariable -OutputVariableName "prereleaseLabel" -Value $PrereleaseLabel
-	$prereleaseSemantic = Set-CarpenterVariable -OutputVariableName "prereleaseSemantic" -Value $PrereleaseSemantic
-	$prereleaseRevision = Set-CarpenterVariable -OutputVariableName "prereleaseRevision" -Value $PrereleaseRevision
-	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "$($PrereleaseLabel).$($PrereleaseRevision)"
-
+	$prereleaseLabel = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Label" -OutputVariableName "prereleaseLabel" -Value $PrereleaseLabel
+	$prereleaseRevisionKey = "suent_carpenter_$($DefinitionName)_$($Project)_$($baseVersion)-$($prereleaseLabel)"
+	$prereleaseRevision = Get-NextCounterValue -Key $prereleaseRevisionKey
+	$prereleaseRevision = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Revision" -OutputVariableName "prereleaseRevision" -Value $prereleaseRevision
+	$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "$($prereleaseLabel).$($prereleaseRevision)"
 }
 
 If ($BuildType -eq "Release") {
-	$versionType = Set-CarpenterVariable -OutputVariableName "incrementVersionOnRelease" -Value $IncrementVersionOnRelease
+	$versionType = Set-CarpenterVariable -VariableName "Carpenter.Version.IncrementOnRelease" -OutputVariableName "incrementVersionOnRelease" -Value $IncrementVersionOnRelease
 	$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value $null
-	$version = Set-CarpenterVariable -OutputVariableName "version" -Value $BaseVersion} else {
-	$version = Set-CarpenterVariable -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
+	$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value $BaseVersion
+} else {
+	$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
 }
 
 Write-Host "##vso[build.updatebuildnumber]$version"

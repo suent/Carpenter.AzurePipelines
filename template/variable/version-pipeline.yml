@@ -54,18 +54,15 @@ variables:
     - name: Carpenter.Prerelease.Label
       value: $[ dependencies.build.outputs['initializeBuildVersion.prereleaseLabel'] ]
   
-    - name: Carpenter.Prerelease.Semantic
-      value: $[ dependencies.finalizePipeline.outputs['finalizeBuildVersion.prereleaseSemantic'] ]
-
     - name: Carpenter.Prerelease.Revision
-      value: $[ dependencies.finalizePipeline.outputs['finalizeBuildVersion.prereleaseRevision'] ]
+      value: $[ dependencies.build.outputs['finalizeBuildVersion.prereleaseRevision'] ]
 
   - ${{ if eq(parameters['buildType'],'Release')}}:
     - name: Carpenter.Version.IncrementOnRelease
       value: $[ dependencies.build.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
 
   - name: Carpenter.Version.Label
-    value: $[ dependencies.finalizePipeline.outputs['finalizeBuildVersion.versionLabel'] ]
+    value: $[ dependencies.build.outputs['finalizeBuildVersion.versionLabel'] ]
 
   - name: Carpenter.Version
-    value: $[ dependencies.finalizePipeline.outputs['finalizeBuildVersion.version'] ]
+    value: $[ dependencies.build.outputs['finalizeBuildVersion.version'] ]

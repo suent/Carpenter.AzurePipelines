@@ -208,3 +208,13 @@ jobs:
         arguments: -Verbose
       displayName: Initialize build version
       name: initializeBuildVersion
+
+  - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/IncrementVersion.ps1
+        arguments: -Verbose
+      displayName: Update project version
+      env:
+        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
