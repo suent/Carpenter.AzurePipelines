@@ -176,6 +176,6 @@ Function Get-NextCounterValue {
     $baseUri = "https://counter-dev.azurewebsites.net/Counter"
     $uri = "$($baseUri)?Key=$($Key)&Offset=$($Offset)"
 
-    $response = Invoke-RestMethod -Uri $uri -Method Post
+    $response = Invoke-RestMethod -Uri $uri -Method Post -Verbose:"SilentlyContinue"
     return $response.Count
 }
