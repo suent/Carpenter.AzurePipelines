@@ -105,6 +105,10 @@ jobs:
         demands: ${{ parameters.defaultPoolDemands }}
 
 
+  workspace:
+    clean: all
+
+
   variables:
   - name: Carpenter.PipelineVersion
     value: ${{ parameters.pipelineVersion }}
