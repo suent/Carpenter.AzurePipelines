@@ -261,12 +261,13 @@ jobs:
       condition: succeeded()
       inputs:
         command: test
-        projects: $(Carpenter.SolutionPath)
+        projects: '$(Carpenter.Project).sln'
         arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --filter Category=UnitTest --logger trx --results-directory $(System.DefaultWorkingDirectory)/out/tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(System.DefaultWorkingDirectory)/out/tests/ /p:CoverletOutputFormat="cobertura%2copencover"'
         publishTestResults: false # manually publish later, we want trx results saved to specific location
         nobuild: true
 
     - task: PublishTestResults@2
+      displayName: 'Publish test results'
       condition: succeeded()
       inputs:
         testResultsFormat: 'VSTest'
