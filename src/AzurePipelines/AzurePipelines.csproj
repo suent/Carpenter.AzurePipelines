@@ -19,6 +19,7 @@
 	<PackageProjectUrl>https://github.com/suent/carpenter-azure-pipelines</PackageProjectUrl>
 	<SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Carpenter.AzurePipelines.snk</AssemblyOriginatorKeyFile>
+	<NoWarn>NU5105</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
