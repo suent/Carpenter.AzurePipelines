@@ -124,6 +124,12 @@ parameters:
   type: boolean
   default: false
 
+  # Perform dotnet build
+- name: buildDotNet
+  type: boolean
+  default: false
+
+
 stages:
 - template: stage/dev.yml
   parameters:
@@ -140,3 +146,4 @@ stages:
     revisionOffset: ${{ parameters.revisionOffset }}
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
     incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+    buildDotNet: ${{ parameters.buildDotNet }}

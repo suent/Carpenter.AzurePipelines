@@ -125,3 +125,6 @@ stages:
 
     # Increment the VERSION file on release and check into source control.
     incrementVersionOnRelease: true
+
+    # Perform dotnet build
+    buildDotNet: true
