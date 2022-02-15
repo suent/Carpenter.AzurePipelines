@@ -16,7 +16,6 @@ param(
 	[string] $VersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
-	[string] $ContinuousIntegrationRevision = $env:CARPENTER_CONTINUOUSINTEGRATION_REVISION,
 	[string] $PullRequestSemantic = $env:CARPENTER_PULLREQUEST_SEMANTIC,
 	[string] $PullRequestRevision = $env:CARPENTER_PULLREQUEST_REVISION,
 	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
@@ -50,7 +49,9 @@ $revision = Set-CarpenterVariable -VariableName "Carpenter.Version.Revision" -Ou
 
 If ($BuildType -eq "CI") {
 	$continuousIntegrationDate = Set-CarpenterVariable -OutputVariableName "continuousIntegrationDate" -Value $ContinuousIntegrationDate
-	$continuousIntegrationRevision = Set-CarpenterVariable -OutputVariableName "continuousIntegrationRevision" -Value $ContinuousIntegrationRevision
+	$continuousIntegrationRevisionKey = "suent_carpenter_$($DefinitionName)_$($Project)_CI_$($continuousIntegrationDate)"
+	$continuousIntegrationRevision = Get-NextCounterValue -Key $continuousIntegrationRevisionKey
+	$continuousIntegrationRevision = Set-CarpenterVariable -OutputVariableName "continuousIntegrationRevision" -Value $continuousIntegrationRevision
 }
 
 If ($BuildType -eq "PR") {
