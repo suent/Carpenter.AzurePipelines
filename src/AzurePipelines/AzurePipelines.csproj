@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	<AssemblyName>Suent.Carpenter.AzurePipelines</AssemblyName>
+	<RootNamespace>Suent.Carpenter.AzurePipelines</RootNamespace>
+	<PackageId>Carpenter.AzurePipelines</PackageId>
+	<Title>Carpenter AzurePipelines Templates</Title>
+	<AssemblyTitle>Carpenter AzurePipelines Library</AssemblyTitle>
+	<Description>Common YAML templates and scripts for Azure Pipelines definitions.</Description>
+	<Product>Carpenter</Product>
+	<Copyright>Copyright © 2015-2022 Suent Networks</Copyright>
+	<VersionSuffix>dev</VersionSuffix>
+	<Company>Suent Networks</Company>
+	<PackageIcon>Carpenter-Icon_128x128.png</PackageIcon>
+	<PackageIconUrl>https://raw.githubusercontent.com/suent/carpenter/main/media/Carpenter-Icon_128x128.png</PackageIconUrl>
+	<Authors>Jeffrey Block</Authors>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageProjectUrl>https://github.com/suent/carpenter-azure-pipelines</PackageProjectUrl>
+	<SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Carpenter.AzurePipelines.snk</AssemblyOriginatorKeyFile>
+	<NoWarn>NU5105</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Carpenter" Version="0.4.0" />
+  </ItemGroup>
+
+</Project>

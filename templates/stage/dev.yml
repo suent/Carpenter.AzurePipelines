@@ -77,10 +77,14 @@ parameters:
 - name: incrementVersionOnRelease
   type: boolean
 
+  # See template/carpenter-default.yml
+- name: buildDotNet
+  type: boolean
+
 
 stages:
 - stage: dev
-  displayName: Dev
+  displayName: Developer
 
   jobs:
   #- template: ../job/initialize-pipeline.yml
@@ -125,3 +129,4 @@ stages:
       revisionOffset: ${{ parameters.revisionOffset }}
       prereleaseLabel: ${{ parameters.prereleaseLabel }}
       incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+      buildDotNet: ${{ parameters.buildDotNet }}

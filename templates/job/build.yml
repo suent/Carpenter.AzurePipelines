@@ -84,6 +84,10 @@ parameters:
 - name: incrementVersionOnRelease
   type: boolean
 
+  # See template/carpenter-default.yml
+- name: buildDotNet
+  type: boolean
+
 jobs:
 - job: build
   displayName: Build
@@ -188,14 +192,14 @@ jobs:
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/ValidatePipeline.ps1
+      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/ValidatePipeline.ps1
       arguments: -Verbose
     displayName: Validate pipeline parameters
 
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/InitializePipeline.ps1
+      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/InitializePipeline.ps1
       arguments: -Verbose
     displayName: Initialize pipeline
     name: initializePipeline
@@ -204,10 +208,53 @@ jobs:
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'
-        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/InitializeBuildVersion.ps1
+        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/InitializeBuildVersion.ps1
         arguments: -Verbose
       displayName: Initialize build version
       name: initializeBuildVersion
+
+  - ${{ if eq(parameters.buildDotNet, 'true') }}:
+    - task: UseDotNet@2
+      displayName: 'Use .Net Core sdk'
+      condition: succeeded()
+      inputs:
+        packageType: sdk
+        version: 2.x
+        installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Perform dotnet build'
+      condition: succeeded()
+      inputs:
+        command: build
+        projects: '$(Carpenter.Project).sln'
+        arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
+
+    - task: CopyFiles@2
+      displayName: 'Copy nupkg files to nuget artifact staging'
+      condition: succeeded()
+      inputs:
+        cleanTargetFolder: true
+        sourceFolder: $(System.DefaultWorkingDirectory)/out/bin
+        contents: '*.nupkg'
+        targetFolder: $(System.DefaultWorkingDirectory)/out/nuget
+
+    - task: DeleteFiles@1
+      displayName: 'Remove nupkg from build output'
+      condition: succeeded()
+      inputs:
+        sourceFolder: $(System.DefaultWorkingDirectory)/out/bin
+        contents: '*.nupkg'
+
+    - publish: '$(System.DefaultWorkingDirectory)/out/bin'
+      displayName: 'Publish binaries artifact'
+      artifact: binaries
+      condition: succeeded()
+
+    - publish: '$(System.DefaultWorkingDirectory)/out/nuget'
+      displayName: 'Publish nuget artifact'
+      artifact: package.nuget
+      condition: succeeded()
 
   - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
     - task: PowerShell@2

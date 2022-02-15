@@ -62,7 +62,7 @@ variables:
 
 # Use pipeline template
 stages:
-- template: template/carpenter-default.yml
+- template: templates/carpenter-default.yml
   parameters:
     # The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
     # A breaking change could implement new functionality under an incremented version number, and move
@@ -125,3 +125,6 @@ stages:
 
     # Increment the VERSION file on release and check into source control.
     incrementVersionOnRelease: true
+
+    # Perform dotnet build
+    buildDotNet: true
