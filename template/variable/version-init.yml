@@ -52,8 +52,6 @@ parameters:
 
 variables:
 
-- name: Carpenter.Version.Type
-  value: ${{ parameters.versionType }}
 
 - ${{ if ne(parameters.versionType,'None') }}:
 

@@ -130,6 +130,9 @@ jobs:
       - name: Carpenter.Pool.Default.Demands
         value: True
 
+  - name: Carpenter.Version.Type
+    value: ${{ parameters.versionType }}
+
 
   steps:
   - checkout: self
