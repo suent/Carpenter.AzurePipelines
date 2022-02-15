@@ -121,3 +121,7 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
+      versionFile: ${{ parameters.versionFile }}
+      revisionOffset: ${{ parameters.revisionOffset }}
+      prereleaseLabel: ${{ parameters.prereleaseLabel }}
+      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}

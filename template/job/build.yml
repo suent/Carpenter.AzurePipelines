@@ -68,6 +68,22 @@ parameters:
 - name: versionType
   type: string
 
+  # See template/carpenter-default.yml
+- name: versionFile
+  type: string
+
+  # See template/carpenter-default.yml
+- name: revisionOffset
+  type: string
+
+  # See template/carpenter-default.yml
+- name: prereleaseLabel
+  type: string
+
+  # See template/carpenter-default.yml
+- name: incrementVersionOnRelease
+  type: boolean
+
 jobs:
 - job: build
   displayName: Build
