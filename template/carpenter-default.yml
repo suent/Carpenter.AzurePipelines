@@ -125,7 +125,7 @@ parameters:
   default: false
 
 stages:
-- template: stage/development.yml
+- template: stage/dev.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
     includePipeline: ${{ parameters.includePipeline }}

@@ -162,3 +162,20 @@ Function Write-PipelineWarning {
     Write-Host "##vso[task.logissue type=warning]$Message"
 	Write-Warning $Message
 }
+
+Function Get-NextCounterValue {
+	[CmdletBinding()]
+	param(
+		[string] $Key,
+        [int] $Offset = 0
+	)
+
+	if (-Not ($Key)) {
+		Write-PipelineError "Key parameter must be supplied."
+	}
+    $baseUri = "https://counter-dev.azurewebsites.net/Counter"
+    $uri = "$($baseUri)?Key=$($Key)&Offset=$($Offset)"
+    Write-Verbose "POST: $uri"
+    $response = Invoke-RestMethod -Uri $uri -Method Post -Verbose:$false
+    return $response.Count
+}

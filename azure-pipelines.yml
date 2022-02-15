@@ -118,7 +118,7 @@ stages:
     #versionFile: VERSION
 
     # The starting value of the revision counter.
-    revisionOffset: 107
+    revisionOffset: 258
 
     # The prerelease label. This value is only used if buildType is Prerelease.
     prereleaseLabel: ${{ parameters.prereleaseLabel }}

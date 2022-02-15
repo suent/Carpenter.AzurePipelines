@@ -1,0 +1,220 @@
+# perform-build.yml
+# Performs the build and executes unit tests.
+
+#    Copyright © 2015-2022 Suent Networks, All rights reserved.
+#
+#    Permission is hereby granted, free of charge, to any person obtaining a copy
+#    of this software and associated documentation files (the "Software"), to deal
+#    in the Software without restriction, including without limitation the rights
+#    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#    copies of the Software, and to permit persons to whom the Software is
+#    furnished to do so, subject to the following conditions:
+#
+#    The above copyright notice and this permission notice shall be included in all
+#    copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#    SOFTWARE.
+
+# SPDX-License-Identifier: MIT
+
+
+parameters:
+  # See template/carpenter-default.yml
+- name: pipelineVersion
+  type: number
+
+  # See template/carpenter-default.yml
+- name: includePipeline
+  type: boolean
+
+  # See template/carpenter-default.yml
+- name: buildType
+  type: string
+
+  # See template/carpenter-default.yml
+- name: project
+  type: string
+
+  # See template/carpenter-default.yml
+- name: defaultPoolType
+  type: string
+  default: Hosted
+  values:
+  - Hosted
+  - Private
+
+  # See template/carpenter-default.yml
+- name: defaultPoolName
+  type: string
+  default: Default
+
+  # See template/carpenter-default.yml
+- name: defaultPoolDemands
+  type: object
+  default: {}
+
+  # See template/carpenter-default.yml
+- name: defaultPoolVMImage
+  type: string
+  default: 'ubuntu-latest'
+    
+  # See template/carpenter-default.yml
+- name: versionType
+  type: string
+
+  # See template/carpenter-default.yml
+- name: versionFile
+  type: string
+
+  # See template/carpenter-default.yml
+- name: revisionOffset
+  type: string
+
+  # See template/carpenter-default.yml
+- name: prereleaseLabel
+  type: string
+
+  # See template/carpenter-default.yml
+- name: incrementVersionOnRelease
+  type: boolean
+
+jobs:
+- job: build
+  displayName: Build
+
+  #dependsOn:
+  #- initializePipeline
+  #- finalizePipeline
+
+  pool:
+    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+      vmImage: ${{ parameters.defaultPoolVMImage }}
+    ${{ if eq(parameters.defaultPoolType,'Private') }}:
+      name: ${{ parameters.defaultPoolName }}
+      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+        demands: ${{ parameters.defaultPoolDemands }}
+
+
+  variables:
+  - name: Carpenter.PipelineVersion
+    value: ${{ parameters.pipelineVersion }}
+
+  - name: Carpenter.Project
+    value: ${{ parameters.project }}
+
+  - ${{ if eq(parameters.includePipeline,'true') }}:
+    - name: Carpenter.Pipeline
+      value: true
+    - name: Carpenter.Pipeline.Path
+      value: s/carpenter-azure-pipelines
+    - name: Carpenter.Project.Path
+      value: $[ format('{0}/{1}', 's', variables['Build.DefinitionName']) ]
+  - ${{ if ne(parameters.includePipeline,'true') }}:
+    - name: Carpenter.Pipeline
+      value: false
+    - name: Carpenter.Pipeline.Path
+      value: s
+    - name: Carpenter.Project.Path
+      value: s
+
+  - ${{ if eq(variables['Build.Reason'],'Manual') }}:
+    - name: Carpenter.Build.Type
+      value: ${{ parameters.buildType }}
+
+  - name: Carpenter.Pool.Default.Type
+    value: ${{ parameters.defaultPoolType }}
+
+  - ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+    - name: Carpenter.Pool.Default.VMImage
+      value: ${{ parameters.defaultPoolVMImage}}
+
+  - ${{ if eq(parameters.defaultPoolType,'Private') }}:
+    - name: Carpenter.Pool.Default.Name
+      value: ${{ parameters.defaultPoolName }}
+  
+    - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
+      - name: Carpenter.Pool.Default.Demands
+        value: False
+  
+    - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+      - name: Carpenter.Pool.Default.Demands
+        value: True
+
+  - name: Carpenter.Version.Type
+    value: ${{ parameters.versionType }}
+  
+  - ${{ if ne(parameters.versionType,'None') }}:
+
+    - name: Carpenter.Version.VersionFile
+      value: ${{ parameters.versionFile }}
+
+    - name: Carpenter.Version.RevisionOffset
+      value: ${{ parameters.revisionOffset }}
+
+    - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'CI'))) }}:
+      - name: Carpenter.ContinuousIntegration.Date
+        value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
+
+    - ${{ if eq(parameters['buildType'],'Prerelease')}}:
+      - name: Carpenter.Prerelease.Label
+        value: ${{ parameters.prereleaseLabel }}
+
+    - ${{ if eq(parameters['buildType'],'Release')}}:
+      - name: Carpenter.Version.IncrementOnRelease
+        value: ${{ parameters.incrementVersionOnRelease }}
+
+
+  steps:
+  - checkout: self
+  
+  # Publish source artifact
+  - publish: $(System.DefaultWorkingDirectory)
+    artifact: source
+    displayName: Publish source artifact
+
+  # Include pipeline for access to pipeline scripts
+  - ${{ if eq(parameters.includePipeline, 'true') }}:
+    - checkout: Carpenter
+      persistCredentials: true
+
+  - template: ../step/display-environment.yml
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/ValidatePipeline.ps1
+      arguments: -Verbose
+    displayName: Validate pipeline parameters
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/InitializePipeline.ps1
+      arguments: -Verbose
+    displayName: Initialize pipeline
+    name: initializePipeline
+
+  - ${{ if ne(parameters.versionType,'None') }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/InitializeBuildVersion.ps1
+        arguments: -Verbose
+      displayName: Initialize build version
+      name: initializeBuildVersion
+
+  - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/IncrementVersion.ps1
+        arguments: -Verbose
+      displayName: Update project version
+      env:
+        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)

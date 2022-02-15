@@ -1,5 +1,5 @@
-# initialize-pipeline.yml
-# Initializes the Carpenter pipeline.
+# development.yml
+# The Development stage builds the project and performs testing.
 
 #    Copyright © 2015-2022 Suent Networks, All rights reserved.
 #
@@ -56,7 +56,7 @@ parameters:
   # See template/carpenter-default.yml
 - name: defaultPoolVMImage
   type: string
-    
+
   # See template/carpenter-default.yml
 - name: versionType
   type: string
@@ -72,61 +72,56 @@ parameters:
   # See template/carpenter-default.yml
 - name: prereleaseLabel
   type: string
-
+  
   # See template/carpenter-default.yml
 - name: incrementVersionOnRelease
   type: boolean
 
 
-jobs:
-- job: initializePipeline
-  displayName: Initialize pipeline
+stages:
+- stage: dev
+  displayName: Dev
 
-  pool:
-    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
-      vmImage: ${{ parameters.defaultPoolVMImage }}
-    ${{ if eq(parameters.defaultPoolType,'Private') }}:
-      name: ${{ parameters.defaultPoolName }}
-      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
-        demands: ${{ parameters.defaultPoolDemands }}
+  jobs:
+  #- template: ../job/initialize-pipeline.yml
+  #  parameters:
+  #    pipelineVersion: ${{ parameters.pipelineVersion }}
+  #    includePipeline: ${{ parameters.includePipeline }}
+  #    buildType: ${{ parameters.buildType }}
+  #    project: ${{ parameters.project }}
+  #    defaultPoolType: ${{ parameters.defaultPoolType }}
+  #    defaultPoolName: ${{ parameters.defaultPoolName }}
+  #    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+  #    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+  #    versionType: ${{ parameters.versionType }}
+  #    versionFile: ${{ parameters.versionFile }}
+  #    revisionOffset: ${{ parameters.revisionOffset }}
+  #    prereleaseLabel: ${{ parameters.prereleaseLabel }}
+  #   incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
 
+  #- template: ../job/finalize-pipeline.yml
+  #  parameters:
+  #    buildType: ${{ parameters.buildType }}
+  #    includePipeline: ${{ parameters.includePipeline }}
+  #    defaultPoolType: ${{ parameters.defaultPoolType }}
+  #    defaultPoolName: ${{ parameters.defaultPoolName }}
+  #    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+  #    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+  #    versionType: ${{ parameters.versionType }}
+  #    incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
 
-  variables:
-  - template: ../variable/carpenter-init.yml
+  - template: ../job/build.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
       buildType: ${{ parameters.buildType }}
+      includePipeline: ${{ parameters.includePipeline }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-
-  - template: ../variable/version-init.yml
-    parameters:
-      buildType: ${{ parameters.buildType }}
       versionType: ${{ parameters.versionType }}
       versionFile: ${{ parameters.versionFile }}
       revisionOffset: ${{ parameters.revisionOffset }}
       prereleaseLabel: ${{ parameters.prereleaseLabel }}
       incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-
-
-  steps:
-  - checkout: self
-
-  - publish: $(System.DefaultWorkingDirectory)
-    artifact: Source
-    displayName: Publish Source artifact
-
-  - ${{ if eq(parameters.includePipeline, 'true') }}:
-    - checkout: Carpenter
-      persistCredentials: true
-
-  - template: ../step/display-environment.yml
-  - template: ../step/validate-pipeline.yml
-  - template: ../step/initialize-pipeline.yml
-  - template: ../step/initialize-build-version.yml
-    parameters:
-      versionType: ${{ parameters.versionType }}
