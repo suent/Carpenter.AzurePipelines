@@ -32,34 +32,34 @@ parameters:
 
 variables:
 - name: Carpenter.PipelineVersion
-  value: $[ dependencies.initializePipeline.outputs['initializePipeline.pipelineVersion'] ]
+  value: $[ dependencies.build.outputs['initializePipeline.pipelineVersion'] ]
 
 - name: Carpenter.Pipeline
-  value: $[ dependencies.initializePipeline.outputs['initializePipeline.includePipeline'] ]
+  value: $[ dependencies.build.outputs['initializePipeline.includePipeline'] ]
 
 - name: Carpenter.Pipeline.Path
-  value: $[ dependencies.initializePipeline.outputs['initializePipeline.pipelinePath'] ]
+  value: $[ dependencies.build.outputs['initializePipeline.pipelinePath'] ]
 
 - name: Carpenter.Build.Type
-  value: $[ dependencies.initializePipeline.outputs['initializePipeline.buildType'] ]
+  value: $[ dependencies.build.outputs['initializePipeline.buildType'] ]
 
 - name: Carpenter.Project
-  value: $[ dependencies.initializePipeline.outputs['initializePipeline.project'] ]
+  value: $[ dependencies.build.outputs['initializePipeline.project'] ]
 
 - name: Carpenter.Project.Path
-  value: $[ dependencies.initializePipeline.outputs['initializePipeline.projectPath'] ]
+  value: $[ dependencies.build.outputs['initializePipeline.projectPath'] ]
 
 - name: Carpenter.Pool.Default.Type
-  value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolType'] ]
+  value: $[ dependencies.build.outputs['initializePipeline.defaultPoolType'] ]
 
 - ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
   - name: Carpenter.Pool.Default.VMImage
-    value:  $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolVMImage'] ]
+    value:  $[ dependencies.build.outputs['initializePipeline.defaultPoolVMImage'] ]
 
 - ${{ if eq(parameters.defaultPoolType,'Private') }}:
   - name: Carpenter.Pool.Default.Name
-    value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolName'] ]
+    value: $[ dependencies.build.outputs['initializePipeline.defaultPoolName'] ]
   
   - name: Carpenter.Pool.Default.Demands
-    value: $[ dependencies.initializePipeline.outputs['initializePipeline.defaultPoolDemands'] ]
+    value: $[ dependencies.build.outputs['initializePipeline.defaultPoolDemands'] ]
   

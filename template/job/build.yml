@@ -204,3 +204,11 @@ jobs:
       filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/ValidatePipeline.ps1
       arguments: -Verbose
     displayName: Validate pipeline parameters
+
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/script/InitializePipeline.ps1
+      arguments: -Verbose
+    displayName: Initialize pipeline
+    name: initializePipeline

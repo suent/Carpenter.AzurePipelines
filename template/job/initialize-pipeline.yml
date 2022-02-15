@@ -118,7 +118,6 @@ jobs:
 
   - template: ../step/display-environment.yml
 
-  - template: ../step/initialize-pipeline.yml
   - template: ../step/initialize-build-version.yml
     parameters:
       versionType: ${{ parameters.versionType }}

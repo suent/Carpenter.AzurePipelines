@@ -29,9 +29,9 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-$pipelineVersion = Set-CarpenterVariable -OutputVariableName "pipelineVersion" -Value $PipelineVersion
-$includePipeline = Set-CarpenterVariable -OutputVariableName "includePipeline" -Value $IncludePipeline
-$pipelinePath = Set-CarpenterVariable -OutputVariableName "pipelinePath" -Value $PipelinePath
+$pipelineVersion = Set-CarpenterVariable -VariableName "Carpenter.PipelineVersion" -OutputVariableName "pipelineVersion" -Value $PipelineVersion
+$includePipeline = Set-CarpenterVariable -VariableName "Carpenter.Pipeline" -OutputVariableName "includePipeline" -Value $IncludePipeline
+$pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -OutputVariableName "pipelinePath" -Value $PipelinePath
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "CI"))) {
 	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "CI"
@@ -50,18 +50,18 @@ Else {
 }
 
 # Add buildType as tag
-Write-Host "##vso[build.addbuildtag]$buildType"
+Write-Host "##vso[build.addbuildtag]BuildType-$buildType"
 
-$project = Set-CarpenterVariable -OutputVariableName "project" -Value $Project
-$projectPath = Set-CarpenterVariable -OutputVariableName "projectPath" -Value $ProjectPath
+$project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $Project
+$projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value $ProjectPath
 
-$defaultPoolType = Set-CarpenterVariable -OutputVariableName defaultPoolType -Value $DefaultPoolType
+$defaultPoolType = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Type" -OutputVariableName defaultPoolType -Value $DefaultPoolType
 if ($defaultPoolType -eq "Private") {
-	$defaultPoolName = Set-CarpenterVariable -OutputVariableName defaultPoolName -Value $DefaultPoolName
-	$defaultPoolDemands = Set-CarpenterVariable -OutputVariableName defaultPoolDemands -Value $DefaultPoolDemands
+	$defaultPoolName = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Name" -OutputVariableName defaultPoolName -Value $DefaultPoolName
+	$defaultPoolDemands = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Demands" -OutputVariableName defaultPoolDemands -Value $DefaultPoolDemands
 }
 if ($defaultPoolType -eq "Hosted") {
-	$defaultPoolVMImage = Set-CarpenterVariable -OutputVariableName defaultPoolVMImage -Value $DefaultPoolVMImage
+	$defaultPoolVMImage = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.VMImage" -OutputVariableName defaultPoolVMImage -Value $DefaultPoolVMImage
 }
 
-$versionType = Set-CarpenterVariable -OutputVariableName "versionType" -Value $VersionType
+$versionType = Set-CarpenterVariable -VariableName "Carpenter.Version.Type" -OutputVariableName "versionType" -Value $VersionType
