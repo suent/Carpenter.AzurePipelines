@@ -17,3 +17,9 @@ The carpenter-azure-pipelines project provides common YAML templates and scripts
 | Method | Description |
 |:-------|:------------|
 | [Direct Access](doc/usage-direct.md) | Directly access carpenter-azure-pipelines by referencing from your projects pipeline yaml. |
+
+# Development
+
+For details on development, please see the [Carpenter development wiki](https://dev.azure.com/suent/Carpenter/_wiki/wikis/Carpenter.wiki).
+
+Please also take note of the carpenter-azure-pipelines [Code of Conduct](CODE_OF_CONDUCT.md) and [Contributing guidelines](CONTRIBUTING.md).
