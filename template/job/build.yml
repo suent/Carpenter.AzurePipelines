@@ -234,6 +234,7 @@ jobs:
       displayName: 'Copy nupkg files to nuget artifact staging'
       condition: succeeded()
       inputs:
+        cleanTargetFolder: true
         sourceFolder: $(System.DefaultWorkingDirectory)/out/bin
         contents: '*.nupkg'
         targetFolder: $(System.DefaultWorkingDirectory)/out/nuget
