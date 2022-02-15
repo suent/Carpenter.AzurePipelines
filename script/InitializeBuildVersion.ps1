@@ -52,17 +52,28 @@ If ($BuildType -eq "CI") {
 	$continuousIntegrationRevisionKey = "suent_carpenter_$($DefinitionName)_$($Project)_CI_$($continuousIntegrationDate)"
 	$continuousIntegrationRevision = Get-NextCounterValue -Key $continuousIntegrationRevisionKey
 	$continuousIntegrationRevision = Set-CarpenterVariable -OutputVariableName "continuousIntegrationRevision" -Value $continuousIntegrationRevision
+	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "CI.$($continuousIntegrationDate).$($continuousIntegrationRevision)"
 }
 
 If ($BuildType -eq "PR") {
 	$pullRequestSemantic = Set-CarpenterVariable -OutputVariableName "pullRequestSemantic" -Value $PullRequestSemantic
 	$pullRequestRevision = Set-CarpenterVariable -OutputVariableName "pullRequestRevision" -Value $PullRequestRevision
+	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
 }
 
 If ($BuildType -eq "Prerelease") {
 	$prereleaseLabel = Set-CarpenterVariable -OutputVariableName "prereleaseLabel" -Value $PrereleaseLabel
+	$prereleaseSemantic = Set-CarpenterVariable -OutputVariableName "prereleaseSemantic" -Value $PrereleaseSemantic
+	$prereleaseRevision = Set-CarpenterVariable -OutputVariableName "prereleaseRevision" -Value $PrereleaseRevision
+	$versionLabel = Set-CarpenterVariable -OutputVariableName "versionLabel" -Value "$($PrereleaseLabel).$($PrereleaseRevision)"
+
 }
 
 If ($BuildType -eq "Release") {
 	$versionType = Set-CarpenterVariable -OutputVariableName "incrementVersionOnRelease" -Value $IncrementVersionOnRelease
+	$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value $null
+	$version = Set-CarpenterVariable -OutputVariableName "version" -Value $BaseVersion} else {
+	$version = Set-CarpenterVariable -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
 }
+
+Write-Host "##vso[build.updatebuildnumber]$version"
