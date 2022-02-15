@@ -281,12 +281,12 @@ jobs:
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator -reports:$(System.DefaultWorkingDirectory)/out/tests/coverage.cobertura.xml -targetdir:$(System.DefaultWorkingDirectory)/out/testCoverage "-reporttypes:Cobertura"
       displayName: Create code coverage report
-      condition: and(succeeded(), eq(variables['Carpenter.Build.Enabled'], 'true'))
+      condition: succeeded()
       continueOnError: true
     
     - task: PublishCodeCoverageResults@1
       displayName: 'Publish code coverage'
-      condition: and(succeeded(), eq(variables['Carpenter.Build.Enabled'], 'true'))
+      condition: succeeded()
       continueOnError: true
       inputs:
         codeCoverageTool: Cobertura
