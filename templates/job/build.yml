@@ -276,7 +276,7 @@ jobs:
       inputs:
         testResultsFormat: 'VSTest'
         testResultsFiles: $(System.DefaultWorkingDirectory)/out/tests/*.trx
-        testRunTitle: Carpenter.AzurePipelines L0 - Unit Tests
+        testRunTitle: '$(Carpenter.Project) L0 - Unit Tests'
         buildConfiguration: Debug
         buildPlatform: Any CPU
         publishRunAttachments: true
