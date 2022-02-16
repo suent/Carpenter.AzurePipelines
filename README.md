@@ -22,4 +22,4 @@ The carpenter-azure-pipelines project provides common YAML templates and scripts
 
 For details on development, please see the [Carpenter development wiki](https://dev.azure.com/suent/Carpenter/_wiki/wikis/Carpenter.wiki).
 
-Please also take note of the carpenter-azure-pipelines [Code of Conduct](CODE_OF_CONDUCT.md) and [Contributing guidelines](CONTRIBUTING.md).
+Please also take note of the carpenter-azure-pipelines [Code of Conduct](docs/CODE_OF_CONDUCT.md) and [Contributing guidelines](docs/CONTRIBUTING.md).
