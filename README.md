@@ -4,9 +4,10 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Suent_Carpenter.AzurePipelines&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Suent_Carpenter.AzurePipelines)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Suent_Carpenter.AzurePipelines&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Suent_Carpenter.AzurePipelines)
 
-Copyright © 2015-2022 [Suent Networks](https://suent.net)
 
 [Carpenter.AzurePipelines](#carpeneterazurepipelines)
+Copyright © 2015-2022 [Suent Networks](https://suent.net)
+
 * [Features](#features)
 * [Usage](#usage)
 * [Development](#development)
