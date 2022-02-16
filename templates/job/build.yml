@@ -254,7 +254,7 @@ jobs:
         displayName: 'Prepare analysis on SonarCloud'
         condition: succeeded()
         inputs:
-          SonarCloud: $(Carpenter.SonarCloud.ServiceConnection)
+          SonarCloud: ${{ parameters.sonarCloudServiceConnection }}
           organization: $(Carpenter.SonarCloud.Organization)
           projectKey: $(Carpenter.SonarCloud.ProjectKey)
           projectVersion: '$(Build.BuildNumber)'
