@@ -231,7 +231,7 @@ jobs:
       condition: succeeded()
       inputs:
         command: build
-        projects: '$(Carpenter.Project).sln'
+        projects: '$(Carpenter.Project.Path)/$(Carpenter.Project).sln'
         arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
 
     - task: CopyFiles@2
