@@ -80,7 +80,7 @@ stages:
     # to the pipeline do not break build which extend this template, it is recommended that this parameter
     # is passed to the template.
     # For more information:
-    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/pipeline-versioning.md
+    # https://github.com/suent/carpenter-azure-pipelines/blob/main/docs/pipeline-versioning.md
     #
     pipelineVersion: 1
 

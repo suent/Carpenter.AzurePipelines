@@ -25,12 +25,12 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 
 ## Features
 
+* [Carpenter Variables](docs/variables.md)
+* [Pipeline Versioning](docs/pipeline-versioning.md)
+* [Configurable Pool](docs/configure-pool.md)
 * [Build Versioning](docs/build-versioning.md)
   * [Build Revision](docs/build-revision.md)
   * [Semantic Versioning 2.0.0](docs/semver.md)
-* [Configurable Pool](docs/configure-pool.md)
-* [Pipeline Versioning](docs/pipeline-versioning.md)
-* [Carpenter Variables](docs/variables.md)
 
 
 ## Usage

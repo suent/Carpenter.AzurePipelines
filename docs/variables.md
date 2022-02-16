@@ -1,10 +1,20 @@
-# carpenter-azure-pipelines Variables
+[Carpenter.AzurePipelines Variables](#carpenterazurepipelines-variables)
+* [Pipeline variables](#pipeline-variables)
+  * [Carpenter.PipelineVersion](#carpenterpipelineversion)
+
+# Carpenter.AzurePipelines Variables
 
 ## Pipeline variables
 
 ### Carpenter.PipelineVersion
 
-The pipeline version is used to gate breaking changes. More info: [pipeline-versioning.md](pipeline-versioning.md)
+The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
+A breaking change could implement new functionality under an incremented version number, and move
+dependent pipelines over separately. Defaults to pipelineVersion 1. To ensure that future changes
+to the pipeline do not break build which extend this template, it is recommended that this parameter
+is passed to the template.
+
+More info: [pipeline-versioning.md](pipeline-versioning.md)
 
 ### Carpenter.Build.Type
 
