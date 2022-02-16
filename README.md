@@ -6,7 +6,11 @@
 
 Copyright © 2015-2022 [Suent Networks](https://suent.net)
 
-* [Carpenter.AzurePipelines](#carpeneterazurepipelines)
+[Carpenter.AzurePipelines](#carpeneterazurepipelines)
+* [Features](#features)
+* [Usage](#usage)
+* [Development](#development)
+
 
 # Carpenter.AzurePipelines
 
