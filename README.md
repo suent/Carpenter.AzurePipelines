@@ -6,9 +6,16 @@
 
 Copyright © 2015-2022 [Suent Networks](https://suent.net)
 
+* [Carpenter.AzurePipelines](#carpeneterazurepipelines)
+
 # Carpenter.AzurePipelines
 
-The carpenter-azure-pipelines project provides common YAML templates and scripts for Azure Pipelines definitions. For more information on Azure Pipelines see the [YAML schema](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema) or [template usage](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops) documentation.
+Carpenter.AzurePipelines provides common YAML templates and scripts for Azure Pipelines definitions. 
+
+This project serves as the primary build process for Suent Networks projects to provide a consistent experience to both developers and end users.
+
+For more information on Azure Pipelines see the [YAML schema](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema) or [template usage](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops) documentation.
+
 
 ## Features
 
@@ -19,11 +26,13 @@ The carpenter-azure-pipelines project provides common YAML templates and scripts
 * [Pipeline Versioning](docs/pipeline-versioning.md)
 * [Carpenter Variables](docs/variables.md)
 
+
 ## Usage
 
 | Method | Description |
 |:-------|:------------|
 | [Direct Access](docs/usage-direct.md) | Directly access carpenter-azure-pipelines by referencing from your projects pipeline yaml. |
+
 
 ## Development
 
