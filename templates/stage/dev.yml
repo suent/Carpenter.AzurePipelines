@@ -81,6 +81,23 @@ parameters:
 - name: buildDotNet
   type: boolean
 
+  # See template/carpenter-default.yml
+- name: sonarCloud
+  type: boolean
+  default: false
+
+  # See template/carpenter-default.yml
+- name: sonarCloudOrganization
+  type: string
+
+  # See template/carpenter-default.yml
+- name: sonarCloudProjectKey
+  type: string
+
+  # See template/carpenter-default.yml
+- name: sonarCloudServiceConnection
+  type: string
+
 
 stages:
 - stage: dev
@@ -130,3 +147,7 @@ stages:
       prereleaseLabel: ${{ parameters.prereleaseLabel }}
       incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
+      sonarCloud: ${{ parameters.sonarCloud }}
+      sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
+      sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
+      sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
