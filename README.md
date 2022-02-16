@@ -1,7 +1,12 @@
-# carpenter-azure-pipelines
+![Carpenter.AzurePipelines](media/Carpenter-Title_400x122.png)
+
 [![Build Status](https://dev.azure.com/suent/Carpenter/_apis/build/status/carpenter-azure-pipelines?branchName=main)](https://dev.azure.com/suent/Carpenter/_build/latest?definitionId=2&branchName=main)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Suent_Carpenter.AzurePipelines&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Suent_Carpenter.AzurePipelines)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Suent_Carpenter.AzurePipelines&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Suent_Carpenter.AzurePipelines)
+
+Copyright © 2015-2022 [Suent Networks](https://suent.net)
+
+# Carpenter.AzurePipelines
 
 The carpenter-azure-pipelines project provides common YAML templates and scripts for Azure Pipelines definitions. For more information on Azure Pipelines see the [YAML schema](https://docs.microsoft.com/en-us/azure/devops/pipelines/yaml-schema) or [template usage](https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops) documentation.
 
@@ -20,7 +25,7 @@ The carpenter-azure-pipelines project provides common YAML templates and scripts
 |:-------|:------------|
 | [Direct Access](docs/usage-direct.md) | Directly access carpenter-azure-pipelines by referencing from your projects pipeline yaml. |
 
-# Development
+## Development
 
 For details on development, please see the [Carpenter development wiki](https://dev.azure.com/suent/Carpenter/_wiki/wikis/Carpenter.wiki).
 

@@ -215,7 +215,7 @@ jobs:
   # Publish source artifact
   - publish: $(System.DefaultWorkingDirectory)
     artifact: source
-    displayName: Publish source artifact
+    displayName: 'Publish artifact: source'
 
   # Include pipeline for access to pipeline scripts
   - ${{ if eq(parameters.includePipeline, 'true') }}:
@@ -229,7 +229,7 @@ jobs:
       targetType: 'filePath'
       filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/ValidatePipeline.ps1
       arguments: -Verbose
-    displayName: Validate pipeline parameters
+    displayName: Validate pipeline
 
   - task: PowerShell@2
     inputs:
@@ -245,13 +245,13 @@ jobs:
         targetType: 'filePath'
         filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/InitializeBuildVersion.ps1
         arguments: -Verbose
-      displayName: Initialize build version
+      displayName: Initialize versioning
       name: initializeBuildVersion
 
   - ${{ if eq(parameters.buildDotNet, 'true') }}:
 
     - task: UseDotNet@2
-      displayName: 'Use .Net Core sdk'
+      displayName: 'Use .NET Core sdk'
       condition: succeeded()
       inputs:
         packageType: sdk
@@ -260,7 +260,7 @@ jobs:
 
     - ${{ if eq(parameters.sonarCloud, 'true') }}:
       - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
-        displayName: 'Prepare analysis on SonarCloud'
+        displayName: 'Prepare analysis: SonarCloud'
         condition: succeeded()
         inputs:
           SonarCloud: ${{ parameters.sonarCloudServiceConnection }}
@@ -273,7 +273,7 @@ jobs:
             sonar.cs.vstest.reportsPaths=$(System.DefaultWorkingDirectory)/out/tests/*.trx      
 
     - task: DotNetCoreCLI@2
-      displayName: 'Perform dotnet build'
+      displayName: 'Build: dotnet'
       condition: succeeded()
       inputs:
         command: build
@@ -281,7 +281,7 @@ jobs:
         arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
 
     - task: CopyFiles@2
-      displayName: 'Copy nupkg files to nuget artifact staging'
+      displayName: 'Copy files: nupkg'
       condition: succeeded()
       inputs:
         cleanTargetFolder: true
@@ -290,24 +290,24 @@ jobs:
         targetFolder: $(System.DefaultWorkingDirectory)/out/nuget
 
     - task: DeleteFiles@1
-      displayName: 'Remove nupkg from build output'
+      displayName: 'Remove files: nupkg'
       condition: succeeded()
       inputs:
         sourceFolder: $(System.DefaultWorkingDirectory)/out/bin
         contents: '*.nupkg'
 
     - publish: '$(System.DefaultWorkingDirectory)/out/bin'
-      displayName: 'Publish binaries artifact'
+      displayName: 'Publish artifact: binaries'
       artifact: binaries
       condition: succeeded()
 
     - publish: '$(System.DefaultWorkingDirectory)/out/nuget'
-      displayName: 'Publish nuget artifact'
+      displayName: 'Publish artifact: nuget'
       artifact: package.nuget
       condition: succeeded()
 
     - task: DotNetCoreCLI@2
-      displayName: 'Execute unit tests'
+      displayName: 'Test: L0 unit tests'
       condition: succeeded()
       inputs:
         command: test
@@ -317,7 +317,7 @@ jobs:
         nobuild: true
 
     - task: PublishTestResults@2
-      displayName: 'Publish test results'
+      displayName: 'Publish results: L0'
       condition: succeeded()
       inputs:
         testResultsFormat: 'VSTest'
@@ -330,7 +330,7 @@ jobs:
     - script: |
         dotnet tool install -g dotnet-reportgenerator-globaltool
         reportgenerator -reports:$(System.DefaultWorkingDirectory)/out/tests/coverage.cobertura.xml -targetdir:$(System.DefaultWorkingDirectory)/out/testCoverage "-reporttypes:Cobertura"
-      displayName: Create code coverage report
+      displayName: Prepare code coverage
       condition: succeeded()
       continueOnError: true
     
@@ -343,18 +343,18 @@ jobs:
         summaryFileLocation: '$(System.DefaultWorkingDirectory)/out/testCoverage/Cobertura.xml'
 
     - publish: '$(System.DefaultWorkingDirectory)/out/tests'
-      displayName: 'Publish testOutput artifact'
+      displayName: 'Publish artifact: testOutput'
       artifact: testOutput
       condition: succeeded()
       continueOnError: true
 
     - ${{ if eq(parameters.sonarCloud, 'true') }}:
       - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
-        displayName: 'Run Code Analysis'
+        displayName: 'Analyze: SonarCloud'
         condition: succeeded()
     
       - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
-        displayName: 'Publish Quality Gate Result'
+        displayName: 'Publish analysis: SonarCloud'
         condition: succeeded()
   
   - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
