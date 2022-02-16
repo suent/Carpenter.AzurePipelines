@@ -34,5 +34,6 @@
     </None>
     <Content Include="..\..\azure-pipelines.yml" CopyToOutputDirectory="PreserveNewest" PackagePath="contentFiles\any\any\templates" />
     <Content Include="..\..\templates\**" LinkBase="templates" CopyToOutputDirectory="PreserveNewest" PackagePath="contentFiles\any\any\templates" />
+    <Content Include="..\..\scripts\**" LinkBase="templates" CopyToOutputDirectory="PreserveNewest" PackagePath="contentFiles\any\any\scripts" />
   </ItemGroup>
 </Project>
