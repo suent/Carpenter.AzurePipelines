@@ -88,6 +88,24 @@ parameters:
 - name: buildDotNet
   type: boolean
 
+  # See template/carpenter-default.yml
+- name: sonarCloud
+  type: boolean
+  default: false
+
+  # See template/carpenter-default.yml
+- name: sonarCloudOrganization
+  type: string
+
+  # See template/carpenter-default.yml
+- name: sonarCloudProjectKey
+  type: string
+
+  # See template/carpenter-default.yml
+- name: sonarCloudServiceConnection
+  type: string
+
+
 jobs:
 - job: build
   displayName: Build
@@ -177,6 +195,19 @@ jobs:
       - name: Carpenter.Version.IncrementOnRelease
         value: ${{ parameters.incrementVersionOnRelease }}
 
+  - name: Carpenter.SonarCloud
+    value: ${{ parameters.sonarCloud }}
+
+  - ${{ if eq(parameters.sonarCloud, 'true') }}:
+    - name: Carpenter.SonarCloud.Organization
+      value: ${{ parameters.sonarCloudOrganization }}
+
+    - name: Carpenter.SonarCloud.ProjectKey
+      value: ${{ parameters.sonarCloudProjectKey }}
+     
+    - name: Carpenter.SonarCloud.ServiceConnection
+      value: ${{ parameters.sonarCloudServiceConnection }}
+
 
   steps:
   - checkout: self
@@ -218,6 +249,7 @@ jobs:
       name: initializeBuildVersion
 
   - ${{ if eq(parameters.buildDotNet, 'true') }}:
+
     - task: UseDotNet@2
       displayName: 'Use .Net Core sdk'
       condition: succeeded()
@@ -225,6 +257,20 @@ jobs:
         packageType: sdk
         version: 6.x
         installationPath: $(Agent.ToolsDirectory)/dotnet
+
+    - ${{ if eq(parameters.sonarCloud, 'true') }}:
+      - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
+        displayName: 'Prepare analysis on SonarCloud'
+        condition: succeeded()
+        inputs:
+          SonarCloud: ${{ parameters.sonarCloudServiceConnection }}
+          organization: $(Carpenter.SonarCloud.Organization)
+          projectKey: $(Carpenter.SonarCloud.ProjectKey)
+          projectVersion: '$(Build.BuildNumber)'
+          extraProperties: |
+            sonar.cs.opencover.reportsPaths=$(System.DefaultWorkingDirectory)/out/tests/coverage.opencover.xml
+            sonar.test.exclusions=**/coverage.*.xml
+            sonar.cs.vstest.reportsPaths=$(System.DefaultWorkingDirectory)/out/tests/*.trx      
 
     - task: DotNetCoreCLI@2
       displayName: 'Perform dotnet build'
@@ -302,6 +348,15 @@ jobs:
       condition: succeeded()
       continueOnError: true
 
+    - ${{ if eq(parameters.sonarCloud, 'true') }}:
+      - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+        displayName: 'Run Code Analysis'
+        condition: succeeded()
+    
+      - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
+        displayName: 'Publish Quality Gate Result'
+        condition: succeeded()
+  
   - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
     - task: PowerShell@2
       inputs:

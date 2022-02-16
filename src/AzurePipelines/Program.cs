@@ -1,6 +1,7 @@
 ﻿/*
-    Carpenter
-    A cross-platform dotnet (.NET) build process helper.
+    Carpenter.AzurePipelines
+
+    Common YAML templates and scripts for Azure Pipelines definitions.
 
 
     Copyright © 2015-2019 Suent Networks, All rights reserved.

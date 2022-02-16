@@ -1,5 +1,5 @@
-# carpenter-default.yml
-# The default Carpenter Azure Pipelines pipeline.
+# azure-pipelines.yml
+# The continuous integration pipeline for the Carpenter Azure Pipelines project.
 
 #    Copyright © 2015-2022 Suent Networks, All rights reserved.
 #
@@ -124,10 +124,37 @@ parameters:
   type: boolean
   default: false
 
+  
+  # BUILD
+  # For more information:
+  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build.md
+
   # Perform dotnet build
 - name: buildDotNet
   type: boolean
   default: false
+
+
+  # SONARCLOUD ANALYSIS
+  # For more information:
+  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
+
+  # Perform Sonar alaysis using SonarCloud
+- name: sonarCloud
+  type: boolean
+  default: false
+
+  # The SonarCloud organization this project is under.
+- name: sonarCloudOrganization
+  type: string
+
+  # The SonarCloud project key.
+- name: sonarCloudProjectKey
+  type: string
+
+  # The SonarCloud service connection to use.
+- name: sonarCloudServiceConnection
+  type: string
 
 
 stages:
@@ -147,3 +174,7 @@ stages:
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
     incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
     buildDotNet: ${{ parameters.buildDotNet }}
+    sonarCloud: ${{ parameters.sonarCloud }}
+    sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
+    sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
+    sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}

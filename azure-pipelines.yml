@@ -54,6 +54,14 @@ parameters:
 name: $(Build.BuildId)
 
 
+# Configure trigger and pr
+trigger:
+  batch: false
+
+pr:
+  autoCancel: true
+
+
 # Infrastructure variables
 variables:
 - group: Infrastructure
@@ -126,5 +134,27 @@ stages:
     # Increment the VERSION file on release and check into source control.
     incrementVersionOnRelease: true
 
+
+    # BUILD
+    # For more information:
+    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build.md
+
     # Perform dotnet build
     buildDotNet: true
+
+    
+    # SONARCLOUD ANALYSIS
+    # For more information:
+    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
+
+    # Perform Sonar alaysis using SonarCloud
+    sonarCloud: true
+
+    # The SonarCloud organization this project is under.
+    sonarCloudOrganization: suent
+
+    # The SonarCloud project key.
+    sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
+
+    # The SonarCloud service connection to use.
+    sonarCloudServiceConnection: SonarCloudAnalysis1
