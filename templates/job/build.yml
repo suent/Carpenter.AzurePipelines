@@ -200,7 +200,7 @@ jobs:
 
   - ${{ if eq(parameters.sonarCloud, 'true') }}:
     - name: Carpenter.SonarCloud.Organization
-      value: ${{ parameters.sonarCloudOrganization }
+      value: ${{ parameters.sonarCloudOrganization }}
 
     - name: Carpenter.SonarCloud.ProjectKey
       value: ${{ parameters.sonarCloudProjectKey }}
