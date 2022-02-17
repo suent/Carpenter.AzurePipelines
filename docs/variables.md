@@ -4,6 +4,7 @@
   * [Carpenter.Pipeline](#carpenterpipeline)
   * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
   * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
+  * [Carpenter.DotNet.Path](#carpenterdotnetpath)
 
 # Carpenter.AzurePipelines Variables
 
@@ -26,11 +27,16 @@ scripts and tools to be available to the pipeline. Defaults to true.
 
 ### Carpenter.Pipeline.Path
 
-The path to the pipeline supporting files. This value is determined during the build.
+The path to the pipeline supporting files. This value is determined during the pipeline execution.
 
 ### Carpenter.Pipeline.ScriptPath
 
-The path to Carpenter pipeline scripts. This value is determined during the build.
+The path to Carpenter pipeline scripts. This value is determined during the pipeline execution.
+
+### Carpenter.DotNet.Path
+
+The path to .NET binaries. This value is determined during the pipeline execution. If the .NET
+binaries do not exist, they will be downloaded to this path.
 
 ### Carpenter.Build.Type
 
