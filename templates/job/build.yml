@@ -239,7 +239,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/InitializePipeline.ps1
+      filePath: $(Carpenter.Pipeline.ScriptPath)/InitializePipeline.ps1
       arguments: -Verbose
     displayName: Initialize pipeline
     name: initializePipeline
@@ -248,7 +248,7 @@ jobs:
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'
-        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/InitializeBuildVersion.ps1
+        filePath: $(Carpenter.Pipeline.ScriptPath)/InitializeBuildVersion.ps1
         arguments: -Verbose
       displayName: Initialize versioning
       name: initializeBuildVersion
@@ -366,7 +366,7 @@ jobs:
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'
-        filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/IncrementVersion.ps1
+        filePath: $(Carpenter.Pipeline.ScriptPath)/IncrementVersion.ps1
         arguments: -Verbose
       displayName: Update project version
       env:
