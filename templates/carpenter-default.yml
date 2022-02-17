@@ -1,4 +1,4 @@
-#    Carpenter.AzurePipeline
+#    Carpenter.AzurePipelines
 #
 #    Common YAML templates and scripts for Azure Pipelines definitions.
 #
@@ -29,16 +29,18 @@
 parameters:
   # The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
   # A breaking change could implement new functionality under an incremented version number, and move
-  # dependent pipelines over separately. Defaults to pipelineVersion 1. To ensure that future changes
-  # to the pipeline do not break build which extend this template, it is recommended that this parameter
-  # is passed to the template.
+  # dependent pipelines over separately. Defaults to 1. To ensure that future changes to the pipeline
+  # do not break build which extend this template, it is recommended that this parameter is passed to
+  # the template.
   # For more information:
   # https://github.com/suent/carpenter-azure-pipelines/blob/main/docs/pipeline-versioning.md
 - name: pipelineVersion
   type: number
   default: 1
 
-  # Should the pipeline be included in the sources directory.
+  # If true, the pipeline will be included in the sources directory. When directly linking the pipeline
+  # template through a repository resource, includePipeline must be true to download the Carpenter
+  # scripts and tools to be available to the pipeline.
 - name: includePipeline
   type: boolean
   default: true

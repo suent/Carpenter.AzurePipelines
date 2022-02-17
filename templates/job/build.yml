@@ -1,4 +1,4 @@
-#    Carpenter.AzurePipeline
+#    Carpenter.AzurePipelines
 #
 #    Common YAML templates and scripts for Azure Pipelines definitions.
 #
@@ -133,9 +133,6 @@ jobs:
   - name: Carpenter.PipelineVersion
     value: ${{ parameters.pipelineVersion }}
 
-  - name: Carpenter.Project
-    value: ${{ parameters.project }}
-
   - ${{ if eq(parameters.includePipeline,'true') }}:
     - name: Carpenter.Pipeline
       value: true
@@ -151,9 +148,15 @@ jobs:
     - name: Carpenter.Project.Path
       value: s
 
+  - name: Carpenter.Pipeline.ScriptPath
+    value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', variables['Carpenter.Pipeline.Path'], "scripts" ]
+
   - ${{ if eq(variables['Build.Reason'],'Manual') }}:
     - name: Carpenter.Build.Type
       value: ${{ parameters.buildType }}
+
+  - name: Carpenter.Project
+    value: ${{ parameters.project }}
 
   - name: Carpenter.Pool.Default.Type
     value: ${{ parameters.defaultPoolType }}
@@ -229,7 +232,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: $(Agent.BuildDirectory)/$(Carpenter.Pipeline.Path)/scripts/ValidatePipeline.ps1
+      filePath: $(Carpenter.Pipeline.ScriptPath)/ValidatePipeline.ps1
       arguments: -Verbose
     displayName: Validate pipeline
 

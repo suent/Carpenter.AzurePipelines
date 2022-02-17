@@ -1,6 +1,8 @@
 [Carpenter.AzurePipelines Variables](#carpenterazurepipelines-variables)
 * [Pipeline variables](#pipeline-variables)
   * [Carpenter.PipelineVersion](#carpenterpipelineversion)
+  * [Carpenter.Pipeline](#carpenterpipeline)
+  * [Carpenter.PipelinePath](#carpenterpipelinepath)
 
 # Carpenter.AzurePipelines Variables
 
@@ -10,19 +12,44 @@
 
 The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
 A breaking change could implement new functionality under an incremented version number, and move
-dependent pipelines over separately. Defaults to pipelineVersion 1. To ensure that future changes
-to the pipeline do not break build which extend this template, it is recommended that this parameter
-is passed to the template.
+dependent pipelines over separately. This value is populated through the pipelineVersion parameter.
+Defaults to 1. 
 
 More info: [pipeline-versioning.md](pipeline-versioning.md)
 
+### Carpenter.Pipeline
+
+If true, the pipeline will be included in the sources directory. When directly linking the pipeline
+template through a repository resource, includePipeline must be true to download the Carpenter
+scripts and tools to be available to the pipeline. Defaults to true.
+
+### Carpenter.Pipeline.Path
+
+The path to the pipeline supporting files. This value is determined during the build.
+
+### Carpenter.Pipeline.ScriptPath
+
+The path to Carpenter pipeline scripts. This value is determined during the build.
+
 ### Carpenter.Build.Type
 
-The type of build being executed.
+The type of build being executed. This value gets set automatically during an automated build.
+If a manual build, the value of the buildType parameter is used.
+
+| Build Type | Description                                                                                         |
+|:-----------|:----------------------------------------------------------------------------------------------------|
+| CI         | A Continuous Integration build. The CI build type can be the result of a manual or automated build. |
+| PR         | A Pull Request build. The PR build type is only set during an automated PR build.                   |
+| Prerelease | A prerelease build is the result of a manual build with build type as Prerelease.                   |
+| Release    | A release build is the result of a manual build with build type as Release.                         |
+
+Project versioning and deployment options are dependent on the build type.
 
 ### Carpenter.Project
 
 The project this pipeline belongs to.
+
+### Carpenter.Project.Path
 
 ### Pool Configuration
 
