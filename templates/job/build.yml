@@ -256,7 +256,7 @@ jobs:
   - ${{ if eq(parameters.buildDotNet, 'true') }}:
 
     - task: UseDotNet@2
-      displayName: 'Use .NET Core sdk'
+      displayName: 'Use .NET Core'
       condition: succeeded()
       inputs:
         packageType: sdk
