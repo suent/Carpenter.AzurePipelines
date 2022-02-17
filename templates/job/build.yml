@@ -149,7 +149,7 @@ jobs:
       value: s
 
   - name: Carpenter.Pipeline.ScriptPath
-    value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', variables['Carpenter.Pipeline.Path'], 'scripts' ]
+    value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', variables['Carpenter.Pipeline.Path'], 'scripts') ]
 
   - ${{ if eq(variables['Build.Reason'],'Manual') }}:
     - name: Carpenter.Build.Type
