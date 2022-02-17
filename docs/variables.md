@@ -2,7 +2,8 @@
 * [Pipeline variables](#pipeline-variables)
   * [Carpenter.PipelineVersion](#carpenterpipelineversion)
   * [Carpenter.Pipeline](#carpenterpipeline)
-  * [Carpenter.PipelinePath](#carpenterpipelinepath)
+  * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
+  * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
 
 # Carpenter.AzurePipelines Variables
 
