@@ -30,9 +30,9 @@
 # state where the deployed pipeline does not work and a fix cannot be deployed.
 
 parameters:
-  # The build type if a build is manually run. This value gets overridden by automated builds.
-- name: buildType
-  displayName: 'Build Type'
+  # The build reason if a build is manually run. This value gets overridden by automated builds.
+- name: buildPurpose
+  displayName: 'Build Purpose'
   type: string
   default: CI
   values:
@@ -40,7 +40,7 @@ parameters:
   - Prerelease
   - Release
 
-  # The prerelease label. This value is only used if buildType is Prerelease.
+  # The prerelease label. This value is only used if buildPurpose is Prerelease.
 - name: prereleaseLabel
   displayName: 'Prerelease Label'
   type: string
@@ -89,10 +89,10 @@ stages:
     # scripts and tools to be available to the pipeline.
     includePipeline: false
 
-    # The build type if a build is manually run. This value gets overridden by automated builds.
-    buildType: ${{ parameters.buildType }}
+    # The purpose of the build if a build is manually run. This value gets overridden by automated builds.
+    buildPurpose: ${{ parameters.buildPurpose }}
 
-    # The project this pipeline belongs to.
+    # The name of the project.
     project: Carpenter.AzurePipelines
 
 
@@ -132,7 +132,7 @@ stages:
     # The starting value of the revision counter.
     revisionOffset: 258
 
-    # The prerelease label. This value is only used if buildType is Prerelease.
+    # The prerelease label. This value is only used if buildPurpose is Prerelease.
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
     # Increment the VERSION file on release and check into source control.

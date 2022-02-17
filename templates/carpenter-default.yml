@@ -45,8 +45,8 @@ parameters:
   type: boolean
   default: true
   
-  # The build type if a build is manually run. This value gets overridden by automated builds.
-- name: buildType
+  # The purpose of the build if a build is manually run. This value gets overridden by automated builds.
+- name: buildPurpose
   type: string
   default: CI
   values:
@@ -54,7 +54,7 @@ parameters:
   - Prerelease
   - Release
 
-  # The project this pipeline belongs to.
+  # The name of the project.
 - name: project
   type: string
   default: $(Build.DefinitionName)
@@ -114,7 +114,7 @@ parameters:
   type: string
   default: 1
 
-  # The prerelease label. This value is only used if buildType is Prerelease.
+  # The prerelease label. This value is only used if buildPurpose is Prerelease.
 - name: prereleaseLabel
   type: string
   default: alpha
@@ -166,7 +166,7 @@ stages:
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
     includePipeline: ${{ parameters.includePipeline }}
-    buildType: ${{ parameters.buildType }}
+    buildPurpose: ${{ parameters.buildPurpose }}
     project: ${{ parameters.project }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
     defaultPoolName: ${{ parameters.defaultPoolName }}

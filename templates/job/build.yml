@@ -36,7 +36,7 @@ parameters:
   type: boolean
 
   # See template/carpenter-default.yml
-- name: buildType
+- name: buildPurpose
   type: string
 
   # See template/carpenter-default.yml
@@ -155,8 +155,8 @@ jobs:
     value: $[ format('{0}/{1}', '$(Agent.ToolsDirectory)', 'dotnet')]
 
   - ${{ if eq(variables['Build.Reason'],'Manual') }}:
-    - name: Carpenter.Build.Type
-      value: ${{ parameters.buildType }}
+    - name: Carpenter.Build.Purpose
+      value: ${{ parameters.buildPurpose }}
 
   - name: Carpenter.Project
     value: ${{ parameters.project }}
@@ -191,15 +191,15 @@ jobs:
     - name: Carpenter.Version.RevisionOffset
       value: ${{ parameters.revisionOffset }}
 
-    - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'CI'))) }}:
+    - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildPurpose'],'CI'))) }}:
       - name: Carpenter.ContinuousIntegration.Date
         value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
 
-    - ${{ if eq(parameters['buildType'],'Prerelease')}}:
+    - ${{ if eq(parameters['buildPurpose'],'Prerelease')}}:
       - name: Carpenter.Prerelease.Label
         value: ${{ parameters.prereleaseLabel }}
 
-    - ${{ if eq(parameters['buildType'],'Release')}}:
+    - ${{ if eq(parameters['buildPurpose'],'Release')}}:
       - name: Carpenter.Version.IncrementOnRelease
         value: ${{ parameters.incrementVersionOnRelease }}
 
@@ -365,7 +365,7 @@ jobs:
         displayName: 'Publish analysis: SonarCloud'
         condition: succeeded()
   
-  - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildType, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
+  - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildPurpose, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'

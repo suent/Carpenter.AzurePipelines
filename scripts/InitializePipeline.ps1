@@ -13,7 +13,7 @@ param(
 	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
 	[string] $DotNetPath = $env:CARPENTER_DOTNET_PATH,
 	[string] $BuildReason = $env:BUILD_REASON,
-	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
+	[string] $BuildPurpose = $env:CARPENTER_BUILD_PURPOSE,
 	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $PipelineBot = $env:CARPENTER_PIPELINE_BOT,
 	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
@@ -37,24 +37,24 @@ $pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -O
 $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 $dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value $DotNetPath
 
-If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildType -eq "CI"))) {
-	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "CI"
+If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildPurpose -eq "CI"))) {
+	$buildPurpose = Set-CarpenterVariable -VariableName "Carpenter.Build.Purpose" -OutputVariableName "buildPurpose" -Value "CI"
 } 
 ElseIf ($BuildReason -eq "PullRequest") {
-	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "PR"
+	$buildPurpose = Set-CarpenterVariable -VariableName "Carpenter.Build.Purpose" -OutputVariableName "buildPurpose" -Value "PR"
 }
-ElseIf (($BuildReason -eq "Manual") -and ($BuildType -eq "Prerelease")) {
-	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "Prerelease"
+ElseIf (($BuildReason -eq "Manual") -and ($BuildPurpose -eq "Prerelease")) {
+	$buildPurpose = Set-CarpenterVariable -VariableName "Carpenter.Build.Purpose" -OutputVariableName "buildPurpose" -Value "Prerelease"
 }
-ElseIf (($BuildReason -eq "Manual") -and ($BuildType -eq "Release")) {
-	$buildType = Set-CarpenterVariable -VariableName "Carpenter.Build.Type" -OutputVariableName "buildType" -Value "Release"
+ElseIf (($BuildReason -eq "Manual") -and ($BuildPurpose -eq "Release")) {
+	$buildPurpose = Set-CarpenterVariable -VariableName "Carpenter.Build.Purpose" -OutputVariableName "buildPurpose" -Value "Release"
 }
 Else {
-	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, BuildType=$BuildType"
+	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, BuildPurpose=$BuildPurpose"
 }
 
-# Add buildType as tag
-Write-Host "##vso[build.addbuildtag]BuildType-$buildType"
+# Add build purpose as tag
+Write-Host "##vso[build.addbuildtag]Build-$buildPurpose"
 
 $project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $Project
 $projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value $ProjectPath

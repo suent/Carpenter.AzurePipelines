@@ -9,7 +9,7 @@
 param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
-	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
+	[string] $BuildPurpose = $env:CARPENTER_BUILD_PURPOSE,
 	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
@@ -32,14 +32,14 @@ if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVe
 	Write-PipelineError "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
 }
 
-Write-Verbose "Validating buildType"
+Write-Verbose "Validating buildPurpose"
 if ($BuildReason -eq "Manual") {
-	if (($BuildType -ne "CI") -and ($BuildType -ne "Prerelease") -and ($BuildType -ne "Release")) {
-		Write-PipelineError "Unrecognized buildType parameter '$BuildType'."
+	if (($BuildPurpose -ne "CI") -and ($BuildPurpose -ne "Prerelease") -and ($BuildPurpose -ne "Release")) {
+		Write-PipelineError "Unrecognized buildPurpose parameter '$BuildPurpose'."
 	}
 } else {
-	if ($BuildType -ne "") {
-		Write-PipelineWarning "The buildType parameter '$BuildType' is being ignored because Build.Reason is not Manual."
+	if ($BuildPurpose -ne "") {
+		Write-PipelineWarning "The buildPurpose parameter '$BuildPurpose' is being ignored because Build.Reason is not Manual."
 	}
 }
 
@@ -110,13 +110,13 @@ if ($VersionType -ne "None") {
 	}
 
 	Write-Verbose "Validating prereleaseLabel"
-	if ($BuildType -eq "Prerelease") {
+	if ($BuildPurpose -eq "Prerelease") {
 		if (-Not ($PrereleaseLabel)) {
 			Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
 		}
 	} else {
 		if ($PrereleaseLabel) {
-			Write-Warning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildType is not Prerelease."
+			Write-Warning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildPurpose is not Prerelease."
 		}
 	}
 }

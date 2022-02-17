@@ -48,8 +48,8 @@ variables:
 - name: Carpenter.DotNet.Path
   value: $[ dependencies.build.outputs['initializePipeline.dotNetPath'] ]
 
-- name: Carpenter.Build.Type
-  value: $[ dependencies.build.outputs['initializePipeline.buildType'] ]
+- name: Carpenter.Build.Purpose
+  value: $[ dependencies.build.outputs['initializePipeline.buildPurpose'] ]
 
 - name: Carpenter.Project
   value: $[ dependencies.build.outputs['initializePipeline.project'] ]

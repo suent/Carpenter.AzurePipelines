@@ -28,7 +28,7 @@
 
 parameters:
   # See template/carpenter-default.yml
-- name: buildType
+- name: buildPurpose
   type: string
 
   # See template/carpenter-default.yml
@@ -67,7 +67,7 @@ variables:
   - name: Carpenter.Version.Revision
     value:  $[ dependencies.build.outputs['initializeBuildVersion.revision'] ]
 
-  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildType'],'CI'))) }}:
+  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildPurpose'],'CI'))) }}:
     - name: Carpenter.ContinuousIntegration.Date
       value: $[ dependencies.build.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
 
@@ -78,14 +78,14 @@ variables:
     - name: Carpenter.PullRequest.Revision
       value: $[ dependencies.build.outputs['initializeBuildVersion.pullRequestRevision'] ]
 
-  - ${{ if eq(parameters['buildType'],'Prerelease')}}:
+  - ${{ if eq(parameters['buildPurpose'],'Prerelease')}}:
     - name: Carpenter.Prerelease.Label
       value: $[ dependencies.build.outputs['initializeBuildVersion.prereleaseLabel'] ]
   
     - name: Carpenter.Prerelease.Revision
       value: $[ dependencies.build.outputs['finalizeBuildVersion.prereleaseRevision'] ]
 
-  - ${{ if eq(parameters['buildType'],'Release')}}:
+  - ${{ if eq(parameters['buildPurpose'],'Release')}}:
     - name: Carpenter.Version.IncrementOnRelease
       value: $[ dependencies.build.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
 

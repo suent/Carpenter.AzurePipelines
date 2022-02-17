@@ -36,7 +36,7 @@ parameters:
   type: boolean
 
   # See template/carpenter-default.yml
-- name: buildType
+- name: buildPurpose
   type: string
 
   # See template/carpenter-default.yml
@@ -106,37 +106,10 @@ stages:
   displayName: Developer
 
   jobs:
-  #- template: ../job/initialize-pipeline.yml
-  #  parameters:
-  #    pipelineVersion: ${{ parameters.pipelineVersion }}
-  #    includePipeline: ${{ parameters.includePipeline }}
-  #    buildType: ${{ parameters.buildType }}
-  #    project: ${{ parameters.project }}
-  #    defaultPoolType: ${{ parameters.defaultPoolType }}
-  #    defaultPoolName: ${{ parameters.defaultPoolName }}
-  #    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-  #    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-  #    versionType: ${{ parameters.versionType }}
-  #    versionFile: ${{ parameters.versionFile }}
-  #    revisionOffset: ${{ parameters.revisionOffset }}
-  #    prereleaseLabel: ${{ parameters.prereleaseLabel }}
-  #   incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-
-  #- template: ../job/finalize-pipeline.yml
-  #  parameters:
-  #    buildType: ${{ parameters.buildType }}
-  #    includePipeline: ${{ parameters.includePipeline }}
-  #    defaultPoolType: ${{ parameters.defaultPoolType }}
-  #    defaultPoolName: ${{ parameters.defaultPoolName }}
-  #    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-  #    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-  #    versionType: ${{ parameters.versionType }}
-  #    incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-
   - template: ../job/build.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      buildType: ${{ parameters.buildType }}
+      buildPurpose: ${{ parameters.buildPurpose }}
       includePipeline: ${{ parameters.includePipeline }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
