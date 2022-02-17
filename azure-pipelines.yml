@@ -89,7 +89,6 @@ stages:
     # scripts and tools to be available to the pipeline.
     includePipeline: false
 
-
     # The build type if a build is manually run. This value gets overridden by automated builds.
     buildType: ${{ parameters.buildType }}
 

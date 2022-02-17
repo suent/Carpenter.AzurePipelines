@@ -137,19 +137,19 @@ jobs:
     - name: Carpenter.Pipeline
       value: true
     - name: Carpenter.Pipeline.Path
-      value: s/Carpenter.AzurePipelines
+      value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', 'Carpenter.AzurePipelines') ]
     - name: Carpenter.Project.Path
-      value: $[ format('{0}/{1}', 's', variables['Build.DefinitionName']) ]
+      value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', variables['Build.DefinitionName']) ]
   - ${{ if ne(parameters.includePipeline,'true') }}:
     - name: Carpenter.Pipeline
       value: false
     - name: Carpenter.Pipeline.Path
-      value: s
+      value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
     - name: Carpenter.Project.Path
-      value: s
+      value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
 
   - name: Carpenter.Pipeline.ScriptPath
-    value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', variables['Carpenter.Pipeline.Path'], 'scripts') ]
+    value: $[ format('{0}/{1}', variables['Carpenter.Pipeline.Path'], 'scripts') ]
 
   - ${{ if eq(variables['Build.Reason'],'Manual') }}:
     - name: Carpenter.Build.Type
