@@ -1,6 +1,8 @@
-# azure-pipelines.yml
-# The continuous integration pipeline for the Carpenter Azure Pipelines project.
-
+#    Carpenter.AzurePipelines
+#
+#    Common YAML templates and scripts for Azure Pipelines definitions.
+#
+#
 #    Copyright © 2015-2022 Suent Networks, All rights reserved.
 #
 #    Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,24 +27,18 @@
 
 
 parameters:
-  # The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
-  # A breaking change could implement new functionality under an incremented version number, and move
-  # dependent pipelines over separately. Defaults to pipelineVersion 1. To ensure that future changes
-  # to the pipeline do not break build which extend this template, it is recommended that this parameter
-  # is passed to the template.
-  # For more information:
-  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/pipeline-versioning.md
+
+  # See docs/parameters.md for parameter documentation.
+
 - name: pipelineVersion
   type: number
   default: 1
 
-  # Should the pipeline be included in the sources directory.
 - name: includePipeline
   type: boolean
   default: true
-  
-  # The build type if a build is manually run. This value gets overridden by automated builds.
-- name: buildType
+
+- name: buildPurpose
   type: string
   default: CI
   values:
@@ -50,19 +46,10 @@ parameters:
   - Prerelease
   - Release
 
-  # The project this pipeline belongs to.
 - name: project
   type: string
   default: $(Build.DefinitionName)
 
-
-  # CONFIGURE POOL
-  # For more information:
-  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/configure-pool.md
-
-  # The default pool type to use for jobs.
-  # 'Hosted' - Microsoft Hosted Pool (Default)
-  # 'Private' - Private Pool
 - name: defaultPoolType
   type: string
   default: Hosted
@@ -70,29 +57,18 @@ parameters:
   - Hosted
   - Private
 
-  # The pool name to use when using Private pool type. Defaults to 'Default'.
 - name: defaultPoolName
   type: string
   default: Default
 
-  # The demands for the agent when using a Private pool type.
 - name: defaultPoolDemands
   type: object
   default: {}
 
-  # The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
 - name: defaultPoolVMImage
   type: string
   default: 'ubuntu-latest'
 
-
-  # BUILD VERSIONING
-  # For more information:
-  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build-versioning.md
-
-  # The type of build versioning to use.
-  # None - No build versioning (Default)
-  # SemVer - Semantic Versioning 2.0.0
 - name: versionType
   type: string
   default: None
@@ -100,17 +76,14 @@ parameters:
   - None
   - SemVer
 
-  # The path to the VERSION file.
 - name: versionFile
   type: string
   default: VERSION
 
-  # The starting value of the revision counter.
 - name: revisionOffset
   type: string
   default: 1
 
-  # The prerelease label. This value is only used if buildType is Prerelease.
 - name: prereleaseLabel
   type: string
   default: alpha
@@ -119,40 +92,28 @@ parameters:
   - beta
   - RC
 
-  # Increment the VERSION file on release and check into source control.
 - name: incrementVersionOnRelease
   type: boolean
   default: false
 
-  
-  # BUILD
-  # For more information:
-  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build.md
-
-  # Perform dotnet build
 - name: buildDotNet
   type: boolean
   default: false
 
+- name: executeUnitTests
+  type: boolean
+  default: false
 
-  # SONARCLOUD ANALYSIS
-  # For more information:
-  # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
-
-  # Perform Sonar alaysis using SonarCloud
 - name: sonarCloud
   type: boolean
   default: false
 
-  # The SonarCloud organization this project is under.
 - name: sonarCloudOrganization
   type: string
 
-  # The SonarCloud project key.
 - name: sonarCloudProjectKey
   type: string
 
-  # The SonarCloud service connection to use.
 - name: sonarCloudServiceConnection
   type: string
 
@@ -162,7 +123,7 @@ stages:
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
     includePipeline: ${{ parameters.includePipeline }}
-    buildType: ${{ parameters.buildType }}
+    buildPurpose: ${{ parameters.buildPurpose }}
     project: ${{ parameters.project }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -174,6 +135,7 @@ stages:
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
     incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
     buildDotNet: ${{ parameters.buildDotNet }}
+    executeUnitTests: ${{ parameters.executeUnitTests }}
     sonarCloud: ${{ parameters.sonarCloud }}
     sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
     sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}

@@ -8,11 +8,11 @@ The following parameters are used to configure the pool.
 
 ### defaultPoolType
 
-The default pool type to use for jobs. Possible values are `Private` or `Hosted`.
+The default pool type to use for jobs. Possible values are **Private** or **Hosted**.
 
 ### defaultPoolName
 
-The pool name to use when using Private pool type. Defaults to `Default`.
+The pool name to use when using Private pool type.
 
 ### defaultPoolDemands
 
@@ -23,7 +23,7 @@ https://docs.microsoft.com/en-us/azure/devops/pipelines/process/demands?view=azu
 
 ### defaultPoolVMImage
 
-The VM Image to use when using Hosted pool type. Defaults to `ubuntu-latest`.
+The VM Image to use when using Hosted pool type.
 
 ## Examples
 

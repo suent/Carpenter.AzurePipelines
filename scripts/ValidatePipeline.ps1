@@ -9,7 +9,7 @@
 param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
-	[string] $BuildType = $env:CARPENTER_BUILD_TYPE,
+	[string] $BuildPurpose = $env:CARPENTER_BUILD_PURPOSE,
 	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
@@ -18,7 +18,13 @@ param(
 	[string] $versionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $versionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
-	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL
+	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
+	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
+	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT,
+	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
+	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
+	[string] $SonarCloudProjectKey = $env:CARPENTER_SONARCLOUD_PROJECTKEY,
+	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -32,14 +38,14 @@ if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVe
 	Write-PipelineError "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
 }
 
-Write-Verbose "Validating buildType"
+Write-Verbose "Validating buildPurpose"
 if ($BuildReason -eq "Manual") {
-	if (($BuildType -ne "CI") -and ($BuildType -ne "Prerelease") -and ($BuildType -ne "Release")) {
-		Write-PipelineError "Unrecognized buildType parameter '$BuildType'."
+	if (($BuildPurpose -ne "CI") -and ($BuildPurpose -ne "Prerelease") -and ($BuildPurpose -ne "Release")) {
+		Write-PipelineError "Unrecognized buildPurpose parameter '$BuildPurpose'."
 	}
 } else {
-	if ($BuildType -ne "") {
-		Write-PipelineWarning "The buildType parameter '$BuildType' is being ignored because Build.Reason is not Manual."
+	if ($BuildPurpose -ne "") {
+		Write-PipelineWarning "The buildPurpose parameter '$BuildPurpose' is being ignored because Build.Reason is not Manual."
 	}
 }
 
@@ -63,7 +69,7 @@ if ($DefaultPoolType -eq "Private") {
 	}
 } else {
 	if ($DefaultPoolName) {
-		Write-Warning "The defaultPoolName parameter '$DefaultPoolName' is being ignored because defaultPoolType is not Private."
+		Write-PipelineWarning "The defaultPoolName parameter '$DefaultPoolName' is being ignored because defaultPoolType is not Private."
 	}
 }
 
@@ -74,7 +80,7 @@ if ($DefaultPoolType -eq "Private") {
 	}
 } else {
 	if ($DefaultPoolDemands) {
-		Write-Warning "The defaultPoolDemands parameter '$DefaultPoolDemands' is being ignored because defaultPoolType is not Private."
+		Write-PipelineWarning "The defaultPoolDemands parameter '$DefaultPoolDemands' is being ignored because defaultPoolType is not Private."
 	}
 }
 
@@ -85,7 +91,7 @@ if ($DefaultPoolType -eq "Hosted") {
 	}
 } else {
 	if ($DefaultPoolVMImage) {
-		Write-Warning "The defaultPoolVMImage parameter '$DefaultPoolVMImage' is being ignored because defaultPoolType is not Hosted."
+		Write-PipelineWarning "The defaultPoolVMImage parameter '$DefaultPoolVMImage' is being ignored because defaultPoolType is not Hosted."
 	}
 }
 
@@ -110,13 +116,35 @@ if ($VersionType -ne "None") {
 	}
 
 	Write-Verbose "Validating prereleaseLabel"
-	if ($BuildType -eq "Prerelease") {
+	if ($BuildPurpose -eq "Prerelease") {
 		if (-Not ($PrereleaseLabel)) {
 			Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
 		}
 	} else {
 		if ($PrereleaseLabel) {
-			Write-Warning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildType is not Prerelease."
+			Write-PipelineWarning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildPurpose is not Prerelease."
 		}
+	}
+}
+
+Write-Verbose "Validating executeUnitTests"
+if (($ExecuteUnitTests -eq "true") -and ($BuildDotNet -ne "true")) {
+	Write-PipelineWarning "The executeUnitTests parameter is being ignored because buildDotNet is not true."
+}
+
+if ($SonarCloud -eq "true") {
+	Write-Verbose "Validating sonarCloudOrganization"
+	if (-Not ($SonarCloudOrganization)) {
+		Write-PipelineError "The sonarCloudOrganization parameter is required when sonarCloud is true."
+	}
+
+	Write-Verbose "Validating sonarCloudProjectKey"
+	if (-Not ($SonarCloudProjectKey)) {
+		Write-PipelineError "The sonarCloudProjectKey parameter is required when sonarCloud is true."
+	}
+
+	Write-Verbose "Validating sonarCloudServiceConnection"
+	if (-Not ($SonarCloudServiceConnection)) {
+		Write-PipelineError "The sonarCloudServiceConnection parameter is required when sonarCloud is true."
 	}
 }
