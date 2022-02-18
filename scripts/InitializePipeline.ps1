@@ -22,7 +22,9 @@ param(
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
-	[string] $VersionType = $env:CARPENTER_VERSION_TYPE
+	[string] $VersionType = $env:CARPENTER_VERSION_TYPE,
+	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
+	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -69,3 +71,7 @@ if ($defaultPoolType -eq "Hosted") {
 }
 
 $versionType = Set-CarpenterVariable -VariableName "Carpenter.Version.Type" -OutputVariableName "versionType" -Value $VersionType
+
+$buildDotNet = Set-CarpenterVariable -VariableName "Carpenter.Build.DotNet" -OutputVariableName "buildDotNet" -Value $BuildDotNet
+
+$executeUnitTests = Set-CarpenterVariable -VariableName "Carpenter.Test.Unit" -OutputVariableName "executeUnitTests" -Value $ExecuteUnitTests

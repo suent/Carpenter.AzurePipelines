@@ -5,7 +5,7 @@
   * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
   * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
   * [Carpenter.DotNet.Path](#carpenterdotnetpath)
-* [Build variables](#build-variables)
+* [General Build variables](#general-build-variables)
   * [Carpenter.Build.Purpose](#carpenterbuildpurpose)
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
@@ -37,6 +37,11 @@
   * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
   * [Carpenter.PipelineBot.Name](#carpenterpipelinebotname)
   * [PipelineBot-GitHub-PAT](#pipelinebot-github-pat)
+* [.NET Build](#net-build)
+  * [Carpenter.Build.DotNet](#carpenterbuilddotnet)
+* [Test Execution](#test-execution)
+* [SonarCloud Analysis](#sonarcloud-analysis)
+  * [Carpenter.SonarCloud](#carpentersonarcloud)
 
 # Carpenter.AzurePipelines Variables
 
@@ -49,7 +54,7 @@ A breaking change could implement new functionality under an incremented version
 dependent pipelines over separately. This value is set by the `pipelineVersion` parameter. The
 default value is **1**. 
 
-More info: [pipeline-versioning.md](pipeline-versioning.md)
+For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
 
 ### Carpenter.Pipeline
 
@@ -70,19 +75,19 @@ The path to Carpenter pipeline scripts. This value is determined during the pipe
 The path to .NET binaries. This value is determined during the pipeline execution. If the .NET
 binaries do not exist, they will be downloaded to this path.
 
-## Build variables
+## General Build variables
 
 ### Carpenter.Build.Purpose
 
 The purpose of the build. This value gets set automatically during an automated build. If a manual
 build, the value of the `buildReason` parameter is used.
 
-| Build Type | Description                                                                                         |
-|:-----------|:----------------------------------------------------------------------------------------------------|
-| CI         | A Continuous Integration build. CI can be the result of a manual or automated build.                |
-| PR         | A Pull Request build. The PR build reason is only set during an automated PR build.                 |
-| Prerelease | A prerelease build is the result of a manual build with build reason as Prerelease.                 |
-| Release    | A release build is the result of a manual build with build reason as Release.                       |
+| Build Reason | Description                                                                                         |
+|:-------------|:----------------------------------------------------------------------------------------------------|
+| CI           | A Continuous Integration build. CI can be the result of a manual or automated build.                |
+| PR           | A Pull Request build. The PR build reason is only set during an automated PR build.                 |
+| Prerelease   | A prerelease build is the result of a manual build with build reason as Prerelease.                 |
+| Release      | A release build is the result of a manual build with build reason as Release.                       |
 
 Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
 is **CI**.
@@ -227,3 +232,38 @@ either directly through the YAML or through a Variable group.
 
 The GitHub personal access token for the pipeline bot. This value should be supplied to
 the pipeline as a secret variable through a Variable group or through an Azure key vault.
+
+### .NET Build
+
+#### Carpenter.Build.DotNet
+
+If true, a dotnet build process is executed. This value is set by the `buildDotNet` parameter.
+The default value is **false**.
+
+### Test Execution
+
+#### Carpenter.Test.Unit
+
+If true, unit tests are executed during the pipeline. This value is set by the
+`executeUnitTests` parameter. The default valuer is **false**.
+
+### SonarCloud Analysis
+
+#### Carpenter.SonarCloud
+
+If true, SonarCloud analysis is executed. This value is set by the `sonarCloud` parameter.
+The default value is **false**.
+
+### Carpenter.SonarCloud.Organization
+
+The SonarCloud organization this project is under. This value is set by the
+`sonarCloudOrganization` parameter.
+
+### Carpenter.SonarCloud.ProjectKey
+
+The SonarCloud project key. This value is set by the `sonarCloudProjectKey` parameter.
+
+### Carpenter.SonarCloud.ServiceConnection
+
+The SonarCloud service connection to use. This value is set by the `sonarCloudServiceConnection`
+parameter.

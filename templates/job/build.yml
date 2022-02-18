@@ -27,23 +27,21 @@
 
 
 parameters:
-  # See template/carpenter-default.yml
+
+  # See docs/parameters.md for parameter documentation.
+
 - name: pipelineVersion
   type: number
 
-  # See template/carpenter-default.yml
 - name: includePipeline
   type: boolean
 
-  # See template/carpenter-default.yml
 - name: buildPurpose
   type: string
 
-  # See template/carpenter-default.yml
 - name: project
   type: string
 
-  # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
   default: Hosted
@@ -51,59 +49,49 @@ parameters:
   - Hosted
   - Private
 
-  # See template/carpenter-default.yml
 - name: defaultPoolName
   type: string
   default: Default
 
-  # See template/carpenter-default.yml
 - name: defaultPoolDemands
   type: object
   default: {}
 
-  # See template/carpenter-default.yml
 - name: defaultPoolVMImage
   type: string
   default: 'ubuntu-latest'
     
-  # See template/carpenter-default.yml
 - name: versionType
   type: string
 
-  # See template/carpenter-default.yml
 - name: versionFile
   type: string
 
-  # See template/carpenter-default.yml
 - name: revisionOffset
   type: string
 
-  # See template/carpenter-default.yml
 - name: prereleaseLabel
   type: string
 
-  # See template/carpenter-default.yml
 - name: incrementVersionOnRelease
   type: boolean
 
-  # See template/carpenter-default.yml
 - name: buildDotNet
   type: boolean
 
-  # See template/carpenter-default.yml
+- name: executeUnitTests
+  type: boolean
+
 - name: sonarCloud
   type: boolean
   default: false
 
-  # See template/carpenter-default.yml
 - name: sonarCloudOrganization
   type: string
 
-  # See template/carpenter-default.yml
 - name: sonarCloudProjectKey
   type: string
 
-  # See template/carpenter-default.yml
 - name: sonarCloudServiceConnection
   type: string
 
@@ -112,9 +100,6 @@ jobs:
 - job: build
   displayName: Build
 
-  #dependsOn:
-  #- initializePipeline
-  #- finalizePipeline
 
   pool:
     ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
@@ -203,6 +188,12 @@ jobs:
       - name: Carpenter.Version.IncrementOnRelease
         value: ${{ parameters.incrementVersionOnRelease }}
 
+  - name: Carpenter.Build.DotNet
+    value: ${{ parameters.buildDotNet }}
+
+  - name: Carpenter.Test.Unit
+    value: ${{ parameters.executeUnitTests }}
+
   - name: Carpenter.SonarCloud
     value: ${{ parameters.sonarCloud }}
 
@@ -278,7 +269,7 @@ jobs:
           extraProperties: |
             sonar.cs.opencover.reportsPaths=$(System.DefaultWorkingDirectory)/out/tests/coverage.opencover.xml
             sonar.test.exclusions=**/coverage.*.xml
-            sonar.cs.vstest.reportsPaths=$(System.DefaultWorkingDirectory)/out/tests/*.trx      
+            sonar.cs.vstest.reportsPaths=$(System.DefaultWorkingDirectory)/out/tests/*.trx
 
     - task: DotNetCoreCLI@2
       displayName: 'Build: dotnet'
@@ -314,47 +305,48 @@ jobs:
       artifact: package.nuget
       condition: succeeded()
 
-    - task: DotNetCoreCLI@2
-      displayName: 'Test: L0 unit tests'
-      condition: succeeded()
-      inputs:
-        command: test
-        projects: '$(Carpenter.Project.Path)/$(Carpenter.Project).sln'
-        arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --filter Category=UnitTest --logger trx --results-directory $(System.DefaultWorkingDirectory)/out/tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(System.DefaultWorkingDirectory)/out/tests/ /p:CoverletOutputFormat="cobertura%2copencover"'
-        publishTestResults: false # manually publish later, we want trx results saved to specific location
-        nobuild: true
+    - ${{ if eq(parameters.sonarCloud, 'true') }}:
+      - task: DotNetCoreCLI@2
+        displayName: 'Test: L0 unit tests'
+        condition: succeeded()
+        inputs:
+          command: test
+          projects: '$(Carpenter.Project.Path)/$(Carpenter.Project).sln'
+          arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --filter Category=UnitTest --logger trx --results-directory $(System.DefaultWorkingDirectory)/out/tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(System.DefaultWorkingDirectory)/out/tests/ /p:CoverletOutputFormat="cobertura%2copencover"'
+          publishTestResults: false # manually publish later, we want trx results saved to specific location
+          nobuild: true
 
-    - task: PublishTestResults@2
-      displayName: 'Publish results: L0'
-      condition: succeeded()
-      inputs:
-        testResultsFormat: 'VSTest'
-        testResultsFiles: $(System.DefaultWorkingDirectory)/out/tests/*.trx
-        testRunTitle: '$(Carpenter.Project) L0 - Unit Tests'
-        buildConfiguration: Debug
-        buildPlatform: Any CPU
-        publishRunAttachments: true
+      - task: PublishTestResults@2
+        displayName: 'Publish results: L0'
+        condition: succeeded()
+        inputs:
+          testResultsFormat: 'VSTest'
+          testResultsFiles: $(System.DefaultWorkingDirectory)/out/tests/*.trx
+          testRunTitle: '$(Carpenter.Project) L0 - Unit Tests'
+          buildConfiguration: Debug
+          buildPlatform: Any CPU
+          publishRunAttachments: true
     
-    - script: |
-        dotnet tool install -g dotnet-reportgenerator-globaltool
-        reportgenerator -reports:$(System.DefaultWorkingDirectory)/out/tests/coverage.cobertura.xml -targetdir:$(System.DefaultWorkingDirectory)/out/testCoverage "-reporttypes:Cobertura"
-      displayName: Prepare code coverage
-      condition: succeeded()
-      continueOnError: true
+      - script: |
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+          reportgenerator -reports:$(System.DefaultWorkingDirectory)/out/tests/coverage.cobertura.xml -targetdir:$(System.DefaultWorkingDirectory)/out/testCoverage "-reporttypes:Cobertura"
+        displayName: Prepare code coverage
+        condition: succeeded()
+        continueOnError: true
     
-    - task: PublishCodeCoverageResults@1
-      displayName: 'Publish code coverage'
-      condition: succeeded()
-      continueOnError: true
-      inputs:
-        codeCoverageTool: Cobertura
-        summaryFileLocation: '$(System.DefaultWorkingDirectory)/out/testCoverage/Cobertura.xml'
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish code coverage'
+        condition: succeeded()
+        continueOnError: true
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/out/testCoverage/Cobertura.xml'
 
-    - publish: '$(System.DefaultWorkingDirectory)/out/tests'
-      displayName: 'Publish artifact: testOutput'
-      artifact: testOutput
-      condition: succeeded()
-      continueOnError: true
+      - publish: '$(System.DefaultWorkingDirectory)/out/tests'
+        displayName: 'Publish artifact: tests-L0'
+        artifact: tests-L0
+        condition: succeeded()
+        continueOnError: true
 
     - ${{ if eq(parameters.sonarCloud, 'true') }}:
       - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1

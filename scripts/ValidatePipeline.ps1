@@ -18,7 +18,13 @@ param(
 	[string] $versionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $versionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
-	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL
+	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
+	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
+	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT,
+	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
+	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
+	[string] $SonarCloudProjectKey = $env:CARPENTER_SONARCLOUD_PROJECTKEY,
+	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -63,7 +69,7 @@ if ($DefaultPoolType -eq "Private") {
 	}
 } else {
 	if ($DefaultPoolName) {
-		Write-Warning "The defaultPoolName parameter '$DefaultPoolName' is being ignored because defaultPoolType is not Private."
+		Write-PipelineWarning "The defaultPoolName parameter '$DefaultPoolName' is being ignored because defaultPoolType is not Private."
 	}
 }
 
@@ -74,7 +80,7 @@ if ($DefaultPoolType -eq "Private") {
 	}
 } else {
 	if ($DefaultPoolDemands) {
-		Write-Warning "The defaultPoolDemands parameter '$DefaultPoolDemands' is being ignored because defaultPoolType is not Private."
+		Write-PipelineWarning "The defaultPoolDemands parameter '$DefaultPoolDemands' is being ignored because defaultPoolType is not Private."
 	}
 }
 
@@ -85,7 +91,7 @@ if ($DefaultPoolType -eq "Hosted") {
 	}
 } else {
 	if ($DefaultPoolVMImage) {
-		Write-Warning "The defaultPoolVMImage parameter '$DefaultPoolVMImage' is being ignored because defaultPoolType is not Hosted."
+		Write-PipelineWarning "The defaultPoolVMImage parameter '$DefaultPoolVMImage' is being ignored because defaultPoolType is not Hosted."
 	}
 }
 
@@ -116,7 +122,29 @@ if ($VersionType -ne "None") {
 		}
 	} else {
 		if ($PrereleaseLabel) {
-			Write-Warning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildPurpose is not Prerelease."
+			Write-PipelineWarning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildPurpose is not Prerelease."
 		}
+	}
+}
+
+Write-Verbose "Validating executeUnitTests"
+if (($ExecuteUnitTests -eq "true") -and ($BuildDotNet -ne "true")) {
+	Write-PipelineWarning "The executeUnitTests parameter is being ignored because buildDotNet is not true."
+}
+
+if ($SonarCloud -eq "true") {
+	Write-Verbose "Validating sonarCloudOrganization"
+	if (-Not ($SonarCloudOrganization)) {
+		Write-PipelineError "The sonarCloudOrganization parameter is required when sonarCloud is true."
+	}
+
+	Write-Verbose "Validating sonarCloudProjectKey"
+	if (-Not ($SonarCloudProjectKey)) {
+		Write-PipelineError "The sonarCloudProjectKey parameter is required when sonarCloud is true."
+	}
+
+	Write-Verbose "Validating sonarCloudServiceConnection"
+	if (-Not ($SonarCloudServiceConnection)) {
+		Write-PipelineError "The sonarCloudServiceConnection parameter is required when sonarCloud is true."
 	}
 }

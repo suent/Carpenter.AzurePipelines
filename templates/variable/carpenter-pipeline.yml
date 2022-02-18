@@ -27,15 +27,15 @@
 
 
 parameters:
-  # See template/carpenter-default.yml
+
+  # See docs/parameters.md for parameter documentation.
+
 - name: defaultPoolType
   type: string
 
-  # See template/carpenter-default.yml
 - name: buildPurpose
   type: string
 
-  # See template/carpenter-default.yml
 - name: versionType
   type: string
     
@@ -78,6 +78,25 @@ variables:
   
   - name: Carpenter.Pool.Default.Demands
     value: $[ dependencies.build.outputs['initializePipeline.defaultPoolDemands'] ]
+
+- name: Carpenter.Build.DotNet
+  value: $[ dependencies.build.outputs['initializePipeline.buildDotNet'] ]
+
+- name: Carpenter.Test.Unit
+  value: $[ dependencies.build.outputs['initializePipeline.executeUnitTests'] ]
+
+- name: Carpenter.SonarCloud
+  value: $[ dependencies.build.outputs['initializePipeline.sonarCloud'] ]
+
+- ${{ if eq(parameters.sonarCloud, 'true') }}:
+  - name: Carpenter.SonarCloud.Organization
+    value: $[ dependencies.build.outputs['initializePipeline.sonarCloudOrganization'] ]
+
+  - name: Carpenter.SonarCloud.ProjectKey
+    value: $[ dependencies.build.outputs['initializePipeline.sonarCloudProjectKey'] ]
+     
+  - name: Carpenter.SonarCloud.ServiceConnection
+    value: $[ dependencies.build.outputs['initializePipeline.sonarCloudServiceConnection'] ]
 
 - name: Carpenter.Version.Type
   value: $[ dependencies.build.outputs['initializePipeline.versionType'] ]

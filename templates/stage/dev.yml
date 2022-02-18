@@ -27,76 +27,63 @@
 
 
 parameters:
-  # See template/carpenter-default.yml
+
+  # See docs/parameters.md for parameter documentation.
+
 - name: pipelineVersion
   type: number
 
-  # See template/carpenter-default.yml
 - name: includePipeline
   type: boolean
 
-  # See template/carpenter-default.yml
 - name: buildPurpose
   type: string
 
-  # See template/carpenter-default.yml
 - name: project
   type: string
 
-  # See template/carpenter-default.yml
 - name: defaultPoolType
   type: string
 
-  # See template/carpenter-default.yml
 - name: defaultPoolName
   type: string
 
-  # See template/carpenter-default.yml
 - name: defaultPoolDemands
   type: object
 
-  # See template/carpenter-default.yml
 - name: defaultPoolVMImage
   type: string
 
-  # See template/carpenter-default.yml
 - name: versionType
   type: string
 
-  # See template/carpenter-default.yml
 - name: versionFile
   type: string
 
-  # See template/carpenter-default.yml
 - name: revisionOffset
   type: string
 
-  # See template/carpenter-default.yml
 - name: prereleaseLabel
   type: string
   
-  # See template/carpenter-default.yml
 - name: incrementVersionOnRelease
   type: boolean
 
-  # See template/carpenter-default.yml
 - name: buildDotNet
   type: boolean
 
-  # See template/carpenter-default.yml
+- name: executeUnitTests
+  type: boolean
+
 - name: sonarCloud
   type: boolean
-  default: false
-
-  # See template/carpenter-default.yml
+  
 - name: sonarCloudOrganization
   type: string
 
-  # See template/carpenter-default.yml
 - name: sonarCloudProjectKey
   type: string
 
-  # See template/carpenter-default.yml
 - name: sonarCloudServiceConnection
   type: string
 
@@ -122,6 +109,7 @@ stages:
       prereleaseLabel: ${{ parameters.prereleaseLabel }}
       incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
+      executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
       sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
       sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}

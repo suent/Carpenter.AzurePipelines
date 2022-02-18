@@ -81,91 +81,27 @@ variables:
 stages:
 - template: templates/carpenter-default.yml
   parameters:
-    # The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
-    # A breaking change could implement new functionality under an incremented version number, and move
-    # dependent pipelines over separately. Defaults to 1. To ensure that future changes to the pipeline
-    # do not break build which extend this template, it is recommended that this parameter is passed to
-    # the template.
-    # For more information:
-    # https://github.com/suent/carpenter-azure-pipelines/blob/main/docs/pipeline-versioning.md
-    #
+
+    # See docs/parameters.md for parameter documentation.
+
     pipelineVersion: 1
-
-    # If true, the pipeline will be included in the sources directory. When directly linking the pipeline
-    # template through a repository resource, includePipeline must be true to download the Carpenter
-    # scripts and tools to be available to the pipeline.
     includePipeline: false
-
-    # The purpose of the build if a build is manually run. This value gets overridden by automated builds.
     buildPurpose: ${{ parameters.buildPurpose }}
-
-    # The name of the project.
     project: Carpenter.AzurePipelines
-
-
-    # CONFIGURE POOL
-    # For more information:
-    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/configure-pool.md
-
-    # The default pool type to use for jobs.
-    # 'Hosted' - Microsoft Hosted Pool (Default)
-    # 'Private' - Private Pool
     defaultPoolType: 'Private'
-
-    # The pool name to use when using Private pool type. Defaults to 'Default'.
     defaultPoolName: 'Default'
-
-    # The demands for the agent when using a Private pool type.
     defaultPoolDemands:
     - Agent.OS -equals Linux
     - Agent.OSArchitecture -equals X64
-    
-    # The VM Image to use when using Hosted pool type. Defaults to 'ubuntu-latest'.
     #defaultPoolVMImage: 'ubuntu-latest'
-
-
-    # BUILD VERSIONING
-    # For more information:
-    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build-versioning.md
-
-    # The type of build versioning to use.
-    # None - No build versioning (Default)
-    # SemVer - Semantic Versioning 2.0.0
     versionType: SemVer
-
-    # The path to the VERSION file.
     #versionFile: VERSION
-
-    # The starting value of the revision counter.
     revisionOffset: 258
-
-    # The prerelease label. This value is only used if buildPurpose is Prerelease.
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
-
-    # Increment the VERSION file on release and check into source control.
     incrementVersionOnRelease: true
-
-
-    # BUILD
-    # For more information:
-    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build.md
-
-    # Perform dotnet build
     buildDotNet: true
-
-    
-    # SONARCLOUD ANALYSIS
-    # For more information:
-    # https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
-
-    # Perform Sonar alaysis using SonarCloud
+    executeUnitTests: true
     sonarCloud: true
-
-    # The SonarCloud organization this project is under.
     sonarCloudOrganization: suent
-
-    # The SonarCloud project key.
     sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
-
-    # The SonarCloud service connection to use.
     sonarCloudServiceConnection: SonarCloudAnalysis1
