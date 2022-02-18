@@ -13,6 +13,11 @@ param(
 	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
 	[string] $DotNetPath = $env:CARPENTER_DOTNET_PATH,
 	[string] $SolutionPath = $env:CARPENTER_SOLUTION_PATH,
+	[string] $OutputPath = $env:CARPENTER_OUTPUT_PATH,
+	[string] $BinariesPath = $env:CARPENTER_OUTPUT_BINARIES_PATH,
+	[string] $TestsPath = $env:CARPENTER_OUTPUT_TESTS_PATH,
+	[string] $TestCoveragePath = $env:CARPENTER_OUTPUT_TESTCOVERAGE_PATH,
+	[string] $NuGetPath = $env:CARPENTER_OUTPUT_NUGET_PATH,
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildPurpose = $env:CARPENTER_BUILD_PURPOSE,
 	[string] $Project = $env:CARPENTER_PROJECT,
@@ -25,7 +30,11 @@ param(
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
 	[string] $VersionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
-	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT
+	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT,
+	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
+	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
+	[string] $SonarCloudProjectKey = $env:CARPENTER_SONARCLOUD_PROJECTKEY,
+	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -39,7 +48,6 @@ $includePipeline = Set-CarpenterVariable -VariableName "Carpenter.Pipeline" -Out
 $pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -OutputVariableName "pipelinePath" -Value $PipelinePath
 $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 $dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value $DotNetPath
-$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value $SolutionPath
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildPurpose -eq "CI"))) {
 	$buildPurpose = Set-CarpenterVariable -VariableName "Carpenter.Build.Purpose" -OutputVariableName "buildPurpose" -Value "CI"
@@ -62,6 +70,12 @@ Write-Host "##vso[build.addbuildtag]Build-$buildPurpose"
 
 $project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $Project
 $projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value $ProjectPath
+$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value $SolutionPath
+$outputPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Path" -OutputVariableName "outputPath" -Value $OutputPath
+$binariesPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Binaries.Path" -OutputVariableName "binariesPath" -Value $BinariesPath
+$testPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Tests.Path" -OutputVariableName "testsPath" -Value $TestsPath
+$testCoveragePath = Set-CarpenterVariable -VariableName "Carpenter.Output.TestCoverage.Path" -OutputVariableName "testCoveragePath" -Value $TestCoveragePath
+$nuGetPath = Set-CarpenterVariable -VariableName "Carpenter.Output.NuGet.Path" -OutputVariableName "nuGetPath" -Value $NuGetPath
 
 $defaultPoolType = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Type" -OutputVariableName defaultPoolType -Value $DefaultPoolType
 if ($defaultPoolType -eq "Private") {
@@ -77,3 +91,10 @@ $versionType = Set-CarpenterVariable -VariableName "Carpenter.Version.Type" -Out
 $buildDotNet = Set-CarpenterVariable -VariableName "Carpenter.Build.DotNet" -OutputVariableName "buildDotNet" -Value $BuildDotNet
 
 $executeUnitTests = Set-CarpenterVariable -VariableName "Carpenter.Test.Unit" -OutputVariableName "executeUnitTests" -Value $ExecuteUnitTests
+
+$sonarCloud = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud" -OutputVariableName "sonarCloud" -Value $SonarCloud
+if ($sonarCloud -eq 'true') {
+	$sonarCloudOrganization = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.Organization" -OutputVariableName "sonarCloudOrganization" -Value $SonarCloudOrganization
+	$sonarCloudProjectKey = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.ProjectKey" -OutputVariableName "sonarCloudProjectKey" -Value $SonarCloudProjectKey
+	$sonarCloudServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.ServiceConnection" -OutputVariableName "sonarCloudServiceConnection" -Value $SonarCloudServiceConnection
+}

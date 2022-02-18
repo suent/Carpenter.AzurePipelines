@@ -105,19 +105,39 @@ The absolute path of the project source. This value is determined during pipelin
 
 The absolute path to the solution. This value is determined during pipeline execution.
 
-### Pool Configuration
+### Carpenter.Output.Path
 
-#### Carpenter.Pool.Default.Demands
+The output root path. This value is determined during pipeline execution.
+
+### Carpenter.Output.Binaries.Path
+
+The binaries output path. This value is determined during pipeline execution.
+
+### Carpenter.Output.Tests.Path
+
+The tests output path. This value is determined during pipeline execution.
+
+### Carpenter.Output.TestCoverage.Path
+
+The test coverage reports output path. This value is determined during pipeline execution.
+
+### Carpenter.Output.NuGet.Path
+
+The NuGet package output path. This value is determined during pipeline execution.
+
+## Pool Configuration
+
+### Carpenter.Pool.Default.Demands
 
 The demands for the agent when using a *Private* pool type. This value is set by the
 `defaultPoolDemands` parameter.
 
-#### Carpenter.Pool.Default.Name
+### Carpenter.Pool.Default.Name
 
 The pool name to use when using *Private* pool type. This value is set by the `defaultPoolName`
 parameter. The default value is **Default**.
 
-#### Carpenter.Pool.Default.Type
+### Carpenter.Pool.Default.Type
 
 The default pool type to use for jobs.
 
@@ -128,14 +148,14 @@ The default pool type to use for jobs.
 
  This value is set by the `defaultPoolType` parameter. The default value is **Hosted**.
 
-#### Carpenter.Pool.Default.VMImage
+### Carpenter.Pool.Default.VMImage
 
 The VM Image to use when using Hosted pool type. This value is set by the `defaultPoolVMImage`
 parameter. The default value is **ubuntu-latest**.
 
-### Build Versioning
+## Build Versioning
 
-#### Carpenter.Version.Type
+### Carpenter.Version.Type
 
 The type of build versioning to use.
 
@@ -146,114 +166,114 @@ The type of build versioning to use.
 
 This value is set by the `versionType` parameter. The default value is **None**.
 
-#### Carpenter.Version.VersionFile
+### Carpenter.Version.VersionFile
 
 The path to the VERSION file. This value is set by the `versionFile` parameter. The
 default value is **VERSION**.
 
-#### Carpenter.Version.Revision
+### Carpenter.Version.Revision
 
 The number of times the project has been built by this pipeline. This value is determined
 during pipeline execution.
 
-#### Carpenter.Version.RevisionOffset
+### Carpenter.Version.RevisionOffset
 
 The starting value of the revision counter. This value is set by the `revisionOffset` parameter.
 The default value is **0**.
 
-#### Carpenter.Version.Major
+### Carpenter.Version.Major
 
 The Major version number. This value is determined during pipeline execution from the VERSION file.
 
-#### Carpenter.Version.Minor
+### Carpenter.Version.Minor
 
 The Minor version number. This value is determined during pipeline execution from the VERSION file.
 
-#### Carpenter.Version.Patch
+### Carpenter.Version.Patch
 
 The Patch version number. This value is determined during pipeline execution from the VERSION file.
 
-#### Carpenter.Version.Label
+### Carpenter.Version.Label
 
 The version label. This value is determined during pipeline execution.
 
-#### Carpenter.Version
+### Carpenter.Version
 
 The version string (without version metadata). This value is determined during pipeline execution.
 
-#### Carpenter.Version.IncrementOnRelease
+### Carpenter.Version.IncrementOnRelease
 
 If true, the patch version is incremented on a release. This value is set by the `incrementVersionOnRelease`
 parameter. The default value is **false**.
 
-### Continuous Integration
+## Continuous Integration
 
-#### Carpenter.ContinuousIntegration.Date
+### Carpenter.ContinuousIntegration.Date
 
 The date code of the continuous integration build. This value is determined during pipeline
 execution.
 
-#### Carpenter.ContinuousIntegration.Revsision
+### Carpenter.ContinuousIntegration.Revsision
 
 The revision of the continuous integration build. Increments for each build under a specific date.
 This value is determined during pipeline execution.
 
-### Pull Request
+## Pull Request
 
-#### Carpenter.PullRequest.Revision
+### Carpenter.PullRequest.Revision
 
 The pull request revision. This value is determined during the pipeline execution.
 
-### Prerelease
+## Prerelease
 
-#### Carpenter.Prerelease.Label
+### Carpenter.Prerelease.Label
 
 The label to use for a prerelease build. This value is set by the `prereleaseLabel` parameter.
 The default value is **alpha**.
 
-#### Carpenter.Prerelease.Revision
+### Carpenter.Prerelease.Revision
 
 The prerelease revision. This value is determined during pipeline execution.
 
-### PipelineBot
+## PipelineBot
 
-#### Carpenter.PipelineBot
+### Carpenter.PipelineBot
 
 The GitHub username for the pipeline bot. This value should be supplied to the pipeline as
 a variable, either directly through the YAML or through a Variable group.
 
-#### Carpenter.PipelineBot.Email
+### Carpenter.PipelineBot.Email
 
 The email address of the pipeline bot. This value should be supplied to the pipeline as
 a variable, either directly through the YAML or through a Variable group.
 
-#### Carpenter.PipelineBot.Name
+### Carpenter.PipelineBot.Name
 
 The name of the pipeline bot. This value should be supplied to the pipeline asa variable,
 either directly through the YAML or through a Variable group.
 
-#### PipelineBot-GitHub-PAT
+### PipelineBot-GitHub-PAT
 
 The GitHub personal access token for the pipeline bot. This value should be supplied to
 the pipeline as a secret variable through a Variable group or through an Azure key vault.
 
-### .NET Build
+## .NET Build
 
-#### Carpenter.Build.DotNet
+### Carpenter.Build.DotNet
 
 If true, a dotnet build process is executed. This value is set by the `buildDotNet` parameter.
 The default value is **false**.
 
-### Test Execution
+## Test Execution
 
-#### Carpenter.Test.Unit
+### Carpenter.Test.Unit
 
 If true, unit tests are executed during the pipeline. This value is set by the
 `executeUnitTests` parameter. The default valuer is **false**.
 
-### SonarCloud Analysis
+## SonarCloud Analysis
 
-#### Carpenter.SonarCloud
+### Carpenter.SonarCloud
 
 If true, SonarCloud analysis is executed. This value is set by the `sonarCloud` parameter.
 The default value is **false**.

@@ -142,6 +142,21 @@ jobs:
   - name: Carpenter.Solution.Path
     value: $[ format('{0}/{1}.sln', '$(Carpenter.Project.Path)', '$(Carpenter.Project)') ]
 
+  - name: Carpenter.Output.Path
+    value: $[ format('{0}/{1}', '$(System.DefaultWorkingDirectory)', 'out') ]
+
+  - name: Carpenter.Output.Binaries.Path
+    value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'bin') ]
+
+  - name: Carpenter.Output.Tests.Path
+    value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'tests') ]
+
+  - name: Carpenter.Output.TestCoverage.Path
+    value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'testCoverage') ]
+
+  - name: Carpenter.Output.NuGet.Path
+    value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'nuget') ]
+
   - ${{ if eq(variables['Build.Reason'],'Manual') }}:
     - name: Carpenter.Build.Purpose
       value: ${{ parameters.buildPurpose }}
@@ -270,9 +285,9 @@ jobs:
           projectKey: $(Carpenter.SonarCloud.ProjectKey)
           projectVersion: '$(Build.BuildNumber)'
           extraProperties: |
-            sonar.cs.opencover.reportsPaths=$(System.DefaultWorkingDirectory)/out/tests/coverage.opencover.xml
+            sonar.cs.opencover.reportsPaths=$(Carpenter.Output.Tests.Path)/coverage.opencover.xml
             sonar.test.exclusions=**/coverage.*.xml
-            sonar.cs.vstest.reportsPaths=$(System.DefaultWorkingDirectory)/out/tests/*.trx
+            sonar.cs.vstest.reportsPaths=$(Carpenter.Output.Tests.Path)/*.trx
 
     - task: DotNetCoreCLI@2
       displayName: 'Build: dotnet'
@@ -280,30 +295,30 @@ jobs:
       inputs:
         command: build
         projects: '$(Carpenter.Solution.Path)'
-        arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
+        arguments: '--output $(Carpenter.Output.Binaries.Path) --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
 
     - task: CopyFiles@2
       displayName: 'Copy files: nupkg'
       condition: succeeded()
       inputs:
         cleanTargetFolder: true
-        sourceFolder: $(System.DefaultWorkingDirectory)/out/bin
+        sourceFolder: $(Carpenter.Output.Binaries.Path)
         contents: '*.nupkg'
-        targetFolder: $(System.DefaultWorkingDirectory)/out/nuget
+        targetFolder: $(Carpenter.Output.NuGet.Path)
 
     - task: DeleteFiles@1
       displayName: 'Remove files: nupkg'
       condition: succeeded()
       inputs:
-        sourceFolder: $(System.DefaultWorkingDirectory)/out/bin
+        sourceFolder: $(Carpenter.Output.Binaries.Path)
         contents: '*.nupkg'
 
-    - publish: '$(System.DefaultWorkingDirectory)/out/bin'
+    - publish: '$(Carpenter.Output.Binaries.Path)'
       displayName: 'Publish artifact: binaries'
       artifact: binaries
       condition: succeeded()
 
-    - publish: '$(System.DefaultWorkingDirectory)/out/nuget'
+    - publish: '$(Carpenter.Output.NuGet.Path)'
       displayName: 'Publish artifact: nuget'
       artifact: package.nuget
       condition: succeeded()
@@ -315,7 +330,7 @@ jobs:
         inputs:
           command: test
           projects: '$(Carpenter.Solution.Path)'
-          arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --filter Category=UnitTest --logger trx --results-directory $(System.DefaultWorkingDirectory)/out/tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(System.DefaultWorkingDirectory)/out/tests/ /p:CoverletOutputFormat="cobertura%2copencover"'
+          arguments: '--output $(Carpenter.Output.Binaries.Path) --filter Category=UnitTest --logger trx --results-directory $(Carpenter.Output.Tests.Path) --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(Carpenter.Output.Tests.Path)/ /p:CoverletOutputFormat="cobertura%2copencover"'
           publishTestResults: false # manually publish later, we want trx results saved to specific location
           nobuild: true
 
@@ -324,7 +339,7 @@ jobs:
         condition: succeeded()
         inputs:
           testResultsFormat: 'VSTest'
-          testResultsFiles: $(System.DefaultWorkingDirectory)/out/tests/*.trx
+          testResultsFiles: $(Carpenter.Output.Tests.Path)/*.trx
           testRunTitle: '$(Carpenter.Project) L0 - Unit Tests'
           buildConfiguration: Debug
           buildPlatform: Any CPU
@@ -332,7 +347,7 @@ jobs:
     
       - script: |
           dotnet tool install -g dotnet-reportgenerator-globaltool
-          reportgenerator -reports:$(System.DefaultWorkingDirectory)/out/tests/coverage.cobertura.xml -targetdir:$(System.DefaultWorkingDirectory)/out/testCoverage "-reporttypes:Cobertura"
+          reportgenerator -reports:$(Carpenter.Output.Tests.Path)/coverage.cobertura.xml -targetdir:$(Carpenter.Output.TestCoverage.Path) "-reporttypes:Cobertura"
         displayName: Prepare code coverage
         condition: succeeded()
         continueOnError: true
@@ -343,9 +358,9 @@ jobs:
         continueOnError: true
         inputs:
           codeCoverageTool: Cobertura
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/out/testCoverage/Cobertura.xml'
+          summaryFileLocation: '$(Carpenter.Output.TestCoverage.Path)/Cobertura.xml'
 
-      - publish: '$(System.DefaultWorkingDirectory)/out/tests'
+      - publish: '$(Carpenter.Output.Tests.Path)'
         displayName: 'Publish artifact: tests-L0'
         artifact: tests-L0
         condition: succeeded()

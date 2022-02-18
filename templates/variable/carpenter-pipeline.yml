@@ -68,6 +68,21 @@ variables:
 - name: Carpenter.Solution.Path
   value: $[ dependencies.build.outputs['initializePipeline.solutionPath'] ]
 
+- name: Carpenter.Output.Path
+  value: $[ dependencies.build.outputs['initializePipeline.outputPath'] ]
+
+- name: Carpenter.Output.Binaries.Path
+  value: $[ dependencies.build.outputs['initializePipeline.binariesPath'] ]
+
+- name: Carpenter.Output.Tests.Path
+  value: $[ dependencies.build.outputs['initializePipeline.testsPath'] ]
+
+- name: Carpenter.Output.TestCoverage.Path
+  value: $[ dependencies.build.outputs['initializePipeline.testCoveragePath'] ]
+
+- name: Carpenter.Output.NuGet.Path
+  value: $[ dependencies.build.outputs['initializePipeline.nuGetPath'] ]
+
 - name: Carpenter.Pool.Default.Type
   value: $[ dependencies.build.outputs['initializePipeline.defaultPoolType'] ]
 
