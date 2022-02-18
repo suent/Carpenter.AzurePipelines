@@ -14,7 +14,9 @@ param(
     [string] $RequestedForEmail = $env:BUILD_REQUESTEDFOREMAIL,
     [string] $SourceVersion = $env:BUILD_SOURCEVERSION,
     [string] $VersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
-    [string] $SourceBranch = $env:BUILD_SOURCEBRANCH
+    [string] $SourceBranch = $env:BUILD_SOURCEBRANCH,
+    [string] $HttpProxy = $env:http_proxy,
+    [string] $HttpsProxy = $env:https_proxy
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -63,6 +65,14 @@ if ($PipelineBotName -and $PipelineBotEmail) {
 }
 git config user.email "$gitUserEmail"
 git config user.name "$gitUser"
+
+# configure proxy
+if ($HttpProxy) {
+    git config http.proxy "$HttpProxy"
+}
+if ($HttpsProxy) {
+    git config https.proxy "$HttpsProxy"
+}
 
 # clone repository
 git remote add origin $repositoryUri
