@@ -7,11 +7,11 @@
 
 [Carpenter.AzurePipelines](#carpeneterazurepipelines)
 
-Copyright © 2015-2022 [Suent Networks](https://suent.net)
+Copyright Â© 2015-2022 [Suent Networks](https://suent.net)
 
 * [Features](#features)
 * [Usage](#usage)
-* [Development](#development)
+* [Contributing](#contributing)
 
 
 # Carpenter.AzurePipelines
@@ -25,13 +25,16 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 
 ## Features
 
+* [YAML Parameters](docs/parameters.md)
 * [Carpenter Variables](docs/variables.md)
 * [Pipeline Versioning](docs/pipeline-versioning.md)
 * [Configurable Pool](docs/configure-pool.md)
 * [Build Versioning](docs/build-versioning.md)
   * [Build Revision](docs/build-revision.md)
   * [Semantic Versioning 2.0.0](docs/semver.md)
-
+* [Build](docs/build.md)
+* [Test](docs/test.md)
+* [Analyze](docs/analysis.md)
 
 ## Usage
 
@@ -40,8 +43,8 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 | [Direct Access](docs/usage-direct.md) | Directly access carpenter-azure-pipelines by referencing from your projects pipeline yaml. |
 
 
-## Development
+## Contributing
 
-For details on development, please see the [Carpenter development wiki](https://dev.azure.com/suent/Carpenter/_wiki/wikis/Carpenter.wiki).
+For details on development processes, please see the [Carpenter development wiki](https://dev.azure.com/suent/Carpenter/_wiki/wikis/Carpenter.wiki).
 
 Please also take note of the carpenter-azure-pipelines [Code of Conduct](docs/CODE_OF_CONDUCT.md) and [Contributing guidelines](docs/CONTRIBUTING.md).

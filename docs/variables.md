@@ -101,6 +101,10 @@ default value is the value of the `Build.DefinitionName` variable.
 
 The absolute path of the project source. This value is determined during pipeline execution.
 
+### Carpenter.Solution.Path
+
+The absolute path to the solution. This value is determined during pipeline execution.
+
 ### Pool Configuration
 
 #### Carpenter.Pool.Default.Demands

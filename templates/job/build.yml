@@ -139,6 +139,9 @@ jobs:
   - name: Carpenter.DotNet.Path
     value: $[ format('{0}/{1}', '$(Agent.ToolsDirectory)', 'dotnet')]
 
+  - name: Carpenter.Solution.Path
+    value: $[ format('{0}/{1}.sln', '$(Carpenter.Project.Path)', '$(Carpenter.Project)') ]
+
   - ${{ if eq(variables['Build.Reason'],'Manual') }}:
     - name: Carpenter.Build.Purpose
       value: ${{ parameters.buildPurpose }}
@@ -276,7 +279,7 @@ jobs:
       condition: succeeded()
       inputs:
         command: build
-        projects: '$(Carpenter.Project.Path)/$(Carpenter.Project).sln'
+        projects: '$(Carpenter.Solution.Path)'
         arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
 
     - task: CopyFiles@2
@@ -311,7 +314,7 @@ jobs:
         condition: succeeded()
         inputs:
           command: test
-          projects: '$(Carpenter.Project.Path)/$(Carpenter.Project).sln'
+          projects: '$(Carpenter.Solution.Path)'
           arguments: '--output $(System.DefaultWorkingDirectory)/out/bin --filter Category=UnitTest --logger trx --results-directory $(System.DefaultWorkingDirectory)/out/tests --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(System.DefaultWorkingDirectory)/out/tests/ /p:CoverletOutputFormat="cobertura%2copencover"'
           publishTestResults: false # manually publish later, we want trx results saved to specific location
           nobuild: true

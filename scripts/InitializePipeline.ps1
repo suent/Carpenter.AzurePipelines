@@ -12,6 +12,7 @@ param(
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
 	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
 	[string] $DotNetPath = $env:CARPENTER_DOTNET_PATH,
+	[string] $SolutionPath = $env:CARPENTER_SOLUTION_PATH,
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $BuildPurpose = $env:CARPENTER_BUILD_PURPOSE,
 	[string] $Project = $env:CARPENTER_PROJECT,
@@ -38,6 +39,7 @@ $includePipeline = Set-CarpenterVariable -VariableName "Carpenter.Pipeline" -Out
 $pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -OutputVariableName "pipelinePath" -Value $PipelinePath
 $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 $dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value $DotNetPath
+$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value $SolutionPath
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($BuildPurpose -eq "CI"))) {
 	$buildPurpose = Set-CarpenterVariable -VariableName "Carpenter.Build.Purpose" -OutputVariableName "buildPurpose" -Value "CI"
