@@ -61,12 +61,19 @@ trigger:
   batch: false
 
 pr:
-  autoCancel: true
+  autoCancel: true  # allow github to cancel builds that are no longer relevant.
+                    # for example: a PR build, where the PR has been updated
 
 
 # Infrastructure variables
 variables:
+# Infrastructure populates:
+#   Carpenter.PipelineBot
+#   Carpenter.PipelineBot.Email
+#   Carpenter.PipelineBot.Name
 - group: Infrastructure
+# Infrastructure-vault populates:
+#   PipelineBot-GitHub-PAT
 - group: Infrastructure-Vault
 
 

@@ -9,6 +9,34 @@
   * [Carpenter.Build.Purpose](#carpenterbuildpurpose)
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
+* [Pool Configuration](#pool-configuration)
+  * [Carpenter.Pool.Default.Demands](#carpenterpooldefaultdemands)
+  * [Carpenter.Pool.Default.Name](#carpenterpooldefaultname)
+  * [Carpenter.Pool.Default.Type](#carpenterpooldefaulttype)
+  * [Carpenter.Pool.Default.VMImage](#carpenterpooldefaultvmimage)
+* [Build Versioning](#build-versioning)
+  * [Carpenter.Version.Type](#carpenterversiontype)
+  * [Carpenter.Version.VersionFile](#carpenterversionversionfile)
+  * [Carpenter.Version.Revision](#carpenterversionrevision)
+  * [Carpenter.Version.RevisionOffset](#carpenterversionrevisionoffset)
+  * [Carpenter.Version.Major](#carpenterversionmajor)
+  * [Carpenter.Version.Minor](#carpenterversionminor)
+  * [Carpenter.Version.Patch](#carpenterversionpatch)
+  * [Carpenter.Version.Label](#carpenterversionlabel)
+  * [Carpenter.Version](#carpenterversion)
+* [Continuous Integration](#continuous-integration)
+  * [Carpenter.ContinuousIntegration.Date](#carpentercontinuousintegrationdate)
+  * [Carpenter.ContinuousIntegration.Revision](#carpentercontinuousintegrationrevsision)
+* [Pull Request](#pull-request)
+  * [Carpenter.PullRequest.Revision](#carpenterpullrequestrevision)
+* [Prerelease](#prerelease)
+  * [Carpenter.Prerelease.Label](#carpenterprereleaselabel)
+  * [Carpenter.Prerelease.Revision](#carpenterprereleaserevision)
+* [PipelineBot](#pipelinebot)
+  * [Carpenter.PipelineBot](#carpenterpipelinebot)
+  * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
+  * [Carpenter.PipelineBot.Name](#carpenterpipelinebotname)
+  * [PipelineBot-GitHub-PAT](#pipelinebot-github-pat)
 
 # Carpenter.AzurePipelines Variables
 
@@ -61,7 +89,8 @@ is **CI**.
 
 ### Carpenter.Project
 
-The name of the project. This value is set by the `project` parameter. If not supplied, Carpenter.Project defaults to the value of the `Build.DefinitionName` variable.
+The name of the project. This value is set by the `project` parameter. If parameter is notsupplied, the
+default value is the value of the `Build.DefinitionName` variable.
 
 ### Carpenter.Project.Path
 
@@ -115,48 +144,86 @@ default value is **VERSION**.
 
 #### Carpenter.Version.Revision
 
-The number of times the project has been built by this pipeline.
+The number of times the project has been built by this pipeline. This value is determined
+during pipeline execution.
 
 #### Carpenter.Version.RevisionOffset
 
-The starting value of the revision counter.
+The starting value of the revision counter. This value is set by the `revisionOffset` parameter.
+The default value is **0**.
 
 #### Carpenter.Version.Major
 
-The Major version number.
+The Major version number. This value is determined during pipeline execution from the VERSION file.
 
 #### Carpenter.Version.Minor
 
-The Minor version number.
+The Minor version number. This value is determined during pipeline execution from the VERSION file.
 
 #### Carpenter.Version.Patch
 
-The Patch version number.
+The Patch version number. This value is determined during pipeline execution from the VERSION file.
 
 #### Carpenter.Version.Label
 
-The version label.
+The version label. This value is determined during pipeline execution.
 
 #### Carpenter.Version
 
-The version string. (without version metadata)
+The version string (without version metadata). This value is determined during pipeline execution.
 
-#### Continuous Integration
+#### Carpenter.Version.IncrementOnRelease
 
-##### Carpenter.ContinuousIntegration.Date
+If true, the patch version is incremented on a release. This value is set by the `incrementVersionOnRelease`
+parameter. The default value is **false**.
 
-The date code of the continuous integration build.
+### Continuous Integration
 
-##### Carpenter.ContinuousIntegration.Revsision
+#### Carpenter.ContinuousIntegration.Date
+
+The date code of the continuous integration build. This value is determined during pipeline
+execution.
+
+#### Carpenter.ContinuousIntegration.Revsision
 
 The revision of the continuous integration build. Increments for each build under a specific date.
+This value is determined during pipeline execution.
 
-#### Pull Request
+### Pull Request
 
-##### Carpenter.PullRequest.Semantic
+#### Carpenter.PullRequest.Revision
 
-The semantic used to generate the pull request revision.
+The pull request revision. This value is determined during the pipeline execution.
 
-##### Carpenter.PullRequest.Revision
+### Prerelease
 
-The pull request revision.
+#### Carpenter.Prerelease.Label
+
+The label to use for a prerelease build. This value is set by the `prereleaseLabel` parameter.
+The default value is **alpha**.
+
+#### Carpenter.Prerelease.Revision
+
+The prerelease revision. This value is determined during pipeline execution.
+
+### PipelineBot
+
+#### Carpenter.PipelineBot
+
+The GitHub username for the pipeline bot. This value should be supplied to the pipeline as
+a variable, either directly through the YAML or through a Variable group.
+
+#### Carpenter.PipelineBot.Email
+
+The email address of the pipeline bot. This value should be supplied to the pipeline as
+a variable, either directly through the YAML or through a Variable group.
+
+#### Carpenter.PipelineBot.Name
+
+The name of the pipeline bot. This value should be supplied to the pipeline asa variable,
+either directly through the YAML or through a Variable group.
+
+#### PipelineBot-GitHub-PAT
+
+The GitHub personal access token for the pipeline bot. This value should be supplied to
+the pipeline as a secret variable through a Variable group or through an Azure key vault.
