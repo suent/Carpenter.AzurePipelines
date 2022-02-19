@@ -54,6 +54,9 @@ parameters:
 - name: versionType
   type: string
 
+- name: sonarCloud
+  type: string
+
 
 stages:
 - stage: test1
@@ -73,3 +76,4 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       buildPurpose: ${{ parameters.buildPurpose }}
       versionType: ${{ parameters.versionType }}
+      sonarCloud: ${{ parameters.sonarCloud }}

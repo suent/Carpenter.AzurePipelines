@@ -151,3 +151,4 @@ stages:
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     versionType: ${{ parameters.versionType }}
+    sonarCloud: ${{ parameters.sonarCloud }}

@@ -39,6 +39,8 @@ parameters:
 - name: versionType
   type: string
     
+- name: sonarCloud
+  type: string
 
 variables:
 - name: Carpenter.PipelineVersion
