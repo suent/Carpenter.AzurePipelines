@@ -61,6 +61,7 @@ trigger:
   batch: false
   branches:
     exclude:
+    - dev/*
     - stack/*
 pr:
   autoCancel: true  # allow github to cancel builds that are no longer relevant.
