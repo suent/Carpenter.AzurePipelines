@@ -59,7 +59,9 @@ name: $(Build.BuildId)
 # Configure trigger and pr
 trigger:
   batch: false
-
+  branches:
+    exclude:
+    - branch-stack*
 pr:
   autoCancel: true  # allow github to cancel builds that are no longer relevant.
                     # for example: a PR build, where the PR has been updated

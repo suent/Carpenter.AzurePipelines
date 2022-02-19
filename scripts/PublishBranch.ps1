@@ -77,6 +77,6 @@ git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules
 git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin  +$SourceVersion
 git checkout --progress --force $SourceVersion
 
-git push origin HEAD:branch-$($Stack -Replace "_","-")
+git push origin HEAD:branch-stack-$($Stack -Replace "_","-")
 
 Pop-Location
