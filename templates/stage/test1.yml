@@ -33,6 +33,9 @@ parameters:
 - name: pipelineVersion
   type: number
 
+- name: includePipeline
+  type: boolean
+
 - name: defaultPoolType
   type: string
 
@@ -63,6 +66,7 @@ stages:
   - template: ../job/deploy.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
+      includePipeline: ${{ parameters.includePipeline }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}

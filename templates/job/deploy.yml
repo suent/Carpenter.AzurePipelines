@@ -33,6 +33,12 @@ parameters:
 - name: pipelineVersion
   type: number
 
+- name: includePipeline
+  type: boolean
+
+- name: buildPurpose
+  type: string
+
 - name: defaultPoolType
   type: string
 
@@ -43,9 +49,6 @@ parameters:
   type: object
 
 - name: defaultPoolVMImage
-  type: string
-
-- name: buildPurpose
   type: string
 
 - name: versionType
@@ -75,8 +78,8 @@ jobs:
   variables:
   - template: ../variable/carpenter.yml
     parameters:
-      defaultPoolType: ${{ parameters.defaultPoolType }}
       buildPurpose: ${{ parameters.buildPurpose }}
+      defaultPoolType: ${{ parameters.defaultPoolType }}
       versionType: ${{ parameters.versionType }}
 
 

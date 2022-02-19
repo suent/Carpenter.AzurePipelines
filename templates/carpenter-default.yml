@@ -140,3 +140,14 @@ stages:
     sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
     sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
     sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
+
+- template: stage/test1.yml
+  parameters:
+    pipelineVersion: ${{ parameters.pipelineVersion }}
+    includePipeline: ${{ parameters.includePipeline }}
+    buildPurpose: ${{ parameters.buildPurpose }}
+    defaultPoolType: ${{ parameters.defaultPoolType }}
+    defaultPoolName: ${{ parameters.defaultPoolName }}
+    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+    versionType: ${{ parameters.versionType }}
