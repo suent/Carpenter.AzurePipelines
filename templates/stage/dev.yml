@@ -87,6 +87,9 @@ parameters:
 - name: sonarCloudServiceConnection
   type: string
 
+- name: deployBranch
+  type: string
+
 
 stages:
 - stage: dev
@@ -114,3 +117,4 @@ stages:
       sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
       sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
+      deployBranch: ${{ parameters.deployBranch}}

@@ -107,3 +107,4 @@ stages:
     sonarCloudOrganization: suent
     sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
     sonarCloudServiceConnection: SonarCloudAnalysis1
+    deployBranch: 'test1,test2,stable,prod_us'

@@ -87,6 +87,8 @@ parameters:
 - name: sonarCloudServiceConnection
   type: string
 
+- name: deployBranch
+  type: string
 
 jobs:
 - job: build
@@ -217,6 +219,8 @@ jobs:
     - name: Carpenter.SonarCloud.ServiceConnection
       value: ${{ parameters.sonarCloudServiceConnection }}
 
+  - name: Carpenter.Deploy.Branch
+    value: ${{ parameters.deployBranch }}
 
   steps:
   - checkout: self
