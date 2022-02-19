@@ -96,3 +96,10 @@ jobs:
       persistCredentials: true
 
   - template: ../step/display-environment.yml
+  
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: $(Carpenter.Pipeline.ScriptPath)/PublishBranch.ps1
+      arguments: '-Verbose -Stack ${{ parameters.stack }}'
+    displayName: 'Publish branch: ${{ parameters.stack }}'
