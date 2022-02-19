@@ -141,7 +141,7 @@ stages:
     sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
     sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
 
-- template: stage/test1.yml
+- template: stage/stack.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
     includePipeline: ${{ parameters.includePipeline }}
@@ -152,3 +152,56 @@ stages:
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     versionType: ${{ parameters.versionType }}
     sonarCloud: ${{ parameters.sonarCloud }}
+    stack: test1
+    stackName: Test 1
+    stackDependsOn:
+    - dev
+
+- template: stage/stack.yml
+  parameters:
+    pipelineVersion: ${{ parameters.pipelineVersion }}
+    includePipeline: ${{ parameters.includePipeline }}
+    buildPurpose: ${{ parameters.buildPurpose }}
+    defaultPoolType: ${{ parameters.defaultPoolType }}
+    defaultPoolName: ${{ parameters.defaultPoolName }}
+    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+    versionType: ${{ parameters.versionType }}
+    sonarCloud: ${{ parameters.sonarCloud }}
+    stack: test2
+    stackName: Test 2
+    stackDependsOn:
+    - dev
+
+- template: stage/stack.yml
+  parameters:
+    pipelineVersion: ${{ parameters.pipelineVersion }}
+    includePipeline: ${{ parameters.includePipeline }}
+    buildPurpose: ${{ parameters.buildPurpose }}
+    defaultPoolType: ${{ parameters.defaultPoolType }}
+    defaultPoolName: ${{ parameters.defaultPoolName }}
+    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+    versionType: ${{ parameters.versionType }}
+    sonarCloud: ${{ parameters.sonarCloud }}
+    stack: stable
+    stackName: Stable
+    stackDependsOn:
+    - test1
+    - test2
+
+- template: stage/stack.yml
+  parameters:
+    pipelineVersion: ${{ parameters.pipelineVersion }}
+    includePipeline: ${{ parameters.includePipeline }}
+    buildPurpose: ${{ parameters.buildPurpose }}
+    defaultPoolType: ${{ parameters.defaultPoolType }}
+    defaultPoolName: ${{ parameters.defaultPoolName }}
+    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+    versionType: ${{ parameters.versionType }}
+    sonarCloud: ${{ parameters.sonarCloud }}
+    stack: prod_us
+    stackName: Production US
+    stackDependsOn:
+    - stable

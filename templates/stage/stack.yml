@@ -26,3 +26,62 @@
 # SPDX-License-Identifier: MIT
 
 
+parameters:
+
+  # See docs/parameters.md for parameter documentation.
+
+- name: pipelineVersion
+  type: number
+
+- name: includePipeline
+  type: boolean
+
+- name: defaultPoolType
+  type: string
+
+- name: defaultPoolName
+  type: string
+
+- name: defaultPoolDemands
+  type: object
+
+- name: defaultPoolVMImage
+  type: string
+
+- name: buildPurpose
+  type: string
+
+- name: versionType
+  type: string
+
+- name: sonarCloud
+  type: string
+
+- name: stack
+  type: string
+
+- name: stackName
+  type: string
+
+- name: stackDependsOn
+  type: object
+
+stages:
+- stage: ${{ paramters.stack }}
+  displayName: ${{ parameters.stackName }}
+  dependsOn: ${{ parameters.stackDependsOn }}
+
+
+  jobs:
+  - template: ../job/deploy.yml
+    parameters:
+      pipelineVersion: ${{ parameters.pipelineVersion }}
+      includePipeline: ${{ parameters.includePipeline }}
+      defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolName: ${{ parameters.defaultPoolName }}
+      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      buildPurpose: ${{ parameters.buildPurpose }}
+      versionType: ${{ parameters.versionType }}
+      sonarCloud: ${{ parameters.sonarCloud }}
+      stack: ${{ parameters.stack }}

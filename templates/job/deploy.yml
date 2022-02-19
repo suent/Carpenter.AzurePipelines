@@ -57,10 +57,13 @@ parameters:
 - name: sonarCloud
   type: string
 
+- name: stack
+  type: string
+
 
 jobs:
-- job: deploy_branch_test1
-  displayName: Deploy branch Test 1
+- job: 'deploy_branch_${{ parameters.stack }}'
+  displayName: 'Deploy branch: ${{ parameters.stack }}'
 
 
   pool:
