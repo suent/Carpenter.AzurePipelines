@@ -85,6 +85,6 @@ Set-Content -Path $buildNumberFile -Value $($env:BUILD_BUILDNUMBER) -NoNewLine
 # commit changes
 git add .
 git commit -m "Publishing Build $($env:BUILD_BUILDNUMBER) ***NO_CI***"
-git push origin HEAD:refs/heads/stack/$($Stack -Replace "_","-")
+git push --force origin HEAD:refs/heads/stack/$($Stack -Replace "_","-")
 
 Pop-Location
