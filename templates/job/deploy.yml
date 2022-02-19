@@ -103,3 +103,5 @@ jobs:
       filePath: $(Carpenter.Pipeline.ScriptPath)/PublishBranch.ps1
       arguments: '-Verbose -Stack ${{ parameters.stack }}'
     displayName: 'Publish branch: ${{ parameters.stack }}'
+    env:
+      CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
