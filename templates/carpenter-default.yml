@@ -187,6 +187,7 @@ stages:
     stack: stable
     stackName: Stable
     stackDependsOn:
+    - dev
     - test1
     - test2
 
@@ -204,4 +205,5 @@ stages:
     stack: prod_us
     stackName: Production US
     stackDependsOn:
+    - dev
     - stable
