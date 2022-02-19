@@ -44,22 +44,15 @@ parameters:
 
 - name: defaultPoolType
   type: string
-  default: Hosted
-  values:
-  - Hosted
-  - Private
 
 - name: defaultPoolName
   type: string
-  default: Default
 
 - name: defaultPoolDemands
   type: object
-  default: {}
 
 - name: defaultPoolVMImage
   type: string
-  default: 'ubuntu-latest'
     
 - name: versionType
   type: string
@@ -84,7 +77,6 @@ parameters:
 
 - name: sonarCloud
   type: boolean
-  default: false
 
 - name: sonarCloudOrganization
   type: string
