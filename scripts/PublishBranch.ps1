@@ -77,6 +77,14 @@ git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules
 git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin  +$SourceVersion
 git checkout --progress --force $SourceVersion
 
+# update BUILDNUMBER file
+$buildNumberFile = "./BUILDNUMBER"
+Write-Host "Using BUILDNUMBER file: $buildNumberFile"
+Set-Content -Path $buildNumberFile -Value $($env:BUILD_BUILDNUMBER) -NoNewLine
+
+# commit changes
+git add .
+git commit -m "Publishing Build $($env:BUILD_BUILDNUMBER) ***NO_CI***"
 git push origin HEAD:refs/heads/stack/$($Stack -Replace "_","-")
 
 Pop-Location
