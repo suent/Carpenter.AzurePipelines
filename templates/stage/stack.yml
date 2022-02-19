@@ -67,7 +67,7 @@ parameters:
   type: object
 
 stages:
-- stage: ${{ paramters.stack }}
+- stage: ${{ parameters.stack }}
   displayName: ${{ parameters.stackName }}
   dependsOn: ${{ parameters.stackDependsOn }}
 
