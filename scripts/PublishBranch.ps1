@@ -17,7 +17,7 @@ param(
     [string] $SourceBranch = $env:BUILD_SOURCEBRANCH,
     [string] $HttpProxy = $env:http_proxy,
     [string] $HttpsProxy = $env:https_proxy,
-    [string] $branch
+    [string] $Stack
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
