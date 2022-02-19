@@ -117,6 +117,10 @@ parameters:
 - name: sonarCloudServiceConnection
   type: string
 
+- name: deployBranch
+  type: string
+  default: ''
+
 
 stages:
 - template: stage/dev.yml
@@ -140,3 +144,83 @@ stages:
     sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
     sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
     sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
+    deployBranch: ${{ parameters.deployBranch }}
+
+# Deploys only on changes to main branch
+- ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
+
+  - ${{ if contains(parameters.deployBranch,'test1') }}:
+    - template: stage/stack.yml
+      parameters:
+        pipelineVersion: ${{ parameters.pipelineVersion }}
+        includePipeline: ${{ parameters.includePipeline }}
+        buildPurpose: ${{ parameters.buildPurpose }}
+        defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolName: ${{ parameters.defaultPoolName }}
+        defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+        versionType: ${{ parameters.versionType }}
+        sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch }}
+        stack: test1
+        stackName: Test 1
+        stackDependsOn:
+        - dev
+
+  - ${{ if contains(parameters.deployBranch,'test2') }}:
+    - template: stage/stack.yml
+      parameters:
+        pipelineVersion: ${{ parameters.pipelineVersion }}
+        includePipeline: ${{ parameters.includePipeline }}
+        buildPurpose: ${{ parameters.buildPurpose }}
+        defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolName: ${{ parameters.defaultPoolName }}
+        defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+        versionType: ${{ parameters.versionType }}
+        sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch }}
+        stack: test2
+        stackName: Test 2
+        stackDependsOn:
+        - dev
+
+  - ${{ if contains(parameters.deployBranch,'stable') }}:
+    - template: stage/stack.yml
+      parameters:
+        pipelineVersion: ${{ parameters.pipelineVersion }}
+        includePipeline: ${{ parameters.includePipeline }}
+        buildPurpose: ${{ parameters.buildPurpose }}
+        defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolName: ${{ parameters.defaultPoolName }}
+        defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+        versionType: ${{ parameters.versionType }}
+        sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch }}
+        stack: stable
+        stackName: Stable
+        stackDependsOn:
+        - dev
+        - test1
+        - test2
+
+  - ${{ if and(eq(variables['Build.Reason'],'Manual'), or(eq(parameters.buildPurpose,'Prerelease'),eq(parameters.buildPurpose,'Release'))) }}:
+    - ${{ if contains(parameters.deployBranch,'prod_us') }}:
+      - template: stage/stack.yml
+        parameters:
+          pipelineVersion: ${{ parameters.pipelineVersion }}
+          includePipeline: ${{ parameters.includePipeline }}
+          buildPurpose: ${{ parameters.buildPurpose }}
+          defaultPoolType: ${{ parameters.defaultPoolType }}
+          defaultPoolName: ${{ parameters.defaultPoolName }}
+          defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+          defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+          versionType: ${{ parameters.versionType }}
+          sonarCloud: ${{ parameters.sonarCloud }}
+          deployBranch: ${{ parameters.deployBranch }}
+          stack: prod_us
+          stackName: Production US
+          stackDependsOn:
+          - dev
+          - stable

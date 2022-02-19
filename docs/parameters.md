@@ -25,6 +25,8 @@
   * [sonarCloudOrganization](#sonarcloudorganization)
   * [sonarCloudProjectKey](#sonarcloudprojectkey)
   * [sonarCloudServiceConnection](#sonarcloudserviceconnection)
+* [Deployment parameters](#deployment-parameters)
+  * [deployBranch](#deploybranch)
 
 # Carpenter.AzurePipelines Parameters
 
@@ -152,3 +154,10 @@ The SonarCloud project key. This is required if `sonarCloud` is **true**.
 ### sonarCloudServiceConnection
 
 The SonarCloud service connection to use. This is required if `sonarCloud` is **true**.
+
+## Deployment parameters
+
+### deployBranch
+
+Comma separated list of stacks deploy branch should execute for. Creates a branch of this builds
+source to represent code on a stack.

@@ -42,6 +42,8 @@
 * [Test Execution](#test-execution)
 * [SonarCloud Analysis](#sonarcloud-analysis)
   * [Carpenter.SonarCloud](#carpentersonarcloud)
+* [Deployment variables](#deployment-variables)
+  * [Carpenter.Deploy.Branch](#carpenterdeploybranch)
 
 # Carpenter.AzurePipelines Variables
 
@@ -291,3 +293,10 @@ The SonarCloud project key. This value is set by the `sonarCloudProjectKey` para
 
 The SonarCloud service connection to use. This value is set by the `sonarCloudServiceConnection`
 parameter.
+
+## Deployment variables
+
+### Carpenter.Deploy.Branch
+
+Comma separated list of stacks deploy branch should execute for. Creates a branch of this builds
+source to represent code on a stack. This value is set by the `deployBranch` parameter.

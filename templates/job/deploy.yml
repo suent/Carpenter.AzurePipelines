@@ -39,9 +39,6 @@ parameters:
 - name: buildPurpose
   type: string
 
-- name: project
-  type: string
-
 - name: defaultPoolType
   type: string
 
@@ -57,64 +54,54 @@ parameters:
 - name: versionType
   type: string
 
-- name: versionFile
-  type: string
-
-- name: revisionOffset
-  type: string
-
-- name: prereleaseLabel
-  type: string
-  
-- name: incrementVersionOnRelease
-  type: boolean
-
-- name: buildDotNet
-  type: boolean
-
-- name: executeUnitTests
-  type: boolean
-
 - name: sonarCloud
-  type: boolean
-  
-- name: sonarCloudOrganization
   type: string
 
-- name: sonarCloudProjectKey
-  type: string
-
-- name: sonarCloudServiceConnection
-  type: string
-
-- name: deployBranch
+- name: stack
   type: string
 
 
-stages:
-- stage: dev
-  displayName: Developer
+jobs:
+- job: 'deploy_branch_${{ parameters.stack }}'
+  displayName: 'Deploy branch: ${{ parameters.stack }}'
 
-  jobs:
-  - template: ../job/build.yml
+
+  pool:
+    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+      vmImage: ${{ parameters.defaultPoolVMImage }}
+    ${{ if eq(parameters.defaultPoolType,'Private') }}:
+      name: ${{ parameters.defaultPoolName }}
+      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+        demands: ${{ parameters.defaultPoolDemands }}
+
+
+  workspace:
+    clean: all
+
+
+  variables:
+  - template: ../variable/carpenter.yml
     parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
       buildPurpose: ${{ parameters.buildPurpose }}
-      includePipeline: ${{ parameters.includePipeline }}
-      project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
-      versionFile: ${{ parameters.versionFile }}
-      revisionOffset: ${{ parameters.revisionOffset }}
-      prereleaseLabel: ${{ parameters.prereleaseLabel }}
-      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
-      sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
-      sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
-      sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
-      deployBranch: ${{ parameters.deployBranch}}
+
+  steps:
+  - checkout: self
+  
+  # Include pipeline for access to pipeline scripts
+  - ${{ if eq(parameters.includePipeline, 'true') }}:
+    - checkout: Carpenter
+      persistCredentials: true
+
+  - template: ../step/display-environment.yml
+  
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: $(Carpenter.Pipeline.ScriptPath)/PublishBranch.ps1
+      arguments: '-Verbose -Stack ${{ parameters.stack }}'
+    displayName: 'Publish branch: ${{ parameters.stack }}'
+    env:
+      CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)

@@ -59,7 +59,10 @@ name: $(Build.BuildId)
 # Configure trigger and pr
 trigger:
   batch: false
-
+  branches:
+    exclude:
+    - dev/*
+    - stack/*
 pr:
   autoCancel: true  # allow github to cancel builds that are no longer relevant.
                     # for example: a PR build, where the PR has been updated
@@ -105,3 +108,4 @@ stages:
     sonarCloudOrganization: suent
     sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
     sonarCloudServiceConnection: SonarCloudAnalysis1
+    deployBranch: 'test1,test2,stable,prod_us'

@@ -36,12 +36,6 @@ parameters:
 - name: includePipeline
   type: boolean
 
-- name: buildPurpose
-  type: string
-
-- name: project
-  type: string
-
 - name: defaultPoolType
   type: string
 
@@ -54,67 +48,40 @@ parameters:
 - name: defaultPoolVMImage
   type: string
 
+- name: buildPurpose
+  type: string
+
 - name: versionType
   type: string
 
-- name: versionFile
-  type: string
-
-- name: revisionOffset
-  type: string
-
-- name: prereleaseLabel
-  type: string
-  
-- name: incrementVersionOnRelease
-  type: boolean
-
-- name: buildDotNet
-  type: boolean
-
-- name: executeUnitTests
-  type: boolean
-
 - name: sonarCloud
-  type: boolean
-  
-- name: sonarCloudOrganization
   type: string
 
-- name: sonarCloudProjectKey
+- name: stack
   type: string
 
-- name: sonarCloudServiceConnection
+- name: stackName
   type: string
 
-- name: deployBranch
-  type: string
-
+- name: stackDependsOn
+  type: object
 
 stages:
-- stage: dev
-  displayName: Developer
+- stage: ${{ parameters.stack }}
+  displayName: ${{ parameters.stackName }}
+  dependsOn: ${{ parameters.stackDependsOn }}
+
 
   jobs:
-  - template: ../job/build.yml
+  - template: ../job/deploy.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      buildPurpose: ${{ parameters.buildPurpose }}
       includePipeline: ${{ parameters.includePipeline }}
-      project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      buildPurpose: ${{ parameters.buildPurpose }}
       versionType: ${{ parameters.versionType }}
-      versionFile: ${{ parameters.versionFile }}
-      revisionOffset: ${{ parameters.revisionOffset }}
-      prereleaseLabel: ${{ parameters.prereleaseLabel }}
-      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
-      sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
-      sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
-      sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
-      deployBranch: ${{ parameters.deployBranch}}
+      stack: ${{ parameters.stack }}
