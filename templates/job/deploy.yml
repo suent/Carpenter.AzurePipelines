@@ -62,8 +62,6 @@ jobs:
 - job: deploy_branch_test1
   displayName: Deploy branch Test 1
 
-  dependsOn:
-  - build
 
   pool:
     ${{ if eq(parameters.defaultPoolType,'Hosted') }}:

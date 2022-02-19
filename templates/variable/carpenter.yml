@@ -44,133 +44,133 @@ parameters:
 
 variables:
 - name: Carpenter.PipelineVersion
-  value: $[ dependencies.build.outputs['initializePipeline.pipelineVersion'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelineVersion'] ]
 
 - name: Carpenter.Pipeline
-  value: $[ dependencies.build.outputs['initializePipeline.includePipeline'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.includePipeline'] ]
 
 - name: Carpenter.Pipeline.Path
-  value: $[ dependencies.build.outputs['initializePipeline.pipelinePath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelinePath'] ]
 
 - name: Carpenter.Pipeline.ScriptPath
-  value: $[ dependencies.build.outputs['initializePipeline.pipelineScriptPath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelineScriptPath'] ]
 
 - name: Carpenter.DotNet.Path
-  value: $[ dependencies.build.outputs['initializePipeline.dotNetPath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.dotNetPath'] ]
 
 - name: Carpenter.Build.Purpose
-  value: $[ dependencies.build.outputs['initializePipeline.buildPurpose'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.buildPurpose'] ]
 
 - name: Carpenter.Project
-  value: $[ dependencies.build.outputs['initializePipeline.project'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.project'] ]
 
 - name: Carpenter.Project.Path
-  value: $[ dependencies.build.outputs['initializePipeline.projectPath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.projectPath'] ]
 
 - name: Carpenter.Solution.Path
-  value: $[ dependencies.build.outputs['initializePipeline.solutionPath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.solutionPath'] ]
 
 - name: Carpenter.Output.Path
-  value: $[ dependencies.build.outputs['initializePipeline.outputPath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.outputPath'] ]
 
 - name: Carpenter.Output.Binaries.Path
-  value: $[ dependencies.build.outputs['initializePipeline.binariesPath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.binariesPath'] ]
 
 - name: Carpenter.Output.Tests.Path
-  value: $[ dependencies.build.outputs['initializePipeline.testsPath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.testsPath'] ]
 
 - name: Carpenter.Output.TestCoverage.Path
-  value: $[ dependencies.build.outputs['initializePipeline.testCoveragePath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.testCoveragePath'] ]
 
 - name: Carpenter.Output.NuGet.Path
-  value: $[ dependencies.build.outputs['initializePipeline.nuGetPath'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetPath'] ]
 
 - name: Carpenter.Pool.Default.Type
-  value: $[ dependencies.build.outputs['initializePipeline.defaultPoolType'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolType'] ]
 
 - ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
   - name: Carpenter.Pool.Default.VMImage
-    value:  $[ dependencies.build.outputs['initializePipeline.defaultPoolVMImage'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolVMImage'] ]
 
 - ${{ if eq(parameters.defaultPoolType,'Private') }}:
   - name: Carpenter.Pool.Default.Name
-    value: $[ dependencies.build.outputs['initializePipeline.defaultPoolName'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolName'] ]
   
   - name: Carpenter.Pool.Default.Demands
-    value: $[ dependencies.build.outputs['initializePipeline.defaultPoolDemands'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolDemands'] ]
 
 - name: Carpenter.Build.DotNet
-  value: $[ dependencies.build.outputs['initializePipeline.buildDotNet'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.buildDotNet'] ]
 
 - name: Carpenter.Test.Unit
-  value: $[ dependencies.build.outputs['initializePipeline.executeUnitTests'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.executeUnitTests'] ]
 
 - name: Carpenter.SonarCloud
-  value: $[ dependencies.build.outputs['initializePipeline.sonarCloud'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.sonarCloud'] ]
 
 - ${{ if eq(parameters.sonarCloud, 'true') }}:
   - name: Carpenter.SonarCloud.Organization
-    value: $[ dependencies.build.outputs['initializePipeline.sonarCloudOrganization'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.sonarCloudOrganization'] ]
 
   - name: Carpenter.SonarCloud.ProjectKey
-    value: $[ dependencies.build.outputs['initializePipeline.sonarCloudProjectKey'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.sonarCloudProjectKey'] ]
      
   - name: Carpenter.SonarCloud.ServiceConnection
-    value: $[ dependencies.build.outputs['initializePipeline.sonarCloudServiceConnection'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.sonarCloudServiceConnection'] ]
 
 - name: Carpenter.Version.Type
-  value: $[ dependencies.build.outputs['initializePipeline.versionType'] ]
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.versionType'] ]
 
 - ${{ if ne(parameters.versionType,'None') }}:
 
   - name: Carpenter.Version.VersionFile
-    value:  $[ dependencies.build.outputs['initializeBuildVersion.versionFile'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionFile'] ]
 
   - name: Carpenter.Version.VersionFilePath
-    value:  $[ dependencies.build.outputs['initializeBuildVersion.versionFilePath'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionFilePath'] ]
 
   - name: Carpenter.Version.RevisionOffset
-    value:  $[ dependencies.build.outputs['initializeBuildVersion.revisionOffset'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.revisionOffset'] ]
 
   - name: Carpenter.Version.BaseVersion
-    value: $[ dependencies.build.outputs['initializeBuildVersion.baseVersion'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.baseVersion'] ]
 
   - name: Carpenter.Version.Major
-    value: $[ dependencies.build.outputs['initializeBuildVersion.majorVersion'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.majorVersion'] ]
 
   - name: Carpenter.Version.Minor
-    value: $[ dependencies.build.outputs['initializeBuildVersion.minorVersion'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.minorVersion'] ]
 
   - name: Carpenter.Version.Patch
-    value: $[ dependencies.build.outputs['initializeBuildVersion.patchVersion'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.patchVersion'] ]
 
   - name: Carpenter.Version.Revision
-    value:  $[ dependencies.build.outputs['initializeBuildVersion.revision'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.revision'] ]
 
   - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildPurpose'],'CI'))) }}:
     - name: Carpenter.ContinuousIntegration.Date
-      value: $[ dependencies.build.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
 
     - name: Carpenter.ContinuousIntegration.Revision
-      value: $[ dependencies.build.outputs['initializeBuildVersion.continuousIntegrationRevision'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.continuousIntegrationRevision'] ]
 
   - ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
     - name: Carpenter.PullRequest.Revision
-      value: $[ dependencies.build.outputs['initializeBuildVersion.pullRequestRevision'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.pullRequestRevision'] ]
 
   - ${{ if eq(parameters['buildPurpose'],'Prerelease')}}:
     - name: Carpenter.Prerelease.Label
-      value: $[ dependencies.build.outputs['initializeBuildVersion.prereleaseLabel'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.prereleaseLabel'] ]
   
     - name: Carpenter.Prerelease.Revision
-      value: $[ dependencies.build.outputs['initializeBuildVersion.prereleaseRevision'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.prereleaseRevision'] ]
 
   - ${{ if eq(parameters['buildPurpose'],'Release')}}:
     - name: Carpenter.Version.IncrementOnRelease
-      value: $[ dependencies.build.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
 
   - name: Carpenter.Version.Label
-    value: $[ dependencies.build.outputs['initializeBuildVersion.versionLabel'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionLabel'] ]
 
   - name: Carpenter.Version
-    value: $[ dependencies.build.outputs['initializeBuildVersion.version'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.version'] ]
