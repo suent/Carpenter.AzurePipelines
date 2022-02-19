@@ -61,7 +61,7 @@ trigger:
   batch: false
   branches:
     exclude:
-    - branch-stack*
+    - stack/*
 pr:
   autoCancel: true  # allow github to cancel builds that are no longer relevant.
                     # for example: a PR build, where the PR has been updated
