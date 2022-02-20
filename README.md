@@ -3,7 +3,7 @@
 [![Build Status](https://dev.azure.com/suent/Carpenter/_apis/build/status/Carpenter.AzurePipelines?branchName=main)](https://dev.azure.com/suent/Carpenter/_build/latest?definitionId=7&branchName=main)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Suent_Carpenter.AzurePipelines&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Suent_Carpenter.AzurePipelines)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Suent_Carpenter.AzurePipelines&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Suent_Carpenter.AzurePipelines)
-
+[![Release](https://vsrm.dev.azure.com/suent/_apis/public/Release/badge/f805856b-08a0-459b-89c8-66f8ec61d6e1/1/4)](https://dev.azure.com/suent/Carpenter/_release?view=all&_a=releases&definitionId=1)
 
 [Carpenter.AzurePipelines](#carpeneterazurepipelines)
 
