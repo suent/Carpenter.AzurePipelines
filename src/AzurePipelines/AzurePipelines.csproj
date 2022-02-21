@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="Carpenter" Version="0.4.0">
+	<PackageReference Include="Carpenter" Version="0.5.1">
 	  <PrivateAssets>all</PrivateAssets>
 	</PackageReference>
   </ItemGroup>
