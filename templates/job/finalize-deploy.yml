@@ -36,6 +36,9 @@ parameters:
 - name: includePipeline
   type: boolean
 
+- name: buildPurpose
+  type: string
+
 - name: defaultPoolType
   type: string
 
@@ -48,9 +51,6 @@ parameters:
 - name: defaultPoolVMImage
   type: string
 
-- name: buildPurpose
-  type: string
-
 - name: versionType
   type: string
 
@@ -60,41 +60,44 @@ parameters:
 - name: stack
   type: string
 
-- name: stackName
-  type: string
 
-- name: stackDependsOn
-  type: object
-
-stages:
-- stage: ${{ parameters.stack }}
-  displayName: ${{ parameters.stackName }}
-  dependsOn: ${{ parameters.stackDependsOn }}
+jobs:
+- job: 'deploy_finalize_${{ parameters.stack }}'
+  displayName: 'Finalize deploy: ${{ parameters.stack }}'
 
 
-  jobs:
-  - template: ../job/deploy.yml
+  pool:
+    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+      vmImage: ${{ parameters.defaultPoolVMImage }}
+    ${{ if eq(parameters.defaultPoolType,'Private') }}:
+      name: ${{ parameters.defaultPoolName }}
+      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+        demands: ${{ parameters.defaultPoolDemands }}
+
+
+  workspace:
+    clean: all
+
+
+  variables:
+  - template: ../variable/carpenter.yml
     parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      buildPurpose: ${{ parameters.buildPurpose }}
-      versionType: ${{ parameters.versionType }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      stack: ${{ parameters.stack }}
-
-  - template: ../job/finalize-deploy.yml
-    parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
       buildPurpose: ${{ parameters.buildPurpose }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
-      stack: ${{ parameters.stack }}
+
+  steps:
+  # Include sources for access to pipeline scripts
+  - ${{ if ne(parameters.includePipeline, 'true') }}:
+  - checkout: self
+  
+  # Include pipeline for access to pipeline scripts
+  - ${{ if eq(parameters.includePipeline, 'true') }}:
+    - checkout: Carpenter
+      persistCredentials: true
+
+  - template: ../step/display-environment.yml
+
+  - powershell: |
+      "##vso[build.addbuildtag]Deployed-${{ parameters.stack }}"
