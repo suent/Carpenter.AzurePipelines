@@ -90,7 +90,7 @@ jobs:
   steps:
   # Include sources for access to pipeline scripts
   - ${{ if ne(parameters.includePipeline, 'true') }}:
-  - checkout: self
+    - checkout: self
   
   # Include pipeline for access to pipeline scripts
   - ${{ if eq(parameters.includePipeline, 'true') }}:
