@@ -161,6 +161,7 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch }}
         stack: test1
         stackName: Test 1
         stackDependsOn:
@@ -178,6 +179,7 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch }}
         stack: test2
         stackName: Test 2
         stackDependsOn:
@@ -195,6 +197,7 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch }}
         stack: stable
         stackName: Stable
         stackDependsOn:
@@ -215,6 +218,7 @@ stages:
           defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
           versionType: ${{ parameters.versionType }}
           sonarCloud: ${{ parameters.sonarCloud }}
+          deployBranch: ${{ parameters.deployBranch }}
           stack: prod_us
           stackName: Production US
           stackDependsOn:

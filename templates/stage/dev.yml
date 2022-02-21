@@ -120,7 +120,7 @@ stages:
       deployBranch: ${{ parameters.deployBranch}}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
-    - template: ../job/finalize-deploy.yml
+    - template: ../job/deploy.yml
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
         includePipeline: ${{ parameters.includePipeline }}
@@ -132,3 +132,4 @@ stages:
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
         stack: dev
+        dependsOn: build
