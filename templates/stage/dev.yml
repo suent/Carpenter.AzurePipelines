@@ -99,8 +99,8 @@ stages:
   - template: ../job/build.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      buildPurpose: ${{ parameters.buildPurpose }}
       includePipeline: ${{ parameters.includePipeline }}
+      buildPurpose: ${{ parameters.buildPurpose }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -118,3 +118,17 @@ stages:
       sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
       deployBranch: ${{ parameters.deployBranch}}
+
+  - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
+    - template: ../job/finalize-deploy.yml
+      parameters:
+        pipelineVersion: ${{ parameters.pipelineVersion }}
+        includePipeline: ${{ parameters.includePipeline }}
+        buildPurpose: ${{ parameters.buildPurpose }}
+        defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolName: ${{ parameters.defaultPoolName }}
+        defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+        versionType: ${{ parameters.versionType }}
+        sonarCloud: ${{ parameters.sonarCloud }}
+        stack: dev
