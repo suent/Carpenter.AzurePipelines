@@ -93,5 +93,7 @@ jobs:
     sonarCloud: ${{ parameters.sonarCloud }}
     stack: ${{ parameters.stack }}
     jobDependsOn:
+    - ${{ if eq(parameters.stack, 'dev') }}:
+      - build
     - ${{ if contains(parameters.deployBranch, parameters.stack) }}:
       - deploy_branch_${{ parameters.stack }}

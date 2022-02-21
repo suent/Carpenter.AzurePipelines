@@ -131,5 +131,5 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch}}
         stack: dev
-        dependsOn: build
