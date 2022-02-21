@@ -57,9 +57,6 @@ parameters:
 - name: sonarCloud
   type: string
 
-- name: deployBranch
-  type: string
-
 - name: stack
   type: string
 

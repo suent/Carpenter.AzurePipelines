@@ -117,7 +117,7 @@ stages:
       sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
       sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
-      deployBranch: ${{ parameters.deployBranch}}
+      deployBranch: ${{ parameters.deployBranch }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: ../job/deploy.yml
@@ -131,5 +131,5 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
-        deployBranch: ${{ parameters.deployBranch}}
+        deployBranch: ${{ parameters.deployBranch }}
         stack: dev
