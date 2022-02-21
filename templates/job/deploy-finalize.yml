@@ -92,15 +92,8 @@ jobs:
       sonarCloud: ${{ parameters.sonarCloud }}
 
   steps:
-  # Include sources for access to pipeline scripts
-  - ${{ if ne(parameters.includePipeline, 'true') }}:
-    - checkout: self
+  - checkout: none
   
-  # Include pipeline for access to pipeline scripts
-  - ${{ if eq(parameters.includePipeline, 'true') }}:
-    - checkout: Carpenter
-      persistCredentials: true
-
   - template: ../step/display-environment.yml
 
   - powershell: |
