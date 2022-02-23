@@ -135,7 +135,7 @@ jobs:
         installationPath: $(Carpenter.DotNet.Path)
 
     - powershell: |
-        pwd
+        Get-Location
         $stacks = $env:CARPENTER_DEPLOY_NUGET -Split ","
         $targetFeed = ''
         $apiKey = ''
