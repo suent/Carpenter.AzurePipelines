@@ -120,10 +120,9 @@ jobs:
     displayName: 'Copy files: NuGet.Config'
     condition: succeeded()
     inputs:
-      cleanTargetFolder: true
       sourceFolder: $(Agent.BuildDirectory)\package.nuget
       contents: 'NuGet.Config'
-      targetFolder: $(Agent.BuildDirectory)\.nuget
+      targetFolder: $(Agent.BuildDirectory)
 
   - ${{ if eq(parameters.buildDotNet,'true') }}:
     - task: UseDotNet@2
@@ -135,11 +134,9 @@ jobs:
         installationPath: $(Carpenter.DotNet.Path)
 
     - powershell: |
-        Get-Location
         $stacks = $env:CARPENTER_DEPLOY_NUGET -Split ","
         $targetFeed = ''
         $apiKey = ''
-        Write-Host "Stacks: $stacks"
         if ([string]($stacks -like "dev") -eq "dev") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV
         }
@@ -155,13 +152,11 @@ jobs:
         if ([string]($stacks -like "prod_us") -eq "prod_us") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
         }
-        Write-Host "TargetFeed: $targetFeed"
         if ($targetFeed -eq "AzureArtifacts") {
           $apiKey = "AzureArtifacts"
         } elseif ($targetFeed -eq "github.com") {
           $apiKey = $(PipelineBot-GitHub-PAT)
         }
-        Write-Host "ApiKey: $apiKey"
         dotnet nuget push --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Publish package: NuGet (${{ parameters.stack }})'
