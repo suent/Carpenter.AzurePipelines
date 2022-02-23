@@ -90,6 +90,8 @@ parameters:
 - name: deployBranch
   type: string
 
+- name: deployNuGet
+  type: string
 
 stages:
 - stage: dev
@@ -118,6 +120,7 @@ stages:
       sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
       deployBranch: ${{ parameters.deployBranch }}
+      deployNuGet: ${{ parameters.deployNuGet }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: ../job/deploy.yml
@@ -132,4 +135,5 @@ stages:
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
+        deployNuGet: ${{ parameters.deployNuGet }}
         stack: dev

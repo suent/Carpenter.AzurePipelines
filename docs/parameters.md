@@ -27,6 +27,7 @@
   * [sonarCloudServiceConnection](#sonarcloudserviceconnection)
 * [Deployment parameters](#deployment-parameters)
   * [deployBranch](#deploybranch)
+  * [deployNuGet](#deploynuget)
 
 # Carpenter.AzurePipelines Parameters
 
@@ -161,3 +162,8 @@ The SonarCloud service connection to use. This is required if `sonarCloud` is **
 
 Comma separated list of stacks deploy branch should execute for. Creates a branch of this builds
 source to represent code on a stack.
+
+### deployNuGet
+
+Comma separated list of stacks deploy nuget should execute for. Publishes NuGet packages created by
+this pipeline.

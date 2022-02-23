@@ -60,6 +60,9 @@ parameters:
 - name: deployBranch
   type: string
 
+- name: deployNuGet
+  type: string
+
 - name: stack
   type: string
 

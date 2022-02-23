@@ -60,6 +60,9 @@ parameters:
 - name: deployBranch
   type: string
 
+- name: deployNuGet
+  type: string
+
 - name: stack
   type: string
 
@@ -70,22 +73,24 @@ parameters:
   type: object
 
 stages:
-- stage: ${{ parameters.stack }}
-  displayName: ${{ parameters.stackName }}
-  dependsOn: ${{ parameters.stackDependsOn }}
+- ${{ if or(contains(parameters.deployBranch,parameters.stack), contains(parameters.deployNuGet, parameters.stack) }}:
+  - stage: ${{ parameters.stack }}
+    displayName: ${{ parameters.stackName }}
+    dependsOn: ${{ parameters.stackDependsOn }}
 
 
-  jobs:
-  - template: ../job/deploy.yml
-    parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      buildPurpose: ${{ parameters.buildPurpose }}
-      versionType: ${{ parameters.versionType }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      deployBranch: ${{ parameters.deployBranch }}
-      stack: ${{ parameters.stack }}
+    jobs:
+    - template: ../job/deploy.yml
+      parameters:
+        pipelineVersion: ${{ parameters.pipelineVersion }}
+        includePipeline: ${{ parameters.includePipeline }}
+        defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolName: ${{ parameters.defaultPoolName }}
+        defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+        buildPurpose: ${{ parameters.buildPurpose }}
+        versionType: ${{ parameters.versionType }}
+        sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch }}
+        deployNuGet: ${{ parameters.deployNuGet }}
+        stack: ${{ parameters.stack }}
