@@ -33,22 +33,10 @@ parameters:
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
-
 - name: buildPurpose
   type: string
 
 - name: defaultPoolType
-  type: string
-
-- name: defaultPoolName
-  type: string
-
-- name: defaultPoolDemands
-  type: object
-
-- name: defaultPoolVMImage
   type: string
 
 - name: versionType
@@ -76,7 +64,7 @@ jobs:
 
 
   pool:
-    vmImage: windows-latest
+    vmImage: windows-2022
 
 
   workspace:
@@ -93,14 +81,10 @@ jobs:
 
 
   steps:
-  - ${{ if ne(parameters.includePipeline, 'true') }}:
-    - checkout: self
+  # For access to NuGet.Config
+  - checkout: self
   
-  # Include pipeline for access to pipeline scripts
-  - ${{ if eq(parameters.includePipeline, 'true') }}:
-    - checkout: Carpenter
-      persistCredentials: true
-
+  
   # Download the nuget package created by the build job
   - download: current
     artifact: package.nuget
