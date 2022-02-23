@@ -378,7 +378,7 @@ jobs:
         inputs:
           command: test
           projects: '$(Carpenter.Solution.Path)'
-          arguments: '--output $(Carpenter.Output.Binaries.Path) --filter Category=UnitTest --logger trx --results-directory $(Carpenter.Output.Tests.Path) --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(Carpenter.Output.Tests.Path)/ /p:CoverletOutputFormat="cobertura%2copencover"'
+          arguments: '--no-build --output $(Carpenter.Output.Binaries.Path) --filter Category=UnitTest --logger trx --results-directory $(Carpenter.Output.Tests.Path) --configuration Debug /p:CollectCoverage=true /p:CoverletOutput=$(Carpenter.Output.Tests.Path)/ /p:CoverletOutputFormat="cobertura%2copencover"'
           publishTestResults: false # manually publish later, we want trx results saved to specific location
           nobuild: true
 
