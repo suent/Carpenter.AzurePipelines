@@ -127,18 +127,23 @@ parameters:
 
 - name: nuGetTargetFeedDev
   type: string
+  default: ''
 
 - name: nuGetTargetFeedTest1
   type: string
+  default: ''
 
 - name: nuGetTargetFeedTest2
   type: string
+  default: ''
 
 - name: nuGetTargetFeedStable
   type: string
+  default: ''
 
 - name: nuGetTargetFeedProdUS
   type: string
+  default: ''
 
 
 stages:
