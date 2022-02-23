@@ -63,6 +63,21 @@ parameters:
 - name: deployNuGet
   type: string
 
+- name: nuGetTargetFeedDev
+  type: string
+
+- name: nuGetTargetFeedTest1
+  type: string
+
+- name: nuGetTargetFeedTest2
+  type: string
+
+- name: nuGetTargetFeedStable
+  type: string
+
+- name: nuGetTargetFeedProdUS
+  type: string
+
 - name: stack
   type: string
 
@@ -81,6 +96,7 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
+      deployNuGet: ${{ parameters.deployNuGet }}
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
@@ -94,6 +110,7 @@ jobs:
       defaultPoolType: ${{ parameters.defaultPoolType }}
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
+      deployNuGet: ${{ parameters.deployNuGet }}
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
@@ -111,6 +128,7 @@ jobs:
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     versionType: ${{ parameters.versionType }}
     sonarCloud: ${{ parameters.sonarCloud }}
+    deployNuGet: ${{ parameters.deployNuGet }}
     stack: ${{ parameters.stack }}
     jobDependsOn:
     - ${{ if eq(parameters.stack, 'dev') }}:

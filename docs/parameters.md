@@ -28,6 +28,11 @@
 * [Deployment parameters](#deployment-parameters)
   * [deployBranch](#deploybranch)
   * [deployNuGet](#deploynuget)
+  * [nuGetTargetFeedDev](#nugettargetfeeddev)
+  * [nuGetTargetFeedTest1](#nugettargetfeedtest1)
+  * [nuGetTargetFeedTest2](#nugettargetfeedtest2)
+  * [nuGetTargetFeedStable](#nugettargetfeedstable)
+  * [nuGetTargetFeedProdUS](#nugettargetfeedprodus)
 
 # Carpenter.AzurePipelines Parameters
 
@@ -167,3 +172,23 @@ source to represent code on a stack.
 
 Comma separated list of stacks deploy nuget should execute for. Publishes NuGet packages created by
 this pipeline.
+
+### nuGetTargetFeedDev
+
+The target NuGet feed to use when deploying NuGet packages to the Dev stack.
+
+### nuGetTargetFeedTest1
+
+The target NuGet feed to use when deploying NuGet packages to the Test1 stack.
+
+### nuGetTargetFeedTest2
+
+The target NuGet feed to use when deploying NuGet packages to the Test2 stack.
+
+### nuGetTargetFeedStable
+
+The target NuGet feed to use when deploying NuGet packages to the Stable stack.
+
+### nuGetTargetFeedProdUS
+
+The target NuGet feed to use when deploying NuGet packages to the ProdUS stack.

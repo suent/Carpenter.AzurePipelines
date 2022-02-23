@@ -93,6 +93,22 @@ parameters:
 - name: deployNuGet
   type: string
 
+- name: nuGetTargetFeedDev
+  type: string
+
+- name: nuGetTargetFeedTest1
+  type: string
+
+- name: nuGetTargetFeedTest2
+  type: string
+
+- name: nuGetTargetFeedStable
+  type: string
+
+- name: nuGetTargetFeedProdUS
+  type: string
+
+
 stages:
 - stage: dev
   displayName: Developer
@@ -121,6 +137,11 @@ stages:
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
+      nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+      nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+      nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+      nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
+      nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: ../job/deploy.yml
@@ -136,4 +157,9 @@ stages:
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
+        nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+        nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+        nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+        nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
+        nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
         stack: dev

@@ -93,6 +93,21 @@ parameters:
 - name: deployNuGet
   type: string
 
+- name: nuGetTargetFeedDev
+  type: string
+
+- name: nuGetTargetFeedTest1
+  type: string
+
+- name: nuGetTargetFeedTest2
+  type: string
+
+- name: nuGetTargetFeedStable
+  type: string
+
+- name: nuGetTargetFeedProdUS
+  type: string
+
 
 jobs:
 - job: build
@@ -228,6 +243,27 @@ jobs:
 
   - name: Carpenter.Deploy.NuGet
     value: ${{ parameters.deployNuGet }}
+
+  - ${{ if contains(parameters.deployNuGet,'dev') }}:
+    - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
+      value: ${{ paramteres.nuGetTargetFeedDev }}
+
+  - ${{ if contains(parameters.deployNuGet,'test1') }}:
+    - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
+      value: ${{ paramteres.nuGetTargetFeedTest1 }}
+
+  - ${{ if contains(parameters.deployNuGet,'test2') }}:
+    - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
+      value: ${{ paramteres.nuGetTargetFeedTest2 }}
+
+  - ${{ if contains(parameters.deployNuGet,'stable') }}:
+    - name: Carpenter.Deploy.NuGet.TargetFeed.Stable
+      value: ${{ paramteres.nuGetTargetFeedStable }}
+
+  - ${{ if contains(parameters.deployNuGet,'prod_us') }}:
+    - name: Carpenter.Deploy.NuGet.TargetFeed.ProdUS
+      value: ${{ paramteres.nuGetTargetFeedProdUS }}
+
 
   steps:
   - checkout: self

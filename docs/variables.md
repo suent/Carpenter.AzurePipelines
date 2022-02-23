@@ -45,6 +45,11 @@
 * [Deployment variables](#deployment-variables)
   * [Carpenter.Deploy.Branch](#carpenterdeploybranch)
   * [Carpenter.Deploy.NuGet](#carpenterdeploynuget)
+  * [Carpenter.Deploy.NuGet.TargetFeed.Dev](#carpenterdeploynugettargetfeeddev)
+  * [Carpenter.Deploy.NuGet.TargetFeed.Test1](#carpenterdeploynugettargetfeedtest1)
+  * [Carpenter.Deploy.NuGet.TargetFeed.Test2](#carpenterdeploynugettargetfeedtest2)
+  * [Carpenter.Deploy.NuGet.TargetFeed.Stable](#carpenterdeploynugettargetfeedstable)
+  * [Carpenter.Deploy.NuGet.TargetFeed.ProdUS](#carpenterdeploynugettargetfeedprodus)
 
 # Carpenter.AzurePipelines Variables
 
@@ -306,3 +311,28 @@ source to represent code on a stack. This value is set by the `deployBranch` par
 
 Comma separated list of stacks deploy nuget should execute for. Publishes NuGet packages created by
 this pipeline. This value is set by the `deployNuGet` parameter.
+
+# Carpenter.Deploy.NuGet.TargetFeed.Dev
+
+The target NuGet feed to use when deploying NuGet packages to the Dev stack. This value is set by the
+`deployNuGetTargetFeedDev` parameter.
+
+# Carpenter.Deploy.NuGet.TargetFeed.Test1
+
+The target NuGet feed to use when deploying NuGet packages to the Test1 stack. This value is set by the
+`deployNuGetTargetFeedTest1` parameter.
+
+# Carpenter.Deploy.NuGet.TargetFeed.Test2
+
+The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is set by the
+`deployNuGetTargetFeedTest2` parameter.
+
+# Carpenter.Deploy.NuGet.TargetFeed.Stable
+
+The target NuGet feed to use when deploying NuGet packages to the Stable stack. This value is set by the
+`deployNuGetTargetFeedStable` parameter.
+
+# Carpenter.Deploy.NuGet.TargetFeed.ProdUS
+
+The target NuGet feed to use when deploying NuGet packages to the ProdUS stack. This value is set by the
+`deployNuGetTargetFeedProdUS` parameter.

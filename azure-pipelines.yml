@@ -110,3 +110,8 @@ stages:
     sonarCloudServiceConnection: SonarCloudAnalysis1
     deployBranch: 'test1,test2,stable,prod_us'
     deployNuGet: 'dev'
+    nuGetTargetFeedDev: AzureArtifacts
+    #nuGetTargetFeedTest1:
+    #nuGetTargetFeedTest2:
+    nuGetTargetFeedStable: github.com
+    nuGetTargetFeedProdUS: nuget.org

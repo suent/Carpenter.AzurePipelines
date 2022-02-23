@@ -45,6 +45,9 @@ parameters:
 - name: sonarCloud
   type: string
 
+- name: deployNuGet
+  type: string
+
 - name: stack
   type: string
 
@@ -72,7 +75,7 @@ jobs:
 
 
   variables:
-  # Clear proxy variables
+  # Clear proxy variables because this task runs on Hosted Windows agent
   - name: http_proxy
     value: ''
 
@@ -91,6 +94,7 @@ jobs:
       defaultPoolType: ${{ parameters.defaultPoolType }}
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
+      deployNuGet: ${{ parameters.deployNuGet }}
 
 
   steps:
