@@ -62,7 +62,7 @@ parameters:
 
 - name: jobDependsOn
   type: object
-  value: {}
+  default: {}
 
 
 jobs:
