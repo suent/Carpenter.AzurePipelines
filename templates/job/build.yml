@@ -349,7 +349,6 @@ jobs:
       displayName: 'Copy files: nupkg'
       condition: succeeded()
       inputs:
-        cleanTargetFolder: true
         sourceFolder: $(Carpenter.Output.Binaries.Path)
         contents: '*.nupkg'
         targetFolder: $(Carpenter.Output.NuGet.Path)
