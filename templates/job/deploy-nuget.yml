@@ -163,6 +163,7 @@ jobs:
         }
         Write-Host "ApiKey: $apiKey"
         dotnet nuget push --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+      workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Publish package: NuGet (${{ parameters.stack }})'
 
   - ${{ if ne(parameters.buildDotNet,'true') }}:
