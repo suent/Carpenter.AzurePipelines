@@ -106,8 +106,8 @@ jobs:
   - template: ../step/display-environment.yml
 
   - task: NuGetAuthenticate@0
-#    inputs:
-#      nuGetServiceConnections: OtherOrganizationFeedConnection, ThirdPartyRepositoryConnection
+    inputs:
+      nuGetServiceConnections: nuget.org
     displayName: Setup NuGet authentication
 
   - task: NuGetToolInstaller@1 # Optional if nuget.exe >= 4.8.5385 is already on the path
@@ -117,5 +117,5 @@ jobs:
     displayName: Use NuGet Tool
 
   - script: |
-      nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+      nuget push -ApiKey AzureArtifacts -Source "nuget.org" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
     displayName: 'Publish NuGet package(s)'
