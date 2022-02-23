@@ -36,7 +36,12 @@ param(
 	[string] $SonarCloudProjectKey = $env:CARPENTER_SONARCLOUD_PROJECTKEY,
 	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION,
 	[string] $DeployBranch = $env:CARPENTER_DEPLOY_BRANCH,
-	[string] $DeployNuGet = $env:CARPENTER_DEPLOY_NUGET
+	[string] $DeployNuGet = $env:CARPENTER_DEPLOY_NUGET,
+	[string] $NuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
+	[string] $NuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
+	[string] $NuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
+	[string] $NuGetTargetFeedStable = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE,
+	[string] $NuGetTargetFeedProdUS = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -103,3 +108,8 @@ if ($sonarCloud -eq 'true') {
 
 $deployBranch = Set-CarpenterVariable -VariableName "Carpenter.Deploy.Branch" -OutputVariableName "deployBranch" -Value $DeployBranch
 $deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet
+$nuGetTargetFeedDev = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Dev" -OutputVariableName "nuGetTargetFeedDev" -Value $NuGetTargetFeedDev
+$nuGetTargetFeedTest1 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test1" -OutputVariableName "nuGetTargetFeedTest1" -Value $NuGetTargetFeedTest2
+$nuGetTargetFeedTest2 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test2" -OutputVariableName "nuGetTargetFeedTest2" -Value $NuGetTargetFeedTest2
+$nuGetTargetFeedStable = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Stable" -OutputVariableName "nuGetTargetFeedStable" -Value $NuGetTargetFeedStable
+$nuGetTargetFeedProdUS = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.ProdUS" -OutputVariableName "nuGetTargetFeedProdUS" -Value $NuGetTargetFeedProdUS
