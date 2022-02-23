@@ -246,23 +246,23 @@ jobs:
 
   - ${{ if contains(parameters.deployNuGet,'dev') }}:
     - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
-      value: ${{ paramteres.nuGetTargetFeedDev }}
+      value: ${{ parameters.nuGetTargetFeedDev }}
 
   - ${{ if contains(parameters.deployNuGet,'test1') }}:
     - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
-      value: ${{ paramteres.nuGetTargetFeedTest1 }}
+      value: ${{ parameters.nuGetTargetFeedTest1 }}
 
   - ${{ if contains(parameters.deployNuGet,'test2') }}:
     - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
-      value: ${{ paramteres.nuGetTargetFeedTest2 }}
+      value: ${{ parameters.nuGetTargetFeedTest2 }}
 
   - ${{ if contains(parameters.deployNuGet,'stable') }}:
     - name: Carpenter.Deploy.NuGet.TargetFeed.Stable
-      value: ${{ paramteres.nuGetTargetFeedStable }}
+      value: ${{ parameters.nuGetTargetFeedStable }}
 
   - ${{ if contains(parameters.deployNuGet,'prod_us') }}:
     - name: Carpenter.Deploy.NuGet.TargetFeed.ProdUS
-      value: ${{ paramteres.nuGetTargetFeedProdUS }}
+      value: ${{ parameters.nuGetTargetFeedProdUS }}
 
 
   steps:
