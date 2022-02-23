@@ -96,15 +96,17 @@ stages:
     displayName: ${{ parameters.stackName }}
     dependsOn: ${{ parameters.stackDependsOn }}
 
-    ${{ if ne(parameters.stack,'dev') }}:
     variables:
-    - template: ../variable/carpenter-stack.yml
-      parameters:
-        buildPurpose: ${{ parameters.buildPurpose }}
-        defaultPoolType: ${{ parameters.defaultPoolType }}
-        versionType: ${{ parameters.versionType }}
-        sonarCloud: ${{ parameters.sonarCloud }}
-        deployNuGet: ${{ parameters.deployNuGet }}
+    - name: Carpenter.Stack
+      value: ${{ parameters.stack }}
+    - ${{ if ne(parameters.stack,'dev') }}:
+      - template: ../variable/carpenter-stack.yml
+        parameters:
+          buildPurpose: ${{ parameters.buildPurpose }}
+          defaultPoolType: ${{ parameters.defaultPoolType }}
+          versionType: ${{ parameters.versionType }}
+          sonarCloud: ${{ parameters.sonarCloud }}
+          deployNuGet: ${{ parameters.deployNuGet }}
 
     jobs:
     - template: ../job/deploy.yml
