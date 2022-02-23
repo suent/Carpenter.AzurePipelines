@@ -125,6 +125,26 @@ parameters:
   type: string
   default: ''
 
+- name: nuGetTargetFeedDev
+  type: string
+  default: ''
+
+- name: nuGetTargetFeedTest1
+  type: string
+  default: ''
+
+- name: nuGetTargetFeedTest2
+  type: string
+  default: ''
+
+- name: nuGetTargetFeedStable
+  type: string
+  default: ''
+
+- name: nuGetTargetFeedProdUS
+  type: string
+  default: ''
+
 
 stages:
 - template: stage/dev.yml
@@ -150,6 +170,11 @@ stages:
     sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
     deployBranch: ${{ parameters.deployBranch }}
     deployNuGet: ${{ parameters.deployNuGet }}
+    nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+    nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+    nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+    nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
+    nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
 
 # Deploys only on changes to main branch
 - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
@@ -167,6 +192,11 @@ stages:
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
+      nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+      nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+      nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+      nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
+      nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
       stack: test1
       stackName: Test 1
       stackDependsOn:
@@ -185,6 +215,11 @@ stages:
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
+      nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+      nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+      nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+      nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
+      nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
       stack: test2
       stackName: Test 2
       stackDependsOn:
@@ -203,6 +238,11 @@ stages:
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
+      nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+      nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+      nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+      nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
+      nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
       stack: stable
       stackName: Stable
       stackDependsOn:
@@ -225,6 +265,11 @@ stages:
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
+        nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+        nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+        nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+        nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
+        nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
         stack: prod_us
         stackName: Production US
         stackDependsOn:

@@ -63,6 +63,21 @@ parameters:
 - name: deployNuGet
   type: string
 
+- name: nuGetTargetFeedDev
+  type: string
+
+- name: nuGetTargetFeedTest1
+  type: string
+
+- name: nuGetTargetFeedTest2
+  type: string
+
+- name: nuGetTargetFeedStable
+  type: string
+
+- name: nuGetTargetFeedProdUS
+  type: string
+
 - name: stack
   type: string
 
@@ -93,4 +108,9 @@ stages:
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
+        nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+        nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+        nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+        nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
+        nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
         stack: ${{ parameters.stack }}

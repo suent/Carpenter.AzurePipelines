@@ -45,6 +45,9 @@ parameters:
 - name: sonarCloud
   type: string
 
+- name: deployNuGet
+  type: string
+
 - name: stack
   type: string
 
@@ -72,7 +75,7 @@ jobs:
 
 
   variables:
-  # Clear proxy variables
+  # Clear proxy variables because this task runs on Hosted Windows agent
   - name: http_proxy
     value: ''
 
@@ -91,13 +94,10 @@ jobs:
       defaultPoolType: ${{ parameters.defaultPoolType }}
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
+      deployNuGet: ${{ parameters.deployNuGet }}
 
 
   steps:
-  # For access to NuGet.Config
-  - checkout: self
-  
-  
   # Download the nuget package created by the build job
   - download: current
     artifact: package.nuget
@@ -114,6 +114,6 @@ jobs:
       checkLatest: true
     displayName: Use NuGet Tool
 
-  - script: |
-      nuget push -ApiKey $(NuGet-PAT) -Source "nuget.org" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+  - powershell: |
+      nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
     displayName: 'Publish NuGet package(s)'

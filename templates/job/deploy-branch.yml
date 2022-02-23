@@ -57,6 +57,9 @@ parameters:
 - name: sonarCloud
   type: string
 
+- name: deployNuGet
+  type: string
+
 - name: stack
   type: string
 
@@ -95,6 +98,7 @@ jobs:
       defaultPoolType: ${{ parameters.defaultPoolType }}
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
+      deployNuGet: ${{ parameters.deployNuGet }}
 
   steps:
   - checkout: self

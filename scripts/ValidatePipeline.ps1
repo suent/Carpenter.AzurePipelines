@@ -24,7 +24,13 @@ param(
 	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
 	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
 	[string] $SonarCloudProjectKey = $env:CARPENTER_SONARCLOUD_PROJECTKEY,
-	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION
+	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION,
+	[string] $deployNuGet = $env:CARPENTER_DEPLOY_NUGET,
+	[string] $nuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
+	[string] $nuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
+	[string] $nuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
+	[string] $nuGetTargetFeedStable = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE,
+	[string] $nuGetTargetFeedProdUS = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -146,5 +152,40 @@ if ($SonarCloud -eq "true") {
 	Write-Verbose "Validating sonarCloudServiceConnection"
 	if (-Not ($SonarCloudServiceConnection)) {
 		Write-PipelineError "The sonarCloudServiceConnection parameter is required when sonarCloud is true."
+	}
+}
+
+if ((($DeployNuGet -Split ",").Trim()) -Contains "dev") {
+	Write-Verbose "Validating nuGetTargetFeedDev"
+	if (-Not ($NuGetTargetFeedDev)) {
+		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains dev."
+	}
+}
+
+if ((($DeployNuGet -Split ",").Trim()) -Contains "test1") {
+	Write-Verbose "Validating nuGetTargetFeedTest1"
+	if (-Not ($NuGetTargetFeedTest1)) {
+		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains test1."
+	}
+}
+
+if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
+	Write-Verbose "Validating nuGetTargetFeedTest2"
+	if (-Not ($NuGetTargetFeedTest2)) {
+		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains test2."
+	}
+}
+
+if ((($DeployNuGet -Split ",").Trim()) -Contains "stable") {
+	Write-Verbose "Validating nuGetTargetFeedStable"
+	if (-Not ($NuGetTargetFeedStable)) {
+		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains stable."
+	}
+}
+
+if ((($DeployNuGet -Split ",").Trim()) -Contains "prod_us") {
+	Write-Verbose "Validating nuGetTargetFeedProdUS"
+	if (-Not ($NuGetTargetFeedProdUS)) {
+		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains prod_us."
 	}
 }
