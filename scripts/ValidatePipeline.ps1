@@ -155,35 +155,35 @@ if ($SonarCloud -eq "true") {
 	}
 }
 
-if ((($DeployNuGet -Split ",") -Trim) -Contains "dev") {
+if ((($DeployNuGet -Split ",").Trim()) -Contains "dev") {
 	Write-Verbose "Validating nuGetTargetFeedDev"
 	if (-Not ($NuGetTargetFeedDev)) {
 		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains dev."
 	}
 }
 
-if ((($DeployNuGet -Split ",") -Trim) -Contains "test1") {
+if ((($DeployNuGet -Split ",").Trim()) -Contains "test1") {
 	Write-Verbose "Validating nuGetTargetFeedTest1"
 	if (-Not ($NuGetTargetFeedTest1)) {
 		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains test1."
 	}
 }
 
-if ((($DeployNuGet -Split ",") -Trim) -Contains "test2") {
+if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
 	Write-Verbose "Validating nuGetTargetFeedTest2"
 	if (-Not ($NuGetTargetFeedTest2)) {
 		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains test2."
 	}
 }
 
-if ((($DeployNuGet -Split ",") -Trim) -Contains "stable") {
+if ((($DeployNuGet -Split ",").Trim()) -Contains "stable") {
 	Write-Verbose "Validating nuGetTargetFeedStable"
 	if (-Not ($NuGetTargetFeedStable)) {
 		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains stable."
 	}
 }
 
-if ((($DeployNuGet -Split ",") -Trim) -Contains "prod_us") {
+if ((($DeployNuGet -Split ",").Trim()) -Contains "prod_us") {
 	Write-Verbose "Validating nuGetTargetFeedProdUS"
 	if (-Not ($NuGetTargetFeedProdUS)) {
 		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains prod_us."
