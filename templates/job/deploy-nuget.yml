@@ -98,10 +98,6 @@ jobs:
 
 
   steps:
-  # For access to NuGet.Config
-  - checkout: self
-  
-  
   # Download the nuget package created by the build job
   - download: current
     artifact: package.nuget
@@ -118,6 +114,6 @@ jobs:
       checkLatest: true
     displayName: Use NuGet Tool
 
-  - script: |
-      nuget push -ApiKey $(NuGet-PAT) -Source "nuget.org" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+  - powershell: |
+      nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
     displayName: 'Publish NuGet package(s)'
