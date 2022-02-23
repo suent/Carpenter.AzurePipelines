@@ -115,6 +115,16 @@ jobs:
   - task: NuGetAuthenticate@0
     displayName: Setup NuGet authentication
 
+
+  - task: CopyFiles@2 # Copy NuGet.Config to a spot it will be picked up
+    displayName: 'Copy files: NuGet.Config'
+    condition: succeeded()
+    inputs:
+      cleanTargetFolder: true
+      sourceFolder: $(Agent.BuildDirectory)\package.nuget
+      contents: 'NuGet.Config'
+      targetFolder: $(Agent.BuildDirectory)\.nuget
+
   - ${{ if eq(parameters.buildDotNet,'true') }}:
     - task: UseDotNet@2
       displayName: 'Use .NET Core'
