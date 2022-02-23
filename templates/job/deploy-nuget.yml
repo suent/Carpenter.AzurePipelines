@@ -125,7 +125,30 @@ jobs:
         installationPath: $(Carpenter.DotNet.Path)
 
     - powershell: |
-        dotnet nuget push --api-key AzureArtifacts --source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+        $stacks = $env:CARPENTER_DEPLOY_NUGET -Split ","
+        $targetFeed = ''
+        $apiKey = ''
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV
+        }
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1
+        }
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2
+        }
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE
+        }
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
+        }
+        if ($targetFeed -eq "AzureArtifacts") {
+          $apiKey = "AzureArtifacts"
+        } elseif ($targetFeed -eq "github.com") {
+          $apiKey = $(NuGet-PAT)
+        }
+        dotnet nuget push --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
       displayName: 'Publish package: NuGet (${{ parameters.stack }})'
 
   - ${{ if ne(parameters.buildDotNet,'true') }}:
@@ -136,5 +159,28 @@ jobs:
       displayName: Use NuGet Tool
 
     - powershell: |
-        nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+        $stacks = $env:CARPENTER_DEPLOY_NUGET -Split ","
+        $targetFeed = ''
+        $apiKey = ''
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV
+        }
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1
+        }
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2
+        }
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE
+        }
+        if ($stacks -Contains "dev") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
+        }
+        if ($targetFeed -eq "AzureArtifacts") {
+          $apiKey = "AzureArtifacts"
+        } elseif ($targetFeed -eq "github.com") {
+          $apiKey = $(NuGet-PAT)
+        }
+        nuget push -ApiKey $apiKey -Source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
       displayName: 'Publish package: NuGet (${{ parameters.stack }})'
