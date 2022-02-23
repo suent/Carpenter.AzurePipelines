@@ -79,6 +79,12 @@ jobs:
   - name: https_proxy
     value: ''
 
+  - name: NUGET.PLUGIN.HANDSHAKE.TIMEOUT.IN.SECONDS
+    value: 30
+  
+  - name: NUGET.PLUGIN.REQUEST.TIMEOUT.IN.SECONDS
+    value: 30
+
   - template: ../variable/carpenter.yml
     parameters:
       buildPurpose: ${{ parameters.buildPurpose }}
