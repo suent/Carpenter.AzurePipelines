@@ -72,6 +72,13 @@ jobs:
 
 
   variables:
+  # Clear proxy variables
+  - name: http_proxy
+    value: ''
+
+  - name: https_proxy
+    value: ''
+
   - template: ../variable/carpenter.yml
     parameters:
       buildPurpose: ${{ parameters.buildPurpose }}
