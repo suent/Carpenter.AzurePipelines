@@ -117,6 +117,5 @@ jobs:
     displayName: Use NuGet Tool
 
   - script: |
-      dir /s $(Agent.BuildDirectory)
       nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
     displayName: 'Publish NuGet package(s)'
