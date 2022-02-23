@@ -88,14 +88,15 @@ jobs:
     clean: all
 
 
-  variables:
-  - template: ../variable/carpenter.yml
-    parameters:
-      buildPurpose: ${{ parameters.buildPurpose }}
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-      versionType: ${{ parameters.versionType }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      deployNuGet: ${{ parameters.deployNuGet }}
+  ${{ if eq(parameters.stack,'dev') }}:
+    variables:
+    - template: ../variable/carpenter-dev.yml
+      parameters:
+        buildPurpose: ${{ parameters.buildPurpose }}
+        defaultPoolType: ${{ parameters.defaultPoolType }}
+        versionType: ${{ parameters.versionType }}
+        sonarCloud: ${{ parameters.sonarCloud }}
+        deployNuGet: ${{ parameters.deployNuGet }}
 
   steps:
   - checkout: none
