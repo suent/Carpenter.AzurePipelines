@@ -96,7 +96,7 @@ stages:
     displayName: ${{ parameters.stackName }}
     dependsOn: ${{ parameters.stackDependsOn }}
 
-  - ${{ if ne(parameters.stack,'dev') }}:
+    ${{ if ne(parameters.stack,'dev') }}:
     variables:
     - template: ../variable/carpenter-stack.yml
       parameters:
