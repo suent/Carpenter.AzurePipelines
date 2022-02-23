@@ -67,8 +67,10 @@ jobs:
 - job: 'deploy_finalize_${{ parameters.stack }}'
   displayName: 'Finalize deploy: ${{ parameters.stack }}'
 
+
   ${{ if ne(parameters.jobDependsOn,'') }}:
     dependsOn: ${{ parameters.jobDependsOn }}
+
 
   pool:
     ${{ if eq(parameters.defaultPoolType,'Hosted') }}:

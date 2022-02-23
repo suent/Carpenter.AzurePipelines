@@ -82,6 +82,9 @@ jobs:
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
       stack: ${{ parameters.stack }}
+      ${{ if eq(parameters.stack, 'dev') }}:
+        jobDependsOn:
+        - build
 
 - ${{ if contains(parameters.deployNuGet,parameters.stack) }}:
   - template: ../job/deploy-nuget.yml
@@ -96,6 +99,10 @@ jobs:
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
       stack: ${{ parameters.stack }}
+      ${{ if eq(parameters.stack, 'dev') }}:
+        jobDependsOn:
+        - build
+
 
 - template: ../job/deploy-finalize.yml
   parameters:
@@ -114,3 +121,5 @@ jobs:
       - build
     - ${{ if contains(parameters.deployBranch, parameters.stack) }}:
       - deploy_branch_${{ parameters.stack }}
+    - ${{ if contains(parameters.deployNuGet, parameters.stack) }}:
+      - deploy_nuget_${{ parameters.stack }}

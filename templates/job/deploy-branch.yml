@@ -60,11 +60,18 @@ parameters:
 - name: stack
   type: string
 
+- name: jobDependsOn
+  type: object
+
 
 jobs:
 
 - job: 'deploy_branch_${{ parameters.stack }}'
   displayName: 'Deploy branch: ${{ parameters.stack }}'
+
+  
+  ${{ if ne(parameters.jobDependsOn,'') }}:
+    dependsOn: ${{ parameters.jobDependsOn }}
 
 
   pool:

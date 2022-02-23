@@ -60,11 +60,18 @@ parameters:
 - name: stack
   type: string
 
+- name: jobDependsOn
+  type: object
+
 
 jobs:
 
 - job: 'deploy_nuget_${{ parameters.stack }}'
   displayName: 'Deploy NuGet: ${{ parameters.stack }}'
+  
+
+  ${{ if ne(parameters.jobDependsOn,'') }}:
+    dependsOn: ${{ parameters.jobDependsOn }}
 
 
   pool:
@@ -99,17 +106,23 @@ jobs:
       persistCredentials: true
 
   # Download the nuget package created by the build job
-  - download: package.nuget
+  - download: current
+    artifact: package.nuget
+    displayName: 'Download artifact: package.nuget'
 
   - template: ../step/display-environment.yml
 
   - task: NuGetAuthenticate@0
 #    inputs:
 #      nuGetServiceConnections: OtherOrganizationFeedConnection, ThirdPartyRepositoryConnection
+    displayName: Setup NuGet authentication
 
   - task: NuGetToolInstaller@1 # Optional if nuget.exe >= 4.8.5385 is already on the path
     inputs:
       versionSpec: '*'
       checkLatest: true
+    displayName: Use NuGet Tool
 
-  - script: nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" *.nupkg
+  - script: |
+      nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" *.nupkg
+    displayName: 'Publish NuGet package(s)'
