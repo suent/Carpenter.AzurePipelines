@@ -128,6 +128,7 @@ jobs:
         $stacks = $env:CARPENTER_DEPLOY_NUGET -Split ","
         $targetFeed = ''
         $apiKey = ''
+        Write-Host "Stacks: $stacks"
         if ([string]($stacks -like "dev") -eq "dev") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV
         }
@@ -143,11 +144,13 @@ jobs:
         if ([string]($stacks -like "prod_us") -eq "prod_us") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
         }
+        Write-Host "TargetFeed: $targetFeed"
         if ($targetFeed -eq "AzureArtifacts") {
           $apiKey = "AzureArtifacts"
         } elseif ($targetFeed -eq "github.com") {
           $apiKey = $(NuGet-PAT)
         }
+        Write-Host "ApiKey: $apiKey"
         dotnet nuget push --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
       displayName: 'Publish package: NuGet (${{ parameters.stack }})'
 
