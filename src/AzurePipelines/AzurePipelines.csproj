@@ -16,7 +16,7 @@
 	<PackageIconUrl>https://raw.githubusercontent.com/suent/carpenter/main/media/Carpenter-Icon_128x128.png</PackageIconUrl>
 	<Authors>Jeffrey Block</Authors>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<PackageProjectUrl>https://github.com/suent/carpenter-azure-pipelines</PackageProjectUrl>
+	<PackageProjectUrl>https://github.com/suent/Carpenter.AzurePipelines</PackageProjectUrl>
 	<SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Carpenter.AzurePipelines.snk</AssemblyOriginatorKeyFile>
 	<NoWarn>NU5105,NU5110,NU5111</NoWarn>
