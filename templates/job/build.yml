@@ -90,6 +90,9 @@ parameters:
 - name: deployBranch
   type: string
 
+- name: deployNuGet
+  type: string
+
 jobs:
 - job: build
   displayName: Build
