@@ -128,19 +128,19 @@ jobs:
         $stacks = $env:CARPENTER_DEPLOY_NUGET -Split ","
         $targetFeed = ''
         $apiKey = ''
-        if ($stacks -like "dev") {
+        if ([string]($stacks -like "dev") -eq "dev") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV
         }
-        if ($stacks -like "dev") {
+        if ([string]($stacks -like "test1") -eq "test1") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1
         }
-        if ($stacks -like "dev") {
+        if ([string]($stacks -like "test2") -eq "test2") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2
         }
-        if ($stacks -like "dev") {
+        if ([string]($stacks -like "stable") -eq "stable") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE
         }
-        if ($stacks -like "dev") {
+        if ([string]($stacks -like "prod_us") -eq "prod_us") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
         }
         if ($targetFeed -eq "AzureArtifacts") {
