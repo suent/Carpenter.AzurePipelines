@@ -88,13 +88,14 @@ jobs:
   - name: NUGET.PLUGIN.REQUEST.TIMEOUT.IN.SECONDS
     value: 30
 
-  - template: ../variable/carpenter.yml
-    parameters:
-      buildPurpose: ${{ parameters.buildPurpose }}
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-      versionType: ${{ parameters.versionType }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      deployNuGet: ${{ parameters.deployNuGet }}
+  - ${{ if eq(parameters.stack,'dev') }}:
+    - template: ../variable/carpenter-dev.yml
+      parameters:
+        buildPurpose: ${{ parameters.buildPurpose }}
+        defaultPoolType: ${{ parameters.defaultPoolType }}
+        versionType: ${{ parameters.versionType }}
+        sonarCloud: ${{ parameters.sonarCloud }}
+        deployNuGet: ${{ parameters.deployNuGet }}
 
 
   steps:
