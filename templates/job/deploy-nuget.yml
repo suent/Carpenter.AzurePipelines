@@ -42,6 +42,9 @@ parameters:
 - name: versionType
   type: string
 
+- name: buildDotNet
+  type: string
+
 - name: sonarCloud
   type: string
 
@@ -112,20 +115,26 @@ jobs:
   - task: NuGetAuthenticate@0
     displayName: Setup NuGet authentication
 
+  - ${{ if eq(parameters.buildDotNet,'true') }}:
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core'
+      condition: succeeded()
+      inputs:
+        packageType: sdk
+        version: 6.x
+        installationPath: $(Carpenter.DotNet.Path)
 
-  - task: UseDotNet@2
-    displayName: 'Use .NET Core'
-    condition: succeeded()
-    inputs:
-      packageType: sdk
-      version: 6.x
-      installationPath: $(Carpenter.DotNet.Path)
-  - task: NuGetToolInstaller@1 # Optional if nuget.exe >= 4.8.5385 is already on the path
-    inputs:
-      versionSpec: '*'
-      checkLatest: true
-    displayName: Use NuGet Tool
+    - powershell: |
+        dotnet nuget push --api-key AzureArtifacts --source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+      displayName: 'Publish package: NuGet (${{ parameters.stack }})'
 
-  - powershell: |
-      nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
-    displayName: 'Publish NuGet package(s)'
+  - ${{ if ne(parameters.buildDotNet,'true') }}:
+    - task: NuGetToolInstaller@1 # Optional if nuget.exe >= 4.8.5385 is already on the path
+      inputs:
+        versionSpec: '*'
+        checkLatest: true
+      displayName: Use NuGet Tool
+
+    - powershell: |
+        nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+      displayName: 'Publish package: NuGet (${{ parameters.stack }})'

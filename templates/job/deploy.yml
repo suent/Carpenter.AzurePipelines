@@ -57,6 +57,9 @@ parameters:
 - name: sonarCloud
   type: string
 
+- name: buildDotNet
+  type: string
+
 - name: deployBranch
   type: string
 
@@ -109,6 +112,7 @@ jobs:
       buildPurpose: ${{ parameters.buildPurpose }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       versionType: ${{ parameters.versionType }}
+      buildDotNet: ${{ parameters.buildDotNet }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
       stack: ${{ parameters.stack }}
