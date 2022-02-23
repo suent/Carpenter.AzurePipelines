@@ -135,6 +135,7 @@ jobs:
         installationPath: $(Carpenter.DotNet.Path)
 
     - powershell: |
+        pwd
         $stacks = $env:CARPENTER_DEPLOY_NUGET -Split ","
         $targetFeed = ''
         $apiKey = ''
@@ -158,7 +159,7 @@ jobs:
         if ($targetFeed -eq "AzureArtifacts") {
           $apiKey = "AzureArtifacts"
         } elseif ($targetFeed -eq "github.com") {
-          $apiKey = $(NuGet-PAT)
+          $apiKey = $(PipelineBot-GitHub-PAT)
         }
         Write-Host "ApiKey: $apiKey"
         dotnet nuget push --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
