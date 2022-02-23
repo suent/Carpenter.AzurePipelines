@@ -121,6 +121,8 @@ variables:
 - name: Carpenter.Deploy.Branch
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.deployBranch'] ]
 
+- name: Carpenter.Deploy.NuGet
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.deployNuGet'] ]
 
 - name: Carpenter.Version.Type
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.versionType'] ]

@@ -44,6 +44,7 @@
   * [Carpenter.SonarCloud](#carpentersonarcloud)
 * [Deployment variables](#deployment-variables)
   * [Carpenter.Deploy.Branch](#carpenterdeploybranch)
+  * [Carpenter.Deploy.NuGet](#carpenterdeploynuget)
 
 # Carpenter.AzurePipelines Variables
 
@@ -300,3 +301,8 @@ parameter.
 
 Comma separated list of stacks deploy branch should execute for. Creates a branch of this builds
 source to represent code on a stack. This value is set by the `deployBranch` parameter.
+
+### Carpenter.Deploy.NuGet
+
+Comma separated list of stacks deploy nuget should execute for. Publishes NuGet packages created by
+this pipeline. This value is set by the `deployNuGet` parameter.

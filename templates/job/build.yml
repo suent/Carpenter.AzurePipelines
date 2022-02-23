@@ -90,6 +90,10 @@ parameters:
 - name: deployBranch
   type: string
 
+- name: deployNuGet
+  type: string
+
+
 jobs:
 - job: build
   displayName: Build
@@ -221,6 +225,9 @@ jobs:
 
   - name: Carpenter.Deploy.Branch
     value: ${{ parameters.deployBranch }}
+
+  - name: Carpenter.Deploy.NuGet
+    value: ${{ parameters.deployNuGet }}
 
   steps:
   - checkout: self

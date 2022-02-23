@@ -60,6 +60,9 @@ parameters:
 - name: deployBranch
   type: string
 
+- name: deployNuGet
+  type: string
+
 - name: stack
   type: string
 
@@ -68,6 +71,20 @@ jobs:
 
 - ${{ if contains(parameters.deployBranch,parameters.stack) }}:
   - template: ../job/deploy-branch.yml
+    parameters:
+      pipelineVersion: ${{ parameters.pipelineVersion }}
+      includePipeline: ${{ parameters.includePipeline }}
+      buildPurpose: ${{ parameters.buildPurpose }}
+      defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolName: ${{ parameters.defaultPoolName }}
+      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      versionType: ${{ parameters.versionType }}
+      sonarCloud: ${{ parameters.sonarCloud }}
+      stack: ${{ parameters.stack }}
+
+- ${{ if contains(parameters.deployNuGet,parameters.stack) }}:
+  - template: ../job/deploy-nuget.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       includePipeline: ${{ parameters.includePipeline }}

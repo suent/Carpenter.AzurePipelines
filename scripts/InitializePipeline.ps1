@@ -35,7 +35,8 @@ param(
 	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
 	[string] $SonarCloudProjectKey = $env:CARPENTER_SONARCLOUD_PROJECTKEY,
 	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION,
-	[string] $DeployBranch = $env:CARPENTER_DEPLOY_BRANCH
+	[string] $DeployBranch = $env:CARPENTER_DEPLOY_BRANCH,
+	[string] $DeployNuGet = $env:CARPENTER_DEPLOY_NUGET
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -101,3 +102,4 @@ if ($sonarCloud -eq 'true') {
 }
 
 $deployBranch = Set-CarpenterVariable -VariableName "Carpenter.Deploy.Branch" -OutputVariableName "deployBranch" -Value $DeployBranch
+$deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet

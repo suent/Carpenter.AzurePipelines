@@ -35,6 +35,7 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 * [Build](docs/build.md)
 * [Test](docs/test.md)
 * [Analyze](docs/analysis.md)
+* [Deploy](docs/deploy.md)
 
 ## Usage
 
