@@ -57,60 +57,59 @@ parameters:
 - name: sonarCloud
   type: string
 
-- name: deployBranch
-  type: string
-
-- name: deployNuGet
-  type: string
-
 - name: stack
   type: string
 
 
 jobs:
 
-- ${{ if contains(parameters.deployBranch,parameters.stack) }}:
-  - template: ../job/deploy-branch.yml
+- job: 'deploy_nuget_${{ parameters.stack }}'
+  displayName: 'Deploy NuGet: ${{ parameters.stack }}'
+
+
+  pool:
+    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+      vmImage: ${{ parameters.defaultPoolVMImage }}
+    ${{ if eq(parameters.defaultPoolType,'Private') }}:
+      name: ${{ parameters.defaultPoolName }}
+      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+        demands: ${{ parameters.defaultPoolDemands }}
+
+
+  workspace:
+    clean: all
+
+
+  variables:
+  - template: ../variable/carpenter.yml
     parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
       buildPurpose: ${{ parameters.buildPurpose }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
-      stack: ${{ parameters.stack }}
 
-- ${{ if contains(parameters.deployNuGet,parameters.stack) }}:
-  - template: ../job/deploy-nuget.yml
-    parameters:
-      pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
-      buildPurpose: ${{ parameters.buildPurpose }}
-      defaultPoolType: ${{ parameters.defaultPoolType }}
-      defaultPoolName: ${{ parameters.defaultPoolName }}
-      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      stack: ${{ parameters.stack }}
 
-- template: ../job/deploy-finalize.yml
-  parameters:
-    pipelineVersion: ${{ parameters.pipelineVersion }}
-    includePipeline: ${{ parameters.includePipeline }}
-    buildPurpose: ${{ parameters.buildPurpose }}
-    defaultPoolType: ${{ parameters.defaultPoolType }}
-    defaultPoolName: ${{ parameters.defaultPoolName }}
-    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-    versionType: ${{ parameters.versionType }}
-    sonarCloud: ${{ parameters.sonarCloud }}
-    stack: ${{ parameters.stack }}
-    jobDependsOn:
-    - ${{ if eq(parameters.stack, 'dev') }}:
-      - build
-    - ${{ if contains(parameters.deployBranch, parameters.stack) }}:
-      - deploy_branch_${{ parameters.stack }}
+  steps:
+  - ${{ if ne(parameters.includePipeline, 'true') }}:
+    - checkout: self
+  
+  # Include pipeline for access to pipeline scripts
+  - ${{ if eq(parameters.includePipeline, 'true') }}:
+    - checkout: Carpenter
+      persistCredentials: true
+
+  # Download the nuget package created by the build job
+  - download: package.nuget
+
+  - template: ../step/display-environment.yml
+
+  - task: NuGetAuthenticate@0
+#    inputs:
+#      nuGetServiceConnections: OtherOrganizationFeedConnection, ThirdPartyRepositoryConnection
+
+  - task: NuGetToolInstaller@1 # Optional if nuget.exe >= 4.8.5385 is already on the path
+    inputs:
+      versionSpec: '*'
+      checkLatest: true
+
+  - script: nuget push -ApiKey AzureArtifacts -Source "AzureArtifacts" *.nupkg
