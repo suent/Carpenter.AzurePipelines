@@ -98,6 +98,9 @@ jobs:
 
 
   steps:
+  # No sources are necessary
+  - checkout: none
+
   # Download the nuget package created by the build job
   - download: current
     artifact: package.nuget
@@ -108,6 +111,14 @@ jobs:
   - task: NuGetAuthenticate@0
     displayName: Setup NuGet authentication
 
+
+  - task: UseDotNet@2
+    displayName: 'Use .NET Core'
+    condition: succeeded()
+    inputs:
+      packageType: sdk
+      version: 6.x
+      installationPath: $(Carpenter.DotNet.Path)
   - task: NuGetToolInstaller@1 # Optional if nuget.exe >= 4.8.5385 is already on the path
     inputs:
       versionSpec: '*'
