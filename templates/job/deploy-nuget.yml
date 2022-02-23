@@ -76,12 +76,7 @@ jobs:
 
 
   pool:
-    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
-      vmImage: ${{ parameters.defaultPoolVMImage }}
-    ${{ if eq(parameters.defaultPoolType,'Private') }}:
-      name: ${{ parameters.defaultPoolName }}
-      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
-        demands: ${{ parameters.defaultPoolDemands }}
+    vmImage: windows-latest
 
 
   workspace:
