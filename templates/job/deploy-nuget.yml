@@ -148,6 +148,8 @@ jobs:
         } elseif ($targetFeed -eq "github.com") {
           $apiKey = $(NuGet-PAT)
         }
+        Write-Host "TargetFeed: $targetFeed"
+        Write-Host "ApiKey: $apiKey"
         dotnet nuget push --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
       displayName: 'Publish package: NuGet (${{ parameters.stack }})'
 
