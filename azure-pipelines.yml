@@ -109,7 +109,7 @@ stages:
     sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
     sonarCloudServiceConnection: SonarCloudAnalysis1
     deployBranch: 'test1,test2,stable,prod_us'
-    deployNuGet: 'dev,stable'
+    deployNuGet: 'dev,stable,prod_us'
     nuGetTargetFeedDev: AzureArtifacts
     #nuGetTargetFeedTest1:
     #nuGetTargetFeedTest2:
