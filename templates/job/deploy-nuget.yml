@@ -152,10 +152,11 @@ jobs:
         if ([string]($stacks -like "prod_us") -eq "prod_us") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
         }
+        Write-Host "TargetFeed: $targetFeed"
         if ($targetFeed -eq "AzureArtifacts") {
           $apiKey = "AzureArtifacts"
         } elseif ($targetFeed -eq "github.com") {
-          $apiKey = $(PipelineBot-GitHub-PAT)
+          $apiKey = '$(PipelineBot-GitHub-PAT)'
         }
         dotnet nuget push --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
       workingDirectory: $(Agent.BuildDirectory)
