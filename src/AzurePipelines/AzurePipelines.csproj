@@ -17,7 +17,7 @@
 	<Authors>Jeffrey Block</Authors>
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageProjectUrl>https://github.com/suent/Carpenter.AzurePipelines</PackageProjectUrl>
-    <RepositoryUrl></RepositoryUrl>
+    <RepositoryUrl>https://github.com/suent/Carpenter.AzurePipelines</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Carpenter.AzurePipelines.snk</AssemblyOriginatorKeyFile>
 	<NoWarn>NU5105,NU5110,NU5111</NoWarn>
