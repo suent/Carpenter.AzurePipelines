@@ -91,6 +91,9 @@ jobs:
   - name: NUGET.PLUGIN.REQUEST.TIMEOUT.IN.SECONDS
     value: 30
 
+  - name: Carpenter.Stack
+    value: ${{ parameters.stack }}
+
   - ${{ if eq(parameters.stack,'dev') }}:
     - template: ../variable/carpenter-dev.yml
       parameters:
@@ -137,19 +140,19 @@ jobs:
         $stacks = $env:CARPENTER_DEPLOY_NUGET -Split ","
         $targetFeed = ''
         $apiKey = ''
-        if ([string]($stacks -like "dev") -eq "dev") {
+        if ([string]($stacks -like "dev") -eq "$env:CARPENTER_STACK") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV
         }
-        if ([string]($stacks -like "test1") -eq "test1") {
+        if ([string]($stacks -like "test1") -eq "$env:CARPENTER_STACK") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1
         }
-        if ([string]($stacks -like "test2") -eq "test2") {
+        if ([string]($stacks -like "test2") -eq "$env:CARPENTER_STACK") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2
         }
-        if ([string]($stacks -like "stable") -eq "stable") {
+        if ([string]($stacks -like "stable") -eq "$env:CARPENTER_STACK") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE
         }
-        if ([string]($stacks -like "prod_us") -eq "prod_us") {
+        if ([string]($stacks -like "prod_us") -eq "$env:CARPENTER_STACK") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
         }
         Write-Host "TargetFeed: $targetFeed"
