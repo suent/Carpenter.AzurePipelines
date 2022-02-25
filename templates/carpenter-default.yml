@@ -110,12 +110,15 @@ parameters:
 
 - name: sonarCloudOrganization
   type: string
+  default: ''
 
 - name: sonarCloudProjectKey
   type: string
+  default: ''
 
 - name: sonarCloudServiceConnection
   type: string
+  default: ''
 
 - name: deployBranch
   type: string
