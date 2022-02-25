@@ -3,7 +3,7 @@ param(
 	[Parameter(Mandatory=$True)]
 	[string] $PackagePath,
 	[string] $ArtifactFeed = "https://pkgs.dev.azure.com",
-	[string] $Organization = $env:SYSTEM_COLLECTIONURI,
+	[string] $Organization = $env:SYSTEM_COLLECTIONURI.Split('/').Last(),
 	[string] $TeamProject = $env:SYSTEM_TEAMPROJECT,
 	[Parameter(Mandatory=$True)]
 	[string] $FeedName,
@@ -33,4 +33,3 @@ try {
 finally {
 	Pop-Location
 }
-
