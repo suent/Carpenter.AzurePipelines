@@ -33,9 +33,6 @@ parameters:
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
-
 - name: buildPurpose
   type: string
 
@@ -54,6 +51,9 @@ parameters:
 - name: versionType
   type: string
 
+- name: buildDotNet
+  type: string
+
 - name: sonarCloud
   type: string
 
@@ -68,11 +68,14 @@ parameters:
 
 - name: jobDependsOn
   type: object
+  default: ''
+
 
 jobs:
-- job: 'deploy_finalize_${{ parameters.stack }}'
-  displayName: 'Finalize deploy: ${{ parameters.stack }}'
 
+- job: 'updatequality_nuget_${{ parameters.stack }}'
+  displayName: 'Update NuGet Artifact Quality'
+  
 
   ${{ if ne(parameters.jobDependsOn,'') }}:
     dependsOn: ${{ parameters.jobDependsOn }}
@@ -91,8 +94,11 @@ jobs:
     clean: all
 
 
-  ${{ if eq(parameters.stack,'dev') }}:
-    variables:
+  variables:
+  - name: Carpenter.Stack
+    value: ${{ parameters.stack }}
+
+  - ${{ if eq(parameters.stack,'dev') }}:
     - template: ../variable/carpenter-dev.yml
       parameters:
         buildPurpose: ${{ parameters.buildPurpose }}
@@ -104,10 +110,34 @@ jobs:
 
 
   steps:
+  # No sources are necessary
   - checkout: none
-  
+
+  # Download the nuget package created by the build job
+  - download: current
+    artifact: package.nuget
+    displayName: 'Download artifact: package.nuget'
+
   - template: ../step/display-environment.yml
 
   - powershell: |
-      "##vso[build.addbuildtag]Deployed-${{ parameters.stack }}"
-    displayName: Add Deployed tag
+      $stacks = $env:CARPENTER_NUGET_QUALITY -Split ","
+      $feedName = $env:CARPENTER_NUGET_QUALITY_FEED
+      $packageQuality = ''
+      if ([string]($stacks -like "dev") -eq "$env:CARPENTER_STACK") {
+        $packageQuality = $env:CARPENTER_NUGET_QUALITY_DEV
+      }
+      if ([string]($stacks -like "test1") -eq "$env:CARPENTER_STACK") {
+        $packageQuality = $env:CARPENTER_NUGET_QUALITY_TEST1
+      }
+      if ([string]($stacks -like "test2") -eq "$env:CARPENTER_STACK") {
+        $packageQuality = $env:CARPENTER_NUGET_QUALITY_TEST2
+      }
+      if ([string]($stacks -like "staging") -eq "$env:CARPENTER_STACK") {
+        $packageQuality = $env:CARPENTER_NUGET_QUALITY_STAGING
+      }
+      if ([string]($stacks -like "prod") -eq "$env:CARPENTER_STACK") {
+        $packageQuality = $env:CARPENTER_NUGET_QUALITY_PROD
+      }
+      $(Carpenter.Pipeline.ScriptPath)/UpdatePackageQuality.ps1 -Verbose -PackagePath $(Agent.BuildDirectory)\package.nuget -FeedName $feedName -PackageQuality $packageQuality
+    displayName: Update package quality

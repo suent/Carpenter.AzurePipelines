@@ -51,6 +51,9 @@ parameters:
 - name: deployNuGet
   type: string
 
+- name: updateNuGetQuality
+  type: string
+
 - name: stack
   type: string
 
@@ -102,6 +105,7 @@ jobs:
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployNuGet: ${{ parameters.deployNuGet }}
+        updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
 
   steps:
@@ -149,11 +153,11 @@ jobs:
         if ([string]($stacks -like "test2") -eq "$env:CARPENTER_STACK") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2
         }
-        if ([string]($stacks -like "stable") -eq "$env:CARPENTER_STACK") {
-          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE
+        if ([string]($stacks -like "staging") -eq "$env:CARPENTER_STACK") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING
         }
-        if ([string]($stacks -like "prod_us") -eq "$env:CARPENTER_STACK") {
-          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
+        if ([string]($stacks -like "prod") -eq "$env:CARPENTER_STACK") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD
         }
         Write-Host "TargetFeed: $targetFeed"
         if ($targetFeed -eq "AzureArtifacts") {
@@ -188,11 +192,11 @@ jobs:
         if ([string]($stacks -like "test2") -eq "test2") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2
         }
-        if ([string]($stacks -like "stable") -eq "stable") {
-          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE
+        if ([string]($stacks -like "staging") -eq "staging") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING
         }
-        if ([string]($stacks -like "prod_us") -eq "prod_us") {
-          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
+        if ([string]($stacks -like "prod") -eq "prod") {
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD
         }
         Write-Host "TargetFeed: $targetFeed"
         if ($targetFeed -eq "AzureArtifacts") {

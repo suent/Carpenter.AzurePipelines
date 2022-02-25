@@ -57,6 +57,9 @@ parameters:
 - name: sonarCloud
   type: string
 
+- name: updateNuGetQuality
+  type: string
+
 - name: deployNuGet
   type: string
 
@@ -100,6 +103,8 @@ jobs:
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployNuGet: ${{ parameters.deployNuGet }}
+        updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+
 
   steps:
   - checkout: self

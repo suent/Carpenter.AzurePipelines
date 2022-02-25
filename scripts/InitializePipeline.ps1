@@ -40,8 +40,15 @@ param(
 	[string] $NuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
 	[string] $NuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
 	[string] $NuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
-	[string] $NuGetTargetFeedStable = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE,
-	[string] $NuGetTargetFeedProdUS = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
+	[string] $NuGetTargetFeedStaging = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING,
+	[string] $NuGetTargetFeedProd = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD,
+	[string] $UpdateNuGetQuality = $env:CARPENTER_NUGET_QUALITY,
+	[string] $NuGetQualityFeed = $env:CARPENTER_NUGET_QUALITY_FEED,
+	[string] $NuGetQualityDev = $env:CARPENTER_NUGET_QUALITY_DEV,
+	[string] $NuGetQualityTest1 = $env:CARPENTER_NUGET_QUALITY_TEST1,
+	[string] $NuGetQualityTest2 = $env:CARPENTER_NUGET_QUALITY_TEST2,
+	[string] $NuGetQualityStaging = $env:CARPENTER_NUGET_QUALITY_STAGING,
+	[string] $NuGetQualityProd = $env:CARPENTER_NUGET_QUALITY_PROD
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -111,5 +118,13 @@ $deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -Out
 $nuGetTargetFeedDev = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Dev" -OutputVariableName "nuGetTargetFeedDev" -Value $NuGetTargetFeedDev
 $nuGetTargetFeedTest1 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test1" -OutputVariableName "nuGetTargetFeedTest1" -Value $NuGetTargetFeedTest2
 $nuGetTargetFeedTest2 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test2" -OutputVariableName "nuGetTargetFeedTest2" -Value $NuGetTargetFeedTest2
-$nuGetTargetFeedStable = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Stable" -OutputVariableName "nuGetTargetFeedStable" -Value $NuGetTargetFeedStable
-$nuGetTargetFeedProdUS = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.ProdUS" -OutputVariableName "nuGetTargetFeedProdUS" -Value $NuGetTargetFeedProdUS
+$nuGetTargetFeedStaging = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Staging" -OutputVariableName "nuGetTargetFeedStaging" -Value $NuGetTargetFeedStaging
+$nuGetTargetFeedProd = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Prod" -OutputVariableName "nuGetTargetFeedProd" -Value $NuGetTargetFeedProd
+
+$updateNuGetQuality = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality" -OutputVariableName "updateNuGetQuality" -Value $UpdateNuGetQuality
+$nuGetQualityFeed = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Feed" -OutputVariableName "nuGetQualityFeed" -Value $NuGetQualityFeed
+$nuGetQualityDev = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Dev" -OutputVariableName "nuGetQualityDev" -Value $NuGetQualityDev
+$nuGetQualityTest1 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test1" -OutputVariableName "nuGetQualityTest1" -Value $NuGetQualityTest1
+$nuGetQualityTest2 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test2" -OutputVariableName "nuGetQualityTest2" -Value $NuGetQualityTest2
+$nuGetQualityStaging = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Staging" -OutputVariableName "nuGetQualityStaging" -Value $NuGetQualityStaging
+$nuGetQualityProd = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Prod" -OutputVariableName "nuGetQualityProd" -Value $NuGetQualityProd

@@ -23,7 +23,7 @@
         name: suent/carpenter-azure-pipelines
         endpoint: https://github.com
         # Note: The repository endpoint value should match the name of your service connection.
-        ref: refs/heads/branch/prod-us # use Production code
+        ref: refs/heads/branch/prod # use Production code
 
     stages:
     - template: template/carpenter-default.yml@Carpenter

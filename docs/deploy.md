@@ -5,7 +5,7 @@ Carpenter.AzurePipelines allows for projects to be deployed in a consistent mann
 ## Deploy Branch
 
 The `deployBranch` parameter allows a branch of the source base to be published during a build. An example of its purpose is the Carpenter.AzurePipelines project itself. Pull requests get changes into master,
-but those changes aren't necessarily included in a 'release' until pushed by the project manager/team. Other pipelines using templates from Carpenter.AzurePipelines can target the stack/prod-us branch to ensure
+but those changes aren't necessarily included in a 'release' until pushed by the project manager/team. Other pipelines using templates from Carpenter.AzurePipelines can target the stack/prod branch to ensure
 that they only receive code that has been deployed to production.
 
 ## Deploy NuGet Package

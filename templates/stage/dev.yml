@@ -102,12 +102,40 @@ parameters:
 - name: nuGetTargetFeedTest2
   type: string
 
-- name: nuGetTargetFeedStable
+- name: nuGetTargetFeedStaging
   type: string
 
-- name: nuGetTargetFeedProdUS
+- name: nuGetTargetFeedProd
   type: string
 
+- name: updateNuGetQuality
+  type: string
+  default: ''
+
+- name: nuGetQualityFeed
+  type: string
+  default: ''
+
+- name: nuGetQualityDev
+  type: string
+  default: ''
+
+- name: nuGetQualityTest1
+  type: string
+  default: ''
+
+- name: nuGetQualityTest2
+  type: string
+  default: ''
+
+- name: nuGetQualityStaging
+  type: string
+  default: ''
+
+- name: nuGetQualityProd
+  type: string
+  default: ''
+  
 
 stages:
 - stage: dev
@@ -140,8 +168,16 @@ stages:
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
       nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
       nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-      nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
-      nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
+      nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+      nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+      nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: ../job/deploy.yml
@@ -161,6 +197,12 @@ stages:
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
         nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
         nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-        nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
-        nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
+        nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+        nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+        nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         stack: dev

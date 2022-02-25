@@ -102,12 +102,40 @@ parameters:
 - name: nuGetTargetFeedTest2
   type: string
 
-- name: nuGetTargetFeedStable
+- name: nuGetTargetFeedStaging
   type: string
 
-- name: nuGetTargetFeedProdUS
+- name: nuGetTargetFeedProd
   type: string
 
+- name: updateNuGetQuality
+  type: string
+  default: ''
+
+- name: nuGetQualityFeed
+  type: string
+  default: ''
+
+- name: nuGetQualityDev
+  type: string
+  default: ''
+
+- name: nuGetQualityTest1
+  type: string
+  default: ''
+
+- name: nuGetQualityTest2
+  type: string
+  default: ''
+
+- name: nuGetQualityStaging
+  type: string
+  default: ''
+
+- name: nuGetQualityProd
+  type: string
+  default: ''
+  
 
 jobs:
 - job: build
@@ -256,14 +284,41 @@ jobs:
     - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
       value: ${{ parameters.nuGetTargetFeedTest2 }}
 
-  - ${{ if contains(parameters.deployNuGet,'stable') }}:
-    - name: Carpenter.Deploy.NuGet.TargetFeed.Stable
-      value: ${{ parameters.nuGetTargetFeedStable }}
+  - ${{ if contains(parameters.deployNuGet,'staging') }}:
+    - name: Carpenter.Deploy.NuGet.TargetFeed.Staging
+      value: ${{ parameters.nuGetTargetFeedStaging }}
 
-  - ${{ if contains(parameters.deployNuGet,'prod_us') }}:
-    - name: Carpenter.Deploy.NuGet.TargetFeed.ProdUS
-      value: ${{ parameters.nuGetTargetFeedProdUS }}
+  - ${{ if contains(parameters.deployNuGet,'prod') }}:
+    - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
+      value: ${{ parameters.nuGetTargetFeedProd }}
 
+  - name: Carpenter.NuGet.Quality
+    value: ${{ parameters.updateNuGetQuality }}
+  
+  - ${{ if ne(parameters.updateNuGetQuality,'') }}:
+    - name: Carpenter.NuGet.Quality.Feed
+      value: ${{ parameters.nuGetQualityFeed }}
+
+  - ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
+    - name: Carpenter.NuGet.Quality.Dev
+      value: ${{ parameters.nuGetQualityDev }}
+ 
+  - ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
+    - name: Carpenter.NuGet.Quality.Test1
+      value: ${{ parameters.nuGetQualityTest1 }}
+ 
+  - ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
+    - name: Carpenter.NuGet.Quality.Test2
+      value: ${{ parameters.nuGetQualityTest2 }}
+ 
+  - ${{ if contains(parameters.updateNuGetQuality,'staging') }}:
+    - name: Carpenter.NuGet.Quality.Staging
+      value: ${{ parameters.nuGetQualityStaging }}
+ 
+  - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
+    - name: Carpenter.NuGet.Quality.Prod
+      value: ${{ parameters.nuGetQualityProd }}
+ 
 
   steps:
   - checkout: self

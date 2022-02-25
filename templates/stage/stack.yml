@@ -75,11 +75,33 @@ parameters:
 - name: nuGetTargetFeedTest2
   type: string
 
-- name: nuGetTargetFeedStable
+- name: nuGetTargetFeedStaging
   type: string
 
-- name: nuGetTargetFeedProdUS
+- name: nuGetTargetFeedProd
   type: string
+
+- name: updateNuGetQuality
+  type: string
+
+- name: nuGetQualityFeed
+  type: string
+
+- name: nuGetQualityDev
+  type: string
+
+- name: nuGetQualityTest1
+  type: string
+
+- name: nuGetQualityTest2
+  type: string
+
+- name: nuGetQualityStaging
+  type: string
+
+- name: nuGetQualityProd
+  type: string
+  
 
 - name: stack
   type: string
@@ -107,6 +129,7 @@ stages:
           versionType: ${{ parameters.versionType }}
           sonarCloud: ${{ parameters.sonarCloud }}
           deployNuGet: ${{ parameters.deployNuGet }}
+          updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
     jobs:
     - template: ../job/deploy.yml
@@ -126,6 +149,13 @@ stages:
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
         nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
         nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-        nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
-        nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
+        nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+        nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+        updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+        nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         stack: ${{ parameters.stack }}

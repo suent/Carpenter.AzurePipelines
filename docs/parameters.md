@@ -31,8 +31,15 @@
   * [nuGetTargetFeedDev](#nugettargetfeeddev)
   * [nuGetTargetFeedTest1](#nugettargetfeedtest1)
   * [nuGetTargetFeedTest2](#nugettargetfeedtest2)
-  * [nuGetTargetFeedStable](#nugettargetfeedstable)
-  * [nuGetTargetFeedProdUS](#nugettargetfeedprodus)
+  * [nuGetTargetFeedStaging](#nugettargetfeedstaging)
+  * [nuGetTargetFeedProd](#nugettargetfeedprod)
+  * [updateNugetQuality](#updatenugetquality)
+  * [nuGetQualityFeed](#nugetqualityfeed)
+  * [nuGetQualityDev](#nugetqualitydev)
+  * [nuGetQualityTest1](#nugetqualitytest1)
+  * [nuGetQualityTest2](#nugetqualitytest2)
+  * [nuGetQualityStaging](#nugetqualitystaging)
+  * [nuGetQualityProd](#nugetqualityprod)
 
 # Carpenter.AzurePipelines Parameters
 
@@ -185,10 +192,39 @@ The target NuGet feed to use when deploying NuGet packages to the Test1 stack.
 
 The target NuGet feed to use when deploying NuGet packages to the Test2 stack.
 
-### nuGetTargetFeedStable
+### nuGetTargetFeedStaging
 
-The target NuGet feed to use when deploying NuGet packages to the Stable stack.
+The target NuGet feed to use when deploying NuGet packages to the Staging stack.
 
-### nuGetTargetFeedProdUS
+### nuGetTargetFeedProd
 
-The target NuGet feed to use when deploying NuGet packages to the ProdUS stack.
+The target NuGet feed to use when deploying NuGet packages to the Prod stack.
+
+### updateNuGetQuality
+
+Comma separated list of stacks update quality should execute for. Updates the described quality of
+a NuGet package using the Artifact views.
+
+### nuGetQualityFeed
+
+The Azure DevOps Artifact NuGet package feed to use when updating quality.
+
+### nuGetQualityDev
+
+The target quality when updating quality on the Developer stack.
+
+### nuGetQualityTest1
+
+The target quality when updating quality on the Test 1 stack.
+
+### nuGetQualityTest2
+
+The target quality when updating quality on the Test 2 stack.
+
+### nuGetQualityStaging
+
+The target quality when updating quality on the Staging stack.
+
+### nuGetQualityProd
+
+The target quality when updating quality on the Production stack.

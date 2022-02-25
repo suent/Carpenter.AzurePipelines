@@ -29,8 +29,15 @@ param(
 	[string] $nuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
 	[string] $nuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
 	[string] $nuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
-	[string] $nuGetTargetFeedStable = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STABLE,
-	[string] $nuGetTargetFeedProdUS = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PRODUS
+	[string] $nuGetTargetFeedStaging = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING,
+	[string] $nuGetTargetFeedProd = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD,
+	[string] $UpdateNuGetQuality = $env:CARPENTER_NUGET_QUALITY,
+	[string] $NuGetQualityFeed = $env:CARPENTER_NUGET_QUALITY_FEED,
+	[string] $NuGetQualityDev = $env:CARPENTER_NUGET_QUALITY_DEV,
+	[string] $NuGetQualityTest1 = $env:CARPENTER_NUGET_QUALITY_TEST1,
+	[string] $NuGetQualityTest2 = $env:CARPENTER_NUGET_QUALITY_TEST2,
+	[string] $NuGetQualityStaging = $env:CARPENTER_NUGET_QUALITY_STAGING,
+	[string] $NuGetQualityProd = $env:CARPENTER_NUGET_QUALITY_PROD
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -176,16 +183,58 @@ if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
 	}
 }
 
-if ((($DeployNuGet -Split ",").Trim()) -Contains "stable") {
-	Write-Verbose "Validating nuGetTargetFeedStable"
-	if (-Not ($NuGetTargetFeedStable)) {
-		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains stable."
+if ((($DeployNuGet -Split ",").Trim()) -Contains "staging") {
+	Write-Verbose "Validating nuGetTargetFeedStaging"
+	if (-Not ($NuGetTargetFeedStaging)) {
+		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains staging."
 	}
 }
 
-if ((($DeployNuGet -Split ",").Trim()) -Contains "prod_us") {
-	Write-Verbose "Validating nuGetTargetFeedProdUS"
-	if (-Not ($NuGetTargetFeedProdUS)) {
-		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains prod_us."
+if ((($DeployNuGet -Split ",").Trim()) -Contains "prod") {
+	Write-Verbose "Validating nuGetTargetFeedProd"
+	if (-Not ($NuGetTargetFeedProd)) {
+		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains prod."
+	}
+}
+
+if ($UpdateNuGetQuality) {
+	Write-Verbose "Validating nuGetQualityFeed"
+	if (-Not ($NuGetQualityFeed)) {
+		Write-PipelineError "The nuGetQualityFeed parameter is required when updateNuGetQuality is populated."
+	}
+}
+
+if ((($UpdateNuGetQuality -Split ",").Trim()) -Contains "dev") {
+	Write-Verbose "Validating nuGetQualityDev"
+	if (-Not ($NuGetQualityDev)) {
+		Write-PipelineError "The nuGetQualityDev parameter is required when updateNuGetQuality contains dev."
+	}
+}
+
+if ((($UpdateNuGetQuality -Split ",").Trim()) -Contains "test1") {
+	Write-Verbose "Validating nuGetQualityTest1"
+	if (-Not ($NuGetQualityTest1)) {
+		Write-PipelineError "The nuGetQualityTest1 parameter is required when updateNuGetQuality contains test1."
+	}
+}
+
+if ((($UpdateNuGetQuality -Split ",").Trim()) -Contains "test2") {
+	Write-Verbose "Validating nuGetQualityTest2"
+	if (-Not ($NuGetQualityTest2)) {
+		Write-PipelineError "The nuGetQualityTest2 parameter is required when updateNuGetQuality contains test2."
+	}
+}
+
+if ((($UpdateNuGetQuality -Split ",").Trim()) -Contains "staging") {
+	Write-Verbose "Validating nuGetQualityStaging"
+	if (-Not ($NuGetQualityStaging)) {
+		Write-PipelineError "The nuGetQualityStaging parameter is required when updateNuGetQuality contains staging."
+	}
+}
+
+if ((($UpdateNuGetQuality -Split ",").Trim()) -Contains "prod") {
+	Write-Verbose "Validating nuGetQualityProd"
+	if (-Not ($NuGetQualityProd)) {
+		Write-PipelineError "The nuGetQualityProd parameter is required when updateNuGetQuality contains prod."
 	}
 }
