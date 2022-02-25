@@ -23,7 +23,7 @@ try {
 	Get-ChildItem . -Filter *.nupkg | Foreach-Object {
 	  $matches = $nameExpression.Match($_.Name)
 	  $packageName = $matches.groups['name']
-	  $requestUri = $ArtifactFeed + $Organization + $TeamProject + "/_apis/packaging/feeds/$feedName/nuget/packages/$packageName/versions/$packageVersion" + "?api-version=7.1-preview.1"
+	  $requestUri = $ArtifactFeed + "/$Organization/$TeamProject/_apis/packaging/feeds/$feedName/nuget/packages/$packageName/versions/$packageVersion" + "?api-version=7.1-preview.1"
 	  Write-Verbose -Message $requestUri
 	  $head = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
 	  $reponse = Invoke-RestMethod -Uri $requestUri -Headers $head -ContentType "application/json" -Method Patch -Body $json
