@@ -236,6 +236,13 @@ stages:
       nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
       nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
       nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+      nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       stack: test1
       stackName: Test 1
       stackDependsOn:
@@ -260,6 +267,13 @@ stages:
       nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
       nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
       nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+      nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       stack: test2
       stackName: Test 2
       stackDependsOn:
@@ -284,6 +298,13 @@ stages:
       nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
       nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
       nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+      nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       stack: staging
       stackName: Staging
       stackDependsOn:
@@ -312,6 +333,13 @@ stages:
         nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
         nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
         nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+        updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+        nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         stack: prod
         stackName: Production
         stackDependsOn:
