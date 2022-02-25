@@ -3,7 +3,7 @@ param(
 	[Parameter(Mandatory=$True)]
 	[string] $PackagePath,
 	[string] $ArtifactFeed = "https://pkgs.dev.azure.com",
-	[string] $Organization = $env:SYSTEM_COLLECTIONURI.Split('/')[-1],
+	[string] $Organization = $env:SYSTEM_COLLECTIONURI.Split('/')[-2],
 	[string] $TeamProject = $env:SYSTEM_TEAMPROJECT,
 	[Parameter(Mandatory=$True)]
 	[string] $FeedName,
