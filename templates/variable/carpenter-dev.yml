@@ -151,6 +151,33 @@ variables:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
     value: $[ dependencies.build.outputs['initializePipeline.nuGetTargetFeedProd'] ]
 
+  - name: Carpenter.NuGet.Quality
+    value: $[ dependencies.build.outputs['initializePipeline.updateNuGetQuality'] ]
+  
+  - ${{ if ne(parameters.updateNuGetQuality,'') }}:
+    - name: Carpenter.NuGet.Quality.Feed
+      value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityFeed'] ]
+
+  - ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
+    - name: Carpenter.NuGet.Quality.Dev
+      value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityDev'] ]
+ 
+  - ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
+    - name: Carpenter.NuGet.Quality.Test1
+      value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityTest1'] ]
+ 
+  - ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
+    - name: Carpenter.NuGet.Quality.Test2
+      value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityTest2'] ]
+ 
+  - ${{ if contains(parameters.updateNuGetQuality,'staging') }}:
+    - name: Carpenter.NuGet.Quality.Staging
+      value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityStaging'] ]
+ 
+  - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
+    - name: Carpenter.NuGet.Quality.Prod
+      value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityProd'] ]
+
 
 - name: Carpenter.Version.Type
   value: $[ dependencies.build.outputs['initializePipeline.versionType'] ]
@@ -209,30 +236,4 @@ variables:
   - name: Carpenter.Version
     value: $[ dependencies.build.outputs['initializeBuildVersion.version'] ]
 
-  - name: Carpenter.NuGet.Quality
-    value: $[ dependencies.build.outputs['initializeBuildVersion.updateNuGetQuality'] ]
-  
-  - ${{ if ne(parameters.updateNuGetQuality,'') }}:
-    - name: Carpenter.NuGet.Quality.Feed
-      value: $[ dependencies.build.outputs['initializeBuildVersion.nuGetQualityFeed'] ]
-
-  - ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
-    - name: Carpenter.NuGet.Quality.Dev
-      value: $[ dependencies.build.outputs['initializeBuildVersion.nuGetQualityDev'] ]
- 
-  - ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
-    - name: Carpenter.NuGet.Quality.Test1
-      value: $[ dependencies.build.outputs['initializeBuildVersion.nuGetQualityTest1'] ]
- 
-  - ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
-    - name: Carpenter.NuGet.Quality.Test2
-      value: $[ dependencies.build.outputs['initializeBuildVersion.nuGetQualityTest2'] ]
- 
-  - ${{ if contains(parameters.updateNuGetQuality,'staging') }}:
-    - name: Carpenter.NuGet.Quality.Staging
-      value: $[ dependencies.build.outputs['initializeBuildVersion.nuGetQualityStaging'] ]
- 
-  - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
-    - name: Carpenter.NuGet.Quality.Prod
-      value: $[ dependencies.build.outputs['initializeBuildVersion.nuGetQualityProd'] ]
  
