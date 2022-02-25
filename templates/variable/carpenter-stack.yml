@@ -45,6 +45,9 @@ parameters:
 - name: deployNuGet
   type: string
 
+- name: updateNuGetQuality
+  type: string
+
 
 variables:
 - name: Carpenter.PipelineVersion
