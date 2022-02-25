@@ -10,4 +10,8 @@ that they only receive code that has been deployed to production.
 
 ## Deploy NuGet Package
 
-The `deployNuGet` parameter allows NuGet packages created by the build to be published to Azure Artifacts or a third-part NuGet feed.
+The `deployNuGet` parameter allows NuGet packages created by the build to be published to Azure Artifacts or a third-party NuGet feed.
+
+## Update NuGet Package Quality view
+
+The `updateNuGetQuality` parameter allows views to be added to NuGet packages in Azure Artifacts.
