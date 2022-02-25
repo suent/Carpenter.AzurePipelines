@@ -149,6 +149,9 @@ jobs:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       buildPurpose: ${{ parameters.buildPurpose }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolName: ${{ parameters.defaultPoolName }}
+      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
       buildDotNet: ${{ parameters.buildDotNet }}
       sonarCloud: ${{ parameters.sonarCloud }}
