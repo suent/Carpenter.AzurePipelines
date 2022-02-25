@@ -116,7 +116,7 @@ stages:
     nuGetTargetFeedStaging: github.com
     nuGetTargetFeedProd: nuget.org
     updateNuGetQuality: 'staging,prod'
-    nuGetQualityFeed: suent
+    nuGetQualityFeed: 6e861335-193a-4afe-97aa-2097572c51f9
     #nuGetQualityDev:
     #nuGetQualityTest1:
     #nuGetQualityTest2:
