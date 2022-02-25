@@ -48,8 +48,15 @@
   * [Carpenter.Deploy.NuGet.TargetFeed.Dev](#carpenterdeploynugettargetfeeddev)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test1](#carpenterdeploynugettargetfeedtest1)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test2](#carpenterdeploynugettargetfeedtest2)
-  * [Carpenter.Deploy.NuGet.TargetFeed.Stable](#carpenterdeploynugettargetfeedstable)
-  * [Carpenter.Deploy.NuGet.TargetFeed.ProdUS](#carpenterdeploynugettargetfeedprodus)
+  * [Carpenter.Deploy.NuGet.TargetFeed.Staging](#carpenterdeploynugettargetfeedstaging)
+  * [Carpenter.Deploy.NuGet.TargetFeed.Prod](#carpenterdeploynugettargetfeedprod)
+  * [Carpenter.NuGet.Quality](#carpenternugetquality)
+  * [Carpenter.NuGet.Quality.Feed](#carpenternugetqualityfeed)
+  * [Carpenter.NuGet.Quality.Dev](#carpenternugetqualitydev)
+  * [Carpenter.NuGet.Quality.Test1](#carpenternugetqualitytest1)
+  * [Carpenter.NuGet.Quality.Test2](#carpenternugetqualitytest2)
+  * [Carpenter.NuGet.Quality.Staging](#carpenternugetqualitystaging)
+  * [Carpenter.NuGet.Quality.Prod](#carpenternugetqualityprod)
 
 # Carpenter.AzurePipelines Variables
 
@@ -312,27 +319,61 @@ source to represent code on a stack. This value is set by the `deployBranch` par
 Comma separated list of stacks deploy nuget should execute for. Publishes NuGet packages created by
 this pipeline. This value is set by the `deployNuGet` parameter.
 
-# Carpenter.Deploy.NuGet.TargetFeed.Dev
+### Carpenter.Deploy.NuGet.TargetFeed.Dev
 
 The target NuGet feed to use when deploying NuGet packages to the Dev stack. This value is set by the
 `deployNuGetTargetFeedDev` parameter.
 
-# Carpenter.Deploy.NuGet.TargetFeed.Test1
+### Carpenter.Deploy.NuGet.TargetFeed.Test1
 
 The target NuGet feed to use when deploying NuGet packages to the Test1 stack. This value is set by the
 `deployNuGetTargetFeedTest1` parameter.
 
-# Carpenter.Deploy.NuGet.TargetFeed.Test2
+### Carpenter.Deploy.NuGet.TargetFeed.Test2
 
 The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is set by the
 `deployNuGetTargetFeedTest2` parameter.
 
-# Carpenter.Deploy.NuGet.TargetFeed.Stable
+### Carpenter.Deploy.NuGet.TargetFeed.Staging
 
-The target NuGet feed to use when deploying NuGet packages to the Stable stack. This value is set by the
-`deployNuGetTargetFeedStable` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Staging stack. This value is set by the
+`deployNuGetTargetFeedStaging` parameter.
 
-# Carpenter.Deploy.NuGet.TargetFeed.ProdUS
+### Carpenter.Deploy.NuGet.TargetFeed.Prod
 
-The target NuGet feed to use when deploying NuGet packages to the ProdUS stack. This value is set by the
-`deployNuGetTargetFeedProdUS` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Prod stack. This value is set by the
+`deployNuGetTargetFeedProd` parameter.
+
+### Carpenter.NuGet.Quality
+
+Comma separated list of stacks update quality should execute for. Updates the described quality of
+a NuGet package using the Artifact views. This value is set by the `updateNuGetQuality` parameter.
+
+### Carpenter.NuGet.Quality.Feed
+
+The Azure DevOps Artifact NuGet package feed to use when updating quality.
+
+### Carpenter.NuGet.Quality.Dev
+
+The target quality when updating quality on the Developer stack. This value is set by the
+`nuGetQualityDev` parameter.
+
+### Carpenter.NuGet.Quality.Test1
+
+The target quality when updating quality on the Test 1 stack. This value is set by the
+`nuGetQualityTest1` parameter.
+
+### Carpenter.NuGet.Quality.Test2
+
+The target quality when updating quality on the Test 2 stack. This value is set by the
+`nuGetQualityTest2` parameter.
+
+### Carpenter.NuGet.Quality.Staging
+
+The target quality when updating quality on the Staging stack. This value is set by the
+`nuGetQualityStaging` parameter.
+
+### Carpenter.NuGet.Quality.Prod
+
+The target quality when updating quality on the Production stack. This value is set by the
+`nuGetQualityProd` parameter.

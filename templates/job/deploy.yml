@@ -75,15 +75,36 @@ parameters:
 - name: nuGetTargetFeedTest2
   type: string
 
-- name: nuGetTargetFeedStable
+- name: nuGetTargetFeedStaging
   type: string
 
-- name: nuGetTargetFeedProdUS
+- name: nuGetTargetFeedProd
   type: string
 
 - name: stack
   type: string
 
+- name: updateNuGetQuality
+  type: string
+
+- name: nuGetQualityFeed
+  type: string
+
+- name: nuGetQualityDev
+  type: string
+
+- name: nuGetQualityTest1
+  type: string
+
+- name: nuGetQualityTest2
+  type: string
+
+- name: nuGetQualityStaging
+  type: string
+
+- name: nuGetQualityProd
+  type: string
+  
 
 jobs:
 
@@ -100,6 +121,7 @@ jobs:
       versionType: ${{ parameters.versionType }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
+      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
@@ -115,11 +137,27 @@ jobs:
       buildDotNet: ${{ parameters.buildDotNet }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
+      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
         - build
 
+- ${{ if contains(parameters.updateNuGetQuality,parameters.stack) }}:
+  - template: ../job/update-nuget-quality.yml
+    parameters:
+      pipelineVersion: ${{ parameters.pipelineVersion }}
+      buildPurpose: ${{ parameters.buildPurpose }}
+      defaultPoolType: ${{ parameters.defaultPoolType }}
+      versionType: ${{ parameters.versionType }}
+      buildDotNet: ${{ parameters.buildDotNet }}
+      sonarCloud: ${{ parameters.sonarCloud }}
+      deployNuGet: ${{ parameters.deployNuGet }}
+      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+      stack: ${{ parameters.stack }}
+      ${{ if eq(parameters.stack, 'dev') }}:
+        jobDependsOn:
+        - build
 
 - template: ../job/deploy-finalize.yml
   parameters:
@@ -133,6 +171,7 @@ jobs:
     versionType: ${{ parameters.versionType }}
     sonarCloud: ${{ parameters.sonarCloud }}
     deployNuGet: ${{ parameters.deployNuGet }}
+    updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     stack: ${{ parameters.stack }}
     jobDependsOn:
     - ${{ if eq(parameters.stack, 'dev') }}:
@@ -141,3 +180,5 @@ jobs:
       - deploy_branch_${{ parameters.stack }}
     - ${{ if contains(parameters.deployNuGet, parameters.stack) }}:
       - deploy_nuget_${{ parameters.stack }}
+    - ${{ if contains(parameters.updateNuGetQuality, parameters.stack) }}:
+      - updatequality_nuget_${{ parameters.stack }}

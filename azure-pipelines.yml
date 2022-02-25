@@ -108,10 +108,17 @@ stages:
     sonarCloudOrganization: suent
     sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
     sonarCloudServiceConnection: SonarCloudAnalysis1
-    deployBranch: 'test1,test2,stable,prod_us'
-    deployNuGet: 'dev,stable,prod_us'
+    deployBranch: 'test1,test2,staging,prod'
+    deployNuGet: 'dev,staging,prod'
     nuGetTargetFeedDev: AzureArtifacts
     #nuGetTargetFeedTest1:
     #nuGetTargetFeedTest2:
-    nuGetTargetFeedStable: github.com
-    nuGetTargetFeedProdUS: nuget.org
+    nuGetTargetFeedStaging: github.com
+    nuGetTargetFeedProd: nuget.org
+    updateNuGetQuality: 'staging,prod'
+    nuGetQualityFeed: suent
+    #nuGetQualityDev:
+    #nuGetQualityTest1:
+    #nuGetQualityTest2:
+    nuGetQualityStaging: Prerelease
+    nuGetQualityProd: Release

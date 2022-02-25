@@ -140,11 +140,39 @@ parameters:
   type: string
   default: ''
 
-- name: nuGetTargetFeedStable
+- name: nuGetTargetFeedStaging
   type: string
   default: ''
 
-- name: nuGetTargetFeedProdUS
+- name: nuGetTargetFeedProd
+  type: string
+  default: ''
+
+- name: updateNuGetQuality
+  type: string
+  default: ''
+
+- name: nuGetQualityFeed
+  type: string
+  default: ''
+
+- name: nuGetQualityDev
+  type: string
+  default: ''
+
+- name: nuGetQualityTest1
+  type: string
+  default: ''
+
+- name: nuGetQualityTest2
+  type: string
+  default: ''
+
+- name: nuGetQualityStaging
+  type: string
+  default: ''
+
+- name: nuGetQualityProd
   type: string
   default: ''
 
@@ -176,8 +204,15 @@ stages:
     nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
     nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
     nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-    nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
-    nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
+    nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+    nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+    updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+    nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+    nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+    nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+    nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+    nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+    nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
 
 # Deploys only on changes to main branch
 - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
@@ -199,8 +234,8 @@ stages:
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
       nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
       nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-      nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
-      nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
+      nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+      nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
       stack: test1
       stackName: Test 1
       stackDependsOn:
@@ -223,8 +258,8 @@ stages:
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
       nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
       nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-      nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
-      nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
+      nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+      nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
       stack: test2
       stackName: Test 2
       stackDependsOn:
@@ -247,10 +282,10 @@ stages:
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
       nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
       nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-      nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
-      nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
-      stack: stable
-      stackName: Stable
+      nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+      nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+      stack: staging
+      stackName: Staging
       stackDependsOn:
       - dev
       - test1
@@ -275,10 +310,10 @@ stages:
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
         nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
         nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-        nuGetTargetFeedStable: ${{ parameters.nuGetTargetFeedStable }}
-        nuGetTargetFeedProdUS: ${{ parameters.nuGetTargetFeedProdUS }}
-        stack: prod_us
-        stackName: Production US
+        nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+        nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+        stack: prod
+        stackName: Production
         stackDependsOn:
         - dev
-        - stable
+        - staging
