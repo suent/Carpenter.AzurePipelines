@@ -122,4 +122,4 @@ stages:
     #nuGetQualityTest2:
     nuGetQualityStaging: Prerelease
     nuGetQualityProd: Release
-    gitHubServiceConnection: suent
+    gitHubServiceConnection: botRepositoryAccess
