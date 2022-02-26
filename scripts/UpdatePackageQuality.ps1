@@ -3,7 +3,7 @@ param(
 	[Parameter(Mandatory=$True)]
 	[string] $PackagePath,
 	[string] $ArtifactFeed = "https://pkgs.dev.azure.com",
-	[stromg] $PersonalAccessToken = $env:CARPENTER_NUGET_QUALITY_TOKEN,
+	[string] $PersonalAccessToken = $env:CARPENTER_NUGET_QUALITY_TOKEN,
 	[string] $Organization = $env:SYSTEM_COLLECTIONURI.Split('/')[-2],
 	[string] $TeamProject = $env:SYSTEM_TEAMPROJECT,
 	[Parameter(Mandatory=$True)]
