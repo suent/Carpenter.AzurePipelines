@@ -31,9 +31,7 @@ try {
 		  $requestUri = $ArtifactFeed + "/$Organization/$TeamProject/_apis/packaging/feeds/$feedName/nuget/packages/$packageName/versions/$packageVersion" + "?api-version=7.1-preview.1"
 	  }
 	  Write-Verbose -Message $requestUri
-	  $creds = ":$($PersonalAccessToken)"
-	  $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($creds))
-	  $head = @{ Authorization = "Basic $encodedCreds" }
+	  $head = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
 	  $reponse = Invoke-RestMethod -Uri $requestUri -Headers $head -ContentType "application/json" -Method Patch -Body $json
 	  Write-Verbose -Message "Response: '$reponse'"
 	}
