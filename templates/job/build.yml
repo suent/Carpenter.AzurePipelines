@@ -110,32 +110,28 @@ parameters:
 
 - name: updateNuGetQuality
   type: string
-  default: ''
 
 - name: nuGetQualityFeed
   type: string
-  default: ''
 
 - name: nuGetQualityDev
   type: string
-  default: ''
 
 - name: nuGetQualityTest1
   type: string
-  default: ''
 
 - name: nuGetQualityTest2
   type: string
-  default: ''
 
 - name: nuGetQualityStaging
   type: string
-  default: ''
 
 - name: nuGetQualityProd
   type: string
-  default: ''
   
+- name: gitHubServiceConnection
+  type: string
+
 
 jobs:
 - job: build
@@ -319,6 +315,10 @@ jobs:
     - name: Carpenter.NuGet.Quality.Prod
       value: ${{ parameters.nuGetQualityProd }}
  
+  - ${{ if ne(parameters.gitHubServiceConnection,'') }}:
+    - name: Carpenter.GitHub.ServiceConnection
+      value: ${{ parameters.gitHubServiceConnection }}
+
 
   steps:
   - checkout: self
@@ -360,6 +360,9 @@ jobs:
       name: initializeBuildVersion
 
   - ${{ if eq(parameters.buildDotNet, 'true') }}:
+
+    - task: NuGetAuthenticate@0
+      displayName: Setup NuGet authentication
 
     - task: UseDotNet@2
       displayName: 'Use .NET Core'

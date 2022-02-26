@@ -129,6 +129,9 @@ parameters:
 - name: nuGetQualityProd
   type: string
   
+- name: gitHubServiceConnection
+  type: string
+
 
 stages:
 - stage: dev
@@ -170,7 +173,7 @@ stages:
       nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
       nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
-
+      gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: ../job/deploy.yml
@@ -199,4 +202,5 @@ stages:
         nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
         nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+        gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
         stack: dev

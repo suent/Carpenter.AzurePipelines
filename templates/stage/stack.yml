@@ -102,6 +102,8 @@ parameters:
 - name: nuGetQualityProd
   type: string
   
+- name: gitHubServiceConnection
+  type: string
 
 - name: stack
   type: string
@@ -130,6 +132,7 @@ stages:
           sonarCloud: ${{ parameters.sonarCloud }}
           deployNuGet: ${{ parameters.deployNuGet }}
           updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+          gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
     jobs:
     - template: ../job/deploy.yml
@@ -158,4 +161,5 @@ stages:
         nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
         nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+        gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
         stack: ${{ parameters.stack }}

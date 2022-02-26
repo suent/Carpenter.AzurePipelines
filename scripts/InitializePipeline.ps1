@@ -48,7 +48,8 @@ param(
 	[string] $NuGetQualityTest1 = $env:CARPENTER_NUGET_QUALITY_TEST1,
 	[string] $NuGetQualityTest2 = $env:CARPENTER_NUGET_QUALITY_TEST2,
 	[string] $NuGetQualityStaging = $env:CARPENTER_NUGET_QUALITY_STAGING,
-	[string] $NuGetQualityProd = $env:CARPENTER_NUGET_QUALITY_PROD
+	[string] $NuGetQualityProd = $env:CARPENTER_NUGET_QUALITY_PROD,
+	[string] $GitHubServiceConnection = $env:CARPENTER_GITHUB_SERVICECONNECTION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -128,3 +129,5 @@ $nuGetQualityTest1 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Qualit
 $nuGetQualityTest2 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test2" -OutputVariableName "nuGetQualityTest2" -Value $NuGetQualityTest2
 $nuGetQualityStaging = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Staging" -OutputVariableName "nuGetQualityStaging" -Value $NuGetQualityStaging
 $nuGetQualityProd = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Prod" -OutputVariableName "nuGetQualityProd" -Value $NuGetQualityProd
+
+$gitHubServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.GitHub.ServiceConnection" -OutputVariableName "gitHubServiceConnection" -Value $GitHubServiceConnection

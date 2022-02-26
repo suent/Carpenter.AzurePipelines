@@ -40,6 +40,7 @@
   * [nuGetQualityTest2](#nugetqualitytest2)
   * [nuGetQualityStaging](#nugetqualitystaging)
   * [nuGetQualityProd](#nugetqualityprod)
+  * [gitHubServiceConnection](#githubserviceconnection)
 
 # Carpenter.AzurePipelines Parameters
 
@@ -228,3 +229,7 @@ The target quality when updating quality on the Staging stack.
 ### nuGetQualityProd
 
 The target quality when updating quality on the Production stack.
+
+### gitHubServiceConnection
+
+The service connection to use when executing GitHub tasks.

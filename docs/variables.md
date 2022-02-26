@@ -377,3 +377,8 @@ The target quality when updating quality on the Staging stack. This value is set
 
 The target quality when updating quality on the Production stack. This value is set by the
 `nuGetQualityProd` parameter.
+
+### Carpenter.GitHub.ServiceConnection
+
+The service connection to use when executing GitHub tasks. This value is set byt the
+`gitHubServiceConnection` parameter.
