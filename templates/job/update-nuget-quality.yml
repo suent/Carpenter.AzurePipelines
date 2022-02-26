@@ -149,5 +149,5 @@ jobs:
       }
       $(Carpenter.Pipeline.ScriptPath)/UpdatePackageQuality.ps1 -Verbose -PackagePath $(Agent.BuildDirectory)\package.nuget -FeedName $feedName -PackageQuality $packageQuality
     env:
-      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+      CARPENTER_NUGET_QUALITY_TOKEN: $(PipelineBot-AzureDevOps-PAT)
     displayName: Update package quality

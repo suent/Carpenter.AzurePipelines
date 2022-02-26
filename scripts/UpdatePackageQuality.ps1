@@ -3,6 +3,7 @@ param(
 	[Parameter(Mandatory=$True)]
 	[string] $PackagePath,
 	[string] $ArtifactFeed = "https://pkgs.dev.azure.com",
+	[stromg] $PersonalAccessToken = $env:CARPENTER_NUGET_QUALITY_TOKEN,
 	[string] $Organization = $env:SYSTEM_COLLECTIONURI.Split('/')[-2],
 	[string] $TeamProject = $env:SYSTEM_TEAMPROJECT,
 	[Parameter(Mandatory=$True)]
@@ -25,7 +26,9 @@ try {
 	  $packageName = $matches.groups['name']
 	  $requestUri = $ArtifactFeed + "/$Organization/$TeamProject/_apis/packaging/feeds/$feedName/nuget/packages/$packageName/versions/$packageVersion" + "?api-version=7.1-preview.1"
 	  Write-Verbose -Message $requestUri
-	  $head = @{ Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN" }
+	  $creds = ":$($PersonalAccessToken)"
+	  $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($creds))
+	  $head = @{ Authorization = "Basic $encodedCreds" }
 	  $reponse = Invoke-RestMethod -Uri $requestUri -Headers $head -ContentType "application/json" -Method Patch -Body $json
 	  Write-Verbose -Message "Response: '$reponse'"
 	}
