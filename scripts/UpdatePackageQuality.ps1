@@ -10,7 +10,8 @@ param(
 	[string] $FeedName,
 	[string] $PackageVersion = $env:CARPENTER_VERSION,
 	[Parameter(Mandatory=$True)]
-	[string] $PackageQuality
+	[string] $PackageQuality,
+	[string] $FeedScope = "Organization"
 )
 
 $ErrorActionPreference = "Stop"
@@ -24,7 +25,11 @@ try {
 	Get-ChildItem . -Filter *.nupkg | Foreach-Object {
 	  $matches = $nameExpression.Match($_.Name)
 	  $packageName = $matches.groups['name']
-	  $requestUri = $ArtifactFeed + "/$Organization/$TeamProject/_apis/packaging/feeds/$feedName/nuget/packages/$packageName/versions/$packageVersion" + "?api-version=7.1-preview.1"
+	  if ($FeedScope -eq "Organization") {
+		  $requestUri = $ArtifactFeed + "/$Organization/_apis/packaging/feeds/$feedName/nuget/packages/$packageName/versions/$packageVersion" + "?api-version=7.1-preview.1"
+	  } else {
+		  $requestUri = $ArtifactFeed + "/$Organization/$TeamProject/_apis/packaging/feeds/$feedName/nuget/packages/$packageName/versions/$packageVersion" + "?api-version=7.1-preview.1"
+	  }
 	  Write-Verbose -Message $requestUri
 	  $creds = ":$($PersonalAccessToken)"
 	  $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($creds))
