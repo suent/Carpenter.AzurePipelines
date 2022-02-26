@@ -105,6 +105,7 @@ jobs:
         sonarCloud: ${{ parameters.sonarCloud }}
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+        gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
 
   steps:

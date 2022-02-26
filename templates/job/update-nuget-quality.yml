@@ -65,6 +65,9 @@ parameters:
 
 - name: updateNuGetQuality
   type: string
+  
+- name: gitHubServiceConnection
+  type: string
 
 - name: stack
   type: string
@@ -110,7 +113,7 @@ jobs:
         sonarCloud: ${{ parameters.sonarCloud }}
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-
+        gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
   steps:
   - ${{ if eq(parameters.includePipeline, 'false') }}:
