@@ -361,6 +361,9 @@ jobs:
 
   - ${{ if eq(parameters.buildDotNet, 'true') }}:
 
+    - task: NuGetAuthenticate@0
+      displayName: Setup NuGet authentication
+
     - task: UseDotNet@2
       displayName: 'Use .NET Core'
       condition: succeeded()
