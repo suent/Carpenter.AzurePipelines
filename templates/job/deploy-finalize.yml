@@ -125,6 +125,7 @@ jobs:
         ${{ if eq(parameters.buildPurpose,'Prerelease') }}:
           isPreRelease: true
         addChangeLog: true
+      displayName: Create GitHub Release
 
   - powershell: |
       "##vso[build.addbuildtag]Deployed-${{ parameters.stack }}"
