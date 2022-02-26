@@ -176,6 +176,10 @@ parameters:
   type: string
   default: ''
 
+- name: gitHubServiceConnection
+  type: string
+  default: ''
+
 
 stages:
 - template: stage/dev.yml
@@ -213,6 +217,8 @@ stages:
     nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
     nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
     nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+    gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+
 
 # Deploys only on changes to main branch
 - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:

@@ -69,6 +69,10 @@ parameters:
 - name: jobDependsOn
   type: object
 
+- name: gitHubServiceConnection
+  type: name
+
+
 jobs:
 - job: 'deploy_finalize_${{ parameters.stack }}'
   displayName: 'Finalize deploy: ${{ parameters.stack }}'
@@ -107,6 +111,19 @@ jobs:
   - checkout: none
   
   - template: ../step/display-environment.yml
+
+  - ${{ if eq(parameters.stack,'prod') }}:
+    - task: GitHubRelease@0
+      inputs:
+        gitHubConnection: ${{ parameters.gitHubServiceConnection }}
+        repositoryName: '$(Build.Repository.Name)'
+        action: create
+        target: '$(Build.SourceVersion)'
+        tagSource: auto
+        title: 'v$(Carpenter.Version)'
+        ${{ if eq(parameters.buildPurpose,'Prerelease') }}:
+          isPreRelease: true
+        addChangeLog: true
 
   - powershell: |
       "##vso[build.addbuildtag]Deployed-${{ parameters.stack }}"
