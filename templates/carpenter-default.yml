@@ -249,6 +249,7 @@ stages:
       nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
       nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+      gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: test1
       stackName: Test 1
       stackDependsOn:
@@ -280,6 +281,7 @@ stages:
       nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
       nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+      gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: test2
       stackName: Test 2
       stackDependsOn:
@@ -311,6 +313,7 @@ stages:
       nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
       nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+      gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: staging
       stackName: Staging
       stackDependsOn:
@@ -346,6 +349,7 @@ stages:
         nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
         nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+        gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
         stack: prod
         stackName: Production
         stackDependsOn:
