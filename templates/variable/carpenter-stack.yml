@@ -102,7 +102,7 @@ variables:
   - name: Carpenter.Pool.Default.VMImage
     value:  $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolVMImage'] ]
 
-- ${{ if eq(parameters.defaultPoolType,'Private') }}:
+- ${{ if eq(variables['Carpenter.Pool.Default.Type'],'Private') }}:
   - name: Carpenter.Pool.Default.Name
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolName'] ]
   
@@ -118,7 +118,7 @@ variables:
 - name: Carpenter.SonarCloud
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.sonarCloud'] ]
 
-- ${{ if eq(parameters.sonarCloud, 'true') }}:
+- ${{ if eq(variables['Carpenter.SonarCloud'], 'true') }}:
   - name: Carpenter.SonarCloud.Organization
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.sonarCloudOrganization'] ]
 
@@ -134,23 +134,23 @@ variables:
 - name: Carpenter.Deploy.NuGet
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.deployNuGet'] ]
 
-- ${{ if contains(parameters.deployNuGet,'dev') }}:
+- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'dev') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedDev'] ]
 
-- ${{ if contains(parameters.deployNuGet,'test1') }}:
+- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'test1') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedTest1'] ]
 
-- ${{ if contains(parameters.deployNuGet,'test2') }}:
+- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'test2') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedTest2'] ]
 
-- ${{ if contains(parameters.deployNuGet,'staging') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Staging
-    value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedStaging'] ]
+- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'stage') }}:
+  - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedStage'] ]
 
-- ${{ if contains(parameters.deployNuGet,'prod') }}:
+- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'prod') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedProd'] ]
 
@@ -173,9 +173,9 @@ variables:
   - name: Carpenter.NuGet.Quality.Test2
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetQualityTest2'] ]
  
-- ${{ if contains(parameters.updateNuGetQuality,'staging') }}:
-  - name: Carpenter.NuGet.Quality.Staging
-    value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetQualityStaging'] ]
+- ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
+  - name: Carpenter.NuGet.Quality.Stage
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetQualityStage'] ]
  
 - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
   - name: Carpenter.NuGet.Quality.Prod

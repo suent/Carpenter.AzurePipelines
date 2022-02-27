@@ -40,14 +40,14 @@ param(
 	[string] $NuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
 	[string] $NuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
 	[string] $NuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
-	[string] $NuGetTargetFeedStaging = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING,
+	[string] $NuGetTargetFeedStage = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING,
 	[string] $NuGetTargetFeedProd = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD,
 	[string] $UpdateNuGetQuality = $env:CARPENTER_NUGET_QUALITY,
 	[string] $NuGetQualityFeed = $env:CARPENTER_NUGET_QUALITY_FEED,
 	[string] $NuGetQualityDev = $env:CARPENTER_NUGET_QUALITY_DEV,
 	[string] $NuGetQualityTest1 = $env:CARPENTER_NUGET_QUALITY_TEST1,
 	[string] $NuGetQualityTest2 = $env:CARPENTER_NUGET_QUALITY_TEST2,
-	[string] $NuGetQualityStaging = $env:CARPENTER_NUGET_QUALITY_STAGING,
+	[string] $NuGetQualityStage = $env:CARPENTER_NUGET_QUALITY_STAGING,
 	[string] $NuGetQualityProd = $env:CARPENTER_NUGET_QUALITY_PROD,
 	[string] $GitHubServiceConnection = $env:CARPENTER_GITHUB_SERVICECONNECTION
 )
@@ -119,7 +119,7 @@ $deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -Out
 $nuGetTargetFeedDev = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Dev" -OutputVariableName "nuGetTargetFeedDev" -Value $NuGetTargetFeedDev
 $nuGetTargetFeedTest1 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test1" -OutputVariableName "nuGetTargetFeedTest1" -Value $NuGetTargetFeedTest2
 $nuGetTargetFeedTest2 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test2" -OutputVariableName "nuGetTargetFeedTest2" -Value $NuGetTargetFeedTest2
-$nuGetTargetFeedStaging = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Staging" -OutputVariableName "nuGetTargetFeedStaging" -Value $NuGetTargetFeedStaging
+$nuGetTargetFeedStage = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Stage" -OutputVariableName "nuGetTargetFeedStage" -Value $NuGetTargetFeedStage
 $nuGetTargetFeedProd = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Prod" -OutputVariableName "nuGetTargetFeedProd" -Value $NuGetTargetFeedProd
 
 $updateNuGetQuality = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality" -OutputVariableName "updateNuGetQuality" -Value $UpdateNuGetQuality
@@ -127,7 +127,7 @@ $nuGetQualityFeed = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality
 $nuGetQualityDev = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Dev" -OutputVariableName "nuGetQualityDev" -Value $NuGetQualityDev
 $nuGetQualityTest1 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test1" -OutputVariableName "nuGetQualityTest1" -Value $NuGetQualityTest1
 $nuGetQualityTest2 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test2" -OutputVariableName "nuGetQualityTest2" -Value $NuGetQualityTest2
-$nuGetQualityStaging = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Staging" -OutputVariableName "nuGetQualityStaging" -Value $NuGetQualityStaging
+$nuGetQualityStage = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Stage" -OutputVariableName "nuGetQualityStage" -Value $NuGetQualityStage
 $nuGetQualityProd = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Prod" -OutputVariableName "nuGetQualityProd" -Value $NuGetQualityProd
 
 $gitHubServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.GitHub.ServiceConnection" -OutputVariableName "gitHubServiceConnection" -Value $GitHubServiceConnection

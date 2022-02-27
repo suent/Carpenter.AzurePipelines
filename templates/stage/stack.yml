@@ -75,7 +75,7 @@ parameters:
 - name: nuGetTargetFeedTest2
   type: string
 
-- name: nuGetTargetFeedStaging
+- name: nuGetTargetFeedStage
   type: string
 
 - name: nuGetTargetFeedProd
@@ -96,7 +96,7 @@ parameters:
 - name: nuGetQualityTest2
   type: string
 
-- name: nuGetQualityStaging
+- name: nuGetQualityStage
   type: string
 
 - name: nuGetQualityProd
@@ -152,14 +152,14 @@ stages:
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
         nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
         nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-        nuGetTargetFeedStaging: ${{ parameters.nuGetTargetFeedStaging }}
+        nuGetTargetFeedStage: ${{ parameters.nuGetTargetFeedStage }}
         nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
         nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
         nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
         nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
         nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-        nuGetQualityStaging: ${{ parameters.nuGetQualityStaging }}
+        nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
         stack: ${{ parameters.stack }}

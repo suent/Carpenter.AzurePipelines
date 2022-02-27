@@ -31,14 +31,14 @@
   * [nuGetTargetFeedDev](#nugettargetfeeddev)
   * [nuGetTargetFeedTest1](#nugettargetfeedtest1)
   * [nuGetTargetFeedTest2](#nugettargetfeedtest2)
-  * [nuGetTargetFeedStaging](#nugettargetfeedstaging)
+  * [nuGetTargetFeedStage](#nugettargetfeedstage)
   * [nuGetTargetFeedProd](#nugettargetfeedprod)
   * [updateNugetQuality](#updatenugetquality)
   * [nuGetQualityFeed](#nugetqualityfeed)
   * [nuGetQualityDev](#nugetqualitydev)
   * [nuGetQualityTest1](#nugetqualitytest1)
   * [nuGetQualityTest2](#nugetqualitytest2)
-  * [nuGetQualityStaging](#nugetqualitystaging)
+  * [nuGetQualityStage](#nugetqualitystage)
   * [nuGetQualityProd](#nugetqualityprod)
   * [gitHubServiceConnection](#githubserviceconnection)
 
@@ -193,9 +193,9 @@ The target NuGet feed to use when deploying NuGet packages to the Test1 stack.
 
 The target NuGet feed to use when deploying NuGet packages to the Test2 stack.
 
-### nuGetTargetFeedStaging
+### nuGetTargetFeedStage
 
-The target NuGet feed to use when deploying NuGet packages to the Staging stack.
+The target NuGet feed to use when deploying NuGet packages to the Stage stack.
 
 ### nuGetTargetFeedProd
 
@@ -222,7 +222,7 @@ The target quality when updating quality on the Test 1 stack.
 
 The target quality when updating quality on the Test 2 stack.
 
-### nuGetQualityStaging
+### nuGetQualityStage
 
 The target quality when updating quality on the Staging stack.
 

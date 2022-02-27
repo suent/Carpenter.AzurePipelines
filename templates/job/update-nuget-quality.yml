@@ -144,7 +144,7 @@ jobs:
       if ([string]($stacks -like "test2") -eq "$env:CARPENTER_STACK") {
         $packageQuality = $env:CARPENTER_NUGET_QUALITY_TEST2
       }
-      if ([string]($stacks -like "staging") -eq "$env:CARPENTER_STACK") {
+      if ([string]($stacks -like "stage") -eq "$env:CARPENTER_STACK") {
         $packageQuality = $env:CARPENTER_NUGET_QUALITY_STAGING
       }
       if ([string]($stacks -like "prod") -eq "$env:CARPENTER_STACK") {

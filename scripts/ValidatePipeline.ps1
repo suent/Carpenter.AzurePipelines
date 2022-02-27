@@ -29,14 +29,14 @@ param(
 	[string] $nuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
 	[string] $nuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
 	[string] $nuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
-	[string] $nuGetTargetFeedStaging = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING,
+	[string] $nuGetTargetFeedStage = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING,
 	[string] $nuGetTargetFeedProd = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD,
 	[string] $UpdateNuGetQuality = $env:CARPENTER_NUGET_QUALITY,
 	[string] $NuGetQualityFeed = $env:CARPENTER_NUGET_QUALITY_FEED,
 	[string] $NuGetQualityDev = $env:CARPENTER_NUGET_QUALITY_DEV,
 	[string] $NuGetQualityTest1 = $env:CARPENTER_NUGET_QUALITY_TEST1,
 	[string] $NuGetQualityTest2 = $env:CARPENTER_NUGET_QUALITY_TEST2,
-	[string] $NuGetQualityStaging = $env:CARPENTER_NUGET_QUALITY_STAGING,
+	[string] $NuGetQualityStage = $env:CARPENTER_NUGET_QUALITY_STAGING,
 	[string] $NuGetQualityProd = $env:CARPENTER_NUGET_QUALITY_PROD
 )
 
@@ -183,10 +183,10 @@ if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
 	}
 }
 
-if ((($DeployNuGet -Split ",").Trim()) -Contains "staging") {
-	Write-Verbose "Validating nuGetTargetFeedStaging"
-	if (-Not ($NuGetTargetFeedStaging)) {
-		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains staging."
+if ((($DeployNuGet -Split ",").Trim()) -Contains "stage") {
+	Write-Verbose "Validating nuGetTargetFeedStage"
+	if (-Not ($NuGetTargetFeedStage)) {
+		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains stage."
 	}
 }
 
@@ -225,10 +225,10 @@ if ((($UpdateNuGetQuality -Split ",").Trim()) -Contains "test2") {
 	}
 }
 
-if ((($UpdateNuGetQuality -Split ",").Trim()) -Contains "staging") {
-	Write-Verbose "Validating nuGetQualityStaging"
-	if (-Not ($NuGetQualityStaging)) {
-		Write-PipelineError "The nuGetQualityStaging parameter is required when updateNuGetQuality contains staging."
+if ((($UpdateNuGetQuality -Split ",").Trim()) -Contains "stage") {
+	Write-Verbose "Validating nuGetQualityStage"
+	if (-Not ($NuGetQualityStage)) {
+		Write-PipelineError "The nuGetQualityStage parameter is required when updateNuGetQuality contains stage."
 	}
 }
 

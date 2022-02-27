@@ -146,9 +146,9 @@ variables:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
     value: $[ dependencies.build.outputs['initializePipeline.nuGetTargetFeedTest2'] ]
 
-- ${{ if contains(parameters.deployNuGet,'staging') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Staging
-    value: $[ dependencies.build.outputs['initializePipeline.nuGetTargetFeedStaging'] ]
+- ${{ if contains(parameters.deployNuGet,'stage') }}:
+  - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
+    value: $[ dependencies.build.outputs['initializePipeline.nuGetTargetFeedStage'] ]
 
 - ${{ if contains(parameters.deployNuGet,'prod') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
@@ -173,9 +173,9 @@ variables:
     - name: Carpenter.NuGet.Quality.Test2
       value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityTest2'] ]
  
-  - ${{ if contains(parameters.updateNuGetQuality,'staging') }}:
-    - name: Carpenter.NuGet.Quality.Staging
-      value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityStaging'] ]
+  - ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
+    - name: Carpenter.NuGet.Quality.Stage
+      value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityStage'] ]
  
   - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
     - name: Carpenter.NuGet.Quality.Prod

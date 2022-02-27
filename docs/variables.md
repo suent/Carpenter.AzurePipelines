@@ -48,14 +48,14 @@
   * [Carpenter.Deploy.NuGet.TargetFeed.Dev](#carpenterdeploynugettargetfeeddev)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test1](#carpenterdeploynugettargetfeedtest1)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test2](#carpenterdeploynugettargetfeedtest2)
-  * [Carpenter.Deploy.NuGet.TargetFeed.Staging](#carpenterdeploynugettargetfeedstaging)
+  * [Carpenter.Deploy.NuGet.TargetFeed.Stage](#carpenterdeploynugettargetfeedstage)
   * [Carpenter.Deploy.NuGet.TargetFeed.Prod](#carpenterdeploynugettargetfeedprod)
   * [Carpenter.NuGet.Quality](#carpenternugetquality)
   * [Carpenter.NuGet.Quality.Feed](#carpenternugetqualityfeed)
   * [Carpenter.NuGet.Quality.Dev](#carpenternugetqualitydev)
   * [Carpenter.NuGet.Quality.Test1](#carpenternugetqualitytest1)
   * [Carpenter.NuGet.Quality.Test2](#carpenternugetqualitytest2)
-  * [Carpenter.NuGet.Quality.Staging](#carpenternugetqualitystaging)
+  * [Carpenter.NuGet.Quality.Stage](#carpenternugetqualitystage)
   * [Carpenter.NuGet.Quality.Prod](#carpenternugetqualityprod)
 
 # Carpenter.AzurePipelines Variables
@@ -334,10 +334,10 @@ The target NuGet feed to use when deploying NuGet packages to the Test1 stack. T
 The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is set by the
 `deployNuGetTargetFeedTest2` parameter.
 
-### Carpenter.Deploy.NuGet.TargetFeed.Staging
+### Carpenter.Deploy.NuGet.TargetFeed.Stage
 
-The target NuGet feed to use when deploying NuGet packages to the Staging stack. This value is set by the
-`deployNuGetTargetFeedStaging` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Stage stack. This value is set by the
+`deployNuGetTargetFeedStage` parameter.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Prod
 
@@ -368,10 +368,10 @@ The target quality when updating quality on the Test 1 stack. This value is set 
 The target quality when updating quality on the Test 2 stack. This value is set by the
 `nuGetQualityTest2` parameter.
 
-### Carpenter.NuGet.Quality.Staging
+### Carpenter.NuGet.Quality.Stage
 
 The target quality when updating quality on the Staging stack. This value is set by the
-`nuGetQualityStaging` parameter.
+`nuGetQualityStage` parameter.
 
 ### Carpenter.NuGet.Quality.Prod
 

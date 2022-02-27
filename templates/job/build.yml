@@ -102,7 +102,7 @@ parameters:
 - name: nuGetTargetFeedTest2
   type: string
 
-- name: nuGetTargetFeedStaging
+- name: nuGetTargetFeedStage
   type: string
 
 - name: nuGetTargetFeedProd
@@ -123,7 +123,7 @@ parameters:
 - name: nuGetQualityTest2
   type: string
 
-- name: nuGetQualityStaging
+- name: nuGetQualityStage
   type: string
 
 - name: nuGetQualityProd
@@ -280,9 +280,9 @@ jobs:
     - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
       value: ${{ parameters.nuGetTargetFeedTest2 }}
 
-  - ${{ if contains(parameters.deployNuGet,'staging') }}:
-    - name: Carpenter.Deploy.NuGet.TargetFeed.Staging
-      value: ${{ parameters.nuGetTargetFeedStaging }}
+  - ${{ if contains(parameters.deployNuGet,'stage') }}:
+    - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
+      value: ${{ parameters.nuGetTargetFeedStage }}
 
   - ${{ if contains(parameters.deployNuGet,'prod') }}:
     - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
@@ -307,9 +307,9 @@ jobs:
     - name: Carpenter.NuGet.Quality.Test2
       value: ${{ parameters.nuGetQualityTest2 }}
  
-  - ${{ if contains(parameters.updateNuGetQuality,'staging') }}:
-    - name: Carpenter.NuGet.Quality.Staging
-      value: ${{ parameters.nuGetQualityStaging }}
+  - ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
+    - name: Carpenter.NuGet.Quality.Stage
+      value: ${{ parameters.nuGetQualityStage }}
  
   - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
     - name: Carpenter.NuGet.Quality.Prod
