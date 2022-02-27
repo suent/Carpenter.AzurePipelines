@@ -78,6 +78,8 @@ variables:
 # Infrastructure-vault populates:
 #   PipelineBot-GitHub-PAT
 - group: Infrastructure-Vault
+- name: TestVariable1
+  value: true
 
 
 # Use pipeline template
