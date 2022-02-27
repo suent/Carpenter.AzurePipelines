@@ -373,11 +373,6 @@ jobs:
         installationPath: $(Carpenter.DotNet.Path)
 
     - ${{ if eq(parameters.sonarCloud, 'true') }}:
-      - task: JavaToolInstaller@0
-        inputs:
-          versionSpec: 11
-        displayName: 'Use Java 11'
-
       - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
         displayName: 'Prepare analysis: SonarCloud'
         condition: succeeded()
