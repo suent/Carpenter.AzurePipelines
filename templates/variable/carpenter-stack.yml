@@ -98,7 +98,7 @@ variables:
 - name: Carpenter.Pool.Default.Type
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolType'] ]
 
-- ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+- ${{ if eq(variables['Carpenter.Pool.Default.Type'],'Hosted') }}:
   - name: Carpenter.Pool.Default.VMImage
     value:  $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolVMImage'] ]
 
