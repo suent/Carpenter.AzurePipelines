@@ -29,14 +29,14 @@ param(
 	[string] $nuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
 	[string] $nuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
 	[string] $nuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
-	[string] $nuGetTargetFeedStage = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING,
+	[string] $nuGetTargetFeedStage = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGE,
 	[string] $nuGetTargetFeedProd = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD,
 	[string] $UpdateNuGetQuality = $env:CARPENTER_NUGET_QUALITY,
 	[string] $NuGetQualityFeed = $env:CARPENTER_NUGET_QUALITY_FEED,
 	[string] $NuGetQualityDev = $env:CARPENTER_NUGET_QUALITY_DEV,
 	[string] $NuGetQualityTest1 = $env:CARPENTER_NUGET_QUALITY_TEST1,
 	[string] $NuGetQualityTest2 = $env:CARPENTER_NUGET_QUALITY_TEST2,
-	[string] $NuGetQualityStage = $env:CARPENTER_NUGET_QUALITY_STAGING,
+	[string] $NuGetQualityStage = $env:CARPENTER_NUGET_QUALITY_STAGE,
 	[string] $NuGetQualityProd = $env:CARPENTER_NUGET_QUALITY_PROD
 )
 
@@ -186,7 +186,7 @@ if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
 if ((($DeployNuGet -Split ",").Trim()) -Contains "stage") {
 	Write-Verbose "Validating nuGetTargetFeedStage"
 	if (-Not ($NuGetTargetFeedStage)) {
-		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains stage."
+		Write-PipelineError "The nuGetTargetFeedStage parameter is required when deployNuGet contains stage."
 	}
 }
 

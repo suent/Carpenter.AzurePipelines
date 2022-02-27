@@ -40,14 +40,14 @@ param(
 	[string] $NuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
 	[string] $NuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
 	[string] $NuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
-	[string] $NuGetTargetFeedStage = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING,
+	[string] $NuGetTargetFeedStage = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGE,
 	[string] $NuGetTargetFeedProd = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD,
 	[string] $UpdateNuGetQuality = $env:CARPENTER_NUGET_QUALITY,
 	[string] $NuGetQualityFeed = $env:CARPENTER_NUGET_QUALITY_FEED,
 	[string] $NuGetQualityDev = $env:CARPENTER_NUGET_QUALITY_DEV,
 	[string] $NuGetQualityTest1 = $env:CARPENTER_NUGET_QUALITY_TEST1,
 	[string] $NuGetQualityTest2 = $env:CARPENTER_NUGET_QUALITY_TEST2,
-	[string] $NuGetQualityStage = $env:CARPENTER_NUGET_QUALITY_STAGING,
+	[string] $NuGetQualityStage = $env:CARPENTER_NUGET_QUALITY_STAGE,
 	[string] $NuGetQualityProd = $env:CARPENTER_NUGET_QUALITY_PROD,
 	[string] $GitHubServiceConnection = $env:CARPENTER_GITHUB_SERVICECONNECTION
 )

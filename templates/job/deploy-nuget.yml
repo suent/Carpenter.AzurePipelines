@@ -158,7 +158,7 @@ jobs:
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2
         }
         if ([string]($stacks -like "stage") -eq "$env:CARPENTER_STACK") {
-          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGE
         }
         if ([string]($stacks -like "prod") -eq "$env:CARPENTER_STACK") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD
@@ -197,7 +197,7 @@ jobs:
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2
         }
         if ([string]($stacks -like "stage") -eq "stage") {
-          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGING
+          $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGE
         }
         if ([string]($stacks -like "prod") -eq "prod") {
           $targetFeed = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD
