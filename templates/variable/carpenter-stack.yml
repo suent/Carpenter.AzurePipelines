@@ -98,11 +98,11 @@ variables:
 - name: Carpenter.Pool.Default.Type
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolType'] ]
 
-- ${{ if eq(variables['Carpenter.Pool.Default.Type'],'Hosted') }}:
+- ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
   - name: Carpenter.Pool.Default.VMImage
     value:  $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolVMImage'] ]
 
-- ${{ if eq(variables['Carpenter.Pool.Default.Type'],'Private') }}:
+- ${{ if eq(parameters.defaultPoolType,'Private') }}:
   - name: Carpenter.Pool.Default.Name
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolName'] ]
   
@@ -118,7 +118,7 @@ variables:
 - name: Carpenter.SonarCloud
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.sonarCloud'] ]
 
-- ${{ if eq(variables['Carpenter.SonarCloud'], 'true') }}:
+- ${{ if eq(parameters.sonarCloud, 'true') }}:
   - name: Carpenter.SonarCloud.Organization
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.sonarCloudOrganization'] ]
 
@@ -134,23 +134,23 @@ variables:
 - name: Carpenter.Deploy.NuGet
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.deployNuGet'] ]
 
-- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'dev') }}:
+- ${{ if contains(parameters.deployNuGet,'dev') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedDev'] ]
 
-- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'test1') }}:
+- ${{ if contains(parameters.deployNuGet,'test1') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedTest1'] ]
 
-- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'test2') }}:
+- ${{ if contains(parameters.deployNuGet,'test2') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedTest2'] ]
 
-- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'stage') }}:
+- ${{ if contains(parameters.deployNuGet,'stage') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedStage'] ]
 
-- ${{ if contains(variables['Carpenter.Deploy.NuGet'],'prod') }}:
+- ${{ if contains(parameters.deployNuGet,'prod') }}:
   - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetTargetFeedProd'] ]
 
@@ -190,7 +190,6 @@ variables:
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.versionType'] ]
 
 - ${{ if ne(parameters.versionType,'None') }}:
-
   - name: Carpenter.Version.VersionFile
     value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionFile'] ]
 
@@ -215,7 +214,7 @@ variables:
   - name: Carpenter.Version.Revision
     value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.revision'] ]
 
-  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildPurpose'],'CI'))) }}:
+  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.buildPurpose,'CI'))) }}:
     - name: Carpenter.ContinuousIntegration.Date
       value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
 
@@ -233,7 +232,7 @@ variables:
     - name: Carpenter.Prerelease.Revision
       value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.prereleaseRevision'] ]
 
-  - ${{ if eq(parameters['buildPurpose'],'Release')}}:
+  - ${{ if eq(parameters.buildPurpose,'Release')}}:
     - name: Carpenter.Version.IncrementOnRelease
       value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
 
