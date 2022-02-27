@@ -169,7 +169,7 @@ jobs:
         } elseif ($targetFeed -eq "github.com") {
           $apiKey = '$(PipelineBot-GitHub-PAT)'
         } elseif ($targetFeed -eq "nuget.org") {
-          $apiKey = '$(NuGet-PAT)'
+          $apiKey = '$(PipelineBot-NuGet-PAT)'
         }
         dotnet nuget push --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
       workingDirectory: $(Agent.BuildDirectory)
@@ -206,7 +206,7 @@ jobs:
         if ($targetFeed -eq "AzureArtifacts") {
           $apiKey = "AzureArtifacts"
         } elseif ($targetFeed -eq "github.com") {
-          $apiKey = $(NuGet-PAT)
+          $apiKey = $(PipelineBot-NuGet-PAT)
         }
         Write-Host "ApiKey: $apiKey"
         nuget push -ApiKey $apiKey -Source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"

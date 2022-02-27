@@ -70,16 +70,18 @@ pr:
 
 # Infrastructure variables
 variables:
+
 # Infrastructure populates:
 #   Carpenter.PipelineBot
 #   Carpenter.PipelineBot.Email
 #   Carpenter.PipelineBot.Name
 - group: Infrastructure
+
 # Infrastructure-vault populates:
+#   PipelineBot-AzureDevOps-PAT
 #   PipelineBot-GitHub-PAT
+#   PipelineBot-NuGet-PAT
 - group: Infrastructure-Vault
-- name: TestVariable1
-  value: true
 
 
 # Use pipeline template

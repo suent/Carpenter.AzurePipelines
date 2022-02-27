@@ -241,7 +241,3 @@ variables:
 
   - name: Carpenter.Version
     value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.version'] ]
-
-  - ${{ if eq(variables['TestVariable1'],'true') }}:
-    - name: AA_TestVariable2
-      value: Variable2
