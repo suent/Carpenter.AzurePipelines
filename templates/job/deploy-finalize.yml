@@ -123,8 +123,9 @@ jobs:
         targetType: 'filePath'
         filePath: $(Carpenter.Pipeline.ScriptPath)/AddGitTags.ps1
         arguments: -Verbose
-      displayName: Initialize versioning
-      name: initializeBuildVersion   
+      env:
+        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
+      displayName: Add Git tags
 
   - ${{ if eq(parameters.stack,'prod') }}:
     - task: GitHubRelease@0
