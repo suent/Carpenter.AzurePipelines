@@ -109,9 +109,22 @@ jobs:
 
 
   steps:
-  - checkout: none
-  
+  # Include pipeline for access to pipeline scripts
+  - ${{ if ne(parameters.includePipeline, 'true') }}:
+    - checkout: self
+  - ${{ if eq(parameters.includePipeline, 'true') }}:
+    - checkout: Carpenter
+      
   - template: ../step/display-environment.yml
+
+  - ${{ if and(eq(variables['Build.SourceBranch'],'main'),eq(paramaters.stack,'dev')) }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Carpenter.Pipeline.ScriptPath)/AddGitTags.ps1
+        arguments: -Verbose
+      displayName: Initialize versioning
+      name: initializeBuildVersion   
 
   - ${{ if eq(parameters.stack,'prod') }}:
     - task: GitHubRelease@0
