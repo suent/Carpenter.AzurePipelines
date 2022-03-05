@@ -331,7 +331,6 @@ jobs:
   # Include pipeline for access to pipeline scripts
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
-      persistCredentials: true
 
   - template: ../step/display-environment.yml
 

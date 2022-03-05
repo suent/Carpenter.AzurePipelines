@@ -104,6 +104,9 @@ jobs:
   - name: Carpenter.Stack
     value: ${{ parameters.stack }}
 
+  - name: Carpenter.Pipeline.ScriptPath
+    value: $[ replace(variables['Carpenter.PipelineScriptPath'],'/Carpenter.AzurePipelines','') ]
+
   - ${{ if eq(parameters.stack,'dev') }}:
     - template: ../variable/carpenter-dev.yml
       parameters:
@@ -116,13 +119,11 @@ jobs:
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
   steps:
-  - ${{ if eq(parameters.includePipeline, 'false') }}:
-    - checkout: self
-  
   # Include pipeline for access to pipeline scripts
+  - ${{ if ne(parameters.includePipeline, 'true') }}:
+    - checkout: self
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
-      persistCredentials: true
 
   # Download the nuget package created by the build job
   - download: current
