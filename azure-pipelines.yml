@@ -77,7 +77,7 @@ variables:
 #   Carpenter.PipelineBot.Name
 - group: Infrastructure
 
-# Infrastructure-vault populates:
+# Infrastructure-Vault populates:
 #   PipelineBot-AzureDevOps-PAT
 #   PipelineBot-GitHub-PAT
 #   PipelineBot-NuGet-PAT
