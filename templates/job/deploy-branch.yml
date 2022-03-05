@@ -96,8 +96,8 @@ jobs:
   workspace:
     clean: all
 
-  variables:
-  - ${{ if eq(parameters.stack,'dev') }}:
+  ${{ if eq(parameters.stack,'dev') }}:
+    variables:
     - template: ../variable/carpenter-dev.yml
       parameters:
         buildPurpose: ${{ parameters.buildPurpose }}
@@ -108,9 +108,6 @@ jobs:
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
-  - name: Carpenter.Pipeline.ScriptPath
-    value: $[ replace(variables['Carpenter.Pipeline.ScriptPath'],'/Carpenter.AzurePipelines','') ]
-
 
   steps:
   # Include pipeline for access to pipeline scripts
@@ -118,6 +115,8 @@ jobs:
     - checkout: self
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
+
+  - template: ../step/no-source-scriptpath.yml     
 
   - template: ../step/display-environment.yml
   

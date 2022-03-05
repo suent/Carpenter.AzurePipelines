@@ -39,6 +39,15 @@ parameters:
 - name: defaultPoolType
   type: string
 
+- name: defaultPoolName
+  type: string
+
+- name: defaultPoolDemands
+  type: object
+
+- name: defaultPoolVMImage
+  type: string
+
 - name: versionType
   type: string
 
@@ -68,7 +77,7 @@ parameters:
 jobs:
 
 - job: 'deploy_nuget_${{ parameters.stack }}'
-  displayName: 'Deploy NuGet: ${{ parameters.stack }}'
+  displayName: 'Deploy NuGet'
   
 
   ${{ if ne(parameters.jobDependsOn,'') }}:
@@ -76,7 +85,12 @@ jobs:
 
 
   pool:
-    vmImage: windows-2022
+    ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+      vmImage: ${{ parameters.defaultPoolVMImage }}
+    ${{ if eq(parameters.defaultPoolType,'Private') }}:
+      name: ${{ parameters.defaultPoolName }}
+      ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+        demands: ${{ parameters.defaultPoolDemands }}
 
 
   workspace:

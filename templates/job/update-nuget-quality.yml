@@ -115,9 +115,6 @@ jobs:
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
-  - name: Carpenter.Pipeline.ScriptPath
-    value: $[ replace(variables['Carpenter.Pipeline.ScriptPath'],'/Carpenter.AzurePipelines','') ]
-
 
   steps:
   # Include pipeline for access to pipeline scripts
@@ -130,6 +127,8 @@ jobs:
   - download: current
     artifact: package.nuget
     displayName: 'Download artifact: package.nuget'
+
+  - template: ../step/no-source-scriptpath.yml     
 
   - template: ../step/display-environment.yml
 
