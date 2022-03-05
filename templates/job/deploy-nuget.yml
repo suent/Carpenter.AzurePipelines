@@ -145,7 +145,7 @@ jobs:
     displayName: 'Copy files: NuGet.Config'
     condition: succeeded()
     inputs:
-      sourceFolder: $(Agent.BuildDirectory)\package.nuget
+      sourceFolder: $(Agent.BuildDirectory)/package.nuget
       contents: 'NuGet.Config'
       targetFolder: $(Agent.BuildDirectory)
 
@@ -185,7 +185,7 @@ jobs:
         } elseif ($targetFeed -eq "nuget.org") {
           $apiKey = '$(PipelineBot-NuGet-PAT)'
         }
-        dotnet nuget push --skip-duplicate --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)\package.nuget\*.nupkg"
+        dotnet nuget push --skip-duplicate --api-key $apiKey --source $targetFeed "$(Agent.BuildDirectory)/package.nuget/*.nupkg"
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Publish package: NuGet (${{ parameters.stack }})'
 
