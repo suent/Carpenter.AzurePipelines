@@ -97,9 +97,6 @@ jobs:
     clean: all
 
   variables:
-  - name: Carpenter.Pipeline.ScriptPath
-    value: $[ replace(variables['Carpenter.PipelineScriptPath'],'/Carpenter.AzurePipelines','') ]
-
   - ${{ if eq(parameters.stack,'dev') }}:
     - template: ../variable/carpenter-dev.yml
       parameters:
@@ -110,6 +107,9 @@ jobs:
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+
+  - name: Carpenter.Pipeline.ScriptPath
+    value: $[ replace(variables['Carpenter.Pipeline.ScriptPath'],'/Carpenter.AzurePipelines','') ]
 
 
   steps:
