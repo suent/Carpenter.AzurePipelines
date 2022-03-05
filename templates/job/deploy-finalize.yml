@@ -134,7 +134,8 @@ jobs:
         repositoryName: '$(Build.Repository.Name)'
         action: create
         target: '$(Build.SourceVersion)'
-        tagSource: auto
+        tagSource: manual
+        tag: '$(Build.SourceVersion)'
         title: 'v$(Carpenter.Version)'
         ${{ if eq(parameters.buildPurpose,'Prerelease') }}:
           isPreRelease: true
