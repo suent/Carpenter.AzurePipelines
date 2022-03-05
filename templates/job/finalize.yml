@@ -77,8 +77,8 @@ parameters:
 
 
 jobs:
-- job: 'deploy_finalize_${{ parameters.stack }}'
-  displayName: 'Finalize deploy: ${{ parameters.stack }}'
+- job: 'finalize_${{ parameters.stack }}'
+  displayName: 'Finalize'
 
 
   ${{ if ne(parameters.jobDependsOn,'') }}:
@@ -97,9 +97,11 @@ jobs:
   workspace:
     clean: all
 
+  variables:
+  - name: Carpenter.Pipeline.ScriptPath
+    value: $[ replace(variables['Carpenter.PipelineScriptPath'],'/Carpenter.AzurePipelines','') ]
 
-  ${{ if eq(parameters.stack,'dev') }}:
-    variables:
+  - ${{ if eq(parameters.stack,'dev') }}:
     - template: ../variable/carpenter-dev.yml
       parameters:
         buildPurpose: ${{ parameters.buildPurpose }}

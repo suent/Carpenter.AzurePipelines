@@ -172,7 +172,7 @@ jobs:
         jobDependsOn:
         - build
 
-- template: ../job/deploy-finalize.yml
+- template: ../job/finalize.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
     includePipeline: ${{ parameters.includePipeline }}
