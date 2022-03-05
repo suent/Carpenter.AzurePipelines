@@ -135,7 +135,7 @@ jobs:
         action: create
         target: '$(Build.SourceVersion)'
         tagSource: manual
-        tag: '$(Build.SourceVersion)'
+        tag: 'v$(Carpenter.Version)'
         title: 'v$(Carpenter.Version)'
         ${{ if eq(parameters.buildPurpose,'Prerelease') }}:
           isPreRelease: true
