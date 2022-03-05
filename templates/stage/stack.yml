@@ -54,6 +54,9 @@ parameters:
 - name: versionType
   type: string
 
+- name: incrementVersionOnRelease
+  type: string
+
 - name: buildDotNet
   type: string
 
@@ -145,6 +148,7 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         buildPurpose: ${{ parameters.buildPurpose }}
         versionType: ${{ parameters.versionType }}
+        incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
         buildDotNet: ${{ parameters.buildDotNet }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}

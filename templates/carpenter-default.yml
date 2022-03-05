@@ -233,6 +233,7 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
+      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
@@ -265,6 +266,7 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
+      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
@@ -297,6 +299,7 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
+      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
@@ -333,6 +336,7 @@ stages:
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         versionType: ${{ parameters.versionType }}
+        incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
         buildDotNet: ${{ parameters.buildDotNet }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}

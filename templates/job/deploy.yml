@@ -54,6 +54,9 @@ parameters:
 - name: versionType
   type: string
 
+- name: incrementVersionOnRelease
+  type: string
+
 - name: sonarCloud
   type: string
 
@@ -179,6 +182,7 @@ jobs:
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     versionType: ${{ parameters.versionType }}
+    incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
     sonarCloud: ${{ parameters.sonarCloud }}
     deployNuGet: ${{ parameters.deployNuGet }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}

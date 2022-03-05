@@ -54,6 +54,9 @@ parameters:
 - name: versionType
   type: string
 
+- name: incrementVersionOnRelease
+  type: string
+
 - name: sonarCloud
   type: string
 
@@ -141,6 +144,16 @@ jobs:
           isPreRelease: true
         addChangeLog: true
       displayName: Create GitHub Release
+  
+  - ${{ if and(ne(parameters.versionType, 'None'), eq(parameters.buildPurpose, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Carpenter.Pipeline.ScriptPath)/IncrementVersion.ps1
+        arguments: -Verbose
+      displayName: Update project version
+      env:
+        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
 
   - powershell: |
       "##vso[build.addbuildtag]Deployed-${{ parameters.stack }}"
