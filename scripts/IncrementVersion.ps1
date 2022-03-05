@@ -33,6 +33,9 @@ Write-Host "Updating project version to $newVersion"
 
 # create working directory
 $workingDirectory = "$AgentBuildDirectory/bot-project"
+if (Test-Path $workingDirectory) {
+    Remove-Item -Path $workingDirectory -Recurse -Force
+}
 New-Item -Path $workingDirectory -ItemType Directory
 Push-Location $workingDirectory
 Write-Host "Current path: $workingDirectory"
