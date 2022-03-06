@@ -77,7 +77,7 @@ parameters:
 jobs:
 
 - job: 'deploy_branch_${{ parameters.stack }}'
-  displayName: 'Deploy branch: ${{ parameters.stack }}'
+  displayName: 'Deploy Git Branch'
 
   
   ${{ if ne(parameters.jobDependsOn,'') }}:
