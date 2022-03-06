@@ -39,7 +39,7 @@ For example:
 
 ### Prerelease
 
-Prerelease builds can be initiated manually by selecting Prerelease as the buildPurpose.
+Prerelease builds can be initiated manually by selecting Prerelease as the pipelineReason.
 
 A prereleaseLabel is also required.
 
@@ -48,7 +48,7 @@ Fox example:
 
 ### Release
 
-Release builds can be initiated manually by selecting Release as the buildPurpose.
+Release builds can be initiated manually by selecting Release as the pipelineReason.
 
 For example:
 0.2.0

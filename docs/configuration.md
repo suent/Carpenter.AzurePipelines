@@ -1,14 +1,19 @@
-[Carpenter.AzurePipelines Variables](#carpenterazurepipelines-variables)
-* [Pipeline variables](#pipeline-variables)
-  * [Carpenter.PipelineVersion](#carpenterpipelineversion)
-  * [Carpenter.Pipeline](#carpenterpipeline)
+[Configuring Carpenter.AzurePipelines](#configuring-carpenterazurepipelines)
+* [Settings Heirarchy](#settings-heirarchy)
+  * [YAML Parameter](#yaml-parameter)
+  * [YAML Variable](#yaml-variable)
+  * [YAML Variable Group](#yaml-variable-group)
+  * [Pipeline Definition Variable](#pipeline-definition-variable)
+  * [Pipeline Definition Variable Group](#pipeline-definition-variable-group)
+* [Pipeline Settings](#pipeline-settings)
+  * [Carpenter.PipelineVersion (pipelineVersion)](#carpenterpipelineversion-pipelineversion)
+  * [Carpenter.Project](#carpenterproject)
+  * [Carpenter.Project.Path](#carpenterprojectpath)
+  * [Carpenter.Pipeline (includePipeline)](#carpenterpipeline-includepipeline)
   * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
   * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
   * [Carpenter.DotNet.Path](#carpenterdotnetpath)
-* [General Build variables](#general-build-variables)
-  * [Carpenter.Build.Purpose](#carpenterbuildpurpose)
-  * [Carpenter.Project](#carpenterproject)
-  * [Carpenter.Project.Path](#carpenterprojectpath)
+  * [Carpenter.Pipeline.Reason (pipelineReason)](#carpenterpipelinereason-pipelinereason)
 * [Pool Configuration](#pool-configuration)
   * [Carpenter.Pool.Default.Demands](#carpenterpooldefaultdemands)
   * [Carpenter.Pool.Default.Name](#carpenterpooldefaultname)
@@ -58,44 +63,93 @@
   * [Carpenter.NuGet.Quality.Stage](#carpenternugetqualitystage)
   * [Carpenter.NuGet.Quality.Prod](#carpenternugetqualityprod)
 
-# Carpenter.AzurePipelines Variables
+# Configuring Carpenter.AzurePipelines
 
-## Pipeline variables
+## Settings hierarchy
 
-### Carpenter.PipelineVersion
+To take advantage of a larger feature set in Microsoft Azure DevOps pipelines, Carpenter.AzurePipelines settings are
+implemented at multiple layers in the pipeline. This document serves to describe Carpenter variables and document the
+layer to which a setting is applied.
 
-The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
-A breaking change could implement new functionality under an incremented version number, and move
-dependent pipelines over separately. This value is set by the `pipelineVersion` parameter. The
-default value is **1**. 
+### YAML Parameter
+
+YAML parameters are used when the value of the settings could change the pipeline during template expansion.
+Parameters are used in this case because variables are not yet populated.  In contrast to using the condition
+parameter, which can be done with a variable, elements can be excluded from the pipeline completely when the
+template is expanded.
+
+YAML parameters are also used to pass service connection strings, as service connection permissions are validated
+during pipeline expansion.
+
+YAML parameters should only be used where necessary as extra overhead is incurred when using parameters, for example
+plumbing through a new parameter is much more work than using a variable.
+
+### YAML Variable
+
+Variables that are set at the Pipeline YAML level are the preferred location for Carpenter.AzurePipelines
+configuration.  If there is no reason to use any other method of configuration, YAML variables should be used.
+
+### YAML Variable Group
+
+Variable groups linked through the pipeline YAML should be used when configuration settings are used across multiple
+pipelines.
+
+### Pipeline Definition Variable
+
+Variables defined in the pipeline definition are useful when configuration settings might need to be changed when
+the build is executed.
+
+### Pipeline Definition Variable Group
+
+Currently there is no reason to use variable groups linked through the pipeline definition.
+
+
+## Pipeline Settings
+
+### Carpenter.PipelineVersion (pipelineVersion)
+
+The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines. A breaking change
+could implement new functionality under an incremented version number, and move dependent pipelines over separately.
+This value is set by the `pipelineVersion` parameter. The default value is **1**. 
+
+To ensure that future changes to the pipeline do not break pipelines which extend this template, it is recommended
+that this parameter is passed to the template.
 
 For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
 
-### Carpenter.Pipeline
+### Carpenter.Project
 
-If true, the pipeline will be included in the sources directory. This is required if the Carpenter
-scripts and resources do not exist in your project. This value is set by the `includePipeline`
-parameter. The default value is **true**.
+The name of the project. This value is set by the `project` parameter. If parameter is notsupplied, the default value
+is the value of the `Build.DefinitionName` variable.
+
+### Carpenter.Project.Path
+
+The absolute path of the project source. This value is determined during pipeline execution.
+
+### Carpenter.Pipeline (includePipeline)
+
+If true, the pipeline will be included in the sources directory. When directly linking the pipeline template through a
+repository resource, includePipeline must be true to download the Carpenter scripts and tools to be available to the
+pipeline. This is required if the Carpenter scripts and resources do not exist in your project. This value is set by
+the `includePipeline` parameter. The default value is **true**.
 
 ### Carpenter.Pipeline.Path
 
-The path to the pipeline supporting files. This value is determined during the pipeline execution.
+The absolute path to the Carpenter pipeline supporting files. This value is determined during template expansion.
 
 ### Carpenter.Pipeline.ScriptPath
 
-The path to Carpenter pipeline scripts. This value is determined during the pipeline execution.
+The absolute path to the Carpenter pipeline scripts. This value is determined during template expansion.
 
 ### Carpenter.DotNet.Path
 
-The path to .NET binaries. This value is determined during the pipeline execution. If the .NET
-binaries do not exist, they will be downloaded to this path.
+The path to .NET binaries. This value is determined during template expansion. If the .NET binaries do not exist, they
+will be downloaded to this path.
 
-## General Build variables
+### Carpenter.Pipeline.Reason (pipelineReason)
 
-### Carpenter.Build.Purpose
-
-The purpose of the build. This value gets set automatically during an automated build. If a manual
-build, the value of the `buildReason` parameter is used.
+The purpose of the build. This value gets set automatically during an automated build. If a manual build, the value of
+the `pipelineReason` parameter is used.
 
 | Build Reason | Description                                                                                         |
 |:-------------|:----------------------------------------------------------------------------------------------------|
@@ -107,14 +161,6 @@ build, the value of the `buildReason` parameter is used.
 Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
 is **CI**.
 
-### Carpenter.Project
-
-The name of the project. This value is set by the `project` parameter. If parameter is notsupplied, the
-default value is the value of the `Build.DefinitionName` variable.
-
-### Carpenter.Project.Path
-
-The absolute path of the project source. This value is determined during pipeline execution.
 
 ### Carpenter.Solution.Path
 

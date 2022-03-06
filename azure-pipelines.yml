@@ -31,7 +31,7 @@
 
 parameters:
   # The build reason if a build is manually run. This value gets overridden by automated builds.
-- name: buildPurpose
+- name: pipelineReason
   displayName: 'Build Purpose'
   type: string
   default: CI
@@ -40,7 +40,7 @@ parameters:
   - Prerelease
   - Release
 
-  # The prerelease label. This value is only used if buildPurpose is Prerelease.
+  # The prerelease label. This value is only used if pipelineReason is Prerelease.
 - name: prereleaseLabel
   displayName: 'Prerelease Label'
   type: string
@@ -70,6 +70,8 @@ pr:
 
 # Infrastructure variables
 variables:
+- name: Carpenter.Project
+  value: Carpenter.AzurePipelines
 
 # Infrastructure populates:
 #   Carpenter.PipelineBot
@@ -77,7 +79,7 @@ variables:
 #   Carpenter.PipelineBot.Name
 - group: Infrastructure
 
-# Infrastructure-vault populates:
+# Infrastructure-Vault populates:
 #   PipelineBot-AzureDevOps-PAT
 #   PipelineBot-GitHub-PAT
 #   PipelineBot-NuGet-PAT
@@ -93,8 +95,7 @@ stages:
 
     pipelineVersion: 1
     includePipeline: false
-    buildPurpose: ${{ parameters.buildPurpose }}
-    project: Carpenter.AzurePipelines
+    pipelineReason: ${{ parameters.pipelineReason }}
     defaultPoolType: 'Private'
     defaultPoolName: 'Default'
     defaultPoolDemands:

@@ -12,6 +12,7 @@ Copyright © 2015-2022 [Suent Networks](https://suent.net)
 
 * [Features](#features)
 * [Usage](#usage)
+  * [Configuration](#configuration)
 * [Contributing](#contributing)
 
 
@@ -26,8 +27,6 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 
 ## Features
 
-* [YAML Parameters](docs/parameters.md)
-* [Carpenter Variables](docs/variables.md)
 * [Pipeline Versioning](docs/pipeline-versioning.md)
 * [Configurable Pool](docs/configure-pool.md)
 * [Build Versioning](docs/build-versioning.md)
@@ -44,6 +43,9 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 |:-------|:------------|
 | [Direct Access](docs/usage-direct.md) | Directly access carpenter-azure-pipelines by referencing from your projects pipeline yaml. |
 
+### Configuration
+
+More information on configuring Carpenter.AzurePipelines can be found in the [configuration documentation](docs/configuration.md).
 
 ## Contributing
 

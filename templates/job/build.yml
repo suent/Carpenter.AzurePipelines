@@ -36,10 +36,7 @@ parameters:
 - name: includePipeline
   type: boolean
 
-- name: buildPurpose
-  type: string
-
-- name: project
+- name: pipelineReason
   type: string
 
 - name: defaultPoolType
@@ -156,19 +153,28 @@ jobs:
     value: ${{ parameters.pipelineVersion }}
 
   - ${{ if eq(parameters.includePipeline,'true') }}:
+    - name: Carpenter.Project.Path
+      value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', variables['Carpenter.Project']) ]
+
     - name: Carpenter.Pipeline
       value: true
+
     - name: Carpenter.Pipeline.Path
       value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', 'Carpenter.AzurePipelines') ]
-    - name: Carpenter.Project.Path
-      value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', variables['Build.DefinitionName']) ]
+
   - ${{ if ne(parameters.includePipeline,'true') }}:
     - name: Carpenter.Pipeline
       value: false
+
     - name: Carpenter.Pipeline.Path
       value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
+
     - name: Carpenter.Project.Path
       value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
+
+  - ${{ if eq(variables['Build.Reason'],'Manual') }}:
+    - name: Carpenter.Pipeline.Reason
+      value: ${{ parameters.pipelineReason }}
 
   - name: Carpenter.Pipeline.ScriptPath
     value: $[ format('{0}/{1}', variables['Carpenter.Pipeline.Path'], 'scripts') ]
@@ -194,12 +200,7 @@ jobs:
   - name: Carpenter.Output.NuGet.Path
     value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'nuget') ]
 
-  - ${{ if eq(variables['Build.Reason'],'Manual') }}:
-    - name: Carpenter.Build.Purpose
-      value: ${{ parameters.buildPurpose }}
 
-  - name: Carpenter.Project
-    value: ${{ parameters.project }}
 
   - name: Carpenter.Pool.Default.Type
     value: ${{ parameters.defaultPoolType }}
@@ -231,15 +232,15 @@ jobs:
     - name: Carpenter.Version.RevisionOffset
       value: ${{ parameters.revisionOffset }}
 
-    - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildPurpose'],'CI'))) }}:
+    - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['pipelineReason'],'CI'))) }}:
       - name: Carpenter.ContinuousIntegration.Date
         value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
 
-    - ${{ if eq(parameters['buildPurpose'],'Prerelease')}}:
+    - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
       - name: Carpenter.Prerelease.Label
         value: ${{ parameters.prereleaseLabel }}
 
-    - ${{ if eq(parameters['buildPurpose'],'Release')}}:
+    - ${{ if eq(parameters['pipelineReason'],'Release')}}:
       - name: Carpenter.Version.IncrementOnRelease
         value: ${{ parameters.incrementVersionOnRelease }}
 
@@ -326,7 +327,7 @@ jobs:
   # Publish source artifact
   - publish: $(System.DefaultWorkingDirectory)
     artifact: source
-    displayName: 'Publish artifact: source'
+    displayName: 'Publish source artifact'
 
   # Include pipeline for access to pipeline scripts
   - ${{ if eq(parameters.includePipeline, 'true') }}:
@@ -373,7 +374,7 @@ jobs:
 
     - ${{ if eq(parameters.sonarCloud, 'true') }}:
       - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
-        displayName: 'Prepare analysis: SonarCloud'
+        displayName: 'Prepare SonarCloud analysis'
         condition: succeeded()
         inputs:
           SonarCloud: ${{ parameters.sonarCloudServiceConnection }}
@@ -386,7 +387,7 @@ jobs:
             sonar.cs.vstest.reportsPaths=$(Carpenter.Output.Tests.Path)/*.trx
 
     - task: DotNetCoreCLI@2
-      displayName: 'Build: dotnet'
+      displayName: 'Build dotnet'
       condition: succeeded()
       inputs:
         command: build
@@ -394,7 +395,7 @@ jobs:
         arguments: '--output $(Carpenter.Output.Binaries.Path) --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
 
     - task: CopyFiles@2
-      displayName: 'Copy files: NuGet.Config'
+      displayName: 'Copy NuGet.Config'
       condition: succeeded()
       inputs:
         cleanTargetFolder: true
@@ -403,7 +404,7 @@ jobs:
         targetFolder: $(Carpenter.Output.NuGet.Path)
 
     - task: CopyFiles@2
-      displayName: 'Copy files: nupkg'
+      displayName: 'Copy nupkg to output'
       condition: succeeded()
       inputs:
         sourceFolder: $(Carpenter.Output.Binaries.Path)
@@ -411,25 +412,25 @@ jobs:
         targetFolder: $(Carpenter.Output.NuGet.Path)
 
     - task: DeleteFiles@1
-      displayName: 'Remove files: nupkg'
+      displayName: 'Remove nupkg from binaries'
       condition: succeeded()
       inputs:
         sourceFolder: $(Carpenter.Output.Binaries.Path)
         contents: '*.nupkg'
 
     - publish: '$(Carpenter.Output.Binaries.Path)'
-      displayName: 'Publish artifact: binaries'
+      displayName: 'Publish binaries artifact'
       artifact: binaries
       condition: succeeded()
 
     - publish: '$(Carpenter.Output.NuGet.Path)'
-      displayName: 'Publish artifact: nuget'
+      displayName: 'Publish nuget artifact'
       artifact: package.nuget
       condition: succeeded()
 
     - ${{ if eq(parameters.sonarCloud, 'true') }}:
       - task: DotNetCoreCLI@2
-        displayName: 'Test: L0 unit tests'
+        displayName: 'Perform unit tests'
         condition: succeeded()
         inputs:
           command: test
@@ -439,7 +440,7 @@ jobs:
           nobuild: true
 
       - task: PublishTestResults@2
-        displayName: 'Publish results: L0'
+        displayName: 'Publish unit test results'
         condition: succeeded()
         inputs:
           testResultsFormat: 'VSTest'
@@ -465,16 +466,16 @@ jobs:
           summaryFileLocation: '$(Carpenter.Output.TestCoverage.Path)/Cobertura.xml'
 
       - publish: '$(Carpenter.Output.Tests.Path)'
-        displayName: 'Publish artifact: tests-L0'
+        displayName: 'Publish tests-L0 artifact'
         artifact: tests-L0
         condition: succeeded()
         continueOnError: true
 
     - ${{ if eq(parameters.sonarCloud, 'true') }}:
       - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
-        displayName: 'Analyze: SonarCloud'
+        displayName: 'Perform SonarCloud analysis'
         condition: succeeded()
     
       - task: SonarSource.sonarcloud.38b27399-a642-40af-bb7d-9971f69712e8.SonarCloudPublish@1
-        displayName: 'Publish analysis: SonarCloud'
+        displayName: 'Publish SonarCloud analysis'
         condition: succeeded()

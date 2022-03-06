@@ -48,7 +48,7 @@ parameters:
 - name: defaultPoolVMImage
   type: string
 
-- name: buildPurpose
+- name: pipelineReason
   type: string
 
 - name: versionType
@@ -129,7 +129,7 @@ stages:
     - ${{ if ne(parameters.stack,'dev') }}:
       - template: ../variable/carpenter-stack.yml
         parameters:
-          buildPurpose: ${{ parameters.buildPurpose }}
+          pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
           versionType: ${{ parameters.versionType }}
           sonarCloud: ${{ parameters.sonarCloud }}
@@ -146,7 +146,7 @@ stages:
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-        buildPurpose: ${{ parameters.buildPurpose }}
+        pipelineReason: ${{ parameters.pipelineReason }}
         versionType: ${{ parameters.versionType }}
         incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
         buildDotNet: ${{ parameters.buildDotNet }}

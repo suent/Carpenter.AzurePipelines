@@ -9,8 +9,7 @@
 param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
-	[string] $BuildPurpose = $env:CARPENTER_BUILD_PURPOSE,
-	[string] $Project = $env:CARPENTER_PROJECT,
+	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
@@ -51,20 +50,15 @@ if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVe
 	Write-PipelineError "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
 }
 
-Write-Verbose "Validating buildPurpose"
+Write-Verbose "Validating pipelineReason"
 if ($BuildReason -eq "Manual") {
-	if (($BuildPurpose -ne "CI") -and ($BuildPurpose -ne "Prerelease") -and ($BuildPurpose -ne "Release")) {
-		Write-PipelineError "Unrecognized buildPurpose parameter '$BuildPurpose'."
+	if (($PipelineReason -ne "CI") -and ($PipelineReason -ne "Prerelease") -and ($PipelineReason -ne "Release")) {
+		Write-PipelineError "Unrecognized pipelineReason parameter '$PipelineReason'."
 	}
 } else {
-	if ($BuildPurpose -ne "") {
-		Write-PipelineWarning "The buildPurpose parameter '$BuildPurpose' is being ignored because Build.Reason is not Manual."
+	if ($PipelineReason -ne "") {
+		Write-PipelineWarning "The pipelineReason parameter '$PipelineReason' is being ignored because Build.Reason is not Manual."
 	}
-}
-
-Write-Verbose "Validating project"
-if (-Not ($Project)) {
-	Write-PipelineError "The project parameter must be supplied to Carpenter Azure Pipelines template."
 }
 
 Write-Verbose "Validating defaultPoolType"
@@ -129,13 +123,13 @@ if ($VersionType -ne "None") {
 	}
 
 	Write-Verbose "Validating prereleaseLabel"
-	if ($BuildPurpose -eq "Prerelease") {
+	if ($PipelineReason -eq "Prerelease") {
 		if (-Not ($PrereleaseLabel)) {
 			Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
 		}
 	} else {
 		if ($PrereleaseLabel) {
-			Write-PipelineWarning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because buildPurpose is not Prerelease."
+			Write-PipelineWarning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because pipelineReason is not Prerelease."
 		}
 	}
 }

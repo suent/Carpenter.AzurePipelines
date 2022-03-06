@@ -33,7 +33,7 @@ parameters:
 - name: defaultPoolType
   type: string
 
-- name: buildPurpose
+- name: pipelineReason
   type: string
 
 - name: versionType
@@ -56,6 +56,12 @@ variables:
 - name: Carpenter.PipelineVersion
   value: $[ dependencies.build.outputs['initializePipeline.pipelineVersion'] ]
 
+- name: Carpenter.Project
+  value: $[ dependencies.build.outputs['initializePipeline.project'] ]
+
+- name: Carpenter.Project.Path
+  value: $[ dependencies.build.outputs['initializePipeline.projectPath'] ]
+
 - name: Carpenter.Pipeline
   value: $[ dependencies.build.outputs['initializePipeline.includePipeline'] ]
 
@@ -68,14 +74,8 @@ variables:
 - name: Carpenter.DotNet.Path
   value: $[ dependencies.build.outputs['initializePipeline.dotNetPath'] ]
 
-- name: Carpenter.Build.Purpose
-  value: $[ dependencies.build.outputs['initializePipeline.buildPurpose'] ]
-
-- name: Carpenter.Project
-  value: $[ dependencies.build.outputs['initializePipeline.project'] ]
-
-- name: Carpenter.Project.Path
-  value: $[ dependencies.build.outputs['initializePipeline.projectPath'] ]
+- name: Carpenter.Pipeline.Reason
+  value: $[ dependencies.build.outputs['initializePipeline.pipelineReason'] ]
 
 - name: Carpenter.Solution.Path
   value: $[ dependencies.build.outputs['initializePipeline.solutionPath'] ]
@@ -215,7 +215,7 @@ variables:
   - name: Carpenter.Version.Revision
     value:  $[ dependencies.build.outputs['initializeBuildVersion.revision'] ]
 
-  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['buildPurpose'],'CI'))) }}:
+  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['pipelineReason'],'CI'))) }}:
     - name: Carpenter.ContinuousIntegration.Date
       value: $[ dependencies.build.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
 
@@ -226,14 +226,14 @@ variables:
     - name: Carpenter.PullRequest.Revision
       value: $[ dependencies.build.outputs['initializeBuildVersion.pullRequestRevision'] ]
 
-  - ${{ if eq(parameters['buildPurpose'],'Prerelease')}}:
+  - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
     - name: Carpenter.Prerelease.Label
       value: $[ dependencies.build.outputs['initializeBuildVersion.prereleaseLabel'] ]
   
     - name: Carpenter.Prerelease.Revision
       value: $[ dependencies.build.outputs['initializeBuildVersion.prereleaseRevision'] ]
 
-  - ${{ if eq(parameters['buildPurpose'],'Release')}}:
+  - ${{ if eq(parameters['pipelineReason'],'Release')}}:
     - name: Carpenter.Version.IncrementOnRelease
       value: $[ dependencies.build.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
 

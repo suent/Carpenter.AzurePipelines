@@ -38,17 +38,13 @@ parameters:
   type: boolean
   default: true
 
-- name: buildPurpose
+- name: pipelineReason
   type: string
   default: CI
   values:
   - CI
   - Prerelease
   - Release
-
-- name: project
-  type: string
-  default: $(Build.DefinitionName)
 
 - name: defaultPoolType
   type: string
@@ -186,8 +182,7 @@ stages:
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
     includePipeline: ${{ parameters.includePipeline }}
-    buildPurpose: ${{ parameters.buildPurpose }}
-    project: ${{ parameters.project }}
+    pipelineReason: ${{ parameters.pipelineReason }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
@@ -227,7 +222,7 @@ stages:
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       includePipeline: ${{ parameters.includePipeline }}
-      buildPurpose: ${{ parameters.buildPurpose }}
+      pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
@@ -260,7 +255,7 @@ stages:
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       includePipeline: ${{ parameters.includePipeline }}
-      buildPurpose: ${{ parameters.buildPurpose }}
+      pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
@@ -293,7 +288,7 @@ stages:
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       includePipeline: ${{ parameters.includePipeline }}
-      buildPurpose: ${{ parameters.buildPurpose }}
+      pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
@@ -325,12 +320,12 @@ stages:
       - test2
 
   # Only deploy to productioni on Prerelease and Release builds
-  - ${{ if and(eq(variables['Build.Reason'],'Manual'), or(eq(parameters.buildPurpose,'Prerelease'),eq(parameters.buildPurpose,'Release'))) }}:
+  - ${{ if and(eq(variables['Build.Reason'],'Manual'), or(eq(parameters.pipelineReason,'Prerelease'),eq(parameters.pipelineReason,'Release'))) }}:
     - template: stage/stack.yml
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
         includePipeline: ${{ parameters.includePipeline }}
-        buildPurpose: ${{ parameters.buildPurpose }}
+        pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
