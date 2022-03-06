@@ -1,31 +1,3 @@
-
-## Pool Configuration
-
-For more information:
-https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/configure-pool.md
-
-### defaultPoolType
-
-The default pool type to use for jobs.
-| Pool Type | Description                     |
-|:----------|:--------------------------------|
-| Hosted    | Microsoft Hosted Pool [Default] |
-| Private   | Private (self hosted) Pool      |
-
-### defaultPoolName
-
-The pool name to use when using Private pool type. The default value is **Default**.
-
-
-### defaultPoolDemands
-
-The demands for the agent when using a Private pool type. For more information on demands, see:
-https://docs.microsoft.com/en-us/azure/devops/pipelines/process/demands?view=azure-devops&tabs=yaml
-
-### defaultPoolVMImage
-
-The VM Image to use when using Hosted pool type. The default value is **ubuntu-latest**.
-
 ## Build Versioning
 
 For more information:

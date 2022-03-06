@@ -10,6 +10,12 @@
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
   * [Carpenter.DotNet.Path](#carpenterdotnetpath)
+  * [Carpenter.Solution.Path](#carpentersolutionpath)
+  * [Carpenter.Output.Path](#carpenteroutputpath)
+  * [Carpenter.Output.Binaries.Path](#carpenteroutputbinariespath)
+  * [Carpenter.Output.NuGet.Path](#carpenteroutputnugetpath)
+  * [Carpenter.Output.Tests.Path](#carpenteroutputtestspath)
+  * [Carpenter.Output.TestCoverage.Path](#carpenteroutputtestcoveragepath)
   * [Carpenter.Pipeline (includePipeline)](#carpenterpipeline-includepipeline)
   * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
   * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
@@ -176,7 +182,6 @@ The absolute path to the Carpenter pipeline supporting files. This value is dete
 
 The absolute path to the Carpenter pipeline scripts. This value is determined during template expansion.
 
-
 ### Carpenter.Pipeline.Reason (pipelineReason)
 
 The purpose of the build. This value gets set automatically during an automated build. If a manual build, the value of
@@ -194,17 +199,18 @@ is **CI**.
 
 ## Pool Configuration
 
-### Carpenter.Pool.Default.Demands
+For more information, see [configure-pool.md](configure-pool.md).
 
-The demands for the agent when using a *Private* pool type. This value is set by the
-`defaultPoolDemands` parameter.
+### Carpenter.Pool.Default.Demands (defaultPoolDemands)
 
-### Carpenter.Pool.Default.Name
+The demands for the agent when using a *Private* pool type. This value is set by the `defaultPoolDemands` parameter.
 
-The pool name to use when using *Private* pool type. This value is set by the `defaultPoolName`
-parameter. The default value is **Default**.
+### Carpenter.Pool.Default.Name (defaultPoolName)
 
-### Carpenter.Pool.Default.Type
+The pool name to use when using *Private* pool type. This value is set by the `defaultPoolName` parameter. The default
+value is **Default**.
+
+### Carpenter.Pool.Default.Type (defaultPoolType)
 
 The default pool type to use for jobs.
 
@@ -215,10 +221,10 @@ The default pool type to use for jobs.
 
  This value is set by the `defaultPoolType` parameter. The default value is **Hosted**.
 
-### Carpenter.Pool.Default.VMImage
+### Carpenter.Pool.Default.VMImage (defaultPoolVMImage)
 
-The VM Image to use when using Hosted pool type. This value is set by the `defaultPoolVMImage`
-parameter. The default value is **ubuntu-latest**.
+The VM Image to use when using Hosted pool type. This value is set by the `defaultPoolVMImage` parameter. The default
+value is **ubuntu-latest**.
 
 ## Build Versioning
 
