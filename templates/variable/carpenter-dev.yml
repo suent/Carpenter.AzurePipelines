@@ -40,7 +40,7 @@ parameters:
   type: string
 
 - name: buildDotNet
-  type: string
+  type: boolean
   
 - name: sonarCloud
   type: string
@@ -65,7 +65,7 @@ variables:
 - name: Carpenter.Project.Path
   value: $[ dependencies.build.outputs['initializePipeline.projectPath'] ]
 
-- ${{ if eq(parameters.buildDotNet,'true') }}:
+- ${{ if eq(parameters.buildDotNet,true) }}:
   - name: Carpenter.DotNet.Path
     value: $[ dependencies.build.outputs['initializePipeline.dotNetPath'] ]
 
@@ -113,7 +113,7 @@ variables:
   - name: Carpenter.Pool.Default.Demands
     value: $[ dependencies.build.outputs['initializePipeline.defaultPoolDemands'] ]
 
-- ${{ if eq(parameters.buildDotNet,'true') }}:
+- ${{ if eq(parameters.buildDotNet,true) }}:
   - name: Carpenter.Build.DotNet
     value: $[ dependencies.build.outputs['initializePipeline.buildDotNet'] ]
 

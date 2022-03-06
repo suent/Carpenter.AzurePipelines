@@ -61,7 +61,7 @@ parameters:
   type: string
 
 - name: buildDotNet
-  type: string
+  type: boolean
 
 - name: deployBranch
   type: string
