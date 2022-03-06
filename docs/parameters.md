@@ -1,83 +1,3 @@
-[Carpenter.AzurePipelines Parameters](#carpenterazurepipelines-variables)
-* [Pipeline parameters](#pipeline-parameters)
-  * [pipelineVersion](#pipelineversion)
-  * [includePipeline](#includepipeline)
-* [General Build parameters](#general-build-parameters)
-  * [buildPurpose](#buildpurpose)
-  * [project](#project)
-* [Pool Configuration](#pool-configuration)
-  * [defaultPoolType](#defaultpooltype)
-  * [defaultPoolName](#defaultpoolname)
-  * [defaultPoolDemands](#defaultpooldemands)
-  * [defaultPoolVMImage](#defaultpoolvmimage)
-* [Build Versioning](#build-versioning)
-  * [versionType](#versiontype)
-  * [versionFile](#versionfile)
-  * [revisionOffset](#revisionoffset)
-  * [prereleaseLabel](#prereleaselabel)
-  * [incrementVersionOnRelease](#incrementversiononrelease)
-* [.NET Build](#net-build)
-  * [buildDotNet](#builddotnet)
-* [Test Execution](#test-execution)
-  * [executeUnitTests](#executeunittests)
-* [SonarCloud Analysis](#sonarcloud-analysis)
-  * [sonarCloud](#sonarcloud)
-  * [sonarCloudOrganization](#sonarcloudorganization)
-  * [sonarCloudProjectKey](#sonarcloudprojectkey)
-  * [sonarCloudServiceConnection](#sonarcloudserviceconnection)
-* [Deployment parameters](#deployment-parameters)
-  * [deployBranch](#deploybranch)
-  * [deployNuGet](#deploynuget)
-  * [nuGetTargetFeedDev](#nugettargetfeeddev)
-  * [nuGetTargetFeedTest1](#nugettargetfeedtest1)
-  * [nuGetTargetFeedTest2](#nugettargetfeedtest2)
-  * [nuGetTargetFeedStage](#nugettargetfeedstage)
-  * [nuGetTargetFeedProd](#nugettargetfeedprod)
-  * [updateNugetQuality](#updatenugetquality)
-  * [nuGetQualityFeed](#nugetqualityfeed)
-  * [nuGetQualityDev](#nugetqualitydev)
-  * [nuGetQualityTest1](#nugetqualitytest1)
-  * [nuGetQualityTest2](#nugetqualitytest2)
-  * [nuGetQualityStage](#nugetqualitystage)
-  * [nuGetQualityProd](#nugetqualityprod)
-  * [gitHubServiceConnection](#githubserviceconnection)
-
-# Carpenter.AzurePipelines Parameters
-
-## Pipeline parameters
-
-### pipelineVersion
-
-The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines.
-A breaking change could implement new functionality under an incremented version number, and move
-dependent pipelines over separately. The default value is **1**. To ensure that future changes to the pipeline
-do not break build which extend this template, it is recommended that this parameter is passed to
-the template.
-
-For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
-
-### includePipeline
-
-If true, the pipeline will be included in the sources directory. When directly linking the pipeline
-template through a repository resource, includePipeline must be true to download the Carpenter
-scripts and tools to be available to the pipeline. The default value is **true**.
-
-## General Build parameters
-
-### buildPurpose
-
-The purpose of the build if a build is manually run. This value gets overridden by automated builds.
-
-| Build Reason | Description                                                                                         |
-|:-------------|:----------------------------------------------------------------------------------------------------|
-| CI           | A Continuous Integration build. CI can be the result of a manual or automated build.                |
-| PR           | A Pull Request build. The PR build reason is only set during an automated PR build.                 |
-| Prerelease   | A prerelease build is the result of a manual build with build reason as Prerelease.                 |
-| Release      | A release build is the result of a manual build with build reason as Release.                       |
-
-### project
-    
-The name of the project.
 
 ## Pool Configuration
 
@@ -129,7 +49,7 @@ The starting value of the revision counter. The default value is **0**.
 
 ### prereleaseLabel
 
-The prerelease label. This value is only used if `buildPurpose` is **Prerelease**.
+The prerelease label. This value is only used if `pipelineReason` is **Prerelease**.
 
 ### incrementVersionOnRelease
 
