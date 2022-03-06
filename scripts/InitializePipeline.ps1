@@ -54,7 +54,7 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-. '$PSScriptRoot/initialize/pipelineVersion.ps1'
+. "$PSScriptRoot/initialize/pipelineVersion.ps1"
 
 if (-Not $Project) {
 	$project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $BuildDefinitionName
