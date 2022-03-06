@@ -129,6 +129,12 @@ parameters:
 - name: gitHubServiceConnection
   type: string
 
+- name: addGitTagOnDevMain
+  type: string
+
+- name: addGitHubReleaseOnProd
+  type: string
+
 
 jobs:
 - job: build
