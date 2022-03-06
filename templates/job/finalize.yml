@@ -57,6 +57,9 @@ parameters:
 - name: buildDotNet
   type: boolean
 
+- name: executeUnitTests
+  type: boolean
+
 - name: incrementVersionOnRelease
   type: string
 
@@ -115,6 +118,7 @@ jobs:
         defaultPoolType: ${{ parameters.defaultPoolType }}
         versionType: ${{ parameters.versionType }}
         buildDotNet: ${{ parameters.buildDotNet }}
+        executeUnitTests: ${{ parameters.executeUnitTests }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}

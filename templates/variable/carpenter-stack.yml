@@ -41,7 +41,10 @@ parameters:
 
 - name: buildDotNet
   type: boolean
-    
+
+- name: executeUnitTests
+  type: boolean
+  
 - name: sonarCloud
   type: string
 
@@ -69,6 +72,25 @@ variables:
   - name: Carpenter.DotNet.Path
     value: $[ stageDependencies.dev.build.outputs['initializePipeline.dotNetPath'] ]
 
+  - name: Carpenter.Solution.Path
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.solutionPath'] ]
+
+  - name: Carpenter.Output.Path
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.outputPath'] ]
+
+  - name: Carpenter.Output.Binaries.Path
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.binariesPath'] ]
+
+  - name: Carpenter.Output.NuGet.Path
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetPath'] ]
+
+  - ${{ if eq(parameters.executeUnitTests,true) }}:
+    - name: Carpenter.Output.Tests.Path
+      value: $[ stageDependencies.dev.build.outputs['initializePipeline.testsPath'] ]
+
+    - name: Carpenter.Output.TestCoverage.Path
+      value: $[ stageDependencies.dev.build.outputs['initializePipeline.testCoveragePath'] ]
+
 - name: Carpenter.Pipeline
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.includePipeline'] ]
 
@@ -81,23 +103,6 @@ variables:
 - name: Carpenter.Pipeline.Reason
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelineReason'] ]
 
-- name: Carpenter.Solution.Path
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.solutionPath'] ]
-
-- name: Carpenter.Output.Path
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.outputPath'] ]
-
-- name: Carpenter.Output.Binaries.Path
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.binariesPath'] ]
-
-- name: Carpenter.Output.Tests.Path
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.testsPath'] ]
-
-- name: Carpenter.Output.TestCoverage.Path
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.testCoveragePath'] ]
-
-- name: Carpenter.Output.NuGet.Path
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.nuGetPath'] ]
 
 - name: Carpenter.Pool.Default.Type
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.defaultPoolType'] ]

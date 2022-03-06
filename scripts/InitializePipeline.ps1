@@ -10,6 +10,7 @@ param(
 	[string] $BuildDefinitionName = $env:BUILD_DEFINITIONNAME,
 	[string] $AgentBuildDirectory = $env:AGENT_BUILDDIRECTORY,
 	[string] $AgentToolsDirectory = $env:AGENT_TOOLSDIRECTORY,
+	[string] $SystemDefaultWorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
 	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $IncludePipeline = $env:CARPENTER_PIPELINE,
@@ -75,6 +76,14 @@ if ($IncludePipeline -eq 'true') {
 
 if ($BuildDotNet -eq 'true') {
 	$dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value "$AgentToolsDirectory/dotnet"
+	$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value "$projectPath/$project.sln"
+	$outputPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Path" -OutputVariableName "outputPath" -Value "$SystemDefaultWorkingDirectory/out"
+	$binariesPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Binaries.Path" -OutputVariableName "binariesPath" -Value "$outputPath/bin"
+	$nuGetPath = Set-CarpenterVariable -VariableName "Carpenter.Output.NuGet.Path" -OutputVariableName "nuGetPath" -Value "$outputPath/nuget"
+	if ($ExecuteUnitTests -eq 'true') {
+		$testPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Tests.Path" -OutputVariableName "testsPath" -Value "$outputPath/tests"
+		$testCoveragePath = Set-CarpenterVariable -VariableName "Carpenter.Output.TestCoverage.Path" -OutputVariableName "testCoveragePath" -Value "$outputPath/testCoverage"
+	}
 }
 
 $includePipeline = Set-CarpenterVariable -VariableName "Carpenter.Pipeline" -OutputVariableName "includePipeline" -Value $IncludePipeline
@@ -100,12 +109,6 @@ Else {
 # Add build purpose as tag
 Write-Host "##vso[build.addbuildtag]Build-$pipelineReason"
 
-$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value $SolutionPath
-$outputPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Path" -OutputVariableName "outputPath" -Value $OutputPath
-$binariesPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Binaries.Path" -OutputVariableName "binariesPath" -Value $BinariesPath
-$testPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Tests.Path" -OutputVariableName "testsPath" -Value $TestsPath
-$testCoveragePath = Set-CarpenterVariable -VariableName "Carpenter.Output.TestCoverage.Path" -OutputVariableName "testCoveragePath" -Value $TestCoveragePath
-$nuGetPath = Set-CarpenterVariable -VariableName "Carpenter.Output.NuGet.Path" -OutputVariableName "nuGetPath" -Value $NuGetPath
 
 $defaultPoolType = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Type" -OutputVariableName defaultPoolType -Value $DefaultPoolType
 if ($defaultPoolType -eq "Private") {
@@ -121,7 +124,6 @@ $versionType = Set-CarpenterVariable -VariableName "Carpenter.Version.Type" -Out
 if ($BuildDotNet -eq 'true') {
 	$buildDotNet = Set-CarpenterVariable -VariableName "Carpenter.Build.DotNet" -OutputVariableName "buildDotNet" -Value $BuildDotNet
 }
-
 $executeUnitTests = Set-CarpenterVariable -VariableName "Carpenter.Test.Unit" -OutputVariableName "executeUnitTests" -Value $ExecuteUnitTests
 
 $sonarCloud = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud" -OutputVariableName "sonarCloud" -Value $SonarCloud

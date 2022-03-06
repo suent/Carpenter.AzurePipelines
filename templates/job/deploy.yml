@@ -57,11 +57,14 @@ parameters:
 - name: incrementVersionOnRelease
   type: string
 
-- name: sonarCloud
-  type: string
-
 - name: buildDotNet
   type: boolean
+
+- name: executeUnitTests
+  type: boolean
+
+- name: sonarCloud
+  type: string
 
 - name: deployBranch
   type: string
@@ -132,6 +135,7 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
       buildDotNet: ${{ parameters.buildDotNet }}
+      executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
@@ -152,6 +156,7 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
       buildDotNet: ${{ parameters.buildDotNet }}
+      executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
@@ -173,6 +178,7 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
       buildDotNet: ${{ parameters.buildDotNet }}
+      executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
@@ -194,6 +200,7 @@ jobs:
     versionType: ${{ parameters.versionType }}
     incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
     buildDotNet: ${{ parameters.buildDotNet }}
+    executeUnitTests: ${{ parameters.executeUnitTests }}
     sonarCloud: ${{ parameters.sonarCloud }}
     deployNuGet: ${{ parameters.deployNuGet }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}

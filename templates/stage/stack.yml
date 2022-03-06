@@ -60,6 +60,9 @@ parameters:
 - name: buildDotNet
   type: boolean
 
+- name: executeUnitTests
+  type: boolean
+
 - name: sonarCloud
   type: string
 
@@ -139,6 +142,7 @@ stages:
           defaultPoolType: ${{ parameters.defaultPoolType }}
           versionType: ${{ parameters.versionType }}
           buildDotNet: ${{ parameters.buildDotNet }}
+          executeUnitTests: ${{ parameters.executeUnitTests }}
           sonarCloud: ${{ parameters.sonarCloud }}
           deployNuGet: ${{ parameters.deployNuGet }}
           updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
@@ -157,6 +161,7 @@ stages:
         versionType: ${{ parameters.versionType }}
         incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
         buildDotNet: ${{ parameters.buildDotNet }}
+        executeUnitTests: ${{ parameters.executeUnitTests }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}

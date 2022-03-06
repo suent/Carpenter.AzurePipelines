@@ -132,8 +132,34 @@ The absolute path of the project source. This value is determined during pipelin
 
 ### Carpenter.DotNet.Path
 
-The path to .NET binaries. This value is determined during template expansion if `buildDotNet` is true. If the .NET
+The path to .NET binaries. This value is determined during pipeline execution if `buildDotNet` is true. If the .NET
 binaries do not exist, they will be downloaded to this path.
+
+### Carpenter.Solution.Path
+
+The absolute path to the solution. This value is determined during pipeline execution if `buildDotNet` is true.
+
+### Carpenter.Output.Path
+
+The absolute path to the output root. This value is determined during pipeline execution if `buildDotNet` is true.
+
+### Carpenter.Output.Binaries.Path
+
+The absolute path to the binaries output. This value is determined during pipeline execution if `buildDotNet` is true.
+
+### Carpenter.Output.NuGet.Path
+
+The absolute path to the NuGet package output. This value is determined during pipeline execution if `buildDotNet` is
+true.
+
+### Carpenter.Output.Tests.Path
+
+The absolute path to the test output. This value is determined during pipeline execution if `executeUnitTests` is true.
+
+### Carpenter.Output.TestCoverage.Path
+
+The absolute path to the test coverage reports output. This value is determined during pipeline execution if
+`executeUnitTests` is true.
 
 ### Carpenter.Pipeline (includePipeline)
 
@@ -165,30 +191,6 @@ the `pipelineReason` parameter is used.
 
 Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
 is **CI**.
-
-### Carpenter.Solution.Path
-
-The absolute path to the solution. This value is determined during pipeline execution.
-
-### Carpenter.Output.Path
-
-The output root path. This value is determined during pipeline execution.
-
-### Carpenter.Output.Binaries.Path
-
-The binaries output path. This value is determined during pipeline execution.
-
-### Carpenter.Output.Tests.Path
-
-The tests output path. This value is determined during pipeline execution.
-
-### Carpenter.Output.TestCoverage.Path
-
-The test coverage reports output path. This value is determined during pipeline execution.
-
-### Carpenter.Output.NuGet.Path
-
-The NuGet package output path. This value is determined during pipeline execution.
 
 ## Pool Configuration
 

@@ -175,25 +175,6 @@ jobs:
   - name: Carpenter.Pipeline.ScriptPath
     value: $[ format('{0}/{1}', variables['Carpenter.Pipeline.Path'], 'scripts') ]
 
-
-  - name: Carpenter.Solution.Path
-    value: $[ format('{0}/{1}.sln', '$(Carpenter.Project.Path)', '$(Carpenter.Project)') ]
-
-  - name: Carpenter.Output.Path
-    value: $[ format('{0}/{1}', '$(System.DefaultWorkingDirectory)', 'out') ]
-
-  - name: Carpenter.Output.Binaries.Path
-    value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'bin') ]
-
-  - name: Carpenter.Output.Tests.Path
-    value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'tests') ]
-
-  - name: Carpenter.Output.TestCoverage.Path
-    value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'testCoverage') ]
-
-  - name: Carpenter.Output.NuGet.Path
-    value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'nuget') ]
-
     
   - ${{ if eq(variables['Build.Reason'],'Manual') }}:
     - name: Carpenter.Pipeline.Reason
