@@ -113,8 +113,9 @@ variables:
   - name: Carpenter.Pool.Default.Demands
     value: $[ dependencies.build.outputs['initializePipeline.defaultPoolDemands'] ]
 
-- name: Carpenter.Build.DotNet
-  value: $[ dependencies.build.outputs['initializePipeline.buildDotNet'] ]
+- ${{ if eq(parameters.buildDotNet,'true') }}:
+  - name: Carpenter.Build.DotNet
+    value: $[ dependencies.build.outputs['initializePipeline.buildDotNet'] ]
 
 - name: Carpenter.Test.Unit
   value: $[ dependencies.build.outputs['initializePipeline.executeUnitTests'] ]

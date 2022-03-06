@@ -130,6 +130,11 @@ is the value of the `Build.DefinitionName` variable.
 
 The absolute path of the project source. This value is determined during pipeline execution.
 
+### Carpenter.DotNet.Path
+
+The path to .NET binaries. This value is determined during template expansion if `buildDotNet` is true. If the .NET
+binaries do not exist, they will be downloaded to this path.
+
 ### Carpenter.Pipeline (includePipeline)
 
 If true, the pipeline will be included in the sources directory. When directly linking the pipeline template through a
@@ -145,10 +150,6 @@ The absolute path to the Carpenter pipeline supporting files. This value is dete
 
 The absolute path to the Carpenter pipeline scripts. This value is determined during template expansion.
 
-### Carpenter.DotNet.Path
-
-The path to .NET binaries. This value is determined during template expansion if `buildDotNet` is true. If the .NET
-binaries do not exist, they will be downloaded to this path.
 
 ### Carpenter.Pipeline.Reason (pipelineReason)
 
