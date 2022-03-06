@@ -28,6 +28,10 @@
 
 steps:
 - powershell: |
+    $pipelinePath = "$(Carpenter.Pipeline.Path)" -replace "/Carpenter.AzurePipelines",""
+    Write-Host "##vso[task.setvariable variable=Carpenter.Pipeline.Path]$pipelinePath"
     $scriptPath = "$(Carpenter.Pipeline.ScriptPath)" -replace "/Carpenter.AzurePipelines",""
     Write-Host "##vso[task.setvariable variable=Carpenter.Pipeline.ScriptPath]$scriptPath"
+    Write-Host "##vso[task.setvariable variable=Carpenter.Project.Path]"
+    
   displayName: Update ScriptPath

@@ -133,7 +133,7 @@ jobs:
     artifact: package.nuget
     displayName: 'Download artifact: package.nuget'
 
-  - template: ../step/no-source-scriptpath.yml     
+  - template: ../step/initialize-job-nosource.yml     
 
   - template: ../step/display-environment.yml
 

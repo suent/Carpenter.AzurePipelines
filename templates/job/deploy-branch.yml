@@ -124,7 +124,7 @@ jobs:
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
 
-  - template: ../step/no-source-scriptpath.yml     
+  - template: ../step/initialize-job-nosource.yml     
 
   - template: ../step/display-environment.yml
   
