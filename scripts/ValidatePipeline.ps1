@@ -10,7 +10,6 @@ param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
 	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
-	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
@@ -60,11 +59,6 @@ if ($BuildReason -eq "Manual") {
 	if ($PipelineReason -ne "") {
 		Write-PipelineWarning "The pipelineReason parameter '$PipelineReason' is being ignored because Build.Reason is not Manual."
 	}
-}
-
-Write-Verbose "Validating project"
-if (-Not ($Project)) {
-	Write-PipelineError "The project parameter must be supplied to Carpenter Azure Pipelines template."
 }
 
 Write-Verbose "Validating defaultPoolType"

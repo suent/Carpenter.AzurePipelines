@@ -56,6 +56,12 @@ variables:
 - name: Carpenter.PipelineVersion
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelineVersion'] ]
 
+- name: Carpenter.Project
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.project'] ]
+
+- name: Carpenter.Project.Path
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.projectPath'] ]
+
 - name: Carpenter.Pipeline
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.includePipeline'] ]
 
@@ -70,12 +76,6 @@ variables:
 
 - name: Carpenter.Pipeline.Reason
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelineReason'] ]
-
-- name: Carpenter.Project
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.project'] ]
-
-- name: Carpenter.Project.Path
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.projectPath'] ]
 
 - name: Carpenter.Solution.Path
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.solutionPath'] ]

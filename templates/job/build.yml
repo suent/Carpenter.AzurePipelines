@@ -152,9 +152,6 @@ jobs:
   - name: Carpenter.PipelineVersion
     value: ${{ parameters.pipelineVersion }}
 
-  - name: Carpenter.Project
-    value: $[ coalesce(variables['Carpenter.Project'], variables['Build.DefinitionName']) ]
-
   - ${{ if eq(parameters.includePipeline,'true') }}:
     - name: Carpenter.Project.Path
       value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', variables['Carpenter.Project']) ]
