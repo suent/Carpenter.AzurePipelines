@@ -36,7 +36,7 @@ parameters:
 - name: includePipeline
   type: boolean
 
-- name: buildPurpose
+- name: pipelineReason
   type: string
 
 - name: project
@@ -142,7 +142,7 @@ stages:
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       includePipeline: ${{ parameters.includePipeline }}
-      buildPurpose: ${{ parameters.buildPurpose }}
+      pipelineReason: ${{ parameters.pipelineReason }}
       project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -180,7 +180,7 @@ stages:
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
         includePipeline: ${{ parameters.includePipeline }}
-        buildPurpose: ${{ parameters.buildPurpose }}
+        pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}

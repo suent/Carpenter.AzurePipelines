@@ -36,7 +36,7 @@ parameters:
 - name: includePipeline
   type: string
 
-- name: buildPurpose
+- name: pipelineReason
   type: string
 
 - name: defaultPoolType
@@ -107,7 +107,7 @@ jobs:
   - ${{ if eq(parameters.stack,'dev') }}:
     - template: ../variable/carpenter-dev.yml
       parameters:
-        buildPurpose: ${{ parameters.buildPurpose }}
+        pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
         versionType: ${{ parameters.versionType }}
         sonarCloud: ${{ parameters.sonarCloud }}

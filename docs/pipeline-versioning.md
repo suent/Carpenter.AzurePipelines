@@ -1,6 +1,7 @@
 # pipelineVersion
 
-The pipelineVersion allows breaking changes to be made to the common template yaml without breaking builds which extend the Carpenter template.
+The pipelineVersion allows breaking changes to be made to the common template yaml without breaking builds which
+extend the Carpenter template.
 
 ## Usage
 
@@ -12,7 +13,8 @@ You can define the pipline version that you want to use in your pipeline yaml:
     pipelineVersion: 1
 ```
 
-When making a breaking change pipelineVersion can be used to require manual intervention to pipelines which extend this template.
+When making a breaking change pipelineVersion can be used to require manual intervention to pipelines which extend
+this template.
 
 This step can be modified:
 ```

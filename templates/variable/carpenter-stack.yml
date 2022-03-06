@@ -33,7 +33,7 @@ parameters:
 - name: defaultPoolType
   type: string
 
-- name: buildPurpose
+- name: pipelineReason
   type: string
 
 - name: versionType
@@ -68,8 +68,8 @@ variables:
 - name: Carpenter.DotNet.Path
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.dotNetPath'] ]
 
-- name: Carpenter.Build.Purpose
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.buildPurpose'] ]
+- name: Carpenter.Pipeline.Reason
+  value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelineReason'] ]
 
 - name: Carpenter.Project
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.project'] ]
@@ -214,7 +214,7 @@ variables:
   - name: Carpenter.Version.Revision
     value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.revision'] ]
 
-  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.buildPurpose,'CI'))) }}:
+  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.pipelineReason,'CI'))) }}:
     - name: Carpenter.ContinuousIntegration.Date
       value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
 
@@ -225,14 +225,14 @@ variables:
     - name: Carpenter.PullRequest.Revision
       value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.pullRequestRevision'] ]
 
-  - ${{ if eq(parameters['buildPurpose'],'Prerelease')}}:
+  - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
     - name: Carpenter.Prerelease.Label
       value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.prereleaseLabel'] ]
   
     - name: Carpenter.Prerelease.Revision
       value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.prereleaseRevision'] ]
 
-  - ${{ if eq(parameters.buildPurpose,'Release')}}:
+  - ${{ if eq(parameters.pipelineReason,'Release')}}:
     - name: Carpenter.Version.IncrementOnRelease
       value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
 
