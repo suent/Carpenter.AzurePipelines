@@ -54,6 +54,9 @@ parameters:
 - name: versionType
   type: string
 
+- name: buildDotNet
+  type: string
+
 - name: sonarCloud
   type: string
 
