@@ -34,4 +34,4 @@ steps:
     Write-Host "##vso[task.setvariable variable=Carpenter.Pipeline.ScriptPath]$scriptPath"
     Write-Host "##vso[task.setvariable variable=Carpenter.Project.Path]"
     
-  displayName: Update ScriptPath
+  displayName: Initialize no sources
