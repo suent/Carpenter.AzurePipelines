@@ -62,6 +62,10 @@
   * [Carpenter.NuGet.Quality.Test2](#carpenternugetqualitytest2)
   * [Carpenter.NuGet.Quality.Stage](#carpenternugetqualitystage)
   * [Carpenter.NuGet.Quality.Prod](#carpenternugetqualityprod)
+  * [Carpenter.GitHub.ServiceConnection](#carpentergithubserviceconnection)
+  * [Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)](#carpentergitaddtagondevmain-addgittagondevmain)
+  * [Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)](#carpentergithubreleaseonprod-addgithubreleaseonprod)
+
 
 # Configuring Carpenter.AzurePipelines
 
@@ -143,8 +147,8 @@ The absolute path to the Carpenter pipeline scripts. This value is determined du
 
 ### Carpenter.DotNet.Path
 
-The path to .NET binaries. This value is determined during template expansion. If the .NET binaries do not exist, they
-will be downloaded to this path.
+The path to .NET binaries. This value is determined during template expansion if `buildDotNet` is true. If the .NET
+binaries do not exist, they will be downloaded to this path.
 
 ### Carpenter.Pipeline.Reason (pipelineReason)
 
@@ -160,7 +164,6 @@ the `pipelineReason` parameter is used.
 
 Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
 is **CI**.
-
 
 ### Carpenter.Solution.Path
 
@@ -428,3 +431,13 @@ The target quality when updating quality on the Production stack. This value is 
 
 The service connection to use when executing GitHub tasks. This value is set byt the
 `gitHubServiceConnection` parameter.
+
+### Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)
+
+If true, git sources are tagged with the build number on Developer Finalize against the main branch. This value is set
+by the `addGitTagOnDevMain` parameter. The default value is **false**.
+
+### Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)
+
+If true, a GitHub release is created during the Production Finalize. This value is set by the `addGitHubReleaseOnProd`
+parameter. The default value is **false**.

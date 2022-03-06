@@ -108,6 +108,12 @@ parameters:
 - name: gitHubServiceConnection
   type: string
 
+- name: addGitTagOnDevMain
+  type: string
+
+- name: addGitHubReleaseOnProd
+  type: string
+
 - name: stack
   type: string
 
@@ -166,4 +172,6 @@ stages:
         nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: ${{ parameters.stack }}

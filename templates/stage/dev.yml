@@ -129,6 +129,12 @@ parameters:
 - name: gitHubServiceConnection
   type: string
 
+- name: addGitTagOnDevMain
+  type: string
+
+- name: addGitHubReleaseOnProd
+  type: string
+
 
 stages:
 - stage: dev
@@ -170,6 +176,8 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: ../job/deploy.yml
@@ -200,4 +208,6 @@ stages:
         nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: dev

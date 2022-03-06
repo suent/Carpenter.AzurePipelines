@@ -38,6 +38,9 @@ parameters:
 
 - name: versionType
   type: string
+
+- name: buildDotNet
+  type: string
     
 - name: sonarCloud
   type: string
@@ -62,6 +65,10 @@ variables:
 - name: Carpenter.Project.Path
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.projectPath'] ]
 
+- ${{ if eq(parameters.buildDotNet,'true') }}:
+  - name: Carpenter.DotNet.Path
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.dotNetPath'] ]
+
 - name: Carpenter.Pipeline
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.includePipeline'] ]
 
@@ -70,9 +77,6 @@ variables:
 
 - name: Carpenter.Pipeline.ScriptPath
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelineScriptPath'] ]
-
-- name: Carpenter.DotNet.Path
-  value: $[ stageDependencies.dev.build.outputs['initializePipeline.dotNetPath'] ]
 
 - name: Carpenter.Pipeline.Reason
   value: $[ stageDependencies.dev.build.outputs['initializePipeline.pipelineReason'] ]

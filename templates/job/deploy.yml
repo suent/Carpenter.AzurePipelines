@@ -111,6 +111,12 @@ parameters:
 - name: gitHubServiceConnection
   type: string
 
+- name: addGitTagOnDevMain
+  type: string
+
+- name: addGitHubReleaseOnProd
+  type: string
+
 
 jobs:
 
@@ -125,6 +131,7 @@ jobs:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
+      buildDotNet: ${{ parameters.buildDotNet }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
@@ -186,10 +193,13 @@ jobs:
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     versionType: ${{ parameters.versionType }}
     incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+    buildDotNet: ${{ parameters.buildDotNet }}
     sonarCloud: ${{ parameters.sonarCloud }}
     deployNuGet: ${{ parameters.deployNuGet }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+    addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+    addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
     stack: ${{ parameters.stack }}
     jobDependsOn:
     - ${{ if eq(parameters.stack, 'dev') }}:

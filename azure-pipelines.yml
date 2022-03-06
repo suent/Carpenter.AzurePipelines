@@ -32,7 +32,7 @@
 parameters:
   # The build reason if a build is manually run. This value gets overridden by automated builds.
 - name: pipelineReason
-  displayName: 'Build Purpose'
+  displayName: 'Pipeline Reason'
   type: string
   default: CI
   values:
@@ -128,3 +128,5 @@ stages:
     nuGetQualityStage: Prerelease
     nuGetQualityProd: Release
     gitHubServiceConnection: botRepositoryAccess
+    addGitTagOnDevMain: true
+    addGitHubReleaseOnProd: true
