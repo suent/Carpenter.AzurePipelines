@@ -45,62 +45,6 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-Write-Verbose "Validating pipelineVersion"
-if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVersion -gt 0))) {
-	Write-PipelineError "The pipelineVersion parameter must be supplied to Carpenter Azure Pipelines template."
-}
-
-Write-Verbose "Validating pipelineReason"
-if ($BuildReason -eq "Manual") {
-	if (($PipelineReason -ne "CI") -and ($PipelineReason -ne "Prerelease") -and ($PipelineReason -ne "Release")) {
-		Write-PipelineError "Unrecognized pipelineReason parameter '$PipelineReason'."
-	}
-} else {
-	if ($PipelineReason -ne "") {
-		Write-PipelineWarning "The pipelineReason parameter '$PipelineReason' is being ignored because Build.Reason is not Manual."
-	}
-}
-
-Write-Verbose "Validating defaultPoolType"
-if (-Not ($DefaultPoolType)) {
-	Write-PipelineError "The defaultPoolType parameter must be supplied to Carpenter Azure Pipelines template."
-}
-if (($DefaultPoolType -ne "Hosted") -and ($DefaultPoolType -ne "Private")) {
-	Write-PipelineError "Unrecognized defaultPoolType parameter '$DefaultPoolType'."
-}
-
-Write-Verbose "Validating defaultPoolName"
-if ($DefaultPoolType -eq "Private") {
-	if (-Not ($DefaultPoolName)) {
-		Write-PipelineError "The defaultPoolName parameter must be supplied to Carpenter Azure Pipelines template when defaultPoolType is Private."
-	}
-} else {
-	if ($DefaultPoolName) {
-		Write-PipelineWarning "The defaultPoolName parameter '$DefaultPoolName' is being ignored because defaultPoolType is not Private."
-	}
-}
-
-Write-Verbose "Validating defaultPoolDemands"
-if ($DefaultPoolType -eq "Private") {
-	if (($DefaultPoolDemands -ne "True") -and ($DefaultPoolDemands -ne "False")) {
-		Write-PipelineError "The defaultPoolDemands parameter must either be True or False."
-	}
-} else {
-	if ($DefaultPoolDemands) {
-		Write-PipelineWarning "The defaultPoolDemands parameter '$DefaultPoolDemands' is being ignored because defaultPoolType is not Private."
-	}
-}
-
-Write-Verbose "Validating defaultPoolVMImage"
-if ($DefaultPoolType -eq "Hosted") {
-	if (-Not ($DefaultPoolVMImage)) {
-		Write-PipelineError "The defaultPoolVMImage parameter must be supplied to Carpenter Azure Pipelines template."
-	}
-} else {
-	if ($DefaultPoolVMImage) {
-		Write-PipelineWarning "The defaultPoolVMImage parameter '$DefaultPoolVMImage' is being ignored because defaultPoolType is not Hosted."
-	}
-}
 
 Write-Verbose "Validating versionType"
 if (-Not ($VersionType)) {

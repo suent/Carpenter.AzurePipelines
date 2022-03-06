@@ -7,22 +7,16 @@
 
 [CmdletBinding()]
 param(
-	[string] $BuildDefinitionName = $env:BUILD_DEFINITIONNAME,
 	[string] $AgentBuildDirectory = $env:AGENT_BUILDDIRECTORY,
 	[string] $AgentToolsDirectory = $env:AGENT_TOOLSDIRECTORY,
+	[string] $BuildDefinitionName = $env:BUILD_DEFINITIONNAME,
+	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $SystemDefaultWorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
 	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $IncludePipeline = $env:CARPENTER_PIPELINE,
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
 	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
-	[string] $SolutionPath = $env:CARPENTER_SOLUTION_PATH,
-	[string] $OutputPath = $env:CARPENTER_OUTPUT_PATH,
-	[string] $BinariesPath = $env:CARPENTER_OUTPUT_BINARIES_PATH,
-	[string] $TestsPath = $env:CARPENTER_OUTPUT_TESTS_PATH,
-	[string] $TestCoveragePath = $env:CARPENTER_OUTPUT_TESTCOVERAGE_PATH,
-	[string] $NuGetPath = $env:CARPENTER_OUTPUT_NUGET_PATH,
-	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
 	[string] $PipelineBot = $env:CARPENTER_PIPELINE_BOT,
 	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
@@ -60,7 +54,7 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-$pipelineVersion = Set-CarpenterVariable -VariableName "Carpenter.PipelineVersion" -OutputVariableName "pipelineVersion" -Value $PipelineVersion
+. ./initialize/pipelineVersion.ps1
 
 if (-Not $Project) {
 	$project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $BuildDefinitionName
@@ -90,7 +84,19 @@ $includePipeline = Set-CarpenterVariable -VariableName "Carpenter.Pipeline" -Out
 $pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -OutputVariableName "pipelinePath" -Value $PipelinePath
 $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 
-If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($PipelineReason -eq "CI"))) {
+
+
+Write-Verbose "Validating pipelineReason"
+if ($BuildReason -eq "Manual") {
+	if (($PipelineReason -ne "CI") -and ($PipelineReason -ne "Prerelease") -and ($PipelineReason -ne "Release")) {
+		Write-PipelineError "Unrecognized pipelineReason parameter '$PipelineReason'."
+	}
+} else {
+	if ($PipelineReason -ne "") {
+		Write-PipelineWarning "The pipelineReason parameter '$PipelineReason' is being ignored because Build.Reason is not Manual."
+	}
+}
+if (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($PipelineReason -eq "CI"))) {
 	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "CI"
 } 
 ElseIf ($BuildReason -eq "PullRequest") {
@@ -106,9 +112,51 @@ Else {
 	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, PipelineReason=$PipelineReason"
 }
 
-# Add build purpose as tag
+# Add pipeline reason as tag
 Write-Host "##vso[build.addbuildtag]Build-$pipelineReason"
 
+
+
+Write-Verbose "Validating defaultPoolType"
+if (-Not ($DefaultPoolType)) {
+	Write-PipelineError "The defaultPoolType parameter must be supplied to Carpenter Azure Pipelines template."
+}
+if (($DefaultPoolType -ne "Hosted") -and ($DefaultPoolType -ne "Private")) {
+	Write-PipelineError "Unrecognized defaultPoolType parameter '$DefaultPoolType'."
+}
+
+Write-Verbose "Validating defaultPoolName"
+if ($DefaultPoolType -eq "Private") {
+	if (-Not ($DefaultPoolName)) {
+		Write-PipelineError "The defaultPoolName parameter must be supplied to Carpenter Azure Pipelines template when defaultPoolType is Private."
+	}
+} else {
+	if ($DefaultPoolName) {
+		Write-PipelineWarning "The defaultPoolName parameter '$DefaultPoolName' is being ignored because defaultPoolType is not Private."
+	}
+}
+
+Write-Verbose "Validating defaultPoolDemands"
+if ($DefaultPoolType -eq "Private") {
+	if (($DefaultPoolDemands -ne "True") -and ($DefaultPoolDemands -ne "False")) {
+		Write-PipelineError "The defaultPoolDemands parameter must either be True or False."
+	}
+} else {
+	if ($DefaultPoolDemands) {
+		Write-PipelineWarning "The defaultPoolDemands parameter '$DefaultPoolDemands' is being ignored because defaultPoolType is not Private."
+	}
+}
+
+Write-Verbose "Validating defaultPoolVMImage"
+if ($DefaultPoolType -eq "Hosted") {
+	if (-Not ($DefaultPoolVMImage)) {
+		Write-PipelineError "The defaultPoolVMImage parameter must be supplied to Carpenter Azure Pipelines template."
+	}
+} else {
+	if ($DefaultPoolVMImage) {
+		Write-PipelineWarning "The defaultPoolVMImage parameter '$DefaultPoolVMImage' is being ignored because defaultPoolType is not Hosted."
+	}
+}
 
 $defaultPoolType = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Type" -OutputVariableName defaultPoolType -Value $DefaultPoolType
 if ($defaultPoolType -eq "Private") {
