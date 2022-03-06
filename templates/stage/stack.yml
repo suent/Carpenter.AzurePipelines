@@ -138,6 +138,7 @@ stages:
           pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
           versionType: ${{ parameters.versionType }}
+          buildDotNet: ${{ parameters.buildDotNet }}
           sonarCloud: ${{ parameters.sonarCloud }}
           deployNuGet: ${{ parameters.deployNuGet }}
           updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
