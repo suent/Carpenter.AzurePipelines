@@ -39,9 +39,6 @@ parameters:
 - name: pipelineReason
   type: string
 
-- name: project
-  type: string
-
 - name: defaultPoolType
   type: string
 
@@ -143,7 +140,6 @@ stages:
       pipelineVersion: ${{ parameters.pipelineVersion }}
       includePipeline: ${{ parameters.includePipeline }}
       pipelineReason: ${{ parameters.pipelineReason }}
-      project: ${{ parameters.project }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}

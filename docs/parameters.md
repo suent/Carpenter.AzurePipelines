@@ -1,19 +1,4 @@
 
-### pipelineReason
-
-The purpose of the build if a build is manually run. This value gets overridden by automated builds.
-
-| Build Reason | Description                                                                                         |
-|:-------------|:----------------------------------------------------------------------------------------------------|
-| CI           | A Continuous Integration build. CI can be the result of a manual or automated build.                |
-| PR           | A Pull Request build. The PR build reason is only set during an automated PR build.                 |
-| Prerelease   | A prerelease build is the result of a manual build with build reason as Prerelease.                 |
-| Release      | A release build is the result of a manual build with build reason as Release.                       |
-
-### project
-    
-The name of the project.
-
 ## Pool Configuration
 
 For more information:
