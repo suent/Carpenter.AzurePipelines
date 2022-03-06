@@ -241,7 +241,7 @@ jobs:
       - name: Carpenter.Version.IncrementOnRelease
         value: ${{ parameters.incrementVersionOnRelease }}
   
-  - ${{ if ne(parameters.buildDotNet,'true') }}:
+  - ${{ if eq(parameters.buildDotNet,true) }}:
     - name: Carpenter.Build.DotNet
       value: ${{ parameters.buildDotNet }}
 
