@@ -115,19 +115,20 @@ jobs:
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
+
   steps:
-  - ${{ if eq(parameters.includePipeline, 'false') }}:
-    - checkout: self
-  
   # Include pipeline for access to pipeline scripts
+  - ${{ if ne(parameters.includePipeline, 'true') }}:
+    - checkout: self
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
-      persistCredentials: true
 
   # Download the nuget package created by the build job
   - download: current
     artifact: package.nuget
     displayName: 'Download artifact: package.nuget'
+
+  - template: ../step/no-source-scriptpath.yml     
 
   - template: ../step/display-environment.yml
 

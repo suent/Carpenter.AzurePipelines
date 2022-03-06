@@ -77,8 +77,8 @@ parameters:
 
 
 jobs:
-- job: 'deploy_finalize_${{ parameters.stack }}'
-  displayName: 'Finalize deploy: ${{ parameters.stack }}'
+- job: 'finalize_${{ parameters.stack }}'
+  displayName: 'Finalize'
 
 
   ${{ if ne(parameters.jobDependsOn,'') }}:
@@ -117,7 +117,8 @@ jobs:
     - checkout: self
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
-      
+
+  - template: ../step/no-source-scriptpath.yml     
   - template: ../step/display-environment.yml
 
   - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev')) }}:

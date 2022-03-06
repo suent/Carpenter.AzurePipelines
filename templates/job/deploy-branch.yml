@@ -96,7 +96,6 @@ jobs:
   workspace:
     clean: all
 
-
   ${{ if eq(parameters.stack,'dev') }}:
     variables:
     - template: ../variable/carpenter-dev.yml
@@ -111,12 +110,13 @@ jobs:
 
 
   steps:
-  - checkout: self
-  
   # Include pipeline for access to pipeline scripts
+  - ${{ if ne(parameters.includePipeline, 'true') }}:
+    - checkout: self
   - ${{ if eq(parameters.includePipeline, 'true') }}:
     - checkout: Carpenter
-      persistCredentials: true
+
+  - template: ../step/no-source-scriptpath.yml     
 
   - template: ../step/display-environment.yml
   
