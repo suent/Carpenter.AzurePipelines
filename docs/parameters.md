@@ -1,23 +1,3 @@
-## Build Versioning
-
-For more information:
-https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build-versioning.md
-
-### versionType
-
-The type of build versioning to use.
-| Version Type | Description                   |
-|:-------------|:------------------------------|
-| None         | No build versioning [Default] |
-| SemVer       | Semantic Versioning 2.0.0     |
-
-### versionFile
-
-The path to the VERSION file. The default value is **VERSION**.
-
-### revisionOffset
-
-The starting value of the revision counter. The default value is **0**.
 
 ### prereleaseLabel
 

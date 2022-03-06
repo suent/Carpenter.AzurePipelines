@@ -54,12 +54,6 @@ parameters:
 - name: versionType
   type: string
 
-- name: versionFile
-  type: string
-
-- name: revisionOffset
-  type: string
-
 - name: prereleaseLabel
   type: string
 
@@ -202,12 +196,6 @@ jobs:
     value: ${{ parameters.versionType }}
   
   - ${{ if ne(parameters.versionType,'None') }}:
-
-    - name: Carpenter.Version.VersionFile
-      value: ${{ parameters.versionFile }}
-
-    - name: Carpenter.Version.RevisionOffset
-      value: ${{ parameters.revisionOffset }}
 
     - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['pipelineReason'],'CI'))) }}:
       - name: Carpenter.ContinuousIntegration.Date

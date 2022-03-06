@@ -10,7 +10,7 @@ param(
 	[string] $DefinitionName = $env:BUILD_DEFINITIONNAME,
 	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
 	[string] $Project = $env:CARPENTER_PROJECT,
-	[string] $ProjectDirectory = $env:CARPENTER_PROJECT_PATH,
+	[string] $ProjectPath = $env:CARPENTER_PROJECT_PATH,
 	[string] $VersionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $VersionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
@@ -26,18 +26,23 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-$versionFile = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile" -OutputVariableName "versionFile" -Value $VersionFile
-$versionFilePath = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFilePath" -OutputVariableName "versionFilePath" -Value "$ProjectDirectory/$versionFile"
+if ($VersionType -eq "SemVer") {
+	if (-not ($VersionFile)) {
+		$VersionFile = "VERSION"
+	}
+	$versionFile = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile" -OutputVariableName "versionFile" -Value $VersionFile
+	$versionFilePath = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile.Path" -OutputVariableName "versionFilePath" -Value "$ProjectPath/$versionFile"
 
-If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
-	Write-PipelineError "VERSION file does not exist at expected path. Path: $versionFilePath"
-} else {
-	$versionFileContent = Get-Content -Path $versionFilePath
-	$targetVersion = [Version]::new($versionFileContent)
-	$baseVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.BaseVersion" -OutputVariableName "baseVersion" -Value "$($targetVersion.Major).$($targetVersion.Minor).$($targetVersion.Build)"
-	$majorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Major" -OutputVariableName "majorVersion" -Value $targetVersion.Major
-	$minorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Minor" -OutputVariableName "minorVersion" -Value $targetVersion.Minor
-	$patchVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -OutputVariableName "patchVersion" -Value $targetVersion.Build
+	If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
+		Write-PipelineError "VERSION file does not exist at expected path. Path: $versionFilePath"
+	} else {
+		$versionFileContent = Get-Content -Path $versionFilePath
+		$targetVersion = [Version]::new($versionFileContent)
+		$baseVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.BaseVersion" -OutputVariableName "baseVersion" -Value "$($targetVersion.Major).$($targetVersion.Minor).$($targetVersion.Build)"
+		$majorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Major" -OutputVariableName "majorVersion" -Value $targetVersion.Major
+		$minorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Minor" -OutputVariableName "minorVersion" -Value $targetVersion.Minor
+		$patchVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -OutputVariableName "patchVersion" -Value $targetVersion.Build
+	}
 }
 
 $revisionOffset = Set-CarpenterVariable -VariableName "Carpenter.Version.RevisionOffset" -OutputVariableName "revisionOffset" -Value $RevisionOffset

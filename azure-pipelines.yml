@@ -70,8 +70,17 @@ pr:
 
 # Infrastructure variables
 variables:
+
+  # See docs/configuration.md for variable documentation.
+
 - name: Carpenter.Project
   value: Carpenter.AzurePipelines
+
+#- name: Carpenter.Version.VersionFile
+#  value: VERSION
+
+- name: Carpenter.Version.RevisionOffset
+  value: 258
 
 # Infrastructure populates:
 #   Carpenter.PipelineBot
@@ -91,7 +100,7 @@ stages:
 - template: templates/carpenter-default.yml
   parameters:
 
-    # See docs/parameters.md for parameter documentation.
+    # See docs/configuration.md for parameter documentation.
 
     pipelineVersion: 1
     includePipeline: false
@@ -103,8 +112,6 @@ stages:
     - Agent.OSArchitecture -equals X64
     #defaultPoolVMImage: 'ubuntu-latest'
     versionType: SemVer
-    #versionFile: VERSION
-    revisionOffset: 258
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
     incrementVersionOnRelease: true
     buildDotNet: true

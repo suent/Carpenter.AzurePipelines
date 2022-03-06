@@ -112,15 +112,6 @@ if (-Not ($VersionType)) {
 }
 
 if ($VersionType -ne "None") {
-	Write-Verbose "Validating versionFile"
-	if (-Not ($VersionFile)) {
-		Write-PipelineError "The versionFile parameter must be supplied to Carpenter Azure Pipelines template."
-	}
-
-	Write-Verbose "Validating revisionOffset"
-	if ((-not ($RevisionOffset | IsNumeric -Verbose:$false)) -or (-not ($RevisionOffset -ge 0))) {
-		Write-PipelineError "The revisionOffset parameter must be supplied to Carpenter Azure Pipelines template."
-	}
 
 	Write-Verbose "Validating prereleaseLabel"
 	if ($PipelineReason -eq "Prerelease") {

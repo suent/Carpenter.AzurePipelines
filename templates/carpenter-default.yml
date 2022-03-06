@@ -72,14 +72,6 @@ parameters:
   - None
   - SemVer
 
-- name: versionFile
-  type: string
-  default: VERSION
-
-- name: revisionOffset
-  type: string
-  default: 1
-
 - name: prereleaseLabel
   type: string
   default: alpha
@@ -196,8 +188,6 @@ stages:
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     versionType: ${{ parameters.versionType }}
-    versionFile: ${{ parameters.versionFile }}
-    revisionOffset: ${{ parameters.revisionOffset }}
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
     incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
     buildDotNet: ${{ parameters.buildDotNet }}

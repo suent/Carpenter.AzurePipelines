@@ -21,15 +21,16 @@
   * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
   * [Carpenter.Pipeline.Reason (pipelineReason)](#carpenterpipelinereason-pipelinereason)
 * [Pool Configuration](#pool-configuration)
-  * [Carpenter.Pool.Default.Demands](#carpenterpooldefaultdemands)
-  * [Carpenter.Pool.Default.Name](#carpenterpooldefaultname)
-  * [Carpenter.Pool.Default.Type](#carpenterpooldefaulttype)
-  * [Carpenter.Pool.Default.VMImage](#carpenterpooldefaultvmimage)
+  * [Carpenter.Pool.Default.Type (defaultPoolType)](#carpenterpooldefaulttype-defaultpooltype)
+  * [Carpenter.Pool.Default.Demands (defaultPoolDemands)](#carpenterpooldefaultdemands-defaultpooldemands)
+  * [Carpenter.Pool.Default.Name (defaultPoolName)](#carpenterpooldefaultname-defaultpoolname)
+  * [Carpenter.Pool.Default.VMImage (defaultPoolVMImage)](#carpenterpooldefaultvmimage-defaultpoolvmimage)
 * [Build Versioning](#build-versioning)
-  * [Carpenter.Version.Type](#carpenterversiontype)
+  * [Carpenter.Version.Type (versionType)](#carpenterversiontype-versiontype)
   * [Carpenter.Version.VersionFile](#carpenterversionversionfile)
-  * [Carpenter.Version.Revision](#carpenterversionrevision)
+  * [Carpenter.Version.VersionFile.Path](#carpenterversionversionfilepath)
   * [Carpenter.Version.RevisionOffset](#carpenterversionrevisionoffset)
+  * [Carpenter.Version.Revision](#carpenterversionrevision)
   * [Carpenter.Version.Major](#carpenterversionmajor)
   * [Carpenter.Version.Minor](#carpenterversionminor)
   * [Carpenter.Version.Patch](#carpenterversionpatch)
@@ -201,15 +202,6 @@ is **CI**.
 
 For more information, see [configure-pool.md](configure-pool.md).
 
-### Carpenter.Pool.Default.Demands (defaultPoolDemands)
-
-The demands for the agent when using a *Private* pool type. This value is set by the `defaultPoolDemands` parameter.
-
-### Carpenter.Pool.Default.Name (defaultPoolName)
-
-The pool name to use when using *Private* pool type. This value is set by the `defaultPoolName` parameter. The default
-value is **Default**.
-
 ### Carpenter.Pool.Default.Type (defaultPoolType)
 
 The default pool type to use for jobs.
@@ -221,6 +213,15 @@ The default pool type to use for jobs.
 
  This value is set by the `defaultPoolType` parameter. The default value is **Hosted**.
 
+### Carpenter.Pool.Default.Demands (defaultPoolDemands)
+
+The demands for the agent when using a *Private* pool type. This value is set by the `defaultPoolDemands` parameter.
+
+### Carpenter.Pool.Default.Name (defaultPoolName)
+
+The pool name to use when using *Private* pool type. This value is set by the `defaultPoolName` parameter. The default
+value is **Default**.
+
 ### Carpenter.Pool.Default.VMImage (defaultPoolVMImage)
 
 The VM Image to use when using Hosted pool type. This value is set by the `defaultPoolVMImage` parameter. The default
@@ -228,7 +229,9 @@ value is **ubuntu-latest**.
 
 ## Build Versioning
 
-### Carpenter.Version.Type
+For more information, see [build-versioning.md](build-versioning.md).
+
+### Carpenter.Version.Type (versionType)
 
 The type of build versioning to use.
 
@@ -241,18 +244,22 @@ This value is set by the `versionType` parameter. The default value is **None**.
 
 ### Carpenter.Version.VersionFile
 
-The path to the VERSION file. This value is set by the `versionFile` parameter. The
-default value is **VERSION**.
+The relative path to the VERSION file from the project root. Only used if versionType is SemVer. The default value is
+**VERSION**.
+
+### Carpenter.Version.VersionFile.Path
+
+The absolute path to the VERSION file. This value is determined during pipeline execution if versionType is SemVer.
+
+### Carpenter.Version.RevisionOffset
+
+The starting value of the revision counter. Only used if versionType is not None. The default value is **0**.
 
 ### Carpenter.Version.Revision
 
 The number of times the project has been built by this pipeline. This value is determined
 during pipeline execution.
 
-### Carpenter.Version.RevisionOffset
-
-The starting value of the revision counter. This value is set by the `revisionOffset` parameter.
-The default value is **0**.
 
 ### Carpenter.Version.Major
 

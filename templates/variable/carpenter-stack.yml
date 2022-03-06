@@ -203,7 +203,7 @@ variables:
   - name: Carpenter.Version.VersionFile
     value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionFile'] ]
 
-  - name: Carpenter.Version.VersionFilePath
+  - name: Carpenter.Version.VersionFile.Path
     value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionFilePath'] ]
 
   - name: Carpenter.Version.RevisionOffset

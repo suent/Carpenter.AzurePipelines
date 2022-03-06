@@ -54,12 +54,6 @@ parameters:
 - name: versionType
   type: string
 
-- name: versionFile
-  type: string
-
-- name: revisionOffset
-  type: string
-
 - name: prereleaseLabel
   type: string
   
@@ -151,8 +145,6 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       versionType: ${{ parameters.versionType }}
-      versionFile: ${{ parameters.versionFile }}
-      revisionOffset: ${{ parameters.revisionOffset }}
       prereleaseLabel: ${{ parameters.prereleaseLabel }}
       incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
