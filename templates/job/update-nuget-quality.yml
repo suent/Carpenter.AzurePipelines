@@ -83,7 +83,7 @@ parameters:
 jobs:
 
 - job: 'updatequality_nuget_${{ parameters.stack }}'
-  displayName: 'Update NuGet Artifact Quality'
+  displayName: 'Update NuGet Quality'
   
 
   ${{ if ne(parameters.jobDependsOn,'') }}:
