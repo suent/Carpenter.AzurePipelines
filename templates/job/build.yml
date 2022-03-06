@@ -153,9 +153,6 @@ jobs:
     value: ${{ parameters.pipelineVersion }}
 
   - ${{ if eq(parameters.includePipeline,'true') }}:
-    - name: Carpenter.Project.Path
-      value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', variables['Carpenter.Project']) ]
-
     - name: Carpenter.Pipeline
       value: true
 
@@ -169,18 +166,9 @@ jobs:
     - name: Carpenter.Pipeline.Path
       value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
 
-    - name: Carpenter.Project.Path
-      value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
-
-  - ${{ if eq(variables['Build.Reason'],'Manual') }}:
-    - name: Carpenter.Pipeline.Reason
-      value: ${{ parameters.pipelineReason }}
-
   - name: Carpenter.Pipeline.ScriptPath
     value: $[ format('{0}/{1}', variables['Carpenter.Pipeline.Path'], 'scripts') ]
 
-  - name: Carpenter.DotNet.Path
-    value: $[ format('{0}/{1}', '$(Agent.ToolsDirectory)', 'dotnet')]
 
   - name: Carpenter.Solution.Path
     value: $[ format('{0}/{1}.sln', '$(Carpenter.Project.Path)', '$(Carpenter.Project)') ]
@@ -200,7 +188,10 @@ jobs:
   - name: Carpenter.Output.NuGet.Path
     value: $[ format('{0}/{1}', '$(Carpenter.Output.Path)', 'nuget') ]
 
-
+    
+  - ${{ if eq(variables['Build.Reason'],'Manual') }}:
+    - name: Carpenter.Pipeline.Reason
+      value: ${{ parameters.pipelineReason }}
 
   - name: Carpenter.Pool.Default.Type
     value: ${{ parameters.defaultPoolType }}

@@ -176,6 +176,14 @@ parameters:
   type: string
   default: ''
 
+- name: addGitTagOnDevMain
+  type: boolean
+  default: false
+
+- name: addGitHubReleaseOnProd
+  type: boolean
+  default: false
+
 
 stages:
 - template: stage/dev.yml
@@ -213,6 +221,8 @@ stages:
     nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
     nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+    addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+    addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
 
 
 # Deploys only on changes to main branch
@@ -246,6 +256,8 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: test1
       stackName: Test 1
       stackDependsOn:
@@ -279,6 +291,8 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: test2
       stackName: Test 2
       stackDependsOn:
@@ -312,6 +326,8 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: stage
       stackName: Staging
       stackDependsOn:
@@ -349,6 +365,8 @@ stages:
         nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: prod
         stackName: Production
         stackDependsOn:

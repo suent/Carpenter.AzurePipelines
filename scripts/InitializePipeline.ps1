@@ -7,14 +7,14 @@
 
 [CmdletBinding()]
 param(
+	[string] $BuildDefinitionName = $env:BUILD_DEFINITIONNAME,
+	[string] $AgentBuildDirectory = $env:AGENT_BUILDDIRECTORY,
+	[string] $AgentToolsDirectory = $env:AGENT_TOOLSDIRECTORY,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
 	[string] $Project = $env:CARPENTER_PROJECT,
-	[string] $BuildDefinitionName = $env:BUILD_DEFINITIONNAME,
-	[string] $ProjectPath = $env:CARPENTER_PROJECT_PATH,
 	[string] $IncludePipeline = $env:CARPENTER_PIPELINE,
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
 	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
-	[string] $DotNetPath = $env:CARPENTER_DOTNET_PATH,
 	[string] $SolutionPath = $env:CARPENTER_SOLUTION_PATH,
 	[string] $OutputPath = $env:CARPENTER_OUTPUT_PATH,
 	[string] $BinariesPath = $env:CARPENTER_OUTPUT_BINARIES_PATH,
@@ -61,17 +61,25 @@ Write-ScriptHeader "$scriptName"
 
 $pipelineVersion = Set-CarpenterVariable -VariableName "Carpenter.PipelineVersion" -OutputVariableName "pipelineVersion" -Value $PipelineVersion
 
-If (-Not $Project) {
+if (-Not $Project) {
 	$project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $BuildDefinitionName
 } else {
 	$project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $Project
 }
-$projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value $ProjectPath
+
+if ($IncludePipeline -eq 'true') {
+	$projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value "$AgentBuildDirectory/s/$project"
+} else {
+	$projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value "$AgentBuildDirectory/s"
+}
+
+if ($BuildDotNet -eq 'true') {
+	$dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value "$AgentToolsDirectory/dotnet"
+}
 
 $includePipeline = Set-CarpenterVariable -VariableName "Carpenter.Pipeline" -OutputVariableName "includePipeline" -Value $IncludePipeline
 $pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -OutputVariableName "pipelinePath" -Value $PipelinePath
 $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
-$dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value $DotNetPath
 
 If (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($PipelineReason -eq "CI"))) {
 	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "CI"
