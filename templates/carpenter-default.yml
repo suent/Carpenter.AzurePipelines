@@ -82,7 +82,7 @@ parameters:
 
 - name: operations
   type: object
-  default: {}
+  default: []
 
 - name: incrementVersionOnRelease
   type: boolean
