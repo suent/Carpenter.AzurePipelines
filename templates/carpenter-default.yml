@@ -178,44 +178,224 @@ parameters:
 
 
 stages:
-- template: stage/dev.yml
-  parameters:
-    pipelineVersion: ${{ parameters.pipelineVersion }}
-    includePipeline: ${{ parameters.includePipeline }}
-    pipelineReason: ${{ parameters.pipelineReason }}
-    defaultPoolType: ${{ parameters.defaultPoolType }}
-    defaultPoolName: ${{ parameters.defaultPoolName }}
-    defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-    versionType: ${{ parameters.versionType }}
-    prereleaseLabel: ${{ parameters.prereleaseLabel }}
-    incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-    buildDotNet: ${{ parameters.buildDotNet }}
-    executeUnitTests: ${{ parameters.executeUnitTests }}
-    sonarCloud: ${{ parameters.sonarCloud }}
-    sonarCloudOrganization: ${{ parameters.sonarCloudOrganization }}
-    sonarCloudProjectKey: ${{ parameters.sonarCloudProjectKey }}
-    sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
-    deployBranch: ${{ parameters.deployBranch }}
-    deployNuGet: ${{ parameters.deployNuGet }}
-    nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
-    nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
-    nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-    nuGetTargetFeedStage: ${{ parameters.nuGetTargetFeedStage }}
-    nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
-    updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-    nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-    nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-    nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-    nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-    nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-    nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
-    gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-    addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
-    addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
+- stage: dev
+  displayName: Developer
+
+  jobs:
+  - job: initialize
+    displayName: Initialize
 
 
-# Deploys only on changes to main branch
+    pool:
+      ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+        vmImage: ${{ parameters.defaultPoolVMImage }}
+      ${{ if eq(parameters.defaultPoolType,'Private') }}:
+        name: ${{ parameters.defaultPoolName }}
+        ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+          demands: ${{ parameters.defaultPoolDemands }}
+
+
+    workspace:
+      clean: all
+
+
+    variables:
+    - name: Carpenter.PipelineVersion
+      value: ${{ parameters.pipelineVersion }}
+
+    - ${{ if eq(parameters.includePipeline,'true') }}:
+      - name: Carpenter.Pipeline
+        value: true
+
+      - name: Carpenter.Pipeline.Path
+        value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', 'Carpenter.AzurePipelines') ]
+
+    - ${{ if ne(parameters.includePipeline,'true') }}:
+      - name: Carpenter.Pipeline
+        value: false
+
+      - name: Carpenter.Pipeline.Path
+        value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
+
+    - name: Carpenter.Pipeline.ScriptPath
+      value: $[ format('{0}/{1}', variables['Carpenter.Pipeline.Path'], 'scripts') ]
+
+    - ${{ if eq(variables['Build.Reason'],'Manual') }}:
+      - name: Carpenter.Pipeline.Reason
+        value: ${{ parameters.pipelineReason }}
+
+    - name: Carpenter.Pool.Default.Type
+      value: ${{ parameters.defaultPoolType }}
+
+    - ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
+      - name: Carpenter.Pool.Default.VMImage
+        value: ${{ parameters.defaultPoolVMImage}}
+
+    - ${{ if eq(parameters.defaultPoolType,'Private') }}:
+      - name: Carpenter.Pool.Default.Name
+        value: ${{ parameters.defaultPoolName }}
+  
+      - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
+        - name: Carpenter.Pool.Default.Demands
+          value: False
+  
+      - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
+        - name: Carpenter.Pool.Default.Demands
+          value: True
+
+    - name: Carpenter.Version.Type
+      value: ${{ parameters.versionType }}
+  
+    - ${{ if ne(parameters.versionType,'None') }}:
+     
+      - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['pipelineReason'],'CI'))) }}:
+        - name: Carpenter.ContinuousIntegration.Date
+          value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
+
+      - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
+        - name: Carpenter.Prerelease.Label
+          value: ${{ parameters.prereleaseLabel }}
+
+      - ${{ if eq(parameters['pipelineReason'],'Release')}}:
+        - name: Carpenter.Version.IncrementOnRelease
+          value: ${{ parameters.incrementVersionOnRelease }}
+  
+    - ${{ if eq(parameters.buildDotNet,true) }}:
+      - name: Carpenter.Build.DotNet
+        value: ${{ parameters.buildDotNet }}
+
+    - name: Carpenter.Test.Unit
+      value: ${{ parameters.executeUnitTests }}
+
+    - name: Carpenter.SonarCloud
+      value: ${{ parameters.sonarCloud }}
+
+    - ${{ if eq(parameters.sonarCloud, 'true') }}:
+      - name: Carpenter.SonarCloud.Organization
+        value: ${{ parameters.sonarCloudOrganization }}
+
+      - name: Carpenter.SonarCloud.ProjectKey
+        value: ${{ parameters.sonarCloudProjectKey }}
+     
+      - name: Carpenter.SonarCloud.ServiceConnection
+        value: ${{ parameters.sonarCloudServiceConnection }}
+
+    - name: Carpenter.Deploy.Branch
+      value: ${{ parameters.deployBranch }}
+
+    - name: Carpenter.Deploy.NuGet
+      value: ${{ parameters.deployNuGet }}
+
+    - ${{ if contains(parameters.deployNuGet,'dev') }}:
+      - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
+        value: ${{ parameters.nuGetTargetFeedDev }}
+
+    - ${{ if contains(parameters.deployNuGet,'test1') }}:
+      - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
+        value: ${{ parameters.nuGetTargetFeedTest1 }}
+
+    - ${{ if contains(parameters.deployNuGet,'test2') }}:
+      - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
+        value: ${{ parameters.nuGetTargetFeedTest2 }}
+
+    - ${{ if contains(parameters.deployNuGet,'stage') }}:
+      - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
+        value: ${{ parameters.nuGetTargetFeedStage }}
+
+    - ${{ if contains(parameters.deployNuGet,'prod') }}:
+      - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
+        value: ${{ parameters.nuGetTargetFeedProd }}
+
+    - name: Carpenter.NuGet.Quality
+      value: ${{ parameters.updateNuGetQuality }}
+    
+    - ${{ if ne(parameters.updateNuGetQuality,'') }}:
+      - name: Carpenter.NuGet.Quality.Feed
+        value: ${{ parameters.nuGetQualityFeed }}
+
+    - ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
+      - name: Carpenter.NuGet.Quality.Dev
+        value: ${{ parameters.nuGetQualityDev }}
+ 
+    - ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
+      - name: Carpenter.NuGet.Quality.Test1
+        value: ${{ parameters.nuGetQualityTest1 }}
+ 
+    - ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
+      - name: Carpenter.NuGet.Quality.Test2
+        value: ${{ parameters.nuGetQualityTest2 }}
+ 
+    - ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
+      - name: Carpenter.NuGet.Quality.Stage
+        value: ${{ parameters.nuGetQualityStage }}
+ 
+    - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
+      - name: Carpenter.NuGet.Quality.Prod
+        value: ${{ parameters.nuGetQualityProd }}
+ 
+    - ${{ if ne(parameters.gitHubServiceConnection,'') }}:
+      - name: Carpenter.GitHub.ServiceConnection
+        value: ${{ parameters.gitHubServiceConnection }}
+
+
+    steps:
+    - checkout: self
+  
+    # Publish source artifact
+    - publish: $(System.DefaultWorkingDirectory)
+      artifact: source
+      displayName: 'Publish source artifact'
+
+    # Include pipeline for access to pipeline scripts
+    - ${{ if eq(parameters.includePipeline, 'true') }}:
+      - checkout: Carpenter
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'filePath'
+        filePath: $(Carpenter.Pipeline.ScriptPath)/InitializePipeline.ps1
+        arguments: -Verbose
+      displayName: Initialize pipeline
+      name: initializePipeline
+
+    - template: ../step/display-environment.yml
+
+
+  - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
+    - template: ../job/deploy.yml
+      parameters:
+        pipelineVersion: ${{ parameters.pipelineVersion }}
+        includePipeline: ${{ parameters.includePipeline }}
+        pipelineReason: ${{ parameters.pipelineReason }}
+        defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolName: ${{ parameters.defaultPoolName }}
+        defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+        versionType: ${{ parameters.versionType }}
+        incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+        buildDotNet: ${{ parameters.buildDotNet }}
+        executeUnitTests: ${{ parameters.executeUnitTests }}
+        sonarCloud: ${{ parameters.sonarCloud }}
+        deployBranch: ${{ parameters.deployBranch }}
+        deployNuGet: ${{ parameters.deployNuGet }}
+        nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
+        nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
+        nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
+        nuGetTargetFeedStage: ${{ parameters.nuGetTargetFeedStage }}
+        nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
+        updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
+        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
+        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
+        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
+        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
+        nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
+        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
+        gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
+        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
+        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
+        stack: dev
+
+# Deploys to stacks only on changes to main branch
 - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
 
   - template: stage/stack.yml

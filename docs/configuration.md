@@ -36,6 +36,7 @@
   * [Carpenter.Version.Patch](#carpenterversionpatch)
   * [Carpenter.Version.Label](#carpenterversionlabel)
   * [Carpenter.Version](#carpenterversion)
+  * [Carpenter.Version.IncrementOnRelease (incrementOnRelease)](#carpenterversionincrementonrelease-incrementonrelease)
 * [Continuous Integration](#continuous-integration)
   * [Carpenter.ContinuousIntegration.Date](#carpentercontinuousintegrationdate)
   * [Carpenter.ContinuousIntegration.Revision](#carpentercontinuousintegrationrevsision)
@@ -253,13 +254,11 @@ The absolute path to the VERSION file. This value is determined during pipeline 
 
 ### Carpenter.Version.RevisionOffset
 
-The starting value of the revision counter. Only used if versionType is not None. The default value is **0**.
+The starting value offset of the revision counter. Only used if versionType is not None. The default value is **0**.
 
 ### Carpenter.Version.Revision
 
-The number of times the project has been built by this pipeline. This value is determined
-during pipeline execution.
-
+The number of times the project has been built by this pipeline. This value is determined during pipeline execution.
 
 ### Carpenter.Version.Major
 
@@ -290,26 +289,26 @@ parameter. The default value is **false**.
 
 ### Carpenter.ContinuousIntegration.Date
 
-The date code of the continuous integration build. This value is determined during pipeline
-execution.
+The date code of the continuous integration build. This value is determined during template expansion when
+pipelineReason is CI.
 
 ### Carpenter.ContinuousIntegration.Revsision
 
-The revision of the continuous integration build. Increments for each build under a specific date.
-This value is determined during pipeline execution.
+The revision of the continuous integration build. Increments for each build under a specific date. This value is
+determined during pipeline execution when pipelineReason is CI.
 
 ## Pull Request
 
 ### Carpenter.PullRequest.Revision
 
-The pull request revision. This value is determined during the pipeline execution.
+The pull request revision. This value is determined during the pipeline execution when pipelineReason is PR.
 
 ## Prerelease
 
 ### Carpenter.Prerelease.Label
 
-The label to use for a prerelease build. This value is set by the `prereleaseLabel` parameter.
-The default value is **alpha**.
+The label to use for a prerelease build. This value is set by the `prereleaseLabel` parameter when pipelineReason is
+Prerelease. The default value is **alpha**.
 
 ### Carpenter.Prerelease.Revision
 
@@ -317,25 +316,30 @@ The prerelease revision. This value is determined during pipeline execution.
 
 ## PipelineBot
 
+The PipelineBot is automation that manages the pipeline and its outside connections.
+
 ### Carpenter.PipelineBot
 
-The GitHub username for the pipeline bot. This value should be supplied to the pipeline as
-a variable, either directly through the YAML or through a Variable group.
+The GitHub username for the pipeline bot.
 
 ### Carpenter.PipelineBot.Email
 
-The email address of the pipeline bot. This value should be supplied to the pipeline as
-a variable, either directly through the YAML or through a Variable group.
+The email address of the pipeline bot.
 
 ### Carpenter.PipelineBot.Name
 
-The name of the pipeline bot. This value should be supplied to the pipeline asa variable,
-either directly through the YAML or through a Variable group.
+The name of the pipeline bot.
 
 ### PipelineBot-GitHub-PAT
 
 The GitHub personal access token for the pipeline bot. This value should be supplied to
 the pipeline as a secret variable through a Variable group or through an Azure key vault.
+
+This token is used by the following jobs/steps:
+* AddGitTags
+* DeployNuGet (when target is github.com)
+* IncrementVersion
+* PublishBranch
 
 ## .NET Build
 

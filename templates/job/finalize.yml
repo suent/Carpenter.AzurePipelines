@@ -61,7 +61,7 @@ parameters:
   type: boolean
 
 - name: incrementVersionOnRelease
-  type: string
+  type: boolean
 
 - name: sonarCloud
   type: string
@@ -160,7 +160,7 @@ jobs:
         addChangeLog: true
       displayName: Add GitHub Release
   
-  - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev'), ne(parameters.versionType, 'None'), eq(parameters.pipelineReason, 'Release'), eq(parameters.incrementVersionOnRelease, 'true')) }}:
+  - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev'), ne(parameters.versionType, 'None'), eq(parameters.pipelineReason, 'Release'), eq(parameters.incrementVersionOnRelease, true)) }}:
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'

@@ -25,6 +25,7 @@ param(
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
 	[string] $VersionType = $env:CARPENTER_VERSION_TYPE,
+	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
 	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT,
 	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
@@ -54,38 +55,69 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-. "$PSScriptRoot/initialize/pipelineVersion.ps1"
+# Carpenter.PipelineVersion (pipelineVersion)
+Write-Verbose "Validating pipelineVersion"
+if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVersion -gt 0))) {
+	Write-PipelineError "The pipelineVersion parameter must be supplied to the Carpenter Azure Pipelines template."
+}
+$pipelineVersion = Set-CarpenterVariable -VariableName "Carpenter.PipelineVersion" -OutputVariableName "pipelineVersion" -Value $PipelineVersion
 
+
+# Carpenter.Project
 if (-Not $Project) {
-	$project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $BuildDefinitionName
-} else {
-	$project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $Project
+	$Project = $BuildDefinitionName
 }
+$project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $Project
 
+
+# Carpenter.Project.Path
 if ($IncludePipeline -eq 'true') {
-	$projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value "$AgentBuildDirectory/s/$project"
+	$projectPath = "$AgentBuildDirectory/s/$project"
 } else {
-	$projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value "$AgentBuildDirectory/s"
+	$projectPath = "$AgentBuildDirectory/s"
 }
+$projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value $projectPath
 
+# Other pipeline paths
 if ($BuildDotNet -eq 'true') {
+
+	# Carpenter.DotNet.Path
 	$dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value "$AgentToolsDirectory/dotnet"
+
+	# Carpenter.Solution.Path
 	$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value "$projectPath/$project.sln"
+
+	# Carpenter.Output.Path
 	$outputPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Path" -OutputVariableName "outputPath" -Value "$SystemDefaultWorkingDirectory/out"
+
+	# Carpenter.Output.Binaries.Path
 	$binariesPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Binaries.Path" -OutputVariableName "binariesPath" -Value "$outputPath/bin"
+
+	# Carpenter.Output.NuGet.Path
 	$nuGetPath = Set-CarpenterVariable -VariableName "Carpenter.Output.NuGet.Path" -OutputVariableName "nuGetPath" -Value "$outputPath/nuget"
+
 	if ($ExecuteUnitTests -eq 'true') {
+
+		# Carpenter.Output.Tests.Path
 		$testPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Tests.Path" -OutputVariableName "testsPath" -Value "$outputPath/tests"
+
+		# Carpenter.Output.TestCoverage.Path
 		$testCoveragePath = Set-CarpenterVariable -VariableName "Carpenter.Output.TestCoverage.Path" -OutputVariableName "testCoveragePath" -Value "$outputPath/testCoverage"
 	}
 }
 
+
+# Carpenter.Pipeline (includePipeline)
 $includePipeline = Set-CarpenterVariable -VariableName "Carpenter.Pipeline" -OutputVariableName "includePipeline" -Value $IncludePipeline
+
+# Carpenter.Pipeline.Path
 $pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -OutputVariableName "pipelinePath" -Value $PipelinePath
+
+# Carpenter.Pipeline.ScriptPath
 $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 
 
-
+# Carpenter.Pipeline.Reason
 Write-Verbose "Validating pipelineReason"
 if ($BuildReason -eq "Manual") {
 	if (($PipelineReason -ne "CI") -and ($PipelineReason -ne "Prerelease") -and ($PipelineReason -ne "Release")) {
@@ -116,7 +148,7 @@ Else {
 Write-Host "##vso[build.addbuildtag]Build-$pipelineReason"
 
 
-
+# Validate defaultPool parameters
 Write-Verbose "Validating defaultPoolType"
 if (-Not ($DefaultPoolType)) {
 	Write-PipelineError "The defaultPoolType parameter must be supplied to Carpenter Azure Pipelines template."
@@ -158,16 +190,144 @@ if ($DefaultPoolType -eq "Hosted") {
 	}
 }
 
+# Carpenter.Pool.Default.Type
 $defaultPoolType = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Type" -OutputVariableName defaultPoolType -Value $DefaultPoolType
 if ($defaultPoolType -eq "Private") {
+	# Carpenter.Pool.Default.Name
 	$defaultPoolName = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Name" -OutputVariableName defaultPoolName -Value $DefaultPoolName
+	# Carpenter.Pool.Default.Demands
 	$defaultPoolDemands = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Demands" -OutputVariableName defaultPoolDemands -Value $DefaultPoolDemands
 }
 if ($defaultPoolType -eq "Hosted") {
+	# Carpenter.Pool.Default.VMImage
 	$defaultPoolVMImage = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.VMImage" -OutputVariableName defaultPoolVMImage -Value $DefaultPoolVMImage
 }
 
+# Carpenter.Version.Type
+Write-Verbose "Validating versionType"
+if (-Not ($VersionType)) {
+	Write-PipelineError "The versionType parameter must be supplied to Carpenter Azure Pipelines template."
+} else {
+	if (($VersionType -ne "None") -and ($VersionType -ne "SemVer")) {
+		Write-PipelineError "Unrecognized versionType parameter '$VersionType'."
+	}
+}
 $versionType = Set-CarpenterVariable -VariableName "Carpenter.Version.Type" -OutputVariableName "versionType" -Value $VersionType
+
+# Versioning
+if ($versionType -ne "None") {
+
+	# Carpenter.Version.RevisionOffset
+	if (-not ($RevisionOffset)) { $RevisionOffset = 0 } # Default value
+	Write-Verbose "Validating Carpenter.Version.RevisionOffset"
+	if ((-not ($RevisionOffset | IsNumeric -Verbose:$false)) -or (-not ($RevisionOffset -ge 0))) {
+		Write-PipelineError "The Carpenter.Version.RevisionOffset variable supplied to the Carpenter Azure Pipelines template must be a number greater than or equal to zero."
+	}
+	$revisionOffset = Set-CarpenterVariable -VariableName "Carpenter.Version.RevisionOffset" -OutputVariableName "revisionOffset" -Value $RevisionOffset
+	
+	# Carpenter.Version.Revision
+	$revisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_revision"
+	$revision = Get-NextCounterValue -Key $revisionKey -Offset $revisionOffset
+	$revision = Set-CarpenterVariable -VariableName "Carpenter.Version.Revision" -OutputVariableName "revision" -Value $revision
+
+	# Semantic Versioning
+	if ($VersionType -eq "SemVer") {
+		if (-not ($VersionFile)) { $VersionFile = "VERSION" } # Default value
+
+		# Carpenter.Version.VersionFile
+		$versionFile = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile" -OutputVariableName "versionFile" -Value $VersionFile
+		# Carpenter.Version.VersionFile.Path
+		$versionFilePath = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile.Path" -OutputVariableName "versionFilePath" -Value "$projectPath/$versionFile"
+
+		If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
+			Write-PipelineError "VERSION file does not exist at expected path. Path: $versionFilePath"
+		} else {
+			$versionFileContent = Get-Content -Path $versionFilePath
+			$targetVersion = [Version]::new($versionFileContent)
+			
+			# Carpenter.Version.BaseVersion
+			$baseVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.BaseVersion" -OutputVariableName "baseVersion" -Value "$($targetVersion.Major).$($targetVersion.Minor).$($targetVersion.Build)"
+			
+			# Carpenter.Version.Major
+			$majorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Major" -OutputVariableName "majorVersion" -Value $targetVersion.Major
+
+			# Carpenter.Version.Minor
+			$minorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Minor" -OutputVariableName "minorVersion" -Value $targetVersion.Minor
+
+			# Carpenter.Version.Patch
+			$patchVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -OutputVariableName "patchVersion" -Value $targetVersion.Build
+		}
+
+		# Continuous integration
+		If ($PipelineReason -eq "CI") {
+
+			# Carpenter.ContinuousIntegration.Date
+			$continuousIntegrationDate = Set-CarpenterVariable -VariableName "Carpenter.ContinuousIntegration.Date" -OutputVariableName "continuousIntegrationDate" -Value $ContinuousIntegrationDate
+
+			# Carpenter.ContinuousIntegration.Revision
+			$continuousIntegrationRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_CI_$($continuousIntegrationDate)"
+			$continuousIntegrationRevision = Get-NextCounterValue -Key $continuousIntegrationRevisionKey
+			$continuousIntegrationRevision = Set-CarpenterVariable -VariableName "Carpenter.ContinuousIntegration.Revision" -OutputVariableName "continuousIntegrationRevision" -Value $continuousIntegrationRevision
+
+			# Carpenter.Version.Label [CI]
+			$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "CI.$($continuousIntegrationDate).$($continuousIntegrationRevision)"
+		}
+
+		# Pull request
+		If ($PipelineReason -eq "PR") {
+			
+			# Carpenter.PullRequest.Revision
+			$pullRequestRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_PR_$($PullRequestNumber)"
+			$pullRequestRevision = Get-NextCounterValue -Key $pullRequestRevisionKey
+			$pullRequestRevision = Set-CarpenterVariable -VariableName "Carpenter.PullRequest.Revision" -OutputVariableName "pullRequestRevision" -Value $pullRequestRevision
+		
+			# Carpenter.Version.Label [PR]
+			$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
+		}
+
+		# Prerelease
+		If ($PipelineReason -eq "Prerelease") {
+			Write-Verbose "Validating prereleaseLabel"
+			if (-Not ($PrereleaseLabel)) {
+				Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
+			}
+			# Carpenter.Prerelease.Label
+			$prereleaseLabel = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Label" -OutputVariableName "prereleaseLabel" -Value $PrereleaseLabel
+
+			# Carpenter.Prerelease.Revision
+			$prereleaseRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_$($baseVersion)-$($prereleaseLabel)"
+			$prereleaseRevision = Get-NextCounterValue -Key $prereleaseRevisionKey
+			$prereleaseRevision = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Revision" -OutputVariableName "prereleaseRevision" -Value $prereleaseRevision
+
+			# Carpenter.Version.Label [Prerelease]
+			$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "$($prereleaseLabel).$($prereleaseRevision)"
+		}
+
+		# Release
+		If ($PipelineReason -eq "Release") {
+			
+			# Carpenter.Version.IncrementOnRelease
+			$incrementVersionOnRelease = Set-CarpenterVariable -VariableName "Carpenter.Version.IncrementOnRelease" -OutputVariableName "incrementVersionOnRelease" -Value $IncrementVersionOnRelease
+			
+			# Carpenter.Version.Label [Release]
+			$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value $null
+
+			# Carpenter.Version [Release]
+			$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value $BaseVersion
+
+		} else {
+
+			# Carpenter.Version [All others]
+			$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
+
+		}
+
+	}
+
+	# Update Build Number
+	Write-Host "##vso[build.updatebuildnumber]$version"
+}
+
 
 if ($BuildDotNet -eq 'true') {
 	$buildDotNet = Set-CarpenterVariable -VariableName "Carpenter.Build.DotNet" -OutputVariableName "buildDotNet" -Value $BuildDotNet

@@ -46,28 +46,6 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 Write-ScriptHeader "$scriptName"
 
 
-Write-Verbose "Validating versionType"
-if (-Not ($VersionType)) {
-	Write-PipelineError "The versionType parameter must be supplied to Carpenter Azure Pipelines template."
-} else {
-	if (($VersionType -ne "None") -and ($VersionType -ne "SemVer")) {
-		Write-PipelineError "Unrecognized versionType parameter '$VersionType'."
-	}
-}
-
-if ($VersionType -ne "None") {
-
-	Write-Verbose "Validating prereleaseLabel"
-	if ($PipelineReason -eq "Prerelease") {
-		if (-Not ($PrereleaseLabel)) {
-			Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
-		}
-	} else {
-		if ($PrereleaseLabel) {
-			Write-PipelineWarning "The prereleaseLabel parameter '$PrereleaseLabel' is being ignored because pipelineReason is not Prerelease."
-		}
-	}
-}
 
 Write-Verbose "Validating executeUnitTests"
 if (($ExecuteUnitTests -eq "true") -and ($BuildDotNet -ne "true")) {

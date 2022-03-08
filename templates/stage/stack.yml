@@ -55,7 +55,7 @@ parameters:
   type: string
 
 - name: incrementVersionOnRelease
-  type: string
+  type: boolean
 
 - name: buildDotNet
   type: boolean

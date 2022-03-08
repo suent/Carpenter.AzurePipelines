@@ -302,26 +302,10 @@ jobs:
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: $(Carpenter.Pipeline.ScriptPath)/ValidatePipeline.ps1
-      arguments: -Verbose
-    displayName: Validate pipeline
-
-  - task: PowerShell@2
-    inputs:
-      targetType: 'filePath'
       filePath: $(Carpenter.Pipeline.ScriptPath)/InitializePipeline.ps1
       arguments: -Verbose
     displayName: Initialize pipeline
     name: initializePipeline
-
-  - ${{ if ne(parameters.versionType,'None') }}:
-    - task: PowerShell@2
-      inputs:
-        targetType: 'filePath'
-        filePath: $(Carpenter.Pipeline.ScriptPath)/InitializeBuildVersion.ps1
-        arguments: -Verbose
-      displayName: Initialize versioning
-      name: initializeBuildVersion
 
   - template: ../step/display-environment.yml
 

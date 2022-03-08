@@ -201,53 +201,53 @@ variables:
 
 - ${{ if ne(parameters.versionType,'None') }}:
   - name: Carpenter.Version.VersionFile
-    value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionFile'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializePipeline.versionFile'] ]
 
   - name: Carpenter.Version.VersionFile.Path
-    value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionFilePath'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializePipeline.versionFilePath'] ]
 
   - name: Carpenter.Version.RevisionOffset
-    value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.revisionOffset'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializePipeline.revisionOffset'] ]
 
   - name: Carpenter.Version.BaseVersion
-    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.baseVersion'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.baseVersion'] ]
 
   - name: Carpenter.Version.Major
-    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.majorVersion'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.majorVersion'] ]
 
   - name: Carpenter.Version.Minor
-    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.minorVersion'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.minorVersion'] ]
 
   - name: Carpenter.Version.Patch
-    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.patchVersion'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.patchVersion'] ]
 
   - name: Carpenter.Version.Revision
-    value:  $[ stageDependencies.dev.build.outputs['initializeBuildVersion.revision'] ]
+    value:  $[ stageDependencies.dev.build.outputs['initializePipeline.revision'] ]
 
   - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.pipelineReason,'CI'))) }}:
     - name: Carpenter.ContinuousIntegration.Date
-      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.continuousIntegrationDate'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializePipeline.continuousIntegrationDate'] ]
 
     - name: Carpenter.ContinuousIntegration.Revision
-      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.continuousIntegrationRevision'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializePipeline.continuousIntegrationRevision'] ]
 
   - ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
     - name: Carpenter.PullRequest.Revision
-      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.pullRequestRevision'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializePipeline.pullRequestRevision'] ]
 
   - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
     - name: Carpenter.Prerelease.Label
-      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.prereleaseLabel'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializePipeline.prereleaseLabel'] ]
   
     - name: Carpenter.Prerelease.Revision
-      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.prereleaseRevision'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializePipeline.prereleaseRevision'] ]
 
   - ${{ if eq(parameters.pipelineReason,'Release')}}:
     - name: Carpenter.Version.IncrementOnRelease
-      value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.incrementVersionOnRelease'] ]
+      value: $[ stageDependencies.dev.build.outputs['initializePipeline.incrementVersionOnRelease'] ]
 
   - name: Carpenter.Version.Label
-    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.versionLabel'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.versionLabel'] ]
 
   - name: Carpenter.Version
-    value: $[ stageDependencies.dev.build.outputs['initializeBuildVersion.version'] ]
+    value: $[ stageDependencies.dev.build.outputs['initializePipeline.version'] ]
