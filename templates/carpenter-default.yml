@@ -362,7 +362,7 @@ stages:
 
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
-    - template: ../job/deploy.yml
+    - template: job/deploy.yml
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
         includePipeline: ${{ parameters.includePipeline }}
