@@ -66,7 +66,7 @@ $pipelineVersion = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Versi
 
 # Carpenter.Pipeline.Operations (operations)
 Write-Verbose "Validating Carpenter.Pipeline.Operations (pipelineOperations)"
-$ops = ConvertFrom-Json $Operations
+$ops = ConvertFrom-Json $PipelineOperations
 if ($ops.Count -eq 0) {
 	Write-PipelineWarning "No pipelineOperations have been defined in the pipeline extending Carpenter.AzurePipelines. For more information: https://github.com/suent/Carpenter.AzurePipelines/blob/main/docs/configuration.md#carpenterpipelineoperations-pipelineoperations"
 }
