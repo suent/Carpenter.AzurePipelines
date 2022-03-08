@@ -99,21 +99,24 @@ variables:
 stages:
 - template: templates/carpenter-default.yml
   parameters:
-    pipelineReason: ${{ parameters.pipelineReason }}
-    prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
     # See docs/configuration.md for parameter documentation.
 
     pipelineVersion: 1
+
+    operations:
+    - ExcludePipeline
+    - IncrementVersionOnRelease
+
     defaultPoolType: 'Private'
     defaultPoolName: 'Default'
     defaultPoolDemands:
     - Agent.OS -equals Linux
     - Agent.OSArchitecture -equals X64
     #defaultPoolVMImage: 'ubuntu-latest'
-    operations:
-    - ExcludePipeline
-    - IncrementVersionOnRelease
+
+    pipelineReason: ${{ parameters.pipelineReason }}
+    prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
     includePipeline: false
     versionType: SemVer

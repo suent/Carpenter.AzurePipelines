@@ -204,8 +204,11 @@ stages:
 
 
     variables:
-    - name: Carpenter.PipelineVersion
+    - name: Carpenter.Pipeline.Version
       value: ${{ parameters.pipelineVersion }}
+
+    - name: Carpenter.Pipeline.Operations
+      value: ${{ parameters.operations }}
 
     - ${{ if eq(parameters.includePipeline,'true') }}:
       - name: Carpenter.Pipeline

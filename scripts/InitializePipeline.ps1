@@ -12,7 +12,7 @@ param(
 	[string] $BuildDefinitionName = $env:BUILD_DEFINITIONNAME,
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $SystemDefaultWorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
-	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
+	[string] $PipelineVersion = $env:CARPENTER_PIPELINE_VERSION,
 	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $IncludePipeline = $env:CARPENTER_PIPELINE,
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
@@ -56,12 +56,12 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 
 Write-ScriptHeader "$scriptName"
 
-# Carpenter.PipelineVersion (pipelineVersion)
+# Carpenter.Pipeline.Version (pipelineVersion)
 Write-Verbose "Validating pipelineVersion"
 if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVersion -gt 0))) {
 	Write-PipelineError "The pipelineVersion parameter must be supplied to the Carpenter Azure Pipelines template."
 }
-$pipelineVersion = Set-CarpenterVariable -VariableName "Carpenter.PipelineVersion" -OutputVariableName "pipelineVersion" -Value $PipelineVersion
+$pipelineVersion = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Version" -OutputVariableName "pipelineVersion" -Value $PipelineVersion
 
 
 # Carpenter.Project

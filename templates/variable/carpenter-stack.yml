@@ -59,7 +59,7 @@ parameters:
 
 
 variables:
-- name: Carpenter.PipelineVersion
+- name: Carpenter.Pipeline.Version
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineVersion'] ]
 
 - name: Carpenter.Project

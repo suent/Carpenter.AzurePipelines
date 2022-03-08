@@ -8,7 +8,7 @@
 [CmdletBinding()]
 param(
 	[string] $BuildReason = $env:BUILD_REASON,
-	[string] $PipelineVersion = $env:CARPENTER_PIPELINEVERSION,
+	[string] $PipelineVersion = $env:CARPENTER_PIPELINE_VERSION,
 	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,

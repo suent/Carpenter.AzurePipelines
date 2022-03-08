@@ -6,7 +6,8 @@
   * [Pipeline Definition Variable](#pipeline-definition-variable)
   * [Pipeline Definition Variable Group](#pipeline-definition-variable-group)
 * [Pipeline Settings](#pipeline-settings)
-  * [Carpenter.PipelineVersion (pipelineVersion)](#carpenterpipelineversion-pipelineversion)
+  * [Carpenter.Pipeline.Version (pipelineVersion)](#carpenterpipelineversion-pipelineversion)
+  * [Carpenter.Pipeline.Operations (operations)](#carpenterpipelineoperations-operations)
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
   * [Carpenter.DotNet.Path](#carpenterdotnetpath)
@@ -118,7 +119,7 @@ Currently there is no reason to use variable groups linked through the pipeline 
 
 ## Pipeline Settings
 
-### Carpenter.PipelineVersion (pipelineVersion)
+### Carpenter.Pipeline.Version (pipelineVersion)
 
 The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines. A breaking change
 could implement new functionality under an incremented version number, and move dependent pipelines over separately.
@@ -128,6 +129,14 @@ To ensure that future changes to the pipeline do not break pipelines which exten
 that this parameter is passed to the template.
 
 For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
+
+### Carpenter.Pipeline.Operations (operations)
+
+Defines the operations for a pipeline. The following operations are allowed:
+
+| Operation       | Description                                                                                    |
+|:----------------|:-----------------------------------------------------------------------------------------------|
+| ExcludePipeline | Do not download pipeline templates, scripts, and supporting files when extending the template. |
 
 ### Carpenter.Project
 
