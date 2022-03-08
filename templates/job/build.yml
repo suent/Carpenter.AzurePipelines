@@ -54,11 +54,6 @@ parameters:
 - name: versionType
   type: string
 
-- name: prereleaseLabel
-  type: string
-
-- name: incrementVersionOnRelease
-  type: boolean
 
 - name: buildDotNet
   type: boolean
@@ -69,12 +64,6 @@ parameters:
 - name: sonarCloud
   type: boolean
 
-- name: sonarCloudOrganization
-  type: string
-
-- name: sonarCloudProjectKey
-  type: string
-
 - name: sonarCloudServiceConnection
   type: string
 
@@ -84,49 +73,7 @@ parameters:
 - name: deployNuGet
   type: string
 
-- name: nuGetTargetFeedDev
-  type: string
-
-- name: nuGetTargetFeedTest1
-  type: string
-
-- name: nuGetTargetFeedTest2
-  type: string
-
-- name: nuGetTargetFeedStage
-  type: string
-
-- name: nuGetTargetFeedProd
-  type: string
-
-- name: updateNuGetQuality
-  type: string
-
-- name: nuGetQualityFeed
-  type: string
-
-- name: nuGetQualityDev
-  type: string
-
-- name: nuGetQualityTest1
-  type: string
-
-- name: nuGetQualityTest2
-  type: string
-
-- name: nuGetQualityStage
-  type: string
-
-- name: nuGetQualityProd
-  type: string
-  
 - name: gitHubServiceConnection
-  type: string
-
-- name: addGitTagOnDevMain
-  type: string
-
-- name: addGitHubReleaseOnProd
   type: string
 
 
