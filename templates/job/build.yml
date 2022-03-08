@@ -54,7 +54,6 @@ parameters:
 - name: versionType
   type: string
 
-
 - name: buildDotNet
   type: boolean
 
@@ -71,9 +70,6 @@ parameters:
   type: string
 
 - name: deployNuGet
-  type: string
-
-- name: gitHubServiceConnection
   type: string
 
 
