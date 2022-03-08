@@ -376,6 +376,7 @@ stages:
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
+      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: job/deploy.yml

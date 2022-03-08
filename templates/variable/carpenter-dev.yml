@@ -54,9 +54,6 @@ parameters:
 - name: updateNuGetQuality
   type: string
 
-- name: gitHubServiceConnection
-  type: string
-
 
 variables:
 - name: Carpenter.PipelineVersion
@@ -191,9 +188,8 @@ variables:
     - name: Carpenter.NuGet.Quality.Prod
       value: $[ dependencies.build.outputs['initializePipeline.nuGetQualityProd'] ]
  
-- ${{ if ne(parameters.gitHubServiceConnection,'') }}:
-  - name: Carpenter.GitHub.ServiceConnection
-    value: $[ dependencies.build.outputs['initializePipeline.gitHubServiceConnection'] ]
+- name: Carpenter.GitHub.ServiceConnection
+  value: $[ dependencies.build.outputs['initializePipeline.gitHubServiceConnection'] ]
 
 
 - name: Carpenter.Version.Type
