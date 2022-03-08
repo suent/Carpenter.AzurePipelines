@@ -208,7 +208,7 @@ stages:
       value: ${{ parameters.pipelineVersion }}
 
     - name: Carpenter.Pipeline.Operations
-      value: ${{ parameters.operations }}
+      value: ${{ convertToJson(parameters.operations) }}
 
     - ${{ if eq(parameters.includePipeline,'true') }}:
       - name: Carpenter.Pipeline
