@@ -355,11 +355,11 @@ stages:
       - checkout: Carpenter
 
     - script: echo Test None
-    - ${{ if contains(parameters.operations,'ExcludePipeline') }}:
+    - ${{ if containsValue(parameters.operations,'ExcludePipeline') }}:
       - script: echo ExcludePipeline
-    - ${{ if contains(parameters.operations,'IncrementVersionOnRelease') }}:
+    - ${{ if containsValue(parameters.operations,'IncrementVersionOnRelease') }}:
       - script: echo IncrementVersionOnRelease
-    - ${{ if contains(parameters.operations,'IncrementVersionOnRelease2') }}:
+    - ${{ if containsValue(parameters.operations,'IncrementVersionOnRelease2') }}:
       - script: echo IncrementVersionOnRelease2
     - task: PowerShell@2
       inputs:
