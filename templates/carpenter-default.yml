@@ -208,7 +208,7 @@ stages:
       value: ${{ parameters.pipelineVersion }}
 
     - name: Carpenter.Pipeline.Operations
-      value: ${{ convertToJson(parameters.operations) }}
+      value: ${{ convertToJson(parameters.pipelineOperations) }}
 
     - ${{ if eq(parameters.includePipeline,'true') }}:
       - name: Carpenter.Pipeline
@@ -349,7 +349,7 @@ stages:
     - checkout: self
   
     # Publish source artifact
-    - ${{ if containsValue(parameters.operations, 'PublishSourceArtifact') }}:
+    - ${{ if containsValue(parameters.pipelineOperations, 'PublishSourceArtifact') }}:
       - publish: $(System.DefaultWorkingDirectory)
         artifact: source
         displayName: 'Publish source artifact'
