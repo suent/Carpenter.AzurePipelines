@@ -73,8 +73,11 @@ if ($ops.Count -eq 0) {
 }
 Write-Host $Operations
 Write-Host $ops.Count
-Write-Host $ops[0].Count
 Write-Host $ops
+Write-Host $ops[0].Count
+Write-Host $ops[0]
+Write-Host $ops[1].Count
+Write-Host $ops[1]
 
 # Carpenter.Project
 if (-Not $Project) {
