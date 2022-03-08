@@ -106,6 +106,7 @@ stages:
 
     operations:
     - ExcludePipeline
+    - PublishSourceArtifact
     - IncrementVersionOnRelease
 
     defaultPoolType: 'Private'
