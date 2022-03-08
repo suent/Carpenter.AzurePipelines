@@ -79,6 +79,8 @@ jobs:
 - job: build
   displayName: Build
 
+  dependsOn: initialize
+
 
   pool:
     ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
