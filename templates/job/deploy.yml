@@ -164,6 +164,7 @@ jobs:
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
+        - initialize
         - build
 
 - ${{ if contains(parameters.updateNuGetQuality,parameters.stack) }}:
@@ -186,6 +187,7 @@ jobs:
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
+        - initialize
         - build
 
 - template: ../job/finalize.yml
@@ -210,6 +212,7 @@ jobs:
     stack: ${{ parameters.stack }}
     jobDependsOn:
     - ${{ if eq(parameters.stack, 'dev') }}:
+      - initialize
       - build
     - ${{ if contains(parameters.deployBranch, parameters.stack) }}:
       - deploy_branch_${{ parameters.stack }}
