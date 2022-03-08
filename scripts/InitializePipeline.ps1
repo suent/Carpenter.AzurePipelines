@@ -71,7 +71,9 @@ $ops = ConvertFrom-Json $Operations
 if ($ops.Count -eq 0) {
 	Write-PipelineWarning "No operations have been defined in this Carpenter Pipeline. For more information: https://https://github.com/suent/Carpenter.AzurePipelines/blob/main/docs/configuration.md#carpenterpipelineoperations-operations"
 }
+Write-Host $Operations
 Write-Host $ops.Count
+Write-Host $ops[0].Count
 Write-Host $ops
 
 # Carpenter.Project
