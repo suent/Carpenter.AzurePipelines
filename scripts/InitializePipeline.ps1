@@ -26,6 +26,7 @@ param(
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
 	[string] $VersionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
+	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
 	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
 	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT,
 	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
