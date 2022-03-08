@@ -358,7 +358,7 @@ stages:
       displayName: Initialize pipeline
       name: initializePipeline
 
-    - template: ../step/display-environment.yml
+    - template: step/display-environment.yml
 
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
