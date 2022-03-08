@@ -70,7 +70,7 @@ $ops = ConvertFrom-Json $PipelineOperations
 if ($ops.Count -eq 0) {
 	Write-PipelineWarning "No pipelineOperations have been defined in the pipeline extending Carpenter.AzurePipelines. For more information: https://github.com/suent/Carpenter.AzurePipelines/blob/main/docs/configuration.md#carpenterpipelineoperations-pipelineoperations"
 }
-$pipelineOperations = Set-CarpenterVariable -OutputVariableName "pipelineOperations" -Value $PipelineOperations
+$pipelineOperations = Set-CarpenterVariable -VariableName Carpenter.Pipeline.Operations -OutputVariableName "pipelineOperations" -Value $($PipelineOperations -replace "`r`n","")
 
 # Carpenter.Project
 if (-Not $Project) {
