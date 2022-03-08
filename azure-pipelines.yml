@@ -104,6 +104,12 @@ stages:
 
     pipelineVersion: 1
 
+    operations:
+    - ExcludePipeline
+    - PublishSourceArtifact
+    - IncrementVersionOnRelease
+
+    pipelineReason: ${{ parameters.pipelineReason }}
 
     defaultPoolType: 'Private'
     defaultPoolName: 'Default'
@@ -112,7 +118,6 @@ stages:
     - Agent.OSArchitecture -equals X64
     #defaultPoolVMImage: 'ubuntu-latest'
 
-    pipelineReason: ${{ parameters.pipelineReason }}
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
     includePipeline: false

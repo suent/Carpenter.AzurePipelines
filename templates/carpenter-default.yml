@@ -34,6 +34,10 @@ parameters:
   type: number
   default: 1
 
+- name: pipelineOperations
+  type: object
+  default: []
+
 - name: includePipeline
   type: boolean
   default: true
@@ -79,10 +83,6 @@ parameters:
   - alpha
   - beta
   - RC
-
-- name: operations
-  type: object
-  default: []
 
 - name: incrementVersionOnRelease
   type: boolean

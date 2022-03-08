@@ -7,7 +7,7 @@
   * [Pipeline Definition Variable Group](#pipeline-definition-variable-group)
 * [Pipeline Settings](#pipeline-settings)
   * [Carpenter.Pipeline.Version (pipelineVersion)](#carpenterpipelineversion-pipelineversion)
-  * [Carpenter.Pipeline.Operations (operations)](#carpenterpipelineoperations-operations)
+  * [Carpenter.Pipeline.Operations (pipelineOperations)](#carpenterpipelineoperations-pipelineoperations)
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
   * [Carpenter.DotNet.Path](#carpenterdotnetpath)
@@ -130,14 +130,11 @@ that this parameter is passed to the template.
 
 For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
 
-### Carpenter.Pipeline.Operations (operations)
+### Carpenter.Pipeline.Operations (pipelineOperations)
 
-Defines the operations for a pipeline. The following operations are allowed:
+Defines the operations for a pipeline. This value is set by the `pipelineOperations` parameter.
 
-| Operation             | Description                                                                                |     |
-|:----------------------|:-------------------------------------------------------------------------------------------|
-| ExcludePipeline       | Do not download pipeline templates, scripts, and supporting files when extending the template.   
-| PublishSourceArtifact | Publish a clean copy of the sources as a 'source' artifact attached to the pipeline.
+For more information, see: [operations.md](operations.md)
 
 ### Carpenter.Project
 

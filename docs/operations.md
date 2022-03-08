@@ -1,0 +1,18 @@
+[Carpenter.AzurePipelines Operations](#carpenterazurepipelines-operations)
+* [ExcludePipeline](#excludepipeline)
+* [PublishSourceArtifact](#publishsourceartifact)
+* [IncrementVersionOnRelease](#incrementversiononrelease)
+
+# Carpenter.AzurePipelines Operations
+
+## ExcludePipeline
+
+Do not download pipeline templates, scripts, and supporting files when extending the template.   
+
+## PublishSourceArtifact
+
+Publish a clean copy of the sources as a 'source' artifact attached to the pipeline.
+
+## IncrementVersionOnRelease
+
+Increments the patch portion of the version on a release when using SemVer versioning.

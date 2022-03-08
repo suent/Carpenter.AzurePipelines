@@ -62,6 +62,9 @@ variables:
 - name: Carpenter.Pipeline.Version
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineVersion'] ]
 
+- name: Carpenter.Pipeline.Operations
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineOperations'] ]
+
 - name: Carpenter.Project
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.project'] ]
 
