@@ -360,6 +360,22 @@ stages:
 
     - template: step/display-environment.yml
 
+  - template: job/build.yml
+    parameters:
+      pipelineVersion: ${{ parameters.pipelineVersion }}
+      includePipeline: ${{ parameters.includePipeline }}
+      pipelineReason: ${{ parameters.pipelineReason }}
+      defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolName: ${{ parameters.defaultPoolName }}
+      defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
+      versionType: ${{ parameters.versionType }}
+      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
+      buildDotNet: ${{ parameters.buildDotNet }}
+      executeUnitTests: ${{ parameters.executeUnitTests }}
+      sonarCloud: ${{ parameters.sonarCloud }}
+      deployBranch: ${{ parameters.deployBranch }}
+      deployNuGet: ${{ parameters.deployNuGet }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: job/deploy.yml
