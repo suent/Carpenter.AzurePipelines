@@ -13,6 +13,7 @@ param(
 	[string] $BuildReason = $env:BUILD_REASON,
 	[string] $SystemDefaultWorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINE_VERSION,
+	[string] $Operations = $env:CARPENTER_PIPELINE_OPERATIONS,
 	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $IncludePipeline = $env:CARPENTER_PIPELINE,
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
@@ -63,6 +64,13 @@ if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVe
 }
 $pipelineVersion = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Version" -OutputVariableName "pipelineVersion" -Value $PipelineVersion
 
+# Carpenter.Pipeline.Operations (operations)
+Write-Verbose "Validating Carpenter.Pipeline.Operations (operations)"
+$ops = ConvertFrom-Json $Operations
+
+if ($ops.Count -eq 0) {
+	Write-PipelineWarning "No operations have been defined in this Carpenter Pipeline. For more information: https://https://github.com/suent/Carpenter.AzurePipelines/blob/main/docs/configuration.md#carpenterpipelineoperations-operations"
+}
 
 # Carpenter.Project
 if (-Not $Project) {
