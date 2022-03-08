@@ -357,7 +357,7 @@ stages:
     - ${{ if eq(parameters.includePipeline, 'true') }}:
       - checkout: Carpenter
 
-    - script: echo %CARPENTER_PIPELINE_OPERATIONS%
+    - script: echo $CARPENTER_PIPELINE_OPERATIONS
     - ${{ if containsValue(parameters.operations,'ExcludePipeline') }}:
       - script: echo ExcludePipeline
     - ${{ if containsValue(parameters.operations,'IncrementVersionOnRelease') }}:
