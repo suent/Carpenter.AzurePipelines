@@ -80,6 +80,10 @@ parameters:
   - beta
   - RC
 
+- name: operations
+  type: object
+  default: {}
+
 - name: incrementVersionOnRelease
   type: boolean
   default: false
@@ -350,6 +354,13 @@ stages:
     - ${{ if eq(parameters.includePipeline, 'true') }}:
       - checkout: Carpenter
 
+    - script: echo Test None
+    - ${{ if contains(parameters.operations,'ExcludePipeline') }}:
+      - script: echo ExcludePipeline
+    - ${{ if contains(parameters.operations,'IncrementVersionOnRelease') }}:
+      - script: echo IncrementVersionOnRelease
+    - ${{ if contains(parameters.operations,'IncrementVersionOnRelease2') }}:
+      - script: echo IncrementVersionOnRelease2
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'
