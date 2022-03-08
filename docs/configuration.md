@@ -134,9 +134,10 @@ For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
 
 Defines the operations for a pipeline. The following operations are allowed:
 
-| Operation       | Description                                                                                    |
-|:----------------|:-----------------------------------------------------------------------------------------------|
-| ExcludePipeline | Do not download pipeline templates, scripts, and supporting files when extending the template. |
+| Operation             | Description                                                                                |     |
+|:----------------------|:-------------------------------------------------------------------------------------------|
+| ExcludePipeline       | Do not download pipeline templates, scripts, and supporting files when extending the template.   
+| PublishSourceArtifact | Publish a clean copy of the sources as a 'source' artifact attached to the pipeline.
 
 ### Carpenter.Project
 

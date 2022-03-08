@@ -349,21 +349,15 @@ stages:
     - checkout: self
   
     # Publish source artifact
-    - publish: $(System.DefaultWorkingDirectory)
-      artifact: source
-      displayName: 'Publish source artifact'
+    - ${{ if containsValue(parameters.operations, 'PublishSourceArtifact') }}:
+      - publish: $(System.DefaultWorkingDirectory)
+        artifact: source
+        displayName: 'Publish source artifact'
 
     # Include pipeline for access to pipeline scripts
     - ${{ if eq(parameters.includePipeline, 'true') }}:
       - checkout: Carpenter
 
-    - script: echo $CARPENTER_PIPELINE_OPERATIONS
-    - ${{ if containsValue(parameters.operations,'ExcludePipeline') }}:
-      - script: echo ExcludePipeline
-    - ${{ if containsValue(parameters.operations,'IncrementVersionOnRelease') }}:
-      - script: echo IncrementVersionOnRelease
-    - ${{ if containsValue(parameters.operations,'IncrementVersionOnRelease2') }}:
-      - script: echo IncrementVersionOnRelease2
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'
