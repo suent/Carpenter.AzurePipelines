@@ -107,7 +107,6 @@ if ($ops -contains "IncrementVersionOnRelease") {
 		Write-PipelineError "The IncrementVersionOnRelease pipelineOperations option depends on the VersionDotNet pipelineOperations option."
 	}
 }
-
 $pipelineOperations = Set-CarpenterVariable -VariableName Carpenter.Pipeline.Operations -OutputVariableName "pipelineOperations" -Value $($PipelineOperations -replace "  ","" -replace "`n"," " -replace "`r","")
 
 # Carpenter.Pipeline.Path

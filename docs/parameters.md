@@ -1,12 +1,3 @@
-
-### prereleaseLabel
-
-The prerelease label. This value is only used if `pipelineReason` is **Prerelease**.
-
-### incrementVersionOnRelease
-
-Increment the VERSION file on release and check into source control.
-
 ## .NET Build
 
 For more information:

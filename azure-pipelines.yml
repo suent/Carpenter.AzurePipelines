@@ -127,7 +127,6 @@ stages:
 
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
-    incrementVersionOnRelease: true
     buildDotNet: true
     executeUnitTests: true
     sonarCloud: true

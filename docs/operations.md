@@ -43,17 +43,29 @@ This operation uses the following settings:
 
 ## PackageNuGet
 
+Required operation:
+
+* BuildDotNet
+
 This operation uses the following settings:
 
 * Carpenter.Output.NuGet.Path
 
 ## TestDotNet
 
+Required operations:
+
+* BuildDotNet
+
 This operation uses the following settings:
 
 * Carpenter.Output.Tests.Path
 
 ## CollectTestCoverage
+
+Required operations:
+
+* TestDotNet
 
 This operation uses the following settings:
 

@@ -57,9 +57,6 @@ parameters:
 - name: executeUnitTests
   type: boolean
 
-- name: incrementVersionOnRelease
-  type: boolean
-
 - name: sonarCloud
   type: string
 

@@ -47,6 +47,8 @@
 * [Prerelease](#prerelease)
   * [Carpenter.Prerelease.Label](#carpenterprereleaselabel)
   * [Carpenter.Prerelease.Revision](#carpenterprereleaserevision)
+
+
 * [PipelineBot](#pipelinebot)
   * [Carpenter.PipelineBot](#carpenterpipelinebot)
   * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
@@ -297,29 +299,32 @@ The version string (without version metadata). This value is determined during p
 ### Carpenter.ContinuousIntegration.Date
 
 The date code of the continuous integration build. This value is determined during template expansion when
-pipelineReason is CI.
+`pipelineReason` is **CI** if `pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.ContinuousIntegration.Revsision
 
 The revision of the continuous integration build. Increments for each build under a specific date. This value is
-determined during pipeline execution when pipelineReason is CI.
+determined during pipeline execution when `pipelineReason` is **CI** if `pipelineOperations` contains
+**VersionSemVer**.
 
 ## Pull Request
 
 ### Carpenter.PullRequest.Revision
 
-The pull request revision. This value is determined during the pipeline execution when pipelineReason is PR.
+The pull request revision. This value is determined during the pipeline execution when `pipelineReason` is **PR**
+if `pipelineOperations` contains **VersionSemVer**.
 
 ## Prerelease
 
 ### Carpenter.Prerelease.Label
 
-The label to use for a prerelease build. This value is set by the `prereleaseLabel` parameter when pipelineReason is
-Prerelease. The default value is **alpha**.
+The label to use for a prerelease build. This value is set by the `prereleaseLabel` parameter when `pipelineReason` is
+**Prerelease** if `pipelineOperations` contains **VersionSemVer**. The default value is **alpha**.
 
 ### Carpenter.Prerelease.Revision
 
-The prerelease revision. This value is determined during pipeline execution.
+The prerelease revision. This value is determined during pipeline execution when `pipelineReason` is **Prerelease** if
+`pipelineOperations` contains **VersionSemVer**.
 
 ## PipelineBot
 
