@@ -103,12 +103,10 @@ stages:
     # See docs/configuration.md for parameter documentation.
 
     pipelineVersion: 1
-
     pipelineOperations:
     - ExcludePipeline
     - PublishSourceArtifact
     - IncrementVersionOnRelease
-
     pipelineReason: ${{ parameters.pipelineReason }}
 
     defaultPoolType: 'Private'

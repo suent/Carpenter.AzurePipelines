@@ -7,7 +7,8 @@
 
 ## ExcludePipeline
 
-Do not download pipeline templates, scripts, and supporting files when extending the template.   
+Do not download pipeline templates, scripts, and supporting files when extending the template. Only include this
+operation if you are providing Carpenter.AzurePipelines through other means.
 
 ## PublishSourceArtifact
 

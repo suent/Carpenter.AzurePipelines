@@ -38,10 +38,6 @@ parameters:
   type: object
   default: []
 
-- name: includePipeline
-  type: boolean
-  default: true
-
 - name: pipelineReason
   type: string
   default: CI

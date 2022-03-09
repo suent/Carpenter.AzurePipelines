@@ -83,6 +83,36 @@ $pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -O
 # Carpenter.Pipeline.ScriptPath
 $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 
+# Carpenter.Pipeline.Reason
+Write-Verbose "Validating pipelineReason"
+if ($BuildReason -eq "Manual") {
+	if (($PipelineReason -ne "CI") -and ($PipelineReason -ne "Prerelease") -and ($PipelineReason -ne "Release")) {
+		Write-PipelineError "Unrecognized pipelineReason parameter '$PipelineReason'."
+	}
+} else {
+	if ($PipelineReason -ne "") {
+		Write-PipelineWarning "The pipelineReason parameter '$PipelineReason' is being ignored because Build.Reason is not Manual."
+	}
+}
+if (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($PipelineReason -eq "CI"))) {
+	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "CI"
+} 
+ElseIf ($BuildReason -eq "PullRequest") {
+	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "PR"
+}
+ElseIf (($BuildReason -eq "Manual") -and ($PipelineReason -eq "Prerelease")) {
+	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "Prerelease"
+}
+ElseIf (($BuildReason -eq "Manual") -and ($PipelineReason -eq "Release")) {
+	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "Release"
+}
+Else {
+	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, PipelineReason=$PipelineReason"
+}
+
+# Add pipeline reason as tag
+Write-Host "##vso[build.addbuildtag]Build-$pipelineReason"
+
 # Carpenter.Project
 if (-Not $Project) {
 	$Project = $BuildDefinitionName
@@ -125,39 +155,6 @@ if ($BuildDotNet -eq 'true') {
 		$testCoveragePath = Set-CarpenterVariable -VariableName "Carpenter.Output.TestCoverage.Path" -OutputVariableName "testCoveragePath" -Value "$outputPath/testCoverage"
 	}
 }
-
-
-
-# Carpenter.Pipeline.Reason
-Write-Verbose "Validating pipelineReason"
-if ($BuildReason -eq "Manual") {
-	if (($PipelineReason -ne "CI") -and ($PipelineReason -ne "Prerelease") -and ($PipelineReason -ne "Release")) {
-		Write-PipelineError "Unrecognized pipelineReason parameter '$PipelineReason'."
-	}
-} else {
-	if ($PipelineReason -ne "") {
-		Write-PipelineWarning "The pipelineReason parameter '$PipelineReason' is being ignored because Build.Reason is not Manual."
-	}
-}
-if (($BuildReason -eq "IndividualCI") -or ($BuildReason -eq "BatchedCI") -or (($BuildReason -eq "Manual") -and ($PipelineReason -eq "CI"))) {
-	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "CI"
-} 
-ElseIf ($BuildReason -eq "PullRequest") {
-	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "PR"
-}
-ElseIf (($BuildReason -eq "Manual") -and ($PipelineReason -eq "Prerelease")) {
-	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "Prerelease"
-}
-ElseIf (($BuildReason -eq "Manual") -and ($PipelineReason -eq "Release")) {
-	$pipelineReason = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Reason" -OutputVariableName "pipelineReason" -Value "Release"
-}
-Else {
-	Write-PipelineError "Build type not implemented. BuildReason=$BuildReason, PipelineReason=$PipelineReason"
-}
-
-# Add pipeline reason as tag
-Write-Host "##vso[build.addbuildtag]Build-$pipelineReason"
-
 
 # Validate defaultPool parameters
 Write-Verbose "Validating defaultPoolType"

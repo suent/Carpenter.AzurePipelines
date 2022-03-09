@@ -30,10 +30,10 @@ parameters:
 
   # See docs/parameters.md for parameter documentation.
 
-- name: defaultPoolType
+- name: pipelineReason
   type: string
 
-- name: pipelineReason
+- name: defaultPoolType
   type: string
 
 - name: versionType
@@ -73,7 +73,6 @@ variables:
 
 - name: Carpenter.Pipeline.Reason
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineReason'] ]
-
 
 - name: Carpenter.Project
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.project'] ]
@@ -236,7 +235,7 @@ variables:
     - name: Carpenter.PullRequest.Revision
       value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pullRequestRevision'] ]
 
-  - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
+  - ${{ if eq(parameters.pipelineReason,'Prerelease')}}:
     - name: Carpenter.Prerelease.Label
       value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.prereleaseLabel'] ]
   

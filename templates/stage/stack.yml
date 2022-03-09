@@ -36,6 +36,9 @@ parameters:
 - name: pipelineOperations
   type: object
 
+- name: pipelineReason
+  type: string
+  
 - name: defaultPoolType
   type: string
 
@@ -46,9 +49,6 @@ parameters:
   type: object
 
 - name: defaultPoolVMImage
-  type: string
-
-- name: pipelineReason
   type: string
 
 - name: versionType
@@ -153,11 +153,11 @@ stages:
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
         pipelineOperations: ${{ parameters.pipelineOperations }}
+        pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-        pipelineReason: ${{ parameters.pipelineReason }}
         versionType: ${{ parameters.versionType }}
         incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
         buildDotNet: ${{ parameters.buildDotNet }}
