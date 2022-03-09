@@ -210,17 +210,11 @@ stages:
     - name: Carpenter.Pipeline.Operations
       value: ${{ convertToJson(parameters.pipelineOperations) }}
 
-    - ${{ if eq(parameters.includePipeline,'true') }}:
-      - name: Carpenter.Pipeline
-        value: true
-
+    - ${{ if not(containsValue(parameters.pipelineOperations,'ExcludePipeline')) }}:
       - name: Carpenter.Pipeline.Path
         value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', 'Carpenter.AzurePipelines') ]
 
-    - ${{ if ne(parameters.includePipeline,'true') }}:
-      - name: Carpenter.Pipeline
-        value: false
-
+    - ${{ if containsValue(parameters.pipelineOperations,'ExcludePipeline') }}:
       - name: Carpenter.Pipeline.Path
         value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
 
@@ -355,7 +349,7 @@ stages:
         displayName: 'Publish source artifact'
 
     # Include pipeline for access to pipeline scripts
-    - ${{ if eq(parameters.includePipeline, 'true') }}:
+    - ${{ if not(containsValue(parameters.pipelineOperations,'ExcludePipeline')) }}:
       - checkout: Carpenter
 
     - task: PowerShell@2
@@ -371,7 +365,7 @@ stages:
   - template: job/build.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -390,7 +384,7 @@ stages:
     - template: job/deploy.yml
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
-        includePipeline: ${{ parameters.includePipeline }}
+        pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -426,7 +420,7 @@ stages:
   - template: stage/stack.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -462,7 +456,7 @@ stages:
   - template: stage/stack.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -498,7 +492,7 @@ stages:
   - template: stage/stack.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -538,7 +532,7 @@ stages:
     - template: stage/stack.yml
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
-        includePipeline: ${{ parameters.includePipeline }}
+        pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
         defaultPoolName: ${{ parameters.defaultPoolName }}

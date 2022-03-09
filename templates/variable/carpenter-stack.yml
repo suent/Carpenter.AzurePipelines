@@ -65,6 +65,16 @@ variables:
 - name: Carpenter.Pipeline.Operations
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineOperations'] ]
 
+- name: Carpenter.Pipeline.Path
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelinePath'] ]
+
+- name: Carpenter.Pipeline.ScriptPath
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineScriptPath'] ]
+
+- name: Carpenter.Pipeline.Reason
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineReason'] ]
+
+
 - name: Carpenter.Project
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.project'] ]
 
@@ -93,18 +103,6 @@ variables:
 
     - name: Carpenter.Output.TestCoverage.Path
       value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testCoveragePath'] ]
-
-- name: Carpenter.Pipeline
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.includePipeline'] ]
-
-- name: Carpenter.Pipeline.Path
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelinePath'] ]
-
-- name: Carpenter.Pipeline.ScriptPath
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineScriptPath'] ]
-
-- name: Carpenter.Pipeline.Reason
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineReason'] ]
 
 
 - name: Carpenter.Pool.Default.Type

@@ -8,6 +8,9 @@
 * [Pipeline Settings](#pipeline-settings)
   * [Carpenter.Pipeline.Version (pipelineVersion)](#carpenterpipelineversion-pipelineversion)
   * [Carpenter.Pipeline.Operations (pipelineOperations)](#carpenterpipelineoperations-pipelineoperations)
+  * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
+  * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
+  * [Carpenter.Pipeline.Reason (pipelineReason)](#carpenterpipelinereason-pipelinereason)
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
   * [Carpenter.DotNet.Path](#carpenterdotnetpath)
@@ -17,10 +20,6 @@
   * [Carpenter.Output.NuGet.Path](#carpenteroutputnugetpath)
   * [Carpenter.Output.Tests.Path](#carpenteroutputtestspath)
   * [Carpenter.Output.TestCoverage.Path](#carpenteroutputtestcoveragepath)
-  * [Carpenter.Pipeline (includePipeline)](#carpenterpipeline-includepipeline)
-  * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
-  * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
-  * [Carpenter.Pipeline.Reason (pipelineReason)](#carpenterpipelinereason-pipelinereason)
 * [Pool Configuration](#pool-configuration)
   * [Carpenter.Pool.Default.Type (defaultPoolType)](#carpenterpooldefaulttype-defaultpooltype)
   * [Carpenter.Pool.Default.Demands (defaultPoolDemands)](#carpenterpooldefaultdemands-defaultpooldemands)
@@ -136,6 +135,30 @@ Defines the operations for a pipeline. This value is set by the `pipelineOperati
 
 For more information, see: [operations.md](operations.md)
 
+### Carpenter.Pipeline.Path
+
+The absolute path to the Carpenter pipeline supporting files. This value is determined during template expansion.
+
+### Carpenter.Pipeline.ScriptPath
+
+The absolute path to the Carpenter pipeline scripts. This value is determined during template expansion.
+
+### Carpenter.Pipeline.Reason (pipelineReason)
+
+The purpose of the build. This value gets set automatically during an automated build. If a manual build, the value of
+the `pipelineReason` parameter is used.
+
+| Build Reason | Description                                                                                         |
+|:-------------|:----------------------------------------------------------------------------------------------------|
+| CI           | A Continuous Integration build. CI can be the result of a manual or automated build.                |
+| PR           | A Pull Request build. The PR build reason is only set during an automated PR build.                 |
+| Prerelease   | A prerelease build is the result of a manual build with build reason as Prerelease.                 |
+| Release      | A release build is the result of a manual build with build reason as Release.                       |
+
+Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
+is **CI**.
+
+
 ### Carpenter.Project
 
 The name of the project. This value is set by the `project` parameter. If parameter is notsupplied, the default value
@@ -175,36 +198,6 @@ The absolute path to the test output. This value is determined during pipeline e
 
 The absolute path to the test coverage reports output. This value is determined during pipeline execution if
 `executeUnitTests` is true.
-
-### Carpenter.Pipeline (includePipeline)
-
-If true, the pipeline will be included in the sources directory. When directly linking the pipeline template through a
-repository resource, includePipeline must be true to download the Carpenter scripts and tools to be available to the
-pipeline. This is required if the Carpenter scripts and resources do not exist in your project. This value is set by
-the `includePipeline` parameter. The default value is **true**.
-
-### Carpenter.Pipeline.Path
-
-The absolute path to the Carpenter pipeline supporting files. This value is determined during template expansion.
-
-### Carpenter.Pipeline.ScriptPath
-
-The absolute path to the Carpenter pipeline scripts. This value is determined during template expansion.
-
-### Carpenter.Pipeline.Reason (pipelineReason)
-
-The purpose of the build. This value gets set automatically during an automated build. If a manual build, the value of
-the `pipelineReason` parameter is used.
-
-| Build Reason | Description                                                                                         |
-|:-------------|:----------------------------------------------------------------------------------------------------|
-| CI           | A Continuous Integration build. CI can be the result of a manual or automated build.                |
-| PR           | A Pull Request build. The PR build reason is only set during an automated PR build.                 |
-| Prerelease   | A prerelease build is the result of a manual build with build reason as Prerelease.                 |
-| Release      | A release build is the result of a manual build with build reason as Release.                       |
-
-Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
-is **CI**.
 
 ## Pool Configuration
 

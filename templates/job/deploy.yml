@@ -33,8 +33,8 @@ parameters:
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
+- name: pipelineOperations
+  type: object
 
 - name: pipelineReason
   type: string
@@ -127,7 +127,7 @@ jobs:
   - template: ../job/deploy-branch.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -171,7 +171,7 @@ jobs:
   - template: ../job/update-nuget-quality.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
@@ -193,7 +193,7 @@ jobs:
 - template: ../job/finalize.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
-    includePipeline: ${{ parameters.includePipeline }}
+    pipelineOperations: ${{ parameters.pipelineOperations }}
     pipelineReason: ${{ parameters.pipelineReason }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
     defaultPoolName: ${{ parameters.defaultPoolName }}

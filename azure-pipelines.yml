@@ -108,7 +108,6 @@ stages:
     - ExcludePipeline
     - PublishSourceArtifact
     - IncrementVersionOnRelease
-    - InvalidOperation
 
     pipelineReason: ${{ parameters.pipelineReason }}
 
@@ -121,7 +120,6 @@ stages:
 
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
-    includePipeline: false
     versionType: SemVer
     incrementVersionOnRelease: true
     buildDotNet: true

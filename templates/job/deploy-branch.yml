@@ -33,8 +33,8 @@ parameters:
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
+- name: pipelineOperations
+  type: object
 
 - name: pipelineReason
   type: string
@@ -118,9 +118,9 @@ jobs:
 
   steps:
   # Include pipeline for access to pipeline scripts
-  - ${{ if ne(parameters.includePipeline, 'true') }}:
+  - ${{ if containsValue(parameters.pipelineOperations,'ExcludePipeline') }}:
     - checkout: self
-  - ${{ if eq(parameters.includePipeline, 'true') }}:
+  - ${{ if not(containsValue(parameters.pipelineOperations,'ExcludePipeline')) }}:
     - checkout: Carpenter
 
   - template: ../step/initialize-job-nosource.yml     

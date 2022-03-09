@@ -15,7 +15,6 @@ param(
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINE_VERSION,
 	[string] $PipelineOperations = $env:CARPENTER_PIPELINE_OPERATIONS,
 	[string] $Project = $env:CARPENTER_PROJECT,
-	[string] $IncludePipeline = $env:CARPENTER_PIPELINE,
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
 	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
 	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
@@ -78,6 +77,12 @@ foreach ($op in $ops) {
 }
 $pipelineOperations = Set-CarpenterVariable -VariableName Carpenter.Pipeline.Operations -OutputVariableName "pipelineOperations" -Value $($PipelineOperations -replace "  ","" -replace "`n"," " -replace "`r","")
 
+# Carpenter.Pipeline.Path
+$pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -OutputVariableName "pipelinePath" -Value $PipelinePath
+
+# Carpenter.Pipeline.ScriptPath
+$pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
+
 # Carpenter.Project
 if (-Not $Project) {
 	$Project = $BuildDefinitionName
@@ -86,10 +91,10 @@ $project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariab
 
 
 # Carpenter.Project.Path
-if ($IncludePipeline -eq 'true') {
-	$projectPath = "$AgentBuildDirectory/s/$project"
-} else {
+if ($ops -contains "ExcludePipeline") {
 	$projectPath = "$AgentBuildDirectory/s"
+} else {
+	$projectPath = "$AgentBuildDirectory/s/$project"
 }
 $projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value $projectPath
 
@@ -121,15 +126,6 @@ if ($BuildDotNet -eq 'true') {
 	}
 }
 
-
-# Carpenter.Pipeline (includePipeline)
-$includePipeline = Set-CarpenterVariable -VariableName "Carpenter.Pipeline" -OutputVariableName "includePipeline" -Value $IncludePipeline
-
-# Carpenter.Pipeline.Path
-$pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -OutputVariableName "pipelinePath" -Value $PipelinePath
-
-# Carpenter.Pipeline.ScriptPath
-$pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 
 
 # Carpenter.Pipeline.Reason
