@@ -227,7 +227,7 @@ stages:
       - name: Carpenter.Pool.Default.Demands
         value: ${{ convertToJson(parameters.defaultPoolDemands) }}
   
-    - ${{ if containsValue(parameters.pipelineOperation, 'VersionSemVer') }}:
+    - ${{ if containsValue(parameters.pipelineOperations, 'VersionSemVer') }}:
      
       - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.pipelineReason,'CI'))) }}:
         - name: Carpenter.ContinuousIntegration.Date
