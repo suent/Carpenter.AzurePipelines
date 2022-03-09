@@ -19,8 +19,8 @@
 * [Project Configuration](#project-configuration)
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
-  * [Carpenter.DotNet.Path](#carpenterdotnetpath)
   * [Carpenter.Solution.Path](#carpentersolutionpath)
+  * [Carpenter.DotNet.Path](#carpenterdotnetpath)
   * [Carpenter.Output.Path](#carpenteroutputpath)
   * [Carpenter.Output.Binaries.Path](#carpenteroutputbinariespath)
   * [Carpenter.Output.NuGet.Path](#carpenteroutputnugetpath)
@@ -199,14 +199,14 @@ variable.
 
 The absolute path of the project source. This value is determined during pipeline execution.
 
+### Carpenter.Solution.Path
+
+The absolute path to the solution. This value is determined during pipeline execution if `pipelineOperations` contains **BuildDotNet**.
+
 ### Carpenter.DotNet.Path
 
 The path to .NET binaries. This value is determined during pipeline execution if `buildDotNet` is true. If the .NET
 binaries do not exist, they will be downloaded to this path.
-
-### Carpenter.Solution.Path
-
-The absolute path to the solution. This value is determined during pipeline execution if `buildDotNet` is true.
 
 ### Carpenter.Output.Path
 
