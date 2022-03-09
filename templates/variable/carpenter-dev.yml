@@ -80,7 +80,7 @@ variables:
 - name: Carpenter.Project.Path
   value: $[ dependencies.initialize.outputs['initializePipeline.projectPath'] ]
 
-- ${{ if containsValue(parameters.pipelineOperation, 'BuildDotNet') }}:
+- ${{ if containsValue(parameters.pipelineOperations, 'BuildDotNet') }}:
   - name: Carpenter.Solution.Path
     value: $[ dependencies.initialize.outputs['initializePipeline.solutionPath'] ]
 
