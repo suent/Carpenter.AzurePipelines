@@ -94,7 +94,7 @@ if ($BuildReason -eq "Manual") {
 		Write-PipelineError "Unrecognized pipelineReason parameter '$PipelineReason'."
 	}
 } else {
-	if ($PipelineReason -ne "") {
+	if ($PipelineReason -ne "CI") {
 		Write-PipelineWarning "The pipelineReason parameter '$PipelineReason' is being ignored because Build.Reason is not Manual."
 	}
 }
