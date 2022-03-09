@@ -62,7 +62,7 @@ Write-ScriptHeader "$scriptName"
 ######################################################################################################################
 
 # Carpenter.Pipeline.Version (pipelineVersion)
-Write-Verbose "Validating pipelineVersion"
+Write-Verbose "Validating Carpenter.Pipeline.Version (pipelineVersion)"
 if ((-not ($PipelineVersion | IsNumeric -Verbose:$false)) -or (-not ($PipelineVersion -gt 0))) {
 	Write-PipelineError "The pipelineVersion parameter must be supplied to the Carpenter Azure Pipelines template."
 }
@@ -111,8 +111,8 @@ $pipelinePath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Path" -O
 # Carpenter.Pipeline.ScriptPath
 $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.ScriptPath" -OutputVariableName "pipelineScriptPath" -Value $PipelineScriptPath
 
-# Carpenter.Pipeline.Reason
-Write-Verbose "Validating pipelineReason"
+# Carpenter.Pipeline.Reason (pipelineReason)
+Write-Verbose "Validating Carpenter.Pipeline.Reason (pipelineReason)"
 if ($BuildReason -eq "Manual") {
 	$validReasons = "CI", "Prerelease", "Release"
 	if (-not ($validReasons -contains $PipelineReason)) {
@@ -148,54 +148,52 @@ Write-Host "##vso[build.addbuildtag]Build-$pipelineReason"
 ######################################################################################################################
 
 # Validate defaultPool parameters
-Write-Verbose "Validating defaultPoolType"
+
+# Carpenter.Pool.Default.Type (defaultPoolType)
+Write-Verbose "Validating Carpenter.Pool.Default.Type (defaultPoolType)"
 if (-Not ($DefaultPoolType)) {
 	Write-PipelineError "The defaultPoolType parameter must be supplied to Carpenter Azure Pipelines template."
 }
 if (($DefaultPoolType -ne "Hosted") -and ($DefaultPoolType -ne "Private")) {
 	Write-PipelineError "Unrecognized defaultPoolType parameter '$DefaultPoolType'."
 }
+$defaultPoolType = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Type" -OutputVariableName defaultPoolType -Value $DefaultPoolType
 
-Write-Verbose "Validating defaultPoolVMImage"
+
+# Carpenter.Pool.Default.VMImage (defaultPoolVMImage)
+Write-Verbose "Validating Carpenter.Pool.Default.VMImage (defaultPoolVMImage)"
 if ($DefaultPoolType -eq "Hosted") {
 	if (-Not ($DefaultPoolVMImage)) {
 		Write-PipelineError "The defaultPoolVMImage parameter must be supplied to Carpenter Azure Pipelines template."
 	}
+	$defaultPoolVMImage = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.VMImage" -OutputVariableName defaultPoolVMImage -Value $DefaultPoolVMImage
 } else {
 	if ($DefaultPoolVMImage) {
 		Write-PipelineWarning "The defaultPoolVMImage parameter '$DefaultPoolVMImage' is being ignored because defaultPoolType is not Hosted."
 	}
 }
 
-Write-Verbose "Validating defaultPoolName"
+# Carpenter.Pool.Default.Name (defaultPoolName)
+Write-Verbose "Validating Carpenter.Pool.Default.Name (defaultPoolName)"
 if ($DefaultPoolType -eq "Private") {
 	if (-Not ($DefaultPoolName)) {
 		Write-PipelineError "The defaultPoolName parameter must be supplied to Carpenter Azure Pipelines template when defaultPoolType is Private."
 	}
+	$defaultPoolName = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Name" -OutputVariableName defaultPoolName -Value $DefaultPoolName
 } else {
 	if ($DefaultPoolName) {
 		Write-PipelineWarning "The defaultPoolName parameter '$DefaultPoolName' is being ignored because defaultPoolType is not Private."
 	}
 }
 
-Write-Verbose "Validating defaultPoolDemands"
-if (-not ($DefaultPoolType -eq "Private")) {
+# Carpenter.Pool.Default.Demands (defaultPoolDemands)
+Write-Verbose "Validating Carpenter.Pool.Default.Demands (defaultPoolDemands)"
+if ($DefaultPoolType -eq "Private") {
+	$defaultPoolDemands = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Demands" -OutputVariableName defaultPoolDemands -Value $($DefaultPoolDemands -replace "  ","" -replace "`n"," " -replace "`r","")
+} else {
 	if ($DefaultPoolDemands) {
 		Write-PipelineWarning "The defaultPoolDemands parameter '$DefaultPoolDemands' is being ignored because defaultPoolType is not Private."
 	}
-}
-
-# Carpenter.Pool.Default.Type
-$defaultPoolType = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Type" -OutputVariableName defaultPoolType -Value $DefaultPoolType
-if ($defaultPoolType -eq "Hosted") {
-	# Carpenter.Pool.Default.VMImage
-	$defaultPoolVMImage = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.VMImage" -OutputVariableName defaultPoolVMImage -Value $DefaultPoolVMImage
-}
-if ($defaultPoolType -eq "Private") {
-	# Carpenter.Pool.Default.Name
-	$defaultPoolName = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Name" -OutputVariableName defaultPoolName -Value $DefaultPoolName
-	# Carpenter.Pool.Default.Demands
-	$defaultPoolDemands = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Demands" -OutputVariableName defaultPoolDemands -Value $($DefaultPoolDemands -replace "  ","" -replace "`n"," " -replace "`r","")
 }
 
 
@@ -218,6 +216,7 @@ if ($ops -contains "ExcludePipeline") {
 $projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value $projectPath
 
 # Carpenter.Solution.Path
+Write-Verbose "Validating Carpenter.Solution.Path"
 if ($ops -contains "BuildDotNet") {
 	if (-not ($SolutionPath)) { $SolutionPath = "$projectPath/$project.sln" } # Default value
 	$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value $SolutionPath
@@ -226,6 +225,7 @@ if ($ops -contains "BuildDotNet") {
 		Write-PipelineWarning "The Carpenter.Solution.Path variable '$SolutionPath' is being ignored because pipelineOperations does not contain BuildDotNet."
 	}
 }
+
 
 ######################################################################################################################
 # Tools Configuration
@@ -241,7 +241,6 @@ if ($ops -contains "BuildDotNet") {
 ######################################################################################################################
 # Output Paths
 ######################################################################################################################
-
 
 if ($ops -contains "BuildDotNet") {
 
