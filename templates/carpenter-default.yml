@@ -217,9 +217,8 @@ stages:
     - name: Carpenter.Pipeline.ScriptPath
       value: $[ format('{0}/{1}', variables['Carpenter.Pipeline.Path'], 'scripts') ]
 
-    - ${{ if eq(variables['Build.Reason'],'Manual') }}:
-      - name: Carpenter.Pipeline.Reason
-        value: ${{ parameters.pipelineReason }}
+    - name: Carpenter.Pipeline.Reason
+      value: ${{ parameters.pipelineReason }}
 
     - name: Carpenter.Pool.Default.Type
       value: ${{ parameters.defaultPoolType }}
