@@ -518,7 +518,7 @@ stages:
       - test1
       - test2
 
-  # Only deploy to productioni on Prerelease and Release builds
+  # Only deploy to production on Prerelease and Release builds
   - ${{ if and(eq(variables['Build.Reason'],'Manual'), or(eq(parameters.pipelineReason,'Prerelease'),eq(parameters.pipelineReason,'Release'))) }}:
     - template: stage/stack.yml
       parameters:

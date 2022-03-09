@@ -154,11 +154,7 @@ if ($DefaultPoolType -eq "Private") {
 }
 
 Write-Verbose "Validating defaultPoolDemands"
-if ($DefaultPoolType -eq "Private") {
-	if (($DefaultPoolDemands -ne "True") -and ($DefaultPoolDemands -ne "False")) {
-		Write-PipelineError "The defaultPoolDemands parameter must either be True or False."
-	}
-} else {
+if (-not ($DefaultPoolType -eq "Private")) {
 	if ($DefaultPoolDemands) {
 		Write-PipelineWarning "The defaultPoolDemands parameter '$DefaultPoolDemands' is being ignored because defaultPoolType is not Private."
 	}
