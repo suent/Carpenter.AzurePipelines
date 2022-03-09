@@ -20,7 +20,9 @@
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
   * [Carpenter.Solution.Path](#carpentersolutionpath)
+* [Tools Configuration](#tools-configuration)
   * [Carpenter.DotNet.Path](#carpenterdotnetpath)
+* [Output Paths](#output-paths)
   * [Carpenter.Output.Path](#carpenteroutputpath)
   * [Carpenter.Output.Binaries.Path](#carpenteroutputbinariespath)
   * [Carpenter.Output.NuGet.Path](#carpenteroutputnugetpath)
@@ -116,7 +118,6 @@ the build is executed.
 
 Currently there is no reason to use variable groups linked through the pipeline definition.
 
-
 ## Pipeline Settings
 
 ### Carpenter.Pipeline.Version (pipelineVersion)
@@ -201,12 +202,17 @@ The absolute path of the project source. This value is determined during pipelin
 
 ### Carpenter.Solution.Path
 
-The absolute path to the solution. This value is determined during pipeline execution if `pipelineOperations` contains **BuildDotNet**.
+The absolute path to the solution. This value is determined during pipeline execution if `pipelineOperations` contains
+**BuildDotNet**.
+
+## Tools Configuration
 
 ### Carpenter.DotNet.Path
 
-The path to .NET binaries. This value is determined during pipeline execution if `buildDotNet` is true. If the .NET
-binaries do not exist, they will be downloaded to this path.
+The path to .NET binaries. This value is determined during pipeline execution if `pipelineOperations` contains
+**BuildDotNet**. If the .NET SDK does not exist, it will be extracted to this path.
+
+## Output Path
 
 ### Carpenter.Output.Path
 

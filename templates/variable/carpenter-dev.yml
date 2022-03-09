@@ -84,9 +84,10 @@ variables:
   - name: Carpenter.Solution.Path
     value: $[ dependencies.initialize.outputs['initializePipeline.solutionPath'] ]
 
-- ${{ if eq(parameters.buildDotNet,true) }}:
   - name: Carpenter.DotNet.Path
     value: $[ dependencies.initialize.outputs['initializePipeline.dotNetPath'] ]
+
+- ${{ if eq(parameters.buildDotNet,true) }}:
   
   - name: Carpenter.Output.Path
     value: $[ dependencies.initialize.outputs['initializePipeline.outputPath'] ]

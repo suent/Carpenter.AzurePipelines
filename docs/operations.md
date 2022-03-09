@@ -16,7 +16,7 @@ Publish a clean copy of the sources as a 'source' artifact attached to the pipel
 
 ## BuildDotNet
 
-Performs a DotNet build of the solution.
+Performs a build of the solution using the dotnet command line tool.
 
 This operation uses the following settings:
 

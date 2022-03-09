@@ -204,11 +204,24 @@ if ($ops -contains "BuildDotNet") {
 	}
 }
 
-# Other pipeline paths
-if ($BuildDotNet -eq 'true') {
+######################################################################################################################
+# Tools Configuration
+######################################################################################################################
 
+# Carpenter.DotNet.Path
+if ($ops -contains "BuildDotNet") {
 	# Carpenter.DotNet.Path
 	$dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value "$AgentToolsDirectory/dotnet"
+}
+
+
+######################################################################################################################
+# Output Paths
+######################################################################################################################
+
+
+# Other pipeline paths
+if ($BuildDotNet -eq 'true') {
 
 	# Carpenter.Output.Path
 	$outputPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Path" -OutputVariableName "outputPath" -Value "$SystemDefaultWorkingDirectory/out"
