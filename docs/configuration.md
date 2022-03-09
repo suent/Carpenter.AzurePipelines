@@ -216,25 +216,28 @@ The path to .NET binaries. This value is determined during pipeline execution if
 
 ### Carpenter.Output.Path
 
-The absolute path to the output root. This value is determined during pipeline execution if `buildDotNet` is true.
+The absolute path to the output root. This value is determined during pipeline execution if `pipelineOperations`
+contains **BuildDotNet**.
 
 ### Carpenter.Output.Binaries.Path
 
-The absolute path to the binaries output. This value is determined during pipeline execution if `buildDotNet` is true.
+The absolute path to the binaries output. This value is determined during pipeline execution if `pipelineOperations`
+contains **BuildDotNet**.
 
 ### Carpenter.Output.NuGet.Path
 
-The absolute path to the NuGet package output. This value is determined during pipeline execution if `buildDotNet` is
-true.
-
-### Carpenter.Output.Tests.Path
-
-The absolute path to the test output. This value is determined during pipeline execution if `executeUnitTests` is true.
+The absolute path to the NuGet package output. This value is determined during pipeline execution if
+`pipelineOperations` contains **PackageNuGet**.
 
 ### Carpenter.Output.TestCoverage.Path
 
 The absolute path to the test coverage reports output. This value is determined during pipeline execution if
-`executeUnitTests` is true.
+`pipelineOperations` contains **CollectTestCoverage**.
+
+### Carpenter.Output.Tests.Path
+
+The absolute path to the test output. This value is determined during pipeline execution if `pipelineOperations`
+contains **TestDotNet**.
 
 ## Build Versioning
 

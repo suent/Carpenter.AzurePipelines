@@ -74,10 +74,33 @@ $ops = ConvertFrom-Json $PipelineOperations
 if ($ops.Count -eq 0) {
 	Write-PipelineWarning "No pipelineOperations have been defined in the pipeline extending Carpenter.AzurePipelines. For more information: https://github.com/suent/Carpenter.AzurePipelines/blob/main/docs/configuration.md#carpenterpipelineoperations-pipelineoperations"
 }
-$validOps = "ExcludePipeline", "PublishSourceArtifact", "BuildDotNet", "PackageNuGet", "TestDotNet", "AnalyzeSonar","IncrementVersionOnRelease"
+$validOps = "ExcludePipeline",`
+			"PublishSourceArtifact",`
+			"VersionSemVer",`
+			"BuildDotNet",`
+			"PackageNuGet",`
+			"TestDotNet",`
+			"CollectTestCoverage",`
+			"AnalyzeSonar",`
+			"IncrementVersionOnRelease"
 foreach ($op in $ops) {
 	if (-not ($validOps -contains $op)) {
 		Write-PipelineError "Unrecognized pipelineOperation parameter '$op'."
+	}
+}
+if ($ops -contains "CollectTestCoverage") {
+	if (-not ($ops -contains "TestDotNet")) {
+		Write-PipelineError "The CollectTestCoverage pipelineOperations option depends on the TestDotNet pipelineOperations option."
+	}
+}
+if ($ops -contains "TestDotNet") {
+	if (-not ($ops -contains "BuildDotNet")) {
+		Write-PipelineError "The TestDotNet pipelineOperations option depends on the BuildDotNet pipelineOperations option."
+	}
+}
+if ($ops -contains "PackageNuGet") {
+	if (-not ($ops -contains "BuildDotNet")) {
+		Write-PipelineError "The PackageNuGet pipelineOperations option depends on the BuildDotNet pipelineOperations option."
 	}
 }
 $pipelineOperations = Set-CarpenterVariable -VariableName Carpenter.Pipeline.Operations -OutputVariableName "pipelineOperations" -Value $($PipelineOperations -replace "  ","" -replace "`n"," " -replace "`r","")
@@ -220,8 +243,7 @@ if ($ops -contains "BuildDotNet") {
 ######################################################################################################################
 
 
-# Other pipeline paths
-if ($BuildDotNet -eq 'true') {
+if ($ops -contains "BuildDotNet") {
 
 	# Carpenter.Output.Path
 	$outputPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Path" -OutputVariableName "outputPath" -Value "$SystemDefaultWorkingDirectory/out"
@@ -229,16 +251,21 @@ if ($BuildDotNet -eq 'true') {
 	# Carpenter.Output.Binaries.Path
 	$binariesPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Binaries.Path" -OutputVariableName "binariesPath" -Value "$outputPath/bin"
 
-	# Carpenter.Output.NuGet.Path
-	$nuGetPath = Set-CarpenterVariable -VariableName "Carpenter.Output.NuGet.Path" -OutputVariableName "nuGetPath" -Value "$outputPath/nuget"
+	if ($ops -contains "PackageNuGet") {
 
-	if ($ExecuteUnitTests -eq 'true') {
+		# Carpenter.Output.NuGet.Path
+		$nuGetPath = Set-CarpenterVariable -VariableName "Carpenter.Output.NuGet.Path" -OutputVariableName "nuGetPath" -Value "$outputPath/nuget"
+	}
+
+	if ($ops -contains "TestDotNet") {
+
+		if ($ops -contains "CollectTestCoverage") {
+			# Carpenter.Output.TestCoverage.Path
+			$testCoveragePath = Set-CarpenterVariable -VariableName "Carpenter.Output.TestCoverage.Path" -OutputVariableName "testCoveragePath" -Value "$outputPath/testCoverage"
+		}
 
 		# Carpenter.Output.Tests.Path
 		$testPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Tests.Path" -OutputVariableName "testsPath" -Value "$outputPath/tests"
-
-		# Carpenter.Output.TestCoverage.Path
-		$testCoveragePath = Set-CarpenterVariable -VariableName "Carpenter.Output.TestCoverage.Path" -OutputVariableName "testCoveragePath" -Value "$outputPath/testCoverage"
 	}
 }
 

@@ -14,6 +14,8 @@ operation if you are providing Carpenter.AzurePipelines through other means.
 
 Publish a clean copy of the sources as a 'source' artifact attached to the pipeline.
 
+## VersionSemVer
+
 ## BuildDotNet
 
 Performs a build of the solution using the dotnet command line tool.
@@ -21,10 +23,26 @@ Performs a build of the solution using the dotnet command line tool.
 This operation uses the following settings:
 
 * Carpenter.Solution.Path
+* Carpenter.Output.Path
+* Carpenter.Output.Binaries.Path
 
 ## PackageNuGet
 
+This operation uses the following settings:
+
+* Carpenter.Output.NuGet.Path
+
 ## TestDotNet
+
+This operation uses the following settings:
+
+* Carpenter.Output.Tests.Path
+
+## CollectTestCoverage
+
+This operation uses the following settings:
+
+* Carpenter.Output.TestCoverage.Path
 
 ## AnalyzeSonar
 

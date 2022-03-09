@@ -109,9 +109,11 @@ stages:
     pipelineOperations:
     - ExcludePipeline
     - PublishSourceArtifact
+    - VersionSemVer
     - BuildDotNet
     - PackageNuGet
     - TestDotNet
+    - CollectTestCoverage
     - AnalyzeSonar
     - IncrementVersionOnRelease
     pipelineReason: ${{ parameters.pipelineReason }}

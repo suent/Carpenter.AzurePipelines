@@ -90,23 +90,24 @@ variables:
   - name: Carpenter.DotNet.Path
     value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.dotNetPath'] ]
 
-- ${{ if eq(parameters.buildDotNet,true) }}:
-
   - name: Carpenter.Output.Path
     value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.outputPath'] ]
 
   - name: Carpenter.Output.Binaries.Path
     value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.binariesPath'] ]
 
-  - name: Carpenter.Output.NuGet.Path
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetPath'] ]
+  - ${{ if containsValue(parameters.pipelineOperation, 'PackageNuGet') }}:
+    - name: Carpenter.Output.NuGet.Path
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetPath'] ]
 
-  - ${{ if eq(parameters.executeUnitTests,true) }}:
+  - ${{ if containsValue(parameters.pipelineOperation, 'CollectTestCoverage') }}:
+    - name: Carpenter.Output.TestCoverage.Path
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testCoveragePath'] ]
+
+  - ${{ if containsValue(parameters.pipelineOperation, 'TestDotNet') }}:
     - name: Carpenter.Output.Tests.Path
       value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testsPath'] ]
 
-    - name: Carpenter.Output.TestCoverage.Path
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testCoveragePath'] ]
 
 
 - name: Carpenter.Pool.Default.Type
