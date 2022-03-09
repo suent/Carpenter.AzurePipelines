@@ -162,16 +162,17 @@ if (-not ($DefaultPoolType -eq "Private")) {
 
 # Carpenter.Pool.Default.Type
 $defaultPoolType = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Type" -OutputVariableName defaultPoolType -Value $DefaultPoolType
-if ($defaultPoolType -eq "Private") {
-	# Carpenter.Pool.Default.Name
-	$defaultPoolName = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Name" -OutputVariableName defaultPoolName -Value $DefaultPoolName
-	# Carpenter.Pool.Default.Demands
-	$defaultPoolDemands = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Demands" -OutputVariableName defaultPoolDemands -Value $DefaultPoolDemands
-}
 if ($defaultPoolType -eq "Hosted") {
 	# Carpenter.Pool.Default.VMImage
 	$defaultPoolVMImage = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.VMImage" -OutputVariableName defaultPoolVMImage -Value $DefaultPoolVMImage
 }
+if ($defaultPoolType -eq "Private") {
+	# Carpenter.Pool.Default.Name
+	$defaultPoolName = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Name" -OutputVariableName defaultPoolName -Value $DefaultPoolName
+	# Carpenter.Pool.Default.Demands
+	$defaultPoolDemands = Set-CarpenterVariable -VariableName "Carpenter.Pool.Default.Demands" -OutputVariableName defaultPoolDemands -Value $($DefaultPoolDemands -replace "  ","" -replace "`n"," " -replace "`r","")
+}
+
 
 # Carpenter.Project
 if (-Not $Project) {
