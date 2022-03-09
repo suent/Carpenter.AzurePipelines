@@ -110,11 +110,11 @@ stages:
     pipelineReason: ${{ parameters.pipelineReason }}
 
     defaultPoolType: 'Private'
+    #defaultPoolVMImage: 'ubuntu-latest'
     defaultPoolName: 'Default'
     defaultPoolDemands:
     - Agent.OS -equals Linux
     - Agent.OSArchitecture -equals X64
-    #defaultPoolVMImage: 'ubuntu-latest'
 
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 

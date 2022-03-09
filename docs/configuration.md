@@ -11,6 +11,12 @@
   * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
   * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
   * [Carpenter.Pipeline.Reason (pipelineReason)](#carpenterpipelinereason-pipelinereason)
+* [Pool Configuration](#pool-configuration)
+  * [Carpenter.Pool.Default.Type (defaultPoolType)](#carpenterpooldefaulttype-defaultpooltype)
+  * [Carpenter.Pool.Default.Demands (defaultPoolDemands)](#carpenterpooldefaultdemands-defaultpooldemands)
+  * [Carpenter.Pool.Default.Name (defaultPoolName)](#carpenterpooldefaultname-defaultpoolname)
+  * [Carpenter.Pool.Default.VMImage (defaultPoolVMImage)](#carpenterpooldefaultvmimage-defaultpoolvmimage)
+* [Project Configuration](#project-configuration)
   * [Carpenter.Project](#carpenterproject)
   * [Carpenter.Project.Path](#carpenterprojectpath)
   * [Carpenter.DotNet.Path](#carpenterdotnetpath)
@@ -20,11 +26,6 @@
   * [Carpenter.Output.NuGet.Path](#carpenteroutputnugetpath)
   * [Carpenter.Output.Tests.Path](#carpenteroutputtestspath)
   * [Carpenter.Output.TestCoverage.Path](#carpenteroutputtestcoveragepath)
-* [Pool Configuration](#pool-configuration)
-  * [Carpenter.Pool.Default.Type (defaultPoolType)](#carpenterpooldefaulttype-defaultpooltype)
-  * [Carpenter.Pool.Default.Demands (defaultPoolDemands)](#carpenterpooldefaultdemands-defaultpooldemands)
-  * [Carpenter.Pool.Default.Name (defaultPoolName)](#carpenterpooldefaultname-defaultpoolname)
-  * [Carpenter.Pool.Default.VMImage (defaultPoolVMImage)](#carpenterpooldefaultvmimage-defaultpoolvmimage)
 * [Build Versioning](#build-versioning)
   * [Carpenter.Version.Type (versionType)](#carpenterversiontype-versiontype)
   * [Carpenter.Version.VersionFile](#carpenterversionversionfile)
@@ -158,6 +159,36 @@ the `pipelineReason` parameter is used.
 Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
 is **CI**.
 
+## Pool Configuration
+
+For more information, see [configure-pool.md](configure-pool.md).
+
+### Carpenter.Pool.Default.Type (defaultPoolType)
+
+The default pool type to use for jobs.
+
+| Pool Type | Description |
+|:--|:--|
+| Hosted | Microsoft Hosted Agent Pool |
+| Private | Private Agent Pool |
+
+ This value is set by the `defaultPoolType` parameter. The default value is **Hosted**.
+ 
+### Carpenter.Pool.Default.VMImage (defaultPoolVMImage)
+
+The VM Image to use when using *Hosted* pool type. This value is set by the `defaultPoolVMImage` parameter. The default
+value is **ubuntu-latest**.
+
+### Carpenter.Pool.Default.Name (defaultPoolName)
+
+The pool name to use when using *Private* pool type. This value is set by the `defaultPoolName` parameter. The default
+value is **Default**.
+
+### Carpenter.Pool.Default.Demands (defaultPoolDemands)
+
+The demands for the agent when using a *Private* pool type. This value is set by the `defaultPoolDemands` parameter.
+
+## Project Configuration
 
 ### Carpenter.Project
 
@@ -198,35 +229,6 @@ The absolute path to the test output. This value is determined during pipeline e
 
 The absolute path to the test coverage reports output. This value is determined during pipeline execution if
 `executeUnitTests` is true.
-
-## Pool Configuration
-
-For more information, see [configure-pool.md](configure-pool.md).
-
-### Carpenter.Pool.Default.Type (defaultPoolType)
-
-The default pool type to use for jobs.
-
-| Pool Type | Description |
-|:--|:--|
-| Hosted | Microsoft Hosted Agent Pool |
-| Private | Private Agent Pool |
-
- This value is set by the `defaultPoolType` parameter. The default value is **Hosted**.
-
-### Carpenter.Pool.Default.Demands (defaultPoolDemands)
-
-The demands for the agent when using a *Private* pool type. This value is set by the `defaultPoolDemands` parameter.
-
-### Carpenter.Pool.Default.Name (defaultPoolName)
-
-The pool name to use when using *Private* pool type. This value is set by the `defaultPoolName` parameter. The default
-value is **Default**.
-
-### Carpenter.Pool.Default.VMImage (defaultPoolVMImage)
-
-The VM Image to use when using Hosted pool type. This value is set by the `defaultPoolVMImage` parameter. The default
-value is **ubuntu-latest**.
 
 ## Build Versioning
 

@@ -42,14 +42,14 @@ parameters:
 - name: defaultPoolType
   type: string
 
+- name: defaultPoolVMImage
+  type: string
+
 - name: defaultPoolName
   type: string
 
 - name: defaultPoolDemands
   type: object
-
-- name: defaultPoolVMImage
-  type: string
     
 - name: versionType
   type: string
