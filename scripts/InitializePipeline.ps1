@@ -27,7 +27,6 @@ param(
 	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
-	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
 	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT,
 	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
 	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
@@ -87,9 +86,9 @@ foreach ($op in $ops) {
 		Write-PipelineError "Unrecognized pipelineOperation parameter '$op'."
 	}
 }
-if ($ops -contains "CollectTestCoverage") {
-	if (-not ($ops -contains "TestDotNet")) {
-		Write-PipelineError "The CollectTestCoverage pipelineOperations option depends on the TestDotNet pipelineOperations option."
+if ($ops -contains "IncrementVersionOnRelease") {
+	if (-not ($ops -contains "VersionSemVer")) {
+		Write-PipelineError "The IncrementVersionOnRelease pipelineOperations option depends on the VersionSemVer pipelineOperations option."
 	}
 }
 if ($ops -contains "TestDotNet") {
@@ -102,9 +101,9 @@ if ($ops -contains "PackageNuGet") {
 		Write-PipelineError "The PackageNuGet pipelineOperations option depends on the BuildDotNet pipelineOperations option."
 	}
 }
-if ($ops -contains "IncrementVersionOnRelease") {
-	if (-not ($ops -contains "VersionSemVer")) {
-		Write-PipelineError "The IncrementVersionOnRelease pipelineOperations option depends on the VersionSemVer pipelineOperations option."
+if ($ops -contains "CollectTestCoverage") {
+	if (-not ($ops -contains "TestDotNet")) {
+		Write-PipelineError "The CollectTestCoverage pipelineOperations option depends on the TestDotNet pipelineOperations option."
 	}
 }
 $pipelineOperations = Set-CarpenterVariable -VariableName Carpenter.Pipeline.Operations -OutputVariableName "pipelineOperations" -Value $($PipelineOperations -replace "  ","" -replace "`n"," " -replace "`r","")
@@ -384,9 +383,6 @@ if ($ops -contains "VersionSemVer") {
 }
 
 
-if ($BuildDotNet -eq 'true') {
-	$buildDotNet = Set-CarpenterVariable -VariableName "Carpenter.Build.DotNet" -OutputVariableName "buildDotNet" -Value $BuildDotNet
-}
 $executeUnitTests = Set-CarpenterVariable -VariableName "Carpenter.Test.Unit" -OutputVariableName "executeUnitTests" -Value $ExecuteUnitTests
 
 $sonarCloud = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud" -OutputVariableName "sonarCloud" -Value $SonarCloud

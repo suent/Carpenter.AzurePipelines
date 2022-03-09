@@ -73,10 +73,6 @@ parameters:
   - beta
   - RC
 
-- name: buildDotNet
-  type: boolean
-  default: false
-
 - name: executeUnitTests
   type: boolean
   default: false
@@ -232,10 +228,6 @@ stages:
       - ${{ if eq(parameters.pipelineReason,'Prerelease')}}:
         - name: Carpenter.Prerelease.Label
           value: ${{ parameters.prereleaseLabel }}
-  
-    - ${{ if eq(parameters.buildDotNet,true) }}:
-      - name: Carpenter.Build.DotNet
-        value: ${{ parameters.buildDotNet }}
 
     - name: Carpenter.Test.Unit
       value: ${{ parameters.executeUnitTests }}
@@ -343,7 +335,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
@@ -361,7 +352,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        buildDotNet: ${{ parameters.buildDotNet }}
         executeUnitTests: ${{ parameters.executeUnitTests }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
@@ -395,7 +385,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
@@ -429,7 +418,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
@@ -463,7 +451,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
@@ -501,7 +488,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        buildDotNet: ${{ parameters.buildDotNet }}
         executeUnitTests: ${{ parameters.executeUnitTests }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}

@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: buildDotNet
-  type: boolean
-
 - name: executeUnitTests
   type: boolean
 
@@ -111,7 +108,6 @@ jobs:
         pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
-        buildDotNet: ${{ parameters.buildDotNet }}
         executeUnitTests: ${{ parameters.executeUnitTests }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployNuGet: ${{ parameters.deployNuGet }}

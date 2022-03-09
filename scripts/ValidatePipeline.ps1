@@ -17,7 +17,6 @@ param(
 	[string] $versionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
-	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
 	[string] $ExecuteUnitTests = $env:CARPENTER_TEST_UNIT,
 	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
 	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
@@ -45,11 +44,6 @@ $scriptName = Split-Path $PSCommandPath -Leaf
 Write-ScriptHeader "$scriptName"
 
 
-
-Write-Verbose "Validating executeUnitTests"
-if (($ExecuteUnitTests -eq "true") -and ($BuildDotNet -ne "true")) {
-	Write-PipelineWarning "The executeUnitTests parameter is being ignored because buildDotNet is not true."
-}
 
 if ($SonarCloud -eq "true") {
 	Write-Verbose "Validating sonarCloudOrganization"

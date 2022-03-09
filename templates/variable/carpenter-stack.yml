@@ -39,9 +39,6 @@ parameters:
 - name: defaultPoolType
   type: string
 
-- name: buildDotNet
-  type: boolean
-
 - name: executeUnitTests
   type: boolean
   
@@ -169,10 +166,6 @@ variables:
   - name: Carpenter.Version
     value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.version'] ]
 
-
-- ${{ if eq(parameters.buildDotNet,true) }}:
-  - name: Carpenter.Build.DotNet
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.buildDotNet'] ]
 
 - name: Carpenter.Test.Unit
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.executeUnitTests'] ]

@@ -1,12 +1,3 @@
-## .NET Build
-
-For more information:
-https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/build.md
-
-### buildDotNet
-
-Perform dotnet build
-
 ## Test Execution
 
 ### executeUnitTests

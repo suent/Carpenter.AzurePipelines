@@ -48,14 +48,6 @@
   * [Carpenter.Prerelease.Label](#carpenterprereleaselabel)
   * [Carpenter.Prerelease.Revision](#carpenterprereleaserevision)
 
-
-* [PipelineBot](#pipelinebot)
-  * [Carpenter.PipelineBot](#carpenterpipelinebot)
-  * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
-  * [Carpenter.PipelineBot.Name](#carpenterpipelinebotname)
-  * [PipelineBot-GitHub-PAT](#pipelinebot-github-pat)
-* [.NET Build](#net-build)
-  * [Carpenter.Build.DotNet](#carpenterbuilddotnet)
 * [Test Execution](#test-execution)
 * [SonarCloud Analysis](#sonarcloud-analysis)
   * [Carpenter.SonarCloud](#carpentersonarcloud)
@@ -77,6 +69,11 @@
   * [Carpenter.GitHub.ServiceConnection](#carpentergithubserviceconnection)
   * [Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)](#carpentergitaddtagondevmain-addgittagondevmain)
   * [Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)](#carpentergithubreleaseonprod-addgithubreleaseonprod)
+* [PipelineBot](#pipelinebot)
+  * [Carpenter.PipelineBot](#carpenterpipelinebot)
+  * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
+  * [Carpenter.PipelineBot.Name](#carpenterpipelinebotname)
+  * [PipelineBot-GitHub-PAT](#pipelinebot-github-pat)
 
 
 # Configuring Carpenter.AzurePipelines
@@ -326,40 +323,6 @@ The label to use for a prerelease build. This value is set by the `prereleaseLab
 The prerelease revision. This value is determined during pipeline execution when `pipelineReason` is **Prerelease** if
 `pipelineOperations` contains **VersionSemVer**.
 
-## PipelineBot
-
-The PipelineBot is automation that manages the pipeline and its outside connections.
-
-### Carpenter.PipelineBot
-
-The GitHub username for the pipeline bot.
-
-### Carpenter.PipelineBot.Email
-
-The email address of the pipeline bot.
-
-### Carpenter.PipelineBot.Name
-
-The name of the pipeline bot.
-
-### PipelineBot-GitHub-PAT
-
-The GitHub personal access token for the pipeline bot. This value should be supplied to
-the pipeline as a secret variable through a Variable group or through an Azure key vault.
-
-This token is used by the following jobs/steps:
-* AddGitTags
-* DeployNuGet (when target is github.com)
-* IncrementVersion
-* PublishBranch
-
-## .NET Build
-
-### Carpenter.Build.DotNet
-
-If true, a dotnet build process is executed. This value is set by the `buildDotNet` parameter.
-The default value is **false**.
-
 ## Test Execution
 
 ### Carpenter.Test.Unit
@@ -473,3 +436,30 @@ by the `addGitTagOnDevMain` parameter. The default value is **false**.
 
 If true, a GitHub release is created during the Production Finalize. This value is set by the `addGitHubReleaseOnProd`
 parameter. The default value is **false**.
+
+## PipelineBot
+
+The PipelineBot is automation that manages the pipeline and its outside connections.
+
+### Carpenter.PipelineBot
+
+The GitHub username for the pipeline bot.
+
+### Carpenter.PipelineBot.Email
+
+The email address of the pipeline bot.
+
+### Carpenter.PipelineBot.Name
+
+The name of the pipeline bot.
+
+### PipelineBot-GitHub-PAT
+
+The GitHub personal access token for the pipeline bot. This value should be supplied to
+the pipeline as a secret variable through a Variable group or through an Azure key vault.
+
+This token is used by the following jobs/steps:
+* AddGitTags
+* DeployNuGet (when target is github.com)
+* IncrementVersion
+* PublishBranch

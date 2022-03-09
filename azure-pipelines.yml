@@ -117,17 +117,14 @@ stages:
     - AnalyzeSonar
     - IncrementVersionOnRelease
     pipelineReason: ${{ parameters.pipelineReason }}
-
     defaultPoolType: 'Private'
     #defaultPoolVMImage: 'ubuntu-latest'
     defaultPoolName: 'Default'
     defaultPoolDemands:
     - Agent.OS -equals Linux
     - Agent.OSArchitecture -equals X64
-
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
-    buildDotNet: true
     executeUnitTests: true
     sonarCloud: true
     sonarCloudOrganization: suent

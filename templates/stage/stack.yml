@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: buildDotNet
-  type: boolean
-
 - name: executeUnitTests
   type: boolean
 
@@ -135,7 +132,6 @@ stages:
           pipelineOperations: ${{ parameters.pipelineOperations }}
           pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
-          buildDotNet: ${{ parameters.buildDotNet }}
           executeUnitTests: ${{ parameters.executeUnitTests }}
           sonarCloud: ${{ parameters.sonarCloud }}
           deployNuGet: ${{ parameters.deployNuGet }}
@@ -152,7 +148,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        buildDotNet: ${{ parameters.buildDotNet }}
         executeUnitTests: ${{ parameters.executeUnitTests }}
         sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
