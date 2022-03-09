@@ -39,7 +39,6 @@
   * [Carpenter.Version.Patch](#carpenterversionpatch)
   * [Carpenter.Version.Label](#carpenterversionlabel)
   * [Carpenter.Version](#carpenterversion)
-  * [Carpenter.Version.IncrementOnRelease (incrementOnRelease)](#carpenterversionincrementonrelease-incrementonrelease)
 * [Continuous Integration](#continuous-integration)
   * [Carpenter.ContinuousIntegration.Date](#carpentercontinuousintegrationdate)
   * [Carpenter.ContinuousIntegration.Revision](#carpentercontinuousintegrationrevsision)
@@ -292,12 +291,6 @@ The version label. This value is determined during pipeline execution if `pipeli
 
 The version string (without version metadata). This value is determined during pipeline execution if
 `pipelineOperations` contains **VersionSemVer**.
-
-
-### Carpenter.Version.IncrementOnRelease
-
-If true, the patch version is incremented on a release. This value is set by the `incrementVersionOnRelease`
-parameter. The default value is **false**.
 
 ## Continuous Integration
 

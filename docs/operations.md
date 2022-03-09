@@ -24,6 +24,7 @@ This operation uses the following settings:
 * Carpenter.Version.Revision
 * Carpenter.Version.VersionFile
 * Carpenter.Version.VersionFile.Path
+* Carpenter.Version.BaseVersion
 * Carpenter.Version.Major
 * Carpenter.Version.Minor
 * Carpenter.Version.Patch

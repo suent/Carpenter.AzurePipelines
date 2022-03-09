@@ -158,10 +158,6 @@ variables:
     - name: Carpenter.Prerelease.Revision
       value: $[ dependencies.initialize.outputs['initializePipeline.prereleaseRevision'] ]
 
-  - ${{ if eq(parameters.pipelineReason,'Release')}}:
-    - name: Carpenter.Version.IncrementOnRelease
-      value: $[ dependencies.initialize.outputs['initializePipeline.incrementVersionOnRelease'] ]
-
   - name: Carpenter.Version.Label
     value: $[ dependencies.initialize.outputs['initializePipeline.versionLabel'] ]
 

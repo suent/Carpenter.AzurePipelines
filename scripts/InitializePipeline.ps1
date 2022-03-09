@@ -102,6 +102,12 @@ if ($ops -contains "PackageNuGet") {
 		Write-PipelineError "The PackageNuGet pipelineOperations option depends on the BuildDotNet pipelineOperations option."
 	}
 }
+if ($ops -contains "IncrementVersionOnRelease") {
+	if (-not ($ops -contains "VersionDotNet")) {
+		Write-PipelineError "The IncrementVersionOnRelease pipelineOperations option depends on the VersionDotNet pipelineOperations option."
+	}
+}
+
 $pipelineOperations = Set-CarpenterVariable -VariableName Carpenter.Pipeline.Operations -OutputVariableName "pipelineOperations" -Value $($PipelineOperations -replace "  ","" -replace "`n"," " -replace "`r","")
 
 # Carpenter.Pipeline.Path
@@ -359,10 +365,7 @@ if ($ops -contains "VersionSemVer") {
 
 	# Release
 	If ($PipelineReason -eq "Release") {
-			
-		# Carpenter.Version.IncrementOnRelease
-		$incrementVersionOnRelease = Set-CarpenterVariable -VariableName "Carpenter.Version.IncrementOnRelease" -OutputVariableName "incrementVersionOnRelease" -Value $IncrementVersionOnRelease
-			
+
 		# Carpenter.Version.Label [Release]
 		$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value $null
 

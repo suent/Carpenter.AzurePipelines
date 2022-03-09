@@ -236,10 +236,6 @@ stages:
       - ${{ if eq(parameters.pipelineReason,'Prerelease')}}:
         - name: Carpenter.Prerelease.Label
           value: ${{ parameters.prereleaseLabel }}
-
-      - ${{ if eq(parameters.pipelineReason,'Release')}}:
-        - name: Carpenter.Version.IncrementOnRelease
-          value: ${{ parameters.incrementVersionOnRelease }}
   
     - ${{ if eq(parameters.buildDotNet,true) }}:
       - name: Carpenter.Build.DotNet
