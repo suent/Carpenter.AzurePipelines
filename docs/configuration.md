@@ -192,8 +192,8 @@ The demands for the agent when using a *Private* pool type. This value is set by
 
 ### Carpenter.Project
 
-The name of the project. This value is set by the `project` parameter. If parameter is notsupplied, the default value
-is the value of the `Build.DefinitionName` variable.
+The name of the project. If the variable is not supplied, the default value is the value of the `Build.DefinitionName`
+variable.
 
 ### Carpenter.Project.Path
 

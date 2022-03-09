@@ -14,16 +14,17 @@ param(
 	[string] $SystemDefaultWorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINE_VERSION,
 	[string] $PipelineOperations = $env:CARPENTER_PIPELINE_OPERATIONS,
-	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
 	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
 	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
-	[string] $PipelineBot = $env:CARPENTER_PIPELINE_BOT,
-	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
+	[string] $Project = $env:CARPENTER_PROJECT,
+	[string] $SolutionPath = $env:CARPENTER_SOLUTION_PATH,
+	[string] $PipelineBot = $env:CARPENTER_PIPELINE_BOT,
+	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
 	[string] $VersionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
@@ -73,7 +74,7 @@ $ops = ConvertFrom-Json $PipelineOperations
 if ($ops.Count -eq 0) {
 	Write-PipelineWarning "No pipelineOperations have been defined in the pipeline extending Carpenter.AzurePipelines. For more information: https://github.com/suent/Carpenter.AzurePipelines/blob/main/docs/configuration.md#carpenterpipelineoperations-pipelineoperations"
 }
-$validOps = "ExcludePipeline", "PublishSourceArtifact", "IncrementVersionOnRelease"
+$validOps = "ExcludePipeline", "PublishSourceArtifact", "BuildDotNet", "PackageNuGet", "TestDotNet", "AnalyzeSonar","IncrementVersionOnRelease"
 foreach ($op in $ops) {
 	if (-not ($validOps -contains $op)) {
 		Write-PipelineError "Unrecognized pipelineOperation parameter '$op'."
@@ -90,7 +91,8 @@ $pipelineScriptPath = Set-CarpenterVariable -VariableName "Carpenter.Pipeline.Sc
 # Carpenter.Pipeline.Reason
 Write-Verbose "Validating pipelineReason"
 if ($BuildReason -eq "Manual") {
-	if (($PipelineReason -ne "CI") -and ($PipelineReason -ne "Prerelease") -and ($PipelineReason -ne "Release")) {
+	$validReasons = "CI", "Prerelease", "Release"
+	if (-not ($validReasons -contains $PipelineReason)) {
 		Write-PipelineError "Unrecognized pipelineReason parameter '$PipelineReason'."
 	}
 } else {
@@ -174,12 +176,15 @@ if ($defaultPoolType -eq "Private") {
 }
 
 
+######################################################################################################################
+# Project Configuration
+######################################################################################################################
+
 # Carpenter.Project
 if (-Not $Project) {
 	$Project = $BuildDefinitionName
 }
 $project = Set-CarpenterVariable -VariableName "Carpenter.Project" -OutputVariableName "project" -Value $Project
-
 
 # Carpenter.Project.Path
 if ($ops -contains "ExcludePipeline") {
@@ -189,14 +194,21 @@ if ($ops -contains "ExcludePipeline") {
 }
 $projectPath = Set-CarpenterVariable -VariableName "Carpenter.Project.Path"  -OutputVariableName "projectPath" -Value $projectPath
 
+# Carpenter.Solution.Path
+if ($ops -contains "BuildDotNet") {
+	if (-not ($SolutionPath)) { $SolutionPath = "$projectPath/$project.sln" } # Default value
+	$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value $SolutionPath
+} else {
+	if ($SolutionPath) {
+		Write-PipelineWarning "The Carpenter.Solution.Path variable '$SolutionPath' is being ignored because pipelineOperations does not contain BuildDotNet."
+	}
+}
+
 # Other pipeline paths
 if ($BuildDotNet -eq 'true') {
 
 	# Carpenter.DotNet.Path
 	$dotNetPath = Set-CarpenterVariable -VariableName "Carpenter.DotNet.Path" -OutputVariableName "dotNetPath" -Value "$AgentToolsDirectory/dotnet"
-
-	# Carpenter.Solution.Path
-	$solutionPath = Set-CarpenterVariable -VariableName "Carpenter.Solution.Path" -OutputVariableName "solutionPath" -Value "$projectPath/$project.sln"
 
 	# Carpenter.Output.Path
 	$outputPath = Set-CarpenterVariable -VariableName "Carpenter.Output.Path" -OutputVariableName "outputPath" -Value "$SystemDefaultWorkingDirectory/out"

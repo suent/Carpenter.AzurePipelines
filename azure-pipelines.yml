@@ -76,6 +76,9 @@ variables:
 - name: Carpenter.Project
   value: Carpenter.AzurePipelines
 
+#- name: Carpewnter.Solution.Path
+#  value: $(Carpenter.Project.Path)/Solution.sln
+
 #- name: Carpenter.Version.VersionFile
 #  value: VERSION
 
@@ -106,6 +109,10 @@ stages:
     pipelineOperations:
     - ExcludePipeline
     - PublishSourceArtifact
+    - BuildDotNet
+    - PackageNuGet
+    - TestDotNet
+    - AnalyzeSonar
     - IncrementVersionOnRelease
     pipelineReason: ${{ parameters.pipelineReason }}
 

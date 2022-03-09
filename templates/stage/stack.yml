@@ -138,6 +138,7 @@ stages:
     - ${{ if ne(parameters.stack,'dev') }}:
       - template: ../variable/carpenter-stack.yml
         parameters:
+          pipelineOperations: ${{ parameters.pipelineOperations }}
           pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
           versionType: ${{ parameters.versionType }}

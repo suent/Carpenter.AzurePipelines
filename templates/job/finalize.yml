@@ -114,6 +114,7 @@ jobs:
     variables:
     - template: ../variable/carpenter-dev.yml
       parameters:
+        pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
         versionType: ${{ parameters.versionType }}

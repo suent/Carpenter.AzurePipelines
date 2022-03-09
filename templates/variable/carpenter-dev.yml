@@ -30,6 +30,9 @@ parameters:
 
   # See docs/parameters.md for parameter documentation.
 
+- name: pipelineOperations
+  type: object
+
 - name: pipelineReason
   type: string
 
@@ -77,13 +80,14 @@ variables:
 - name: Carpenter.Project.Path
   value: $[ dependencies.initialize.outputs['initializePipeline.projectPath'] ]
 
+- ${{ if containsValue(parameters.pipelineOperation, 'BuildDotNet') }}:
+  - name: Carpenter.Solution.Path
+    value: $[ dependencies.initialize.outputs['initializePipeline.solutionPath'] ]
+
 - ${{ if eq(parameters.buildDotNet,true) }}:
   - name: Carpenter.DotNet.Path
     value: $[ dependencies.initialize.outputs['initializePipeline.dotNetPath'] ]
   
-  - name: Carpenter.Solution.Path
-    value: $[ dependencies.initialize.outputs['initializePipeline.solutionPath'] ]
-
   - name: Carpenter.Output.Path
     value: $[ dependencies.initialize.outputs['initializePipeline.outputPath'] ]
 
