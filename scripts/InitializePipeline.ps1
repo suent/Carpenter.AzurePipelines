@@ -70,6 +70,12 @@ $ops = ConvertFrom-Json $PipelineOperations
 if ($ops.Count -eq 0) {
 	Write-PipelineWarning "No pipelineOperations have been defined in the pipeline extending Carpenter.AzurePipelines. For more information: https://github.com/suent/Carpenter.AzurePipelines/blob/main/docs/configuration.md#carpenterpipelineoperations-pipelineoperations"
 }
+$validOps = "ExcludePipeline", "PublishSourceArtifact", "IncrementVersionOnRelease"
+foreach ($op in $ops) {
+	if (-not ($validOps -contains $op)) {
+		Write-PipelineError "Unrecognized pipelineOperation parameter: $op"
+	}
+}
 $pipelineOperations = Set-CarpenterVariable -VariableName Carpenter.Pipeline.Operations -OutputVariableName "pipelineOperations" -Value $($PipelineOperations -replace "  ","" -replace "`n"," " -replace "`r","")
 
 # Carpenter.Project

@@ -108,6 +108,7 @@ stages:
     - ExcludePipeline
     - PublishSourceArtifact
     - IncrementVersionOnRelease
+    - InvalidOperation
 
     pipelineReason: ${{ parameters.pipelineReason }}
 
