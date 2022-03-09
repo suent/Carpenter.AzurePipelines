@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: versionType
-  type: string
-
 - name: buildDotNet
   type: boolean
 
@@ -117,7 +114,6 @@ jobs:
         pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
-        versionType: ${{ parameters.versionType }}
         buildDotNet: ${{ parameters.buildDotNet }}
         executeUnitTests: ${{ parameters.executeUnitTests }}
         sonarCloud: ${{ parameters.sonarCloud }}
@@ -160,7 +156,7 @@ jobs:
         addChangeLog: true
       displayName: Add GitHub Release
   
-  - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev'), ne(parameters.versionType, 'None'), eq(parameters.pipelineReason, 'Release'), eq(parameters.incrementVersionOnRelease, true)) }}:
+  - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev'), containsValue(parameters.pipelineOperation, 'IncrementVersionOnRelease'), eq(parameters.pipelineReason, 'Release')) }}:
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'

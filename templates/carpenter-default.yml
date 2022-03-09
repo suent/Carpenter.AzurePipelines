@@ -65,13 +65,6 @@ parameters:
   type: object
   default: {}
 
-- name: versionType
-  type: string
-  default: None
-  values:
-  - None
-  - SemVer
-
 - name: prereleaseLabel
   type: string
   default: alpha
@@ -233,21 +226,18 @@ stages:
   
       - name: Carpenter.Pool.Default.Demands
         value: ${{ convertToJson(parameters.defaultPoolDemands) }}
-
-    - name: Carpenter.Version.Type
-      value: ${{ parameters.versionType }}
   
-    - ${{ if ne(parameters.versionType,'None') }}:
+    - ${{ if containsValue(parameters.pipelineOperation, 'VersionSemVer') }}:
      
-      - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['pipelineReason'],'CI'))) }}:
+      - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.pipelineReason,'CI'))) }}:
         - name: Carpenter.ContinuousIntegration.Date
           value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
 
-      - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
+      - ${{ if eq(parameters.pipelineReason,'Prerelease')}}:
         - name: Carpenter.Prerelease.Label
           value: ${{ parameters.prereleaseLabel }}
 
-      - ${{ if eq(parameters['pipelineReason'],'Release')}}:
+      - ${{ if eq(parameters.pipelineReason,'Release')}}:
         - name: Carpenter.Version.IncrementOnRelease
           value: ${{ parameters.incrementVersionOnRelease }}
   
@@ -361,7 +351,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      versionType: ${{ parameters.versionType }}
       buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
@@ -380,7 +369,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        versionType: ${{ parameters.versionType }}
         incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
         buildDotNet: ${{ parameters.buildDotNet }}
         executeUnitTests: ${{ parameters.executeUnitTests }}
@@ -416,7 +404,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      versionType: ${{ parameters.versionType }}
       incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
@@ -452,7 +439,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      versionType: ${{ parameters.versionType }}
       incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
@@ -488,7 +474,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      versionType: ${{ parameters.versionType }}
       incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
       buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
@@ -528,7 +513,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        versionType: ${{ parameters.versionType }}
         incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
         buildDotNet: ${{ parameters.buildDotNet }}
         executeUnitTests: ${{ parameters.executeUnitTests }}

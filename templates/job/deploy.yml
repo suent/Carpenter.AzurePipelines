@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: versionType
-  type: string
-
 - name: incrementVersionOnRelease
   type: boolean
 
@@ -133,7 +130,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      versionType: ${{ parameters.versionType }}
       buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
@@ -155,7 +151,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      versionType: ${{ parameters.versionType }}
       buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
@@ -178,7 +173,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      versionType: ${{ parameters.versionType }}
       buildDotNet: ${{ parameters.buildDotNet }}
       executeUnitTests: ${{ parameters.executeUnitTests }}
       sonarCloud: ${{ parameters.sonarCloud }}
@@ -200,7 +194,6 @@ jobs:
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-    versionType: ${{ parameters.versionType }}
     incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
     buildDotNet: ${{ parameters.buildDotNet }}
     executeUnitTests: ${{ parameters.executeUnitTests }}

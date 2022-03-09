@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: versionType
-  type: string
-
 - name: incrementVersionOnRelease
   type: boolean
 
@@ -141,7 +138,6 @@ stages:
           pipelineOperations: ${{ parameters.pipelineOperations }}
           pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
-          versionType: ${{ parameters.versionType }}
           buildDotNet: ${{ parameters.buildDotNet }}
           executeUnitTests: ${{ parameters.executeUnitTests }}
           sonarCloud: ${{ parameters.sonarCloud }}
@@ -159,7 +155,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        versionType: ${{ parameters.versionType }}
         incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
         buildDotNet: ${{ parameters.buildDotNet }}
         executeUnitTests: ${{ parameters.executeUnitTests }}

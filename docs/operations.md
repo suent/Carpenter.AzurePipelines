@@ -16,6 +16,20 @@ Publish a clean copy of the sources as a 'source' artifact attached to the pipel
 
 ## VersionSemVer
 
+Uses Semantic Versioning 2.0.0 for the pipeline build number.
+
+This operation uses the following settings:
+
+* Carpenter.Version.RevisionOffset
+* Carpenter.Version.Revision
+* Carpenter.Version.VersionFile
+* Carpenter.Version.VersionFile.Path
+* Carpenter.Version.Major
+* Carpenter.Version.Minor
+* Carpenter.Version.Patch
+* Carpenter.Version.Label
+* Carpenter.Version
+
 ## BuildDotNet
 
 Performs a build of the solution using the dotnet command line tool.
@@ -49,3 +63,7 @@ This operation uses the following settings:
 ## IncrementVersionOnRelease
 
 Increments the patch portion of the version on a release when using SemVer versioning.
+
+Required operations:
+
+* VersionSemVer

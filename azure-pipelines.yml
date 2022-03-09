@@ -79,11 +79,11 @@ variables:
 #- name: Carpewnter.Solution.Path
 #  value: $(Carpenter.Project.Path)/Solution.sln
 
-#- name: Carpenter.Version.VersionFile
-#  value: VERSION
-
 - name: Carpenter.Version.RevisionOffset
   value: 258
+
+#- name: Carpenter.Version.VersionFile
+#  value: VERSION
 
 # Infrastructure populates:
 #   Carpenter.PipelineBot
@@ -127,7 +127,6 @@ stages:
 
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
-    versionType: SemVer
     incrementVersionOnRelease: true
     buildDotNet: true
     executeUnitTests: true

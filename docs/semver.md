@@ -10,7 +10,8 @@ To enable SemVer versioning, add the following parameter to your yaml.
 stages:
 - template: template/carpenter-default.yml
   parameters:
-    versionType: SemVer
+    pipelineOperations:
+    - VersionSemVer
 ```
 
 ## The `VERSION` file
@@ -57,4 +58,6 @@ For example:
 
 If the incrementVersionOnRelease parameter is true, the VERSION file will be incremented.
 
-The Carpenter.PipelineBot.Token variable or PipelineBot-GitHub-PAT vault secret will need to be populated. This can be done by adding the variable to your pipeline definition, or creating a Variable Group and adding it to your azure-pipelines.yml file.
+The Carpenter.PipelineBot.Token variable or PipelineBot-GitHub-PAT vault secret will need to be populated. This can be
+done by adding the variable to your pipeline definition, or creating a Variable Group and adding it to your
+azure-pipelines.yml file.

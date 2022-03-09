@@ -14,7 +14,6 @@ param(
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
-	[string] $versionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $versionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,

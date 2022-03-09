@@ -25,7 +25,6 @@ param(
 	[string] $SolutionPath = $env:CARPENTER_SOLUTION_PATH,
 	[string] $PipelineBot = $env:CARPENTER_PIPELINE_BOT,
 	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
-	[string] $VersionType = $env:CARPENTER_VERSION_TYPE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
 	[string] $BuildDotNet = $env:CARPENTER_BUILD_DOTNET,
@@ -268,20 +267,11 @@ if ($ops -contains "BuildDotNet") {
 	}
 }
 
-
-# Carpenter.Version.Type
-Write-Verbose "Validating versionType"
-if (-Not ($VersionType)) {
-	Write-PipelineError "The versionType parameter must be supplied to Carpenter Azure Pipelines template."
-} else {
-	if (($VersionType -ne "None") -and ($VersionType -ne "SemVer")) {
-		Write-PipelineError "Unrecognized versionType parameter '$VersionType'."
-	}
-}
-$versionType = Set-CarpenterVariable -VariableName "Carpenter.Version.Type" -OutputVariableName "versionType" -Value $VersionType
-
+######################################################################################################################
 # Versioning
-if ($versionType -ne "None") {
+######################################################################################################################
+
+if ($ops -contains "VersionSemVer") {
 
 	# Carpenter.Version.RevisionOffset
 	if (-not ($RevisionOffset)) { $RevisionOffset = 0 } # Default value
@@ -296,99 +286,96 @@ if ($versionType -ne "None") {
 	$revision = Get-NextCounterValue -Key $revisionKey -Offset $revisionOffset
 	$revision = Set-CarpenterVariable -VariableName "Carpenter.Version.Revision" -OutputVariableName "revision" -Value $revision
 
-	# Semantic Versioning
-	if ($VersionType -eq "SemVer") {
-		if (-not ($VersionFile)) { $VersionFile = "VERSION" } # Default value
+	# Carpenter.Version.VersionFile
+	if (-not ($VersionFile)) { $VersionFile = "VERSION" } # Default value
+	$versionFile = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile" -OutputVariableName "versionFile" -Value $VersionFile
 
-		# Carpenter.Version.VersionFile
-		$versionFile = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile" -OutputVariableName "versionFile" -Value $VersionFile
-		# Carpenter.Version.VersionFile.Path
-		$versionFilePath = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile.Path" -OutputVariableName "versionFilePath" -Value "$projectPath/$versionFile"
+	# Carpenter.Version.VersionFile.Path
+	$versionFilePath = Set-CarpenterVariable -VariableName "Carpenter.Version.VersionFile.Path" -OutputVariableName "versionFilePath" -Value "$projectPath/$versionFile"
 
-		If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
-			Write-PipelineError "VERSION file does not exist at expected path. Path: $versionFilePath"
-		} else {
-			$versionFileContent = Get-Content -Path $versionFilePath
-			$targetVersion = [Version]::new($versionFileContent)
+	If (-Not (Test-Path -Path $versionFilePath -PathType Leaf)) {
+		Write-PipelineError "VERSION file does not exist at expected path. Path: $versionFilePath"
+	} else {
+		$versionFileContent = Get-Content -Path $versionFilePath
+		$targetVersion = [Version]::new($versionFileContent)
 			
-			# Carpenter.Version.BaseVersion
-			$baseVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.BaseVersion" -OutputVariableName "baseVersion" -Value "$($targetVersion.Major).$($targetVersion.Minor).$($targetVersion.Build)"
+		# Carpenter.Version.BaseVersion
+		$baseVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.BaseVersion" -OutputVariableName "baseVersion" -Value "$($targetVersion.Major).$($targetVersion.Minor).$($targetVersion.Build)"
 			
-			# Carpenter.Version.Major
-			$majorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Major" -OutputVariableName "majorVersion" -Value $targetVersion.Major
+		# Carpenter.Version.Major
+		$majorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Major" -OutputVariableName "majorVersion" -Value $targetVersion.Major
 
-			# Carpenter.Version.Minor
-			$minorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Minor" -OutputVariableName "minorVersion" -Value $targetVersion.Minor
+		# Carpenter.Version.Minor
+		$minorVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Minor" -OutputVariableName "minorVersion" -Value $targetVersion.Minor
 
-			# Carpenter.Version.Patch
-			$patchVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -OutputVariableName "patchVersion" -Value $targetVersion.Build
-		}
+		# Carpenter.Version.Patch
+		$patchVersion = Set-CarpenterVariable -VariableName "Carpenter.Version.Patch" -OutputVariableName "patchVersion" -Value $targetVersion.Build
+	}
 
-		# Continuous integration
-		If ($PipelineReason -eq "CI") {
+	# Continuous integration
+	If ($PipelineReason -eq "CI") {
 
-			# Carpenter.ContinuousIntegration.Date
-			$continuousIntegrationDate = Set-CarpenterVariable -VariableName "Carpenter.ContinuousIntegration.Date" -OutputVariableName "continuousIntegrationDate" -Value $ContinuousIntegrationDate
+		# Carpenter.ContinuousIntegration.Date
+		$continuousIntegrationDate = Set-CarpenterVariable -VariableName "Carpenter.ContinuousIntegration.Date" -OutputVariableName "continuousIntegrationDate" -Value $ContinuousIntegrationDate
 
-			# Carpenter.ContinuousIntegration.Revision
-			$continuousIntegrationRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_CI_$($continuousIntegrationDate)"
-			$continuousIntegrationRevision = Get-NextCounterValue -Key $continuousIntegrationRevisionKey
-			$continuousIntegrationRevision = Set-CarpenterVariable -VariableName "Carpenter.ContinuousIntegration.Revision" -OutputVariableName "continuousIntegrationRevision" -Value $continuousIntegrationRevision
+		# Carpenter.ContinuousIntegration.Revision
+		$continuousIntegrationRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_CI_$($continuousIntegrationDate)"
+		$continuousIntegrationRevision = Get-NextCounterValue -Key $continuousIntegrationRevisionKey
+		$continuousIntegrationRevision = Set-CarpenterVariable -VariableName "Carpenter.ContinuousIntegration.Revision" -OutputVariableName "continuousIntegrationRevision" -Value $continuousIntegrationRevision
 
-			# Carpenter.Version.Label [CI]
-			$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "CI.$($continuousIntegrationDate).$($continuousIntegrationRevision)"
-		}
+		# Carpenter.Version.Label [CI]
+		$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "CI.$($continuousIntegrationDate).$($continuousIntegrationRevision)"
+	}
 
-		# Pull request
-		If ($PipelineReason -eq "PR") {
+	# Pull request
+	If ($PipelineReason -eq "PR") {
 			
-			# Carpenter.PullRequest.Revision
-			$pullRequestRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_PR_$($PullRequestNumber)"
-			$pullRequestRevision = Get-NextCounterValue -Key $pullRequestRevisionKey
-			$pullRequestRevision = Set-CarpenterVariable -VariableName "Carpenter.PullRequest.Revision" -OutputVariableName "pullRequestRevision" -Value $pullRequestRevision
+		# Carpenter.PullRequest.Revision
+		$pullRequestRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_PR_$($PullRequestNumber)"
+		$pullRequestRevision = Get-NextCounterValue -Key $pullRequestRevisionKey
+		$pullRequestRevision = Set-CarpenterVariable -VariableName "Carpenter.PullRequest.Revision" -OutputVariableName "pullRequestRevision" -Value $pullRequestRevision
 		
-			# Carpenter.Version.Label [PR]
-			$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
+		# Carpenter.Version.Label [PR]
+		$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "PR.$($PullRequestNumber).$($PullRequestRevision)"
+	}
+
+	# Prerelease
+	If ($PipelineReason -eq "Prerelease") {
+		Write-Verbose "Validating prereleaseLabel"
+		if (-Not ($PrereleaseLabel)) {
+			Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
 		}
+		# Carpenter.Prerelease.Label
+		$prereleaseLabel = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Label" -OutputVariableName "prereleaseLabel" -Value $PrereleaseLabel
 
-		# Prerelease
-		If ($PipelineReason -eq "Prerelease") {
-			Write-Verbose "Validating prereleaseLabel"
-			if (-Not ($PrereleaseLabel)) {
-				Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
-			}
-			# Carpenter.Prerelease.Label
-			$prereleaseLabel = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Label" -OutputVariableName "prereleaseLabel" -Value $PrereleaseLabel
+		# Carpenter.Prerelease.Revision
+		$prereleaseRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_$($baseVersion)-$($prereleaseLabel)"
+		$prereleaseRevision = Get-NextCounterValue -Key $prereleaseRevisionKey
+		$prereleaseRevision = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Revision" -OutputVariableName "prereleaseRevision" -Value $prereleaseRevision
 
-			# Carpenter.Prerelease.Revision
-			$prereleaseRevisionKey = "suent_carpenter_$($BuildDefinitionName)_$($Project)_$($baseVersion)-$($prereleaseLabel)"
-			$prereleaseRevision = Get-NextCounterValue -Key $prereleaseRevisionKey
-			$prereleaseRevision = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Revision" -OutputVariableName "prereleaseRevision" -Value $prereleaseRevision
+		# Carpenter.Version.Label [Prerelease]
+		$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "$($prereleaseLabel).$($prereleaseRevision)"
+	}
 
-			# Carpenter.Version.Label [Prerelease]
-			$versionLabel = Set-CarpenterVariable -VariableName "Carpenter.Version.Label" -OutputVariableName "versionLabel" -Value "$($prereleaseLabel).$($prereleaseRevision)"
-		}
-
-		# Release
-		If ($PipelineReason -eq "Release") {
+	# Release
+	If ($PipelineReason -eq "Release") {
 			
-			# Carpenter.Version.IncrementOnRelease
-			$incrementVersionOnRelease = Set-CarpenterVariable -VariableName "Carpenter.Version.IncrementOnRelease" -OutputVariableName "incrementVersionOnRelease" -Value $IncrementVersionOnRelease
+		# Carpenter.Version.IncrementOnRelease
+		$incrementVersionOnRelease = Set-CarpenterVariable -VariableName "Carpenter.Version.IncrementOnRelease" -OutputVariableName "incrementVersionOnRelease" -Value $IncrementVersionOnRelease
 			
-			# Carpenter.Version.Label [Release]
-			$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value $null
+		# Carpenter.Version.Label [Release]
+		$versionLabel = Set-CarpenterVariable -OutputVariableName versionLabel -Value $null
 
-			# Carpenter.Version [Release]
-			$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value $BaseVersion
+		# Carpenter.Version [Release]
+		$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value $BaseVersion
 
-		} else {
+	} else {
 
-			# Carpenter.Version [All others]
-			$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
-
-		}
+		# Carpenter.Version [All others]
+		$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
 
 	}
+
 
 	# Update Build Number
 	Write-Host "##vso[build.updatebuildnumber]$version"

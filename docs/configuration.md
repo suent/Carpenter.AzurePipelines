@@ -29,11 +29,11 @@
   * [Carpenter.Output.Tests.Path](#carpenteroutputtestspath)
   * [Carpenter.Output.TestCoverage.Path](#carpenteroutputtestcoveragepath)
 * [Build Versioning](#build-versioning)
-  * [Carpenter.Version.Type (versionType)](#carpenterversiontype-versiontype)
-  * [Carpenter.Version.VersionFile](#carpenterversionversionfile)
-  * [Carpenter.Version.VersionFile.Path](#carpenterversionversionfilepath)
   * [Carpenter.Version.RevisionOffset](#carpenterversionrevisionoffset)
   * [Carpenter.Version.Revision](#carpenterversionrevision)
+  * [Carpenter.Version.VersionFile](#carpenterversionversionfile)
+  * [Carpenter.Version.VersionFile.Path](#carpenterversionversionfilepath)
+  * [Carpenter.Version.BaseVersion](#carpenterversionbaseversion)
   * [Carpenter.Version.Major](#carpenterversionmajor)
   * [Carpenter.Version.Minor](#carpenterversionminor)
   * [Carpenter.Version.Patch](#carpenterversionpatch)
@@ -243,53 +243,56 @@ contains **TestDotNet**.
 
 For more information, see [build-versioning.md](build-versioning.md).
 
-### Carpenter.Version.Type (versionType)
-
-The type of build versioning to use.
-
-| Version Type | Description |
-|:--|:--|
-| None | No build versioning |
-| SemVer | Semantic Versioning 2.0.0 |
-
-This value is set by the `versionType` parameter. The default value is **None**.
-
-### Carpenter.Version.VersionFile
-
-The relative path to the VERSION file from the project root. Only used if versionType is SemVer. The default value is
-**VERSION**.
-
-### Carpenter.Version.VersionFile.Path
-
-The absolute path to the VERSION file. This value is determined during pipeline execution if versionType is SemVer.
-
 ### Carpenter.Version.RevisionOffset
 
-The starting value offset of the revision counter. Only used if versionType is not None. The default value is **0**.
+The starting value offset of the revision counter. Only used if `pipelineOperations` contains **VersionSemVer**. The
+default value is **0**.
 
 ### Carpenter.Version.Revision
 
-The number of times the project has been built by this pipeline. This value is determined during pipeline execution.
+The number of times the project has been built by this pipeline. This value is determined during pipeline execution if
+`pipelineOperations` contains **VersionSemVer**.
+
+### Carpenter.Version.VersionFile
+
+The relative path to the VERSION file from the project root. Only used if `pipelineOperations` contains
+**VersionSemVer**. The default value is **VERSION**.
+
+### Carpenter.Version.VersionFile.Path
+
+The absolute path to the VERSION file. This value is determined during pipeline execution if `pipelineOperations`
+contains **VersionSemVer**.
+
+### Carpenter.Version.BaseVersion
+
+The base version number, comprised of Major, Minor and Patch versions separated by a period. This value is
+determined during pipeline execution from the vERSION file if `pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.Version.Major
 
-The Major version number. This value is determined during pipeline execution from the VERSION file.
+The Major version number. This value is determined during pipeline execution from the VERSION file if
+`pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.Version.Minor
 
-The Minor version number. This value is determined during pipeline execution from the VERSION file.
+The Minor version number. This value is determined during pipeline execution from the VERSION file if
+`pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.Version.Patch
 
-The Patch version number. This value is determined during pipeline execution from the VERSION file.
+The Patch version number. This value is determined during pipeline execution from the VERSION file if
+`pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.Version.Label
 
-The version label. This value is determined during pipeline execution.
+The version label. This value is determined during pipeline execution if `pipelineOperations` contains
+**VersionSemVer**.
 
 ### Carpenter.Version
 
-The version string (without version metadata). This value is determined during pipeline execution.
+The version string (without version metadata). This value is determined during pipeline execution if
+`pipelineOperations` contains **VersionSemVer**.
+
 
 ### Carpenter.Version.IncrementOnRelease
 
