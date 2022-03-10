@@ -408,11 +408,10 @@ if ($ops -contains "AnalyzeSonar") {
 		Write-PipelineError "The sonarCloudOrganization parameter is required when sonarCloud is true."
 	}
 
-	Write-Verbose "Validating sonarCloudProjectKey"
+	Write-Verbose "Validating Carpenter.SonarCloud.ProjectKey"
 	if (-Not ($SonarCloudProjectKey)) {
 		Write-PipelineError "The sonarCloudProjectKey parameter is required when sonarCloud is true."
 	}
-	$sonarCloudProjectKey = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.ProjectKey" -OutputVariableName "sonarCloudProjectKey" -Value $SonarCloudProjectKey
 
 	Write-Verbose "Validating sonarCloudServiceConnection"
 	if (-Not ($SonarCloudServiceConnection)) {

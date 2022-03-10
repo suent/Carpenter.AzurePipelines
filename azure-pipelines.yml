@@ -68,7 +68,7 @@ pr:
                     # for example: a PR build, where the PR has been updated
 
 
-# Infrastructure variables
+# Infrastructure/Pipeline Variables
 variables:
 
   # See docs/configuration.md for variable documentation.
@@ -84,6 +84,9 @@ variables:
 
 #- name: Carpenter.Version.VersionFile
 #  value: VERSION
+
+- name: Carpenter.SonarCloud.ProjectKey
+  value: Suent_Carpenter.AzurePipelines
 
 # Infrastructure populates:
 #   Carpenter.PipelineBot
@@ -128,7 +131,6 @@ stages:
     - Agent.OSArchitecture -equals X64
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
-    sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
     sonarCloudServiceConnection: SonarCloudAnalysis1
     deployBranch: 'test1,test2,stage,prod'
     deployNuGet: 'dev,stage,prod'

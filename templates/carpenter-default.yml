@@ -73,10 +73,6 @@ parameters:
   - beta
   - RC
 
-- name: sonarCloudProjectKey
-  type: string
-  default: ''
-
 - name: sonarCloudServiceConnection
   type: string
   default: ''
@@ -218,9 +214,6 @@ stages:
           value: ${{ parameters.prereleaseLabel }}
 
     - ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
-      - name: Carpenter.SonarCloud.ProjectKey
-        value: ${{ parameters.sonarCloudProjectKey }}
-     
       - name: Carpenter.SonarCloud.ServiceConnection
         value: ${{ parameters.sonarCloudServiceConnection }}
 

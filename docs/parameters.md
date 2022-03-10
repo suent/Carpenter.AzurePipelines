@@ -1,8 +1,5 @@
 
 
-### sonarCloudProjectKey
-
-The SonarCloud project key. This is required if `sonarCloud` is **true**.
 
 ### sonarCloudServiceConnection
 

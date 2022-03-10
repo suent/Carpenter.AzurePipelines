@@ -336,7 +336,7 @@ The SonarCloud organization this project is under.
 
 ### Carpenter.SonarCloud.ProjectKey
 
-The SonarCloud project key. This value is set by the `sonarCloudProjectKey` parameter.
+The SonarCloud project key.
 
 ### Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)
 
