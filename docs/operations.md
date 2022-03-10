@@ -89,7 +89,15 @@ This operation uses the following settings:
 
 * Carpenter.SonarCloud.Organization
 * Carpenter.SonarCloud.ProjectKey
-* Carpenter.SonarCloud.ServiceConnection
+* Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)
+
+## DeployBranch
+
+Creates a branch of this builds source to represent code on a stack.
+
+This operation uses the following settings:
+
+* Carpenter.Deploy.Branch (deployBranch)
 
 ## DeployNuGet
 

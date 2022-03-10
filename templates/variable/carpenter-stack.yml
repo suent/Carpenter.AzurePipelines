@@ -164,8 +164,9 @@ variables:
   - name: Carpenter.SonarCloud.ServiceConnection
     value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.sonarCloudServiceConnection'] ]
 
-- name: Carpenter.Deploy.Branch
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.deployBranch'] ]
+- ${{ if containsValue(parameters.pipelineOperations, 'DeployBranch') }}:
+  - name: Carpenter.Deploy.Branch
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.deployBranch'] ]
 
 - name: Carpenter.Deploy.NuGet
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.deployNuGet'] ]

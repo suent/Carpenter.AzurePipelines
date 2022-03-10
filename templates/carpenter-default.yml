@@ -308,7 +308,6 @@ stages:
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
-      deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 

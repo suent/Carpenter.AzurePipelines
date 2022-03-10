@@ -51,10 +51,10 @@
   * [Carpenter.SonarCloud.Organization](#carpentersonarcloudorganization)
   * [Carpenter.SonarCloud.ProjectKey](#carpentersonarcloudprojectkey)
   * [Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)](#carpentersonarcloudserviceconnection-sonarcloudserviceconnection)
-
-
 * [Deployment variables](#deployment-variables)
   * [Carpenter.Deploy.Branch](#carpenterdeploybranch)
+
+
   * [Carpenter.Deploy.NuGet](#carpenterdeploynuget)
   * [Carpenter.Deploy.NuGet.TargetFeed.Dev](#carpenterdeploynugettargetfeeddev)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test1](#carpenterdeploynugettargetfeedtest1)
@@ -341,15 +341,15 @@ The SonarCloud project key. This value is used if `pipelineOperations` contains 
 
 ### Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)
 
-The SonarCloud service connection to use. This value is set by the `sonarCloudServiceConnection`
-parameter if `pipelineOperations` contains **AnalyzeSonar**.
+The SonarCloud service connection to use. This value is set by the `sonarCloudServiceConnection` parameter if
+`pipelineOperations` contains **AnalyzeSonar**.
 
 ## Deployment variables
 
 ### Carpenter.Deploy.Branch
 
-Comma separated list of stacks deploy branch should execute for. Creates a branch of this builds
-source to represent code on a stack. This value is set by the `deployBranch` parameter.
+Comma separated list of stacks deploy branch should execute for. This value is set by the `deployBranch`
+parameter if `pipelineOperations` contains **DeployBranch**.
 
 ### Carpenter.Deploy.NuGet
 

@@ -78,6 +78,7 @@ $validOps = "ExcludePipeline",`
 			"TestDotNet",`
 			"CollectTestCoverage",`
 			"AnalyzeSonar",`
+			"DeployBranch",`
 			"DeployNuGet",`
 			"IncrementVersionOnRelease",`
 			"UpdateNuGetQuality"
@@ -405,23 +406,35 @@ if ($ops -contains "AnalyzeSonar") {
 
 	Write-Verbose "Validating Carpenter.SonarCloud.Organization"
 	if (-Not ($SonarCloudOrganization)) {
-		Write-PipelineError "The sonarCloudOrganization parameter is required when sonarCloud is true."
+		Write-PipelineError "The Carpenter.SonarCloud.Organization variable is required when pipelineOperations contains AnalyzeSonar."
 	}
 
 	Write-Verbose "Validating Carpenter.SonarCloud.ProjectKey"
 	if (-Not ($SonarCloudProjectKey)) {
-		Write-PipelineError "The sonarCloudProjectKey parameter is required when sonarCloud is true."
+		Write-PipelineError "The Carpenter.SonarCloud.ProjectKey variable is required when pipelineOperations contains AnalyzeSonar."
 	}
 
-	Write-Verbose "Validating sonarCloudServiceConnection"
+	Write-Verbose "Validating Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)"
 	if (-Not ($SonarCloudServiceConnection)) {
-		Write-PipelineError "The sonarCloudServiceConnection parameter is required when sonarCloud is true."
+		Write-PipelineError "The sonarCloudServiceConnection parameter is required when pipelineOperations contains AnalyzeSonar."
 	}
 	$sonarCloudServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.ServiceConnection" -OutputVariableName "sonarCloudServiceConnection" -Value $SonarCloudServiceConnection
 }
 
+######################################################################################################################
+# Deploy Branch
+######################################################################################################################
 
-$deployBranch = Set-CarpenterVariable -VariableName "Carpenter.Deploy.Branch" -OutputVariableName "deployBranch" -Value $DeployBranch
+if ($ops -contains "DeployBranch") {
+	if (-not ($DeployBranch)) {
+		Write-PipelineError "The Carpenter.Deploy.Branch variable is required when pipelineOperations contains DeployBranch."
+	}
+	$deployBranch = Set-CarpenterVariable -VariableName "Carpenter.Deploy.Branch" -OutputVariableName "deployBranch" -Value $DeployBranch
+} else {
+	Write-PipelineWarning "The Carpenter.Deploy.Branch variable '$DeployBranch' is being ignored because pipelineOperations does not contain DeployBranch."
+}
+
+
 $deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet
 $nuGetTargetFeedDev = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Dev" -OutputVariableName "nuGetTargetFeedDev" -Value $NuGetTargetFeedDev
 $nuGetTargetFeedTest1 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test1" -OutputVariableName "nuGetTargetFeedTest1" -Value $NuGetTargetFeedTest2

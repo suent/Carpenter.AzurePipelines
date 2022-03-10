@@ -3,11 +3,6 @@
 
 ## Deployment parameters
 
-### deployBranch
-
-Comma separated list of stacks deploy branch should execute for. Creates a branch of this builds
-source to represent code on a stack.
-
 ### deployNuGet
 
 Comma separated list of stacks deploy nuget should execute for. Publishes NuGet packages created by

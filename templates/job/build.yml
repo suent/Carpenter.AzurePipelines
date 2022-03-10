@@ -54,9 +54,6 @@ parameters:
 - name: sonarCloudServiceConnection
   type: string
 
-- name: deployBranch
-  type: string
-
 - name: deployNuGet
   type: string
 
