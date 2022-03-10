@@ -385,14 +385,11 @@ if ($ops -contains "VersionSemVer") {
 
 		# Carpenter.Version [Release]
 		$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value $BaseVersion
-
 	} else {
 
 		# Carpenter.Version [All others]
 		$version = Set-CarpenterVariable -VariableName "Carpenter.Version" -OutputVariableName "version" -Value "$($BaseVersion)-$($versionLabel)"
-
 	}
-
 
 	# Update Build Number
 	Write-Host "##vso[build.updatebuildnumber]$version"
@@ -403,17 +400,19 @@ if ($ops -contains "VersionSemVer") {
 ######################################################################################################################
 
 if ($ops -contains "AnalyzeSonar") {
-
+	# Carpenter.SonarCloud.Organization
 	Write-Verbose "Validating Carpenter.SonarCloud.Organization"
 	if (-Not ($SonarCloudOrganization)) {
 		Write-PipelineError "The Carpenter.SonarCloud.Organization variable is required when pipelineOperations contains AnalyzeSonar."
 	}
 
+	# Carpenter.SonarCloud.ProjectKey
 	Write-Verbose "Validating Carpenter.SonarCloud.ProjectKey"
 	if (-Not ($SonarCloudProjectKey)) {
 		Write-PipelineError "The Carpenter.SonarCloud.ProjectKey variable is required when pipelineOperations contains AnalyzeSonar."
 	}
 
+	# Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)
 	Write-Verbose "Validating Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)"
 	if (-Not ($SonarCloudServiceConnection)) {
 		Write-PipelineError "The sonarCloudServiceConnection parameter is required when pipelineOperations contains AnalyzeSonar."
@@ -425,13 +424,14 @@ if ($ops -contains "AnalyzeSonar") {
 # Deploy Branch
 ######################################################################################################################
 
+# Carpenter.Deploy.Branch (deployBranch)
 if ($ops -contains "DeployBranch") {
 	if (-not ($DeployBranch)) {
-		Write-PipelineError "The Carpenter.Deploy.Branch variable is required when pipelineOperations contains DeployBranch."
+		Write-PipelineError "The deployBranch parameter is required when pipelineOperations contains DeployBranch."
 	}
 	$deployBranch = Set-CarpenterVariable -VariableName "Carpenter.Deploy.Branch" -OutputVariableName "deployBranch" -Value $DeployBranch
 } else {
-	Write-PipelineWarning "The Carpenter.Deploy.Branch variable '$DeployBranch' is being ignored because pipelineOperations does not contain DeployBranch."
+	Write-PipelineWarning "The deployBranch parameter '$DeployBranch' is being ignored because pipelineOperations does not contain DeployBranch."
 }
 
 
