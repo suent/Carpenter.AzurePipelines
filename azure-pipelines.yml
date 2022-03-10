@@ -115,7 +115,9 @@ stages:
     - TestDotNet
     - CollectTestCoverage
     - AnalyzeSonar
+    - DeployNuGet
     - IncrementVersionOnRelease
+    - UpdateNuGetQuality
     pipelineReason: ${{ parameters.pipelineReason }}
     defaultPoolType: 'Private'
     #defaultPoolVMImage: 'ubuntu-latest'

@@ -80,7 +80,9 @@ $validOps = "ExcludePipeline",`
 			"TestDotNet",`
 			"CollectTestCoverage",`
 			"AnalyzeSonar",`
-			"IncrementVersionOnRelease"
+			"DeployNuGet",`
+			"IncrementVersionOnRelease",`
+			"UpdateNuGetQuality"
 foreach ($op in $ops) {
 	if (-not ($validOps -contains $op)) {
 		Write-PipelineError "Unrecognized pipelineOperation parameter '$op'."
@@ -104,6 +106,21 @@ if ($ops -contains "PackageNuGet") {
 if ($ops -contains "CollectTestCoverage") {
 	if (-not ($ops -contains "TestDotNet")) {
 		Write-PipelineError "The CollectTestCoverage pipelineOperations option depends on the TestDotNet pipelineOperations option."
+	}
+}
+if ($ops -contains "AnalyzeSonar") {
+	if (-not ($ops -contains "TestDotNet")) {
+		Write-PipelineError "The AnalyzeSonar pipelineOperations option depends on the TestDotNet pipelineOperations option."
+	}
+}
+if ($ops -contains "DeployNuGet") {
+	if (-not ($ops -contains "PackageNuGet")) {
+		Write-PipelineError "The DeployNuGet pipelineOperations option depends on the PackageNuGet pipelineOperations option."
+	}
+}
+if ($ops -contains "UpdateNuGetQuality") {
+	if (-not ($ops -contains "DeployNuGet")) {
+		Write-PipelineError "The UpdateNuGetQuality pipelineOperations option depends on the DeployNuGet pipelineOperations option."
 	}
 }
 $pipelineOperations = Set-CarpenterVariable -VariableName Carpenter.Pipeline.Operations -OutputVariableName "pipelineOperations" -Value $($PipelineOperations -replace "  ","" -replace "`n"," " -replace "`r","")

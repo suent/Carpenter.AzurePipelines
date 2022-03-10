@@ -73,6 +73,8 @@ This operation uses the following settings:
 
 ## AnalyzeSonar
 
+## DeployNuGet
+
 ## IncrementVersionOnRelease
 
 Increments the patch portion of the version on a release when using SemVer versioning.
@@ -80,3 +82,5 @@ Increments the patch portion of the version on a release when using SemVer versi
 Required operations:
 
 * VersionSemVer
+
+## UpdateNuGetQuality
