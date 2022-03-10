@@ -28,7 +28,7 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
+  # See docs/configuration.md for parameter documentation.
 
 - name: pipelineVersion
   type: number
@@ -72,10 +72,6 @@ parameters:
   - alpha
   - beta
   - RC
-
-- name: sonarCloudOrganization
-  type: string
-  default: ''
 
 - name: sonarCloudProjectKey
   type: string
@@ -222,9 +218,6 @@ stages:
           value: ${{ parameters.prereleaseLabel }}
 
     - ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
-      - name: Carpenter.SonarCloud.Organization
-        value: ${{ parameters.sonarCloudOrganization }}
-
       - name: Carpenter.SonarCloud.ProjectKey
         value: ${{ parameters.sonarCloudProjectKey }}
      

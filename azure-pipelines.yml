@@ -89,6 +89,7 @@ variables:
 #   Carpenter.PipelineBot
 #   Carpenter.PipelineBot.Email
 #   Carpenter.PipelineBot.Name
+#   Carpenter.SonarCloud.Organization
 - group: Infrastructure
 
 # Infrastructure-Vault populates:
@@ -127,7 +128,6 @@ stages:
     - Agent.OSArchitecture -equals X64
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
-    sonarCloudOrganization: suent
     sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
     sonarCloudServiceConnection: SonarCloudAnalysis1
     deployBranch: 'test1,test2,stage,prod'

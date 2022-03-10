@@ -360,11 +360,11 @@ if ($ops -contains "VersionSemVer") {
 
 	# Prerelease
 	If ($PipelineReason -eq "Prerelease") {
-		Write-Verbose "Validating prereleaseLabel"
+		# Carpenter.Prerelease.Label
+		Write-Verbose "Validating Carpenter.Version.PrereleaseLabel (prereleaseLabel)"
 		if (-Not ($PrereleaseLabel)) {
 			Write-PipelineError "The prereleaseLabel parameter must be supplied to Carpenter Azure Pipelines template."
 		}
-		# Carpenter.Prerelease.Label
 		$prereleaseLabel = Set-CarpenterVariable -VariableName "Carpenter.Prerelease.Label" -OutputVariableName "prereleaseLabel" -Value $PrereleaseLabel
 
 		# Carpenter.Prerelease.Revision
@@ -403,11 +403,10 @@ if ($ops -contains "VersionSemVer") {
 
 if ($ops -contains "AnalyzeSonar") {
 
-	Write-Verbose "Validating sonarCloudOrganization"
+	Write-Verbose "Validating Carpenter.SonarCloud.Organization"
 	if (-Not ($SonarCloudOrganization)) {
 		Write-PipelineError "The sonarCloudOrganization parameter is required when sonarCloud is true."
 	}
-	$sonarCloudOrganization = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.Organization" -OutputVariableName "sonarCloudOrganization" -Value $SonarCloudOrganization
 
 	Write-Verbose "Validating sonarCloudProjectKey"
 	if (-Not ($SonarCloudProjectKey)) {

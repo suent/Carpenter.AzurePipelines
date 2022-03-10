@@ -48,6 +48,9 @@
   * [Carpenter.Prerelease.Label](#carpenterprereleaselabel)
   * [Carpenter.Prerelease.Revision](#carpenterprereleaserevision)
 * [SonarCloud Analysis](#sonarcloud-analysis)
+  * [Carpenter.SonarCloud.Organization](#carpentersonarcloudorganization)
+  * [Carpenter.SonarCloud.ProjectKey](#carpentersonarcloudprojectkey)
+  * [Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)](#carpentersonarcloudserviceconnection-sonarcloudserviceconnection)
 
 
 * [Deployment variables](#deployment-variables)
@@ -322,7 +325,6 @@ The label to use for a prerelease build. This value is set by the `prereleaseLab
 The prerelease revision. This value is determined during pipeline execution when `pipelineReason` is **Prerelease** if
 `pipelineOperations` contains **VersionSemVer**.
 
-
 ## SonarCloud Analysis
 
 For more information:
@@ -330,14 +332,13 @@ https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarc
 
 ### Carpenter.SonarCloud.Organization
 
-The SonarCloud organization this project is under. This value is set by the
-`sonarCloudOrganization` parameter.
+The SonarCloud organization this project is under.
 
 ### Carpenter.SonarCloud.ProjectKey
 
 The SonarCloud project key. This value is set by the `sonarCloudProjectKey` parameter.
 
-### Carpenter.SonarCloud.ServiceConnection
+### Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)
 
 The SonarCloud service connection to use. This value is set by the `sonarCloudServiceConnection`
 parameter.

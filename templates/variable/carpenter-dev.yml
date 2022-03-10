@@ -28,7 +28,7 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
+  # See docs/configuration.md for parameter documentation.
 
 - name: pipelineOperations
   type: object
@@ -156,9 +156,6 @@ variables:
     value: $[ dependencies.initialize.outputs['initializePipeline.version'] ]
 
 - ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
-  - name: Carpenter.SonarCloud.Organization
-    value: $[ dependencies.initialize.outputs['initializePipeline.sonarCloudOrganization'] ]
-
   - name: Carpenter.SonarCloud.ProjectKey
     value: $[ dependencies.initialize.outputs['initializePipeline.sonarCloudProjectKey'] ]
      

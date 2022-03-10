@@ -1,9 +1,5 @@
 
 
-### sonarCloudOrganization
-
-The SonarCloud organization this project is under. This is required if `sonarCloud` is **true**.
-
 ### sonarCloudProjectKey
 
 The SonarCloud project key. This is required if `sonarCloud` is **true**.
