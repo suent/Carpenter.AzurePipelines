@@ -39,9 +39,6 @@ parameters:
 - name: defaultPoolType
   type: string
 
-- name: sonarCloud
-  type: string
-
 - name: deployNuGet
   type: string
 
@@ -158,10 +155,7 @@ variables:
   - name: Carpenter.Version
     value: $[ dependencies.initialize.outputs['initializePipeline.version'] ]
 
-- name: Carpenter.SonarCloud
-  value: $[ dependencies.initialize.outputs['initializePipeline.sonarCloud'] ]
-
-- ${{ if eq(parameters.sonarCloud, 'true') }}:
+- ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
   - name: Carpenter.SonarCloud.Organization
     value: $[ dependencies.initialize.outputs['initializePipeline.sonarCloudOrganization'] ]
 

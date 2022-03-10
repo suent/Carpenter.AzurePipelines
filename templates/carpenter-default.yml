@@ -73,10 +73,6 @@ parameters:
   - beta
   - RC
 
-- name: sonarCloud
-  type: boolean
-  default: false
-
 - name: sonarCloudOrganization
   type: string
   default: ''
@@ -225,10 +221,7 @@ stages:
         - name: Carpenter.Prerelease.Label
           value: ${{ parameters.prereleaseLabel }}
 
-    - name: Carpenter.SonarCloud
-      value: ${{ parameters.sonarCloud }}
-
-    - ${{ if eq(parameters.sonarCloud, 'true') }}:
+    - ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
       - name: Carpenter.SonarCloud.Organization
         value: ${{ parameters.sonarCloudOrganization }}
 
@@ -328,7 +321,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
@@ -344,7 +336,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
@@ -376,7 +367,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
@@ -408,7 +398,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
@@ -440,7 +429,6 @@ stages:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
@@ -476,7 +464,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}

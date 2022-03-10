@@ -1,12 +1,4 @@
 
-## SonarCloud Analysis
-
-For more information:
-https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
-
-### sonarCloud
-
-If true, SonarCloud analysis is executed. The default value is **false**.
 
 ### sonarCloudOrganization
 

@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: sonarCloud
-  type: string
-
 - name: deployBranch
   type: string
 
@@ -129,7 +126,6 @@ stages:
           pipelineOperations: ${{ parameters.pipelineOperations }}
           pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
-          sonarCloud: ${{ parameters.sonarCloud }}
           deployNuGet: ${{ parameters.deployNuGet }}
           updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
           gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
@@ -144,7 +140,6 @@ stages:
         defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}

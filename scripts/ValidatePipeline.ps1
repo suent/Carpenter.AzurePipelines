@@ -17,10 +17,6 @@ param(
 	[string] $versionFile = $env:CARPENTER_VERSION_VERSIONFILE,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
-	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
-	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
-	[string] $SonarCloudProjectKey = $env:CARPENTER_SONARCLOUD_PROJECTKEY,
-	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION,
 	[string] $deployNuGet = $env:CARPENTER_DEPLOY_NUGET,
 	[string] $nuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
 	[string] $nuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
@@ -44,22 +40,6 @@ Write-ScriptHeader "$scriptName"
 
 
 
-if ($SonarCloud -eq "true") {
-	Write-Verbose "Validating sonarCloudOrganization"
-	if (-Not ($SonarCloudOrganization)) {
-		Write-PipelineError "The sonarCloudOrganization parameter is required when sonarCloud is true."
-	}
-
-	Write-Verbose "Validating sonarCloudProjectKey"
-	if (-Not ($SonarCloudProjectKey)) {
-		Write-PipelineError "The sonarCloudProjectKey parameter is required when sonarCloud is true."
-	}
-
-	Write-Verbose "Validating sonarCloudServiceConnection"
-	if (-Not ($SonarCloudServiceConnection)) {
-		Write-PipelineError "The sonarCloudServiceConnection parameter is required when sonarCloud is true."
-	}
-}
 
 if ((($DeployNuGet -Split ",").Trim()) -Contains "dev") {
 	Write-Verbose "Validating nuGetTargetFeedDev"

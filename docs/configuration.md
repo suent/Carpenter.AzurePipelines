@@ -47,9 +47,9 @@
 * [Prerelease](#prerelease)
   * [Carpenter.Prerelease.Label](#carpenterprereleaselabel)
   * [Carpenter.Prerelease.Revision](#carpenterprereleaserevision)
-
 * [SonarCloud Analysis](#sonarcloud-analysis)
-  * [Carpenter.SonarCloud](#carpentersonarcloud)
+
+
 * [Deployment variables](#deployment-variables)
   * [Carpenter.Deploy.Branch](#carpenterdeploybranch)
   * [Carpenter.Deploy.NuGet](#carpenterdeploynuget)
@@ -325,10 +325,8 @@ The prerelease revision. This value is determined during pipeline execution when
 
 ## SonarCloud Analysis
 
-### Carpenter.SonarCloud
-
-If true, SonarCloud analysis is executed. This value is set by the `sonarCloud` parameter.
-The default value is **false**.
+For more information:
+https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
 
 ### Carpenter.SonarCloud.Organization
 

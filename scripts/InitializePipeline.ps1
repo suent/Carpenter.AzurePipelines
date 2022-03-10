@@ -27,7 +27,6 @@ param(
 	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
-	[string] $SonarCloud = $env:CARPENTER_SONARCLOUD,
 	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
 	[string] $SonarCloudProjectKey = $env:CARPENTER_SONARCLOUD_PROJECTKEY,
 	[string] $SonarCloudServiceConnection = $env:CARPENTER_SONARCLOUD_SERVICECONNECTION,
@@ -398,14 +397,31 @@ if ($ops -contains "VersionSemVer") {
 	Write-Host "##vso[build.updatebuildnumber]$version"
 }
 
+######################################################################################################################
+# SonarCloud Analysis
+######################################################################################################################
 
+if ($ops -contains "AnalyzeSonar") {
 
-$sonarCloud = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud" -OutputVariableName "sonarCloud" -Value $SonarCloud
-if ($sonarCloud -eq 'true') {
+	Write-Verbose "Validating sonarCloudOrganization"
+	if (-Not ($SonarCloudOrganization)) {
+		Write-PipelineError "The sonarCloudOrganization parameter is required when sonarCloud is true."
+	}
 	$sonarCloudOrganization = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.Organization" -OutputVariableName "sonarCloudOrganization" -Value $SonarCloudOrganization
+
+	Write-Verbose "Validating sonarCloudProjectKey"
+	if (-Not ($SonarCloudProjectKey)) {
+		Write-PipelineError "The sonarCloudProjectKey parameter is required when sonarCloud is true."
+	}
 	$sonarCloudProjectKey = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.ProjectKey" -OutputVariableName "sonarCloudProjectKey" -Value $SonarCloudProjectKey
+
+	Write-Verbose "Validating sonarCloudServiceConnection"
+	if (-Not ($SonarCloudServiceConnection)) {
+		Write-PipelineError "The sonarCloudServiceConnection parameter is required when sonarCloud is true."
+	}
 	$sonarCloudServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.SonarCloud.ServiceConnection" -OutputVariableName "sonarCloudServiceConnection" -Value $SonarCloudServiceConnection
 }
+
 
 $deployBranch = Set-CarpenterVariable -VariableName "Carpenter.Deploy.Branch" -OutputVariableName "deployBranch" -Value $DeployBranch
 $deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet

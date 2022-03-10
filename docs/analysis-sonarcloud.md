@@ -1,8 +1,11 @@
 To use SonarCloud to analyze your project, use the following configuration:
 
 ```
-    sonarCloud: true
-    sonarCloudOrganization: YourSonarCloudOrganization
-    sonarCloudProjectKey: TheProjectKeyForThisProject
+    pipelineOperations:
+    - AnalyzeSonar
     sonarCloudServiceConnection: YourSonarCloudServiceConnection
 ```
+The following variables are required:
+
+Carpenter.SonarCloud.Organization
+Carpenter.SonarCloud.ProjectKey

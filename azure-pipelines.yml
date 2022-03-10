@@ -127,7 +127,6 @@ stages:
     - Agent.OSArchitecture -equals X64
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
 
-    sonarCloud: true
     sonarCloudOrganization: suent
     sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
     sonarCloudServiceConnection: SonarCloudAnalysis1

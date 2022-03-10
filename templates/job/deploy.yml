@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: sonarCloud
-  type: string
-
 - name: deployBranch
   type: string
 
@@ -121,7 +118,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
@@ -140,7 +136,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
@@ -160,7 +155,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
@@ -179,7 +173,6 @@ jobs:
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-    sonarCloud: ${{ parameters.sonarCloud }}
     deployNuGet: ${{ parameters.deployNuGet }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
