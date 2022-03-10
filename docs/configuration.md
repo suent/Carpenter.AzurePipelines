@@ -332,16 +332,17 @@ https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarc
 
 ### Carpenter.SonarCloud.Organization
 
-The SonarCloud organization this project is under.
+The SonarCloud organization this project is under. This value is used if `pipelineOperations` contains
+**AnalyzeSonar**.
 
 ### Carpenter.SonarCloud.ProjectKey
 
-The SonarCloud project key.
+The SonarCloud project key. This value is used if `pipelineOperations` contains **AnalyzeSonar**.
 
 ### Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)
 
 The SonarCloud service connection to use. This value is set by the `sonarCloudServiceConnection`
-parameter.
+parameter if `pipelineOperations` contains **AnalyzeSonar**.
 
 ## Deployment variables
 

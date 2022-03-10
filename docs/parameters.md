@@ -1,10 +1,6 @@
 
 
 
-### sonarCloudServiceConnection
-
-The SonarCloud service connection to use. This is required if `sonarCloud` is **true**.
-
 ## Deployment parameters
 
 ### deployBranch

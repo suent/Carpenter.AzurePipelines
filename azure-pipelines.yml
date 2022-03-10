@@ -130,8 +130,9 @@ stages:
     - Agent.OS -equals Linux
     - Agent.OSArchitecture -equals X64
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
-
     sonarCloudServiceConnection: SonarCloudAnalysis1
+
+
     deployBranch: 'test1,test2,stage,prod'
     deployNuGet: 'dev,stage,prod'
     nuGetTargetFeedDev: AzureArtifacts
