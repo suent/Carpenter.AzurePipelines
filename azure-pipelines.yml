@@ -119,6 +119,7 @@ stages:
     - TestDotNet
     - CollectTestCoverage
     - AnalyzeSonar
+    - DeployBranch
     - DeployNuGet
     - IncrementVersionOnRelease
     - UpdateNuGetQuality
