@@ -43,6 +43,8 @@ This operation uses the following settings:
 
 ## PackageNuGet
 
+Creates a NuGet package and publishes a pipeline artifact.
+
 Required operation:
 
 * BuildDotNet
@@ -52,6 +54,8 @@ This operation uses the following settings:
 * Carpenter.Output.NuGet.Path
 
 ## TestDotNet
+
+Executes testing using the dotnet command line tool.
 
 Required operations:
 
@@ -63,6 +67,8 @@ This operation uses the following settings:
 
 ## CollectTestCoverage
 
+Generates and collects Cobertura and OpenCover code coverage information. 
+
 Required operations:
 
 * TestDotNet
@@ -73,7 +79,21 @@ This operation uses the following settings:
 
 ## AnalyzeSonar
 
+Performs SonarCloud analysis.
+
+Required operations:
+
+* TestDotNet
+
+This operation uses the following settings:
+
+* Carpenter.SonarCloud.Organization
+* Carpenter.SonarCloud.ProjectKey
+* Carpenter.SonarCloud.ServiceConnection
+
 ## DeployNuGet
+
+
 
 ## IncrementVersionOnRelease
 
@@ -82,5 +102,12 @@ Increments the patch portion of the version on a release when using SemVer versi
 Required operations:
 
 * VersionSemVer
+
+This operation uses the following settings:
+
+* Carpenter.Pipeline.Reason
+* Carpenter.Version.Major
+* Carpenter.Version.Minor
+* Carpenter.Version.Patch
 
 ## UpdateNuGetQuality
