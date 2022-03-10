@@ -48,7 +48,6 @@
   * [Carpenter.Prerelease.Label](#carpenterprereleaselabel)
   * [Carpenter.Prerelease.Revision](#carpenterprereleaserevision)
 
-* [Test Execution](#test-execution)
 * [SonarCloud Analysis](#sonarcloud-analysis)
   * [Carpenter.SonarCloud](#carpentersonarcloud)
 * [Deployment variables](#deployment-variables)
@@ -323,12 +322,6 @@ The label to use for a prerelease build. This value is set by the `prereleaseLab
 The prerelease revision. This value is determined during pipeline execution when `pipelineReason` is **Prerelease** if
 `pipelineOperations` contains **VersionSemVer**.
 
-## Test Execution
-
-### Carpenter.Test.Unit
-
-If true, unit tests are executed during the pipeline. This value is set by the
-`executeUnitTests` parameter. The default valuer is **false**.
 
 ## SonarCloud Analysis
 

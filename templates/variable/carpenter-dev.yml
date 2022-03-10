@@ -39,9 +39,6 @@ parameters:
 - name: defaultPoolType
   type: string
 
-- name: executeUnitTests
-  type: boolean
-  
 - name: sonarCloud
   type: string
 
@@ -160,10 +157,6 @@ variables:
 
   - name: Carpenter.Version
     value: $[ dependencies.initialize.outputs['initializePipeline.version'] ]
-
-- ${{ if eq(parameters.executeUnitTests,true) }}:
-  - name: Carpenter.Test.Unit
-    value: $[ dependencies.initialize.outputs['initializePipeline.executeUnitTests'] ]
 
 - name: Carpenter.SonarCloud
   value: $[ dependencies.initialize.outputs['initializePipeline.sonarCloud'] ]

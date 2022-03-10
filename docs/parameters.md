@@ -1,6 +1,3 @@
-## Test Execution
-
-### executeUnitTests
 
 ## SonarCloud Analysis
 
