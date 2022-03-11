@@ -192,7 +192,7 @@ jobs:
     
     - ${{ if containsValue(parameters.pipelineOperations, 'CollectTestCoverage') }}:
       - script: |
-          dotnet tool install -g dotnet-reportgenerator-globaltool
+          dotnet tool install -g --add-source https://api.nuget.org/v3/index.json --ignore-failed-sources dotnet-reportgenerator-globaltool 
           reportgenerator -reports:$(Carpenter.Output.Tests.Path)/coverage.cobertura.xml -targetdir:$(Carpenter.Output.TestCoverage.Path) "-reporttypes:Cobertura"
         displayName: Prepare code coverage
         condition: succeeded()
