@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: sonarCloud
-  type: string
-
 - name: updateNuGetQuality
   type: string
   
