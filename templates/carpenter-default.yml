@@ -85,26 +85,6 @@ parameters:
   type: string
   default: ''
 
-- name: nuGetTargetFeedDev
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedTest1
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedTest2
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedStage
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedProd
-  type: string
-  default: ''
-
 - name: updateNuGetQuality
   type: string
   default: ''
@@ -222,26 +202,6 @@ stages:
 
     - name: Carpenter.Deploy.NuGet
       value: ${{ parameters.deployNuGet }}
-
-    - ${{ if contains(parameters.deployNuGet,'dev') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
-        value: ${{ parameters.nuGetTargetFeedDev }}
-
-    - ${{ if contains(parameters.deployNuGet,'test1') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
-        value: ${{ parameters.nuGetTargetFeedTest1 }}
-
-    - ${{ if contains(parameters.deployNuGet,'test2') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
-        value: ${{ parameters.nuGetTargetFeedTest2 }}
-
-    - ${{ if contains(parameters.deployNuGet,'stage') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
-        value: ${{ parameters.nuGetTargetFeedStage }}
-
-    - ${{ if contains(parameters.deployNuGet,'prod') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
-        value: ${{ parameters.nuGetTargetFeedProd }}
 
     - name: Carpenter.NuGet.Quality
       value: ${{ parameters.updateNuGetQuality }}
