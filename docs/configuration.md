@@ -6,37 +6,46 @@
   * [Pipeline Definition Variable](#pipeline-definition-variable)
   * [Pipeline Definition Variable Group](#pipeline-definition-variable-group)
 * [Pipeline Settings](#pipeline-settings)
-  * [Carpenter.PipelineVersion (pipelineVersion)](#carpenterpipelineversion-pipelineversion)
-  * [Carpenter.Project](#carpenterproject)
-  * [Carpenter.Project.Path](#carpenterprojectpath)
-  * [Carpenter.DotNet.Path](#carpenterdotnetpath)
-  * [Carpenter.Solution.Path](#carpentersolutionpath)
-  * [Carpenter.Output.Path](#carpenteroutputpath)
-  * [Carpenter.Output.Binaries.Path](#carpenteroutputbinariespath)
-  * [Carpenter.Output.NuGet.Path](#carpenteroutputnugetpath)
-  * [Carpenter.Output.Tests.Path](#carpenteroutputtestspath)
-  * [Carpenter.Output.TestCoverage.Path](#carpenteroutputtestcoveragepath)
-  * [Carpenter.Pipeline (includePipeline)](#carpenterpipeline-includepipeline)
+  * [Carpenter.Pipeline.Version (pipelineVersion)](#carpenterpipelineversion-pipelineversion)
+  * [Carpenter.Pipeline.Operations (pipelineOperations)](#carpenterpipelineoperations-pipelineoperations)
   * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
   * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
   * [Carpenter.Pipeline.Reason (pipelineReason)](#carpenterpipelinereason-pipelinereason)
+* [PipelineBot](#pipelinebot)
+  * [Carpenter.PipelineBot.Name](#carpenterpipelinebotname)
+  * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
+  * [Carpenter.PipelineBot.GitHub.Username](#carpenterpipelinebotgithubusername)
+  * [PipelineBot-AzureDevOps-PAT](#pipelinebot-azuredevops-pat)
+  * [PipelineBot-GitHub-PAT](#pipelinebot-github-pat)
+  * [PipelineBot-NuGet-PAT](#pipelinebot-nuget-pat)
 * [Pool Configuration](#pool-configuration)
   * [Carpenter.Pool.Default.Type (defaultPoolType)](#carpenterpooldefaulttype-defaultpooltype)
   * [Carpenter.Pool.Default.Demands (defaultPoolDemands)](#carpenterpooldefaultdemands-defaultpooldemands)
   * [Carpenter.Pool.Default.Name (defaultPoolName)](#carpenterpooldefaultname-defaultpoolname)
   * [Carpenter.Pool.Default.VMImage (defaultPoolVMImage)](#carpenterpooldefaultvmimage-defaultpoolvmimage)
+* [Project Configuration](#project-configuration)
+  * [Carpenter.Project](#carpenterproject)
+  * [Carpenter.Project.Path](#carpenterprojectpath)
+  * [Carpenter.Solution.Path](#carpentersolutionpath)
+* [Tools Configuration](#tools-configuration)
+  * [Carpenter.DotNet.Path](#carpenterdotnetpath)
+* [Output Paths](#output-paths)
+  * [Carpenter.Output.Path](#carpenteroutputpath)
+  * [Carpenter.Output.Binaries.Path](#carpenteroutputbinariespath)
+  * [Carpenter.Output.NuGet.Path](#carpenteroutputnugetpath)
+  * [Carpenter.Output.Tests.Path](#carpenteroutputtestspath)
+  * [Carpenter.Output.TestCoverage.Path](#carpenteroutputtestcoveragepath)
 * [Build Versioning](#build-versioning)
-  * [Carpenter.Version.Type (versionType)](#carpenterversiontype-versiontype)
-  * [Carpenter.Version.VersionFile](#carpenterversionversionfile)
-  * [Carpenter.Version.VersionFile.Path](#carpenterversionversionfilepath)
   * [Carpenter.Version.RevisionOffset](#carpenterversionrevisionoffset)
   * [Carpenter.Version.Revision](#carpenterversionrevision)
+  * [Carpenter.Version.VersionFile](#carpenterversionversionfile)
+  * [Carpenter.Version.VersionFile.Path](#carpenterversionversionfilepath)
+  * [Carpenter.Version.BaseVersion](#carpenterversionbaseversion)
   * [Carpenter.Version.Major](#carpenterversionmajor)
   * [Carpenter.Version.Minor](#carpenterversionminor)
   * [Carpenter.Version.Patch](#carpenterversionpatch)
   * [Carpenter.Version.Label](#carpenterversionlabel)
   * [Carpenter.Version](#carpenterversion)
-  * [Carpenter.Version.IncrementOnRelease (incrementOnRelease)](#carpenterversionincrementonrelease-incrementonrelease)
 * [Continuous Integration](#continuous-integration)
   * [Carpenter.ContinuousIntegration.Date](#carpentercontinuousintegrationdate)
   * [Carpenter.ContinuousIntegration.Revision](#carpentercontinuousintegrationrevsision)
@@ -45,18 +54,14 @@
 * [Prerelease](#prerelease)
   * [Carpenter.Prerelease.Label](#carpenterprereleaselabel)
   * [Carpenter.Prerelease.Revision](#carpenterprereleaserevision)
-* [PipelineBot](#pipelinebot)
-  * [Carpenter.PipelineBot](#carpenterpipelinebot)
-  * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
-  * [Carpenter.PipelineBot.Name](#carpenterpipelinebotname)
-  * [PipelineBot-GitHub-PAT](#pipelinebot-github-pat)
-* [.NET Build](#net-build)
-  * [Carpenter.Build.DotNet](#carpenterbuilddotnet)
-* [Test Execution](#test-execution)
 * [SonarCloud Analysis](#sonarcloud-analysis)
-  * [Carpenter.SonarCloud](#carpentersonarcloud)
+  * [Carpenter.SonarCloud.Organization](#carpentersonarcloudorganization)
+  * [Carpenter.SonarCloud.ProjectKey](#carpentersonarcloudprojectkey)
+  * [Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)](#carpentersonarcloudserviceconnection-sonarcloudserviceconnection)
 * [Deployment variables](#deployment-variables)
   * [Carpenter.Deploy.Branch](#carpenterdeploybranch)
+
+
   * [Carpenter.Deploy.NuGet](#carpenterdeploynuget)
   * [Carpenter.Deploy.NuGet.TargetFeed.Dev](#carpenterdeploynugettargetfeeddev)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test1](#carpenterdeploynugettargetfeedtest1)
@@ -73,6 +78,7 @@
   * [Carpenter.GitHub.ServiceConnection](#carpentergithubserviceconnection)
   * [Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)](#carpentergitaddtagondevmain-addgittagondevmain)
   * [Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)](#carpentergithubreleaseonprod-addgithubreleaseonprod)
+
 
 
 # Configuring Carpenter.AzurePipelines
@@ -115,10 +121,9 @@ the build is executed.
 
 Currently there is no reason to use variable groups linked through the pipeline definition.
 
-
 ## Pipeline Settings
 
-### Carpenter.PipelineVersion (pipelineVersion)
+### Carpenter.Pipeline.Version (pipelineVersion)
 
 The version of the pipeline. Used to accomodate rolling breaking changes across multiple pipelines. A breaking change
 could implement new functionality under an incremented version number, and move dependent pipelines over separately.
@@ -129,52 +134,11 @@ that this parameter is passed to the template.
 
 For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
 
-### Carpenter.Project
+### Carpenter.Pipeline.Operations (pipelineOperations)
 
-The name of the project. This value is set by the `project` parameter. If parameter is notsupplied, the default value
-is the value of the `Build.DefinitionName` variable.
+Defines the operations for a pipeline. This value is set by the `pipelineOperations` parameter.
 
-### Carpenter.Project.Path
-
-The absolute path of the project source. This value is determined during pipeline execution.
-
-### Carpenter.DotNet.Path
-
-The path to .NET binaries. This value is determined during pipeline execution if `buildDotNet` is true. If the .NET
-binaries do not exist, they will be downloaded to this path.
-
-### Carpenter.Solution.Path
-
-The absolute path to the solution. This value is determined during pipeline execution if `buildDotNet` is true.
-
-### Carpenter.Output.Path
-
-The absolute path to the output root. This value is determined during pipeline execution if `buildDotNet` is true.
-
-### Carpenter.Output.Binaries.Path
-
-The absolute path to the binaries output. This value is determined during pipeline execution if `buildDotNet` is true.
-
-### Carpenter.Output.NuGet.Path
-
-The absolute path to the NuGet package output. This value is determined during pipeline execution if `buildDotNet` is
-true.
-
-### Carpenter.Output.Tests.Path
-
-The absolute path to the test output. This value is determined during pipeline execution if `executeUnitTests` is true.
-
-### Carpenter.Output.TestCoverage.Path
-
-The absolute path to the test coverage reports output. This value is determined during pipeline execution if
-`executeUnitTests` is true.
-
-### Carpenter.Pipeline (includePipeline)
-
-If true, the pipeline will be included in the sources directory. When directly linking the pipeline template through a
-repository resource, includePipeline must be true to download the Carpenter scripts and tools to be available to the
-pipeline. This is required if the Carpenter scripts and resources do not exist in your project. This value is set by
-the `includePipeline` parameter. The default value is **true**.
+For more information, see: [operations.md](operations.md)
 
 ### Carpenter.Pipeline.Path
 
@@ -199,6 +163,48 @@ the `pipelineReason` parameter is used.
 Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
 is **CI**.
 
+## PipelineBot
+
+The PipelineBot is automation that manages the pipeline and its outside connections.
+
+For more information, see [pipeline-bot.md](pipeline-bot.md).
+
+### Carpenter.PipelineBot.Name
+
+The name of the pipeline bot.
+
+### Carpenter.PipelineBot.Email
+
+The email address of the pipeline bot.
+
+### Carpenter.PipelineBot.GitHub.Username
+
+The GitHub username for the pipeline bot.
+
+### PipelineBot-AzureDevOps-PAT
+The Azure DevOps personal access token for the pipeline bot. This value should be supplied to the pipeline as a secret
+variable, through a variable group, or through an Azure key vault.
+
+### PipelineBot-GitHub-PAT
+
+The GitHub personal access token for the pipeline bot. This value should be supplied to the pipeline as a secret
+variable, through a variable group, or through an Azure key vault.
+
+This token is used by the following operations:
+* AddGitTags
+* DeployNuGet (when target is github.com)
+* IncrementVersion
+* PublishBranch
+
+### PipelineBot-NuGet-PAT
+
+The nuget.org personal access token for the pipeline bot. This value should be supplied to the pipeline as a secret
+variable, through a variable group, or through an Azure key vault.
+
+This token is used by the following operations:
+
+* DeployNuGet (when target is nuget.org)
+
 ## Pool Configuration
 
 For more information, see [configure-pool.md](configure-pool.md).
@@ -213,205 +219,212 @@ The default pool type to use for jobs.
 | Private | Private Agent Pool |
 
  This value is set by the `defaultPoolType` parameter. The default value is **Hosted**.
+ 
+### Carpenter.Pool.Default.VMImage (defaultPoolVMImage)
 
-### Carpenter.Pool.Default.Demands (defaultPoolDemands)
-
-The demands for the agent when using a *Private* pool type. This value is set by the `defaultPoolDemands` parameter.
+The VM Image to use when using *Hosted* pool type. This value is set by the `defaultPoolVMImage` parameter. The default
+value is **ubuntu-latest**.
 
 ### Carpenter.Pool.Default.Name (defaultPoolName)
 
 The pool name to use when using *Private* pool type. This value is set by the `defaultPoolName` parameter. The default
 value is **Default**.
 
-### Carpenter.Pool.Default.VMImage (defaultPoolVMImage)
+### Carpenter.Pool.Default.Demands (defaultPoolDemands)
 
-The VM Image to use when using Hosted pool type. This value is set by the `defaultPoolVMImage` parameter. The default
-value is **ubuntu-latest**.
+The demands for the agent when using a *Private* pool type. This value is set by the `defaultPoolDemands` parameter.
+
+## Project Configuration
+
+### Carpenter.Project
+
+The name of the project. If the variable is not supplied, the default value is the value of the `Build.DefinitionName`
+variable.
+
+### Carpenter.Project.Path
+
+The absolute path of the project source. This value is determined during pipeline execution.
+
+### Carpenter.Solution.Path
+
+The absolute path to the solution. This value is determined during pipeline execution if `pipelineOperations` contains
+**BuildDotNet**.
+
+## Tools Configuration
+
+### Carpenter.DotNet.Path
+
+The path to .NET binaries. This value is determined during pipeline execution if `pipelineOperations` contains
+**BuildDotNet**. If the .NET SDK does not exist, it will be extracted to this path.
+
+## Output Path
+
+### Carpenter.Output.Path
+
+The absolute path to the output root. This value is determined during pipeline execution if `pipelineOperations`
+contains **BuildDotNet**.
+
+### Carpenter.Output.Binaries.Path
+
+The absolute path to the binaries output. This value is determined during pipeline execution if `pipelineOperations`
+contains **BuildDotNet**.
+
+### Carpenter.Output.NuGet.Path
+
+The absolute path to the NuGet package output. This value is determined during pipeline execution if
+`pipelineOperations` contains **PackageNuGet**.
+
+### Carpenter.Output.TestCoverage.Path
+
+The absolute path to the test coverage reports output. This value is determined during pipeline execution if
+`pipelineOperations` contains **CollectTestCoverage**.
+
+### Carpenter.Output.Tests.Path
+
+The absolute path to the test output. This value is determined during pipeline execution if `pipelineOperations`
+contains **TestDotNet**.
 
 ## Build Versioning
 
 For more information, see [build-versioning.md](build-versioning.md).
 
-### Carpenter.Version.Type (versionType)
-
-The type of build versioning to use.
-
-| Version Type | Description |
-|:--|:--|
-| None | No build versioning |
-| SemVer | Semantic Versioning 2.0.0 |
-
-This value is set by the `versionType` parameter. The default value is **None**.
-
-### Carpenter.Version.VersionFile
-
-The relative path to the VERSION file from the project root. Only used if versionType is SemVer. The default value is
-**VERSION**.
-
-### Carpenter.Version.VersionFile.Path
-
-The absolute path to the VERSION file. This value is determined during pipeline execution if versionType is SemVer.
-
 ### Carpenter.Version.RevisionOffset
 
-The starting value offset of the revision counter. Only used if versionType is not None. The default value is **0**.
+The starting value offset of the revision counter. Only used if `pipelineOperations` contains **VersionSemVer**. The
+default value is **0**.
 
 ### Carpenter.Version.Revision
 
-The number of times the project has been built by this pipeline. This value is determined during pipeline execution.
+The number of times the project has been built by this pipeline. This value is determined during pipeline execution if
+`pipelineOperations` contains **VersionSemVer**.
+
+### Carpenter.Version.VersionFile
+
+The relative path to the VERSION file from the project root. Only used if `pipelineOperations` contains
+**VersionSemVer**. The default value is **VERSION**.
+
+### Carpenter.Version.VersionFile.Path
+
+The absolute path to the VERSION file. This value is determined during pipeline execution if `pipelineOperations`
+contains **VersionSemVer**.
+
+### Carpenter.Version.BaseVersion
+
+The base version number, comprised of Major, Minor and Patch versions separated by a period. This value is
+determined during pipeline execution from the vERSION file if `pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.Version.Major
 
-The Major version number. This value is determined during pipeline execution from the VERSION file.
+The Major version number. This value is determined during pipeline execution from the VERSION file if
+`pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.Version.Minor
 
-The Minor version number. This value is determined during pipeline execution from the VERSION file.
+The Minor version number. This value is determined during pipeline execution from the VERSION file if
+`pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.Version.Patch
 
-The Patch version number. This value is determined during pipeline execution from the VERSION file.
+The Patch version number. This value is determined during pipeline execution from the VERSION file if
+`pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.Version.Label
 
-The version label. This value is determined during pipeline execution.
+The version label. This value is determined during pipeline execution if `pipelineOperations` contains
+**VersionSemVer**.
 
 ### Carpenter.Version
 
-The version string (without version metadata). This value is determined during pipeline execution.
-
-### Carpenter.Version.IncrementOnRelease
-
-If true, the patch version is incremented on a release. This value is set by the `incrementVersionOnRelease`
-parameter. The default value is **false**.
+The version string (without version metadata). This value is determined during pipeline execution if
+`pipelineOperations` contains **VersionSemVer**.
 
 ## Continuous Integration
 
 ### Carpenter.ContinuousIntegration.Date
 
 The date code of the continuous integration build. This value is determined during template expansion when
-pipelineReason is CI.
+`pipelineReason` is **CI** if `pipelineOperations` contains **VersionSemVer**.
 
 ### Carpenter.ContinuousIntegration.Revsision
 
 The revision of the continuous integration build. Increments for each build under a specific date. This value is
-determined during pipeline execution when pipelineReason is CI.
+determined during pipeline execution when `pipelineReason` is **CI** if `pipelineOperations` contains
+**VersionSemVer**.
 
 ## Pull Request
 
 ### Carpenter.PullRequest.Revision
 
-The pull request revision. This value is determined during the pipeline execution when pipelineReason is PR.
+The pull request revision. This value is determined during the pipeline execution when `pipelineReason` is **PR**
+if `pipelineOperations` contains **VersionSemVer**.
 
 ## Prerelease
 
 ### Carpenter.Prerelease.Label
 
-The label to use for a prerelease build. This value is set by the `prereleaseLabel` parameter when pipelineReason is
-Prerelease. The default value is **alpha**.
+The label to use for a prerelease build. This value is set by the `prereleaseLabel` parameter when `pipelineReason` is
+**Prerelease** if `pipelineOperations` contains **VersionSemVer**. The default value is **alpha**.
 
 ### Carpenter.Prerelease.Revision
 
-The prerelease revision. This value is determined during pipeline execution.
-
-## PipelineBot
-
-The PipelineBot is automation that manages the pipeline and its outside connections.
-
-### Carpenter.PipelineBot
-
-The GitHub username for the pipeline bot.
-
-### Carpenter.PipelineBot.Email
-
-The email address of the pipeline bot.
-
-### Carpenter.PipelineBot.Name
-
-The name of the pipeline bot.
-
-### PipelineBot-GitHub-PAT
-
-The GitHub personal access token for the pipeline bot. This value should be supplied to
-the pipeline as a secret variable through a Variable group or through an Azure key vault.
-
-This token is used by the following jobs/steps:
-* AddGitTags
-* DeployNuGet (when target is github.com)
-* IncrementVersion
-* PublishBranch
-
-## .NET Build
-
-### Carpenter.Build.DotNet
-
-If true, a dotnet build process is executed. This value is set by the `buildDotNet` parameter.
-The default value is **false**.
-
-## Test Execution
-
-### Carpenter.Test.Unit
-
-If true, unit tests are executed during the pipeline. This value is set by the
-`executeUnitTests` parameter. The default valuer is **false**.
+The prerelease revision. This value is determined during pipeline execution when `pipelineReason` is **Prerelease** if
+`pipelineOperations` contains **VersionSemVer**.
 
 ## SonarCloud Analysis
 
-### Carpenter.SonarCloud
-
-If true, SonarCloud analysis is executed. This value is set by the `sonarCloud` parameter.
-The default value is **false**.
+For more information:
+https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
 
 ### Carpenter.SonarCloud.Organization
 
-The SonarCloud organization this project is under. This value is set by the
-`sonarCloudOrganization` parameter.
+The SonarCloud organization this project is under. This value is used if `pipelineOperations` contains
+**AnalyzeSonar**.
 
 ### Carpenter.SonarCloud.ProjectKey
 
-The SonarCloud project key. This value is set by the `sonarCloudProjectKey` parameter.
+The SonarCloud project key. This value is used if `pipelineOperations` contains **AnalyzeSonar**.
 
-### Carpenter.SonarCloud.ServiceConnection
+### Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)
 
-The SonarCloud service connection to use. This value is set by the `sonarCloudServiceConnection`
-parameter.
+The SonarCloud service connection to use. This value is set by the `sonarCloudServiceConnection` parameter if
+`pipelineOperations` contains **AnalyzeSonar**.
 
 ## Deployment variables
 
 ### Carpenter.Deploy.Branch
 
-Comma separated list of stacks deploy branch should execute for. Creates a branch of this builds
-source to represent code on a stack. This value is set by the `deployBranch` parameter.
+Comma separated list of stacks deploy branch should execute for. This value is set by the `deployBranch` parameter if
+`pipelineOperations` contains **DeployBranch**.
 
 ### Carpenter.Deploy.NuGet
 
-Comma separated list of stacks deploy nuget should execute for. Publishes NuGet packages created by
-this pipeline. This value is set by the `deployNuGet` parameter.
+Comma separated list of stacks deploy nuget should execute for. This value is set by the `deployNuGet` parameter if
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Dev
 
-The target NuGet feed to use when deploying NuGet packages to the Dev stack. This value is set by the
-`deployNuGetTargetFeedDev` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Dev stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Test1
 
-The target NuGet feed to use when deploying NuGet packages to the Test1 stack. This value is set by the
-`deployNuGetTargetFeedTest1` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Test1 stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Test2
 
-The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is set by the
-`deployNuGetTargetFeedTest2` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Stage
 
-The target NuGet feed to use when deploying NuGet packages to the Stage stack. This value is set by the
-`deployNuGetTargetFeedStage` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Stage stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Prod
 
-The target NuGet feed to use when deploying NuGet packages to the Prod stack. This value is set by the
-`deployNuGetTargetFeedProd` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Prod stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.NuGet.Quality
 

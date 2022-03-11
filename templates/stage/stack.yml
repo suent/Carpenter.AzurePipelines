@@ -28,15 +28,21 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
+  # See docs/configuration.md for parameter documentation.
 
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
+- name: pipelineOperations
+  type: object
 
+- name: pipelineReason
+  type: string
+  
 - name: defaultPoolType
+  type: string
+
+- name: defaultPoolVMImage
   type: string
 
 - name: defaultPoolName
@@ -44,27 +50,6 @@ parameters:
 
 - name: defaultPoolDemands
   type: object
-
-- name: defaultPoolVMImage
-  type: string
-
-- name: pipelineReason
-  type: string
-
-- name: versionType
-  type: string
-
-- name: incrementVersionOnRelease
-  type: boolean
-
-- name: buildDotNet
-  type: boolean
-
-- name: executeUnitTests
-  type: boolean
-
-- name: sonarCloud
-  type: string
 
 - name: deployBranch
   type: string
@@ -138,13 +123,9 @@ stages:
     - ${{ if ne(parameters.stack,'dev') }}:
       - template: ../variable/carpenter-stack.yml
         parameters:
+          pipelineOperations: ${{ parameters.pipelineOperations }}
           pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
-          versionType: ${{ parameters.versionType }}
-          buildDotNet: ${{ parameters.buildDotNet }}
-          executeUnitTests: ${{ parameters.executeUnitTests }}
-          sonarCloud: ${{ parameters.sonarCloud }}
-          deployNuGet: ${{ parameters.deployNuGet }}
           updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
           gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
@@ -152,17 +133,12 @@ stages:
     - template: ../job/deploy.yml
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
-        includePipeline: ${{ parameters.includePipeline }}
+        pipelineOperations: ${{ parameters.pipelineOperations }}
+        pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-        pipelineReason: ${{ parameters.pipelineReason }}
-        versionType: ${{ parameters.versionType }}
-        incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-        buildDotNet: ${{ parameters.buildDotNet }}
-        executeUnitTests: ${{ parameters.executeUnitTests }}
-        sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}

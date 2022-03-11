@@ -28,13 +28,13 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
+  # See docs/configuration.md for parameter documentation.
 
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
+- name: pipelineOperations
+  type: object
 
 - name: pipelineReason
   type: string
@@ -42,29 +42,14 @@ parameters:
 - name: defaultPoolType
   type: string
 
+- name: defaultPoolVMImage
+  type: string
+
 - name: defaultPoolName
   type: string
 
 - name: defaultPoolDemands
   type: object
-
-- name: defaultPoolVMImage
-  type: string
-
-- name: versionType
-  type: string
-
-- name: incrementVersionOnRelease
-  type: boolean
-
-- name: buildDotNet
-  type: boolean
-
-- name: executeUnitTests
-  type: boolean
-
-- name: sonarCloud
-  type: string
 
 - name: deployBranch
   type: string
@@ -127,17 +112,12 @@ jobs:
   - template: ../job/deploy-branch.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
@@ -145,20 +125,16 @@ jobs:
         jobDependsOn:
         - build
 
-- ${{ if contains(parameters.deployNuGet,parameters.stack) }}:
+- ${{ if contains(parameters.deployNuGet, parameters.stack) }}:
   - template: ../job/deploy-nuget.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
@@ -171,17 +147,12 @@ jobs:
   - template: ../job/update-nuget-quality.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
@@ -193,18 +164,12 @@ jobs:
 - template: ../job/finalize.yml
   parameters:
     pipelineVersion: ${{ parameters.pipelineVersion }}
-    includePipeline: ${{ parameters.includePipeline }}
+    pipelineOperations: ${{ parameters.pipelineOperations }}
     pipelineReason: ${{ parameters.pipelineReason }}
     defaultPoolType: ${{ parameters.defaultPoolType }}
+    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-    defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-    versionType: ${{ parameters.versionType }}
-    incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-    buildDotNet: ${{ parameters.buildDotNet }}
-    executeUnitTests: ${{ parameters.executeUnitTests }}
-    sonarCloud: ${{ parameters.sonarCloud }}
-    deployNuGet: ${{ parameters.deployNuGet }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
     addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}

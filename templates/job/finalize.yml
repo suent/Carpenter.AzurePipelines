@@ -28,13 +28,13 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
+  # See docs/configuration.md for parameter documentation.
 
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
+- name: pipelineOperations
+  type: object
 
 - name: pipelineReason
   type: string
@@ -42,32 +42,14 @@ parameters:
 - name: defaultPoolType
   type: string
 
+- name: defaultPoolVMImage
+  type: string
+
 - name: defaultPoolName
   type: string
 
 - name: defaultPoolDemands
   type: object
-
-- name: defaultPoolVMImage
-  type: string
-
-- name: versionType
-  type: string
-
-- name: buildDotNet
-  type: boolean
-
-- name: executeUnitTests
-  type: boolean
-
-- name: incrementVersionOnRelease
-  type: boolean
-
-- name: sonarCloud
-  type: string
-
-- name: deployNuGet
-  type: string
 
 - name: updateNuGetQuality
   type: string
@@ -114,21 +96,17 @@ jobs:
     variables:
     - template: ../variable/carpenter-dev.yml
       parameters:
+        pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
-        versionType: ${{ parameters.versionType }}
-        buildDotNet: ${{ parameters.buildDotNet }}
-        executeUnitTests: ${{ parameters.executeUnitTests }}
-        sonarCloud: ${{ parameters.sonarCloud }}
-        deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
 
   steps:
   # Include pipeline for access to pipeline scripts
-  - ${{ if ne(parameters.includePipeline, 'true') }}:
+  - ${{ if containsValue(parameters.pipelineOperations,'ExcludePipeline') }}:
     - checkout: self
-  - ${{ if eq(parameters.includePipeline, 'true') }}:
+  - ${{ if not(containsValue(parameters.pipelineOperations,'ExcludePipeline')) }}:
     - checkout: Carpenter
 
   - template: ../step/initialize-job-nosource.yml     
@@ -141,7 +119,7 @@ jobs:
         filePath: $(Carpenter.Pipeline.ScriptPath)/AddGitTags.ps1
         arguments: -Verbose
       env:
-        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
+        CARPENTER_PIPELINEBOT_GITHUB_TOKEN: $(PipelineBot-GitHub-PAT)
       displayName: Add Git tags
 
   - ${{ if and(eq(parameters.addGitHubReleaseOnProd,'true'),eq(parameters.stack,'prod')) }}:
@@ -159,7 +137,7 @@ jobs:
         addChangeLog: true
       displayName: Add GitHub Release
   
-  - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev'), ne(parameters.versionType, 'None'), eq(parameters.pipelineReason, 'Release'), eq(parameters.incrementVersionOnRelease, true)) }}:
+  - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev'), containsValue(parameters.pipelineOperation, 'IncrementVersionOnRelease'), eq(parameters.pipelineReason, 'Release')) }}:
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'
@@ -167,7 +145,7 @@ jobs:
         arguments: -Verbose
       displayName: Update project version
       env:
-        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
+        CARPENTER_PIPELINEBOT_GITHUB_TOKEN: $(PipelineBot-GitHub-PAT)
 
   - powershell: |
       "##vso[build.addbuildtag]Deployed-${{ parameters.stack }}"

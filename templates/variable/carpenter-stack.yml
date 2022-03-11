@@ -28,27 +28,15 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
-
-- name: defaultPoolType
-  type: string
+  # See docs/configuration.md for parameter documentation.
+  
+- name: pipelineOperations
+  type: object
 
 - name: pipelineReason
   type: string
 
-- name: versionType
-  type: string
-
-- name: buildDotNet
-  type: boolean
-
-- name: executeUnitTests
-  type: boolean
-  
-- name: sonarCloud
-  type: string
-
-- name: deployNuGet
+- name: defaultPoolType
   type: string
 
 - name: updateNuGetQuality
@@ -59,40 +47,11 @@ parameters:
 
 
 variables:
-- name: Carpenter.PipelineVersion
+- name: Carpenter.Pipeline.Version
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineVersion'] ]
 
-- name: Carpenter.Project
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.project'] ]
-
-- name: Carpenter.Project.Path
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.projectPath'] ]
-
-- ${{ if eq(parameters.buildDotNet,true) }}:
-  - name: Carpenter.DotNet.Path
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.dotNetPath'] ]
-
-  - name: Carpenter.Solution.Path
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.solutionPath'] ]
-
-  - name: Carpenter.Output.Path
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.outputPath'] ]
-
-  - name: Carpenter.Output.Binaries.Path
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.binariesPath'] ]
-
-  - name: Carpenter.Output.NuGet.Path
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetPath'] ]
-
-  - ${{ if eq(parameters.executeUnitTests,true) }}:
-    - name: Carpenter.Output.Tests.Path
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testsPath'] ]
-
-    - name: Carpenter.Output.TestCoverage.Path
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testCoveragePath'] ]
-
-- name: Carpenter.Pipeline
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.includePipeline'] ]
+- name: Carpenter.Pipeline.Operations
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineOperations'] ]
 
 - name: Carpenter.Pipeline.Path
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelinePath'] ]
@@ -103,6 +62,11 @@ variables:
 - name: Carpenter.Pipeline.Reason
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineReason'] ]
 
+- name: Carpenter.PipelineBot.Name
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineBotName']]
+
+- name: Carpenter.PipelineBot.Email
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineBotEmail']]
 
 - name: Carpenter.Pool.Default.Type
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.defaultPoolType'] ]
@@ -118,51 +82,97 @@ variables:
   - name: Carpenter.Pool.Default.Demands
     value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.defaultPoolDemands'] ]
 
-- ${{ if eq(parameters.buildDotNet,true) }}:
-  - name: Carpenter.Build.DotNet
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.buildDotNet'] ]
+- name: Carpenter.Project
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.project'] ]
 
-- name: Carpenter.Test.Unit
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.executeUnitTests'] ]
+- name: Carpenter.Project.Path
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.projectPath'] ]
 
-- name: Carpenter.SonarCloud
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.sonarCloud'] ]
+- ${{ if containsValue(parameters.pipelineOperation, 'BuildDotNet') }}:
+  - name: Carpenter.Solution.Path
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.solutionPath'] ]
 
-- ${{ if eq(parameters.sonarCloud, 'true') }}:
-  - name: Carpenter.SonarCloud.Organization
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.sonarCloudOrganization'] ]
+  - name: Carpenter.DotNet.Path
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.dotNetPath'] ]
 
-  - name: Carpenter.SonarCloud.ProjectKey
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.sonarCloudProjectKey'] ]
-     
+  - name: Carpenter.Output.Path
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.outputPath'] ]
+
+  - name: Carpenter.Output.Binaries.Path
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.binariesPath'] ]
+
+  - ${{ if containsValue(parameters.pipelineOperation, 'PackageNuGet') }}:
+    - name: Carpenter.Output.NuGet.Path
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetPath'] ]
+
+  - ${{ if containsValue(parameters.pipelineOperation, 'CollectTestCoverage') }}:
+    - name: Carpenter.Output.TestCoverage.Path
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testCoveragePath'] ]
+
+  - ${{ if containsValue(parameters.pipelineOperation, 'TestDotNet') }}:
+    - name: Carpenter.Output.Tests.Path
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testsPath'] ]
+
+- ${{ if contains(parameters.pipelineOperations,'VersionSemVer') }}:
+
+  - name: Carpenter.Version.RevisionOffset
+    value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.revisionOffset'] ]
+
+  - name: Carpenter.Version.Revision
+    value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.revision'] ]
+
+  - name: Carpenter.Version.VersionFile
+    value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.versionFile'] ]
+
+  - name: Carpenter.Version.VersionFile.Path
+    value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.versionFilePath'] ]
+
+  - name: Carpenter.Version.BaseVersion
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.baseVersion'] ]
+
+  - name: Carpenter.Version.Major
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.majorVersion'] ]
+
+  - name: Carpenter.Version.Minor
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.minorVersion'] ]
+
+  - name: Carpenter.Version.Patch
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.patchVersion'] ]
+
+  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.pipelineReason,'CI'))) }}:
+    - name: Carpenter.ContinuousIntegration.Date
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.continuousIntegrationDate'] ]
+
+    - name: Carpenter.ContinuousIntegration.Revision
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.continuousIntegrationRevision'] ]
+
+  - ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
+    - name: Carpenter.PullRequest.Revision
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pullRequestRevision'] ]
+
+  - ${{ if eq(parameters.pipelineReason,'Prerelease')}}:
+    - name: Carpenter.Prerelease.Label
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.prereleaseLabel'] ]
+  
+    - name: Carpenter.Prerelease.Revision
+      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.prereleaseRevision'] ]
+
+  - name: Carpenter.Version.Label
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.versionLabel'] ]
+
+  - name: Carpenter.Version
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.version'] ]
+
+- ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
   - name: Carpenter.SonarCloud.ServiceConnection
     value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.sonarCloudServiceConnection'] ]
 
-- name: Carpenter.Deploy.Branch
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.deployBranch'] ]
+- ${{ if containsValue(parameters.pipelineOperations, 'DeployBranch') }}:
+  - name: Carpenter.Deploy.Branch
+    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.deployBranch'] ]
 
 - name: Carpenter.Deploy.NuGet
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.deployNuGet'] ]
-
-- ${{ if contains(parameters.deployNuGet,'dev') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedDev'] ]
-
-- ${{ if contains(parameters.deployNuGet,'test1') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedTest1'] ]
-
-- ${{ if contains(parameters.deployNuGet,'test2') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedTest2'] ]
-
-- ${{ if contains(parameters.deployNuGet,'stage') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedStage'] ]
-
-- ${{ if contains(parameters.deployNuGet,'prod') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedProd'] ]
 
 - name: Carpenter.NuGet.Quality
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.updateNuGetQuality'] ]
@@ -194,60 +204,3 @@ variables:
 - ${{ if ne(parameters.gitHubServiceConnection,'') }}:
   - name: Carpenter.GitHub.ServiceConnection
     value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.gitHubServiceConnection'] ]
-
-
-- name: Carpenter.Version.Type
-  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.versionType'] ]
-
-- ${{ if ne(parameters.versionType,'None') }}:
-  - name: Carpenter.Version.VersionFile
-    value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.versionFile'] ]
-
-  - name: Carpenter.Version.VersionFile.Path
-    value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.versionFilePath'] ]
-
-  - name: Carpenter.Version.RevisionOffset
-    value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.revisionOffset'] ]
-
-  - name: Carpenter.Version.BaseVersion
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.baseVersion'] ]
-
-  - name: Carpenter.Version.Major
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.majorVersion'] ]
-
-  - name: Carpenter.Version.Minor
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.minorVersion'] ]
-
-  - name: Carpenter.Version.Patch
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.patchVersion'] ]
-
-  - name: Carpenter.Version.Revision
-    value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.revision'] ]
-
-  - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.pipelineReason,'CI'))) }}:
-    - name: Carpenter.ContinuousIntegration.Date
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.continuousIntegrationDate'] ]
-
-    - name: Carpenter.ContinuousIntegration.Revision
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.continuousIntegrationRevision'] ]
-
-  - ${{ if eq(variables['Build.Reason'],'PullRequest') }}:
-    - name: Carpenter.PullRequest.Revision
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pullRequestRevision'] ]
-
-  - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
-    - name: Carpenter.Prerelease.Label
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.prereleaseLabel'] ]
-  
-    - name: Carpenter.Prerelease.Revision
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.prereleaseRevision'] ]
-
-  - ${{ if eq(parameters.pipelineReason,'Release')}}:
-    - name: Carpenter.Version.IncrementOnRelease
-      value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.incrementVersionOnRelease'] ]
-
-  - name: Carpenter.Version.Label
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.versionLabel'] ]
-
-  - name: Carpenter.Version
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.version'] ]

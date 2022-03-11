@@ -28,15 +28,15 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
+  # See docs/configuration.md for parameter documentation.
 
 - name: pipelineVersion
   type: number
   default: 1
 
-- name: includePipeline
-  type: boolean
-  default: true
+- name: pipelineOperations
+  type: object
+  default: []
 
 - name: pipelineReason
   type: string
@@ -53,6 +53,10 @@ parameters:
   - Hosted
   - Private
 
+- name: defaultPoolVMImage
+  type: string
+  default: 'ubuntu-latest'
+
 - name: defaultPoolName
   type: string
   default: Default
@@ -61,17 +65,6 @@ parameters:
   type: object
   default: {}
 
-- name: defaultPoolVMImage
-  type: string
-  default: 'ubuntu-latest'
-
-- name: versionType
-  type: string
-  default: None
-  values:
-  - None
-  - SemVer
-
 - name: prereleaseLabel
   type: string
   default: alpha
@@ -79,30 +72,6 @@ parameters:
   - alpha
   - beta
   - RC
-
-- name: incrementVersionOnRelease
-  type: boolean
-  default: false
-
-- name: buildDotNet
-  type: boolean
-  default: false
-
-- name: executeUnitTests
-  type: boolean
-  default: false
-
-- name: sonarCloud
-  type: boolean
-  default: false
-
-- name: sonarCloudOrganization
-  type: string
-  default: ''
-
-- name: sonarCloudProjectKey
-  type: string
-  default: ''
 
 - name: sonarCloudServiceConnection
   type: string
@@ -113,26 +82,6 @@ parameters:
   default: ''
 
 - name: deployNuGet
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedDev
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedTest1
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedTest2
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedStage
-  type: string
-  default: ''
-
-- name: nuGetTargetFeedProd
   type: string
   default: ''
 
@@ -200,29 +149,25 @@ stages:
 
 
     variables:
-    - name: Carpenter.PipelineVersion
+    - name: Carpenter.Pipeline.Version
       value: ${{ parameters.pipelineVersion }}
 
-    - ${{ if eq(parameters.includePipeline,'true') }}:
-      - name: Carpenter.Pipeline
-        value: true
+    - name: Carpenter.Pipeline.Operations
+      value: ${{ convertToJson(parameters.pipelineOperations) }}
 
+    - ${{ if not(containsValue(parameters.pipelineOperations,'ExcludePipeline')) }}:
       - name: Carpenter.Pipeline.Path
         value: $[ format('{0}/{1}/{2}', '$(Agent.BuildDirectory)', 's', 'Carpenter.AzurePipelines') ]
 
-    - ${{ if ne(parameters.includePipeline,'true') }}:
-      - name: Carpenter.Pipeline
-        value: false
-
+    - ${{ if containsValue(parameters.pipelineOperations,'ExcludePipeline') }}:
       - name: Carpenter.Pipeline.Path
         value: $[ format('{0}/{1}', '$(Agent.BuildDirectory)', 's') ]
 
     - name: Carpenter.Pipeline.ScriptPath
       value: $[ format('{0}/{1}', variables['Carpenter.Pipeline.Path'], 'scripts') ]
 
-    - ${{ if eq(variables['Build.Reason'],'Manual') }}:
-      - name: Carpenter.Pipeline.Reason
-        value: ${{ parameters.pipelineReason }}
+    - name: Carpenter.Pipeline.Reason
+      value: ${{ parameters.pipelineReason }}
 
     - name: Carpenter.Pool.Default.Type
       value: ${{ parameters.defaultPoolType }}
@@ -235,48 +180,20 @@ stages:
       - name: Carpenter.Pool.Default.Name
         value: ${{ parameters.defaultPoolName }}
   
-      - ${{ if eq(length(parameters.defaultPoolDemands),0) }}:
-        - name: Carpenter.Pool.Default.Demands
-          value: False
+      - name: Carpenter.Pool.Default.Demands
+        value: ${{ convertToJson(parameters.defaultPoolDemands) }}
   
-      - ${{ if gt(length(parameters.defaultPoolDemands),0) }}:
-        - name: Carpenter.Pool.Default.Demands
-          value: True
-
-    - name: Carpenter.Version.Type
-      value: ${{ parameters.versionType }}
-  
-    - ${{ if ne(parameters.versionType,'None') }}:
+    - ${{ if containsValue(parameters.pipelineOperations, 'VersionSemVer') }}:
      
-      - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters['pipelineReason'],'CI'))) }}:
+      - ${{ if or(eq(variables['Build.Reason'],'IndividualCI'), eq(variables['Build.Reason'],'BatchedCI'), and(eq(variables['Build.Reason'],'Manual'), eq(parameters.pipelineReason,'CI'))) }}:
         - name: Carpenter.ContinuousIntegration.Date
           value: $[ format('{0:yyyyMMdd}', pipeline.startTime) ]
 
-      - ${{ if eq(parameters['pipelineReason'],'Prerelease')}}:
+      - ${{ if eq(parameters.pipelineReason,'Prerelease')}}:
         - name: Carpenter.Prerelease.Label
           value: ${{ parameters.prereleaseLabel }}
 
-      - ${{ if eq(parameters['pipelineReason'],'Release')}}:
-        - name: Carpenter.Version.IncrementOnRelease
-          value: ${{ parameters.incrementVersionOnRelease }}
-  
-    - ${{ if eq(parameters.buildDotNet,true) }}:
-      - name: Carpenter.Build.DotNet
-        value: ${{ parameters.buildDotNet }}
-
-    - name: Carpenter.Test.Unit
-      value: ${{ parameters.executeUnitTests }}
-
-    - name: Carpenter.SonarCloud
-      value: ${{ parameters.sonarCloud }}
-
-    - ${{ if eq(parameters.sonarCloud, 'true') }}:
-      - name: Carpenter.SonarCloud.Organization
-        value: ${{ parameters.sonarCloudOrganization }}
-
-      - name: Carpenter.SonarCloud.ProjectKey
-        value: ${{ parameters.sonarCloudProjectKey }}
-     
+    - ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
       - name: Carpenter.SonarCloud.ServiceConnection
         value: ${{ parameters.sonarCloudServiceConnection }}
 
@@ -285,26 +202,6 @@ stages:
 
     - name: Carpenter.Deploy.NuGet
       value: ${{ parameters.deployNuGet }}
-
-    - ${{ if contains(parameters.deployNuGet,'dev') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
-        value: ${{ parameters.nuGetTargetFeedDev }}
-
-    - ${{ if contains(parameters.deployNuGet,'test1') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
-        value: ${{ parameters.nuGetTargetFeedTest1 }}
-
-    - ${{ if contains(parameters.deployNuGet,'test2') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
-        value: ${{ parameters.nuGetTargetFeedTest2 }}
-
-    - ${{ if contains(parameters.deployNuGet,'stage') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
-        value: ${{ parameters.nuGetTargetFeedStage }}
-
-    - ${{ if contains(parameters.deployNuGet,'prod') }}:
-      - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
-        value: ${{ parameters.nuGetTargetFeedProd }}
 
     - name: Carpenter.NuGet.Quality
       value: ${{ parameters.updateNuGetQuality }}
@@ -342,12 +239,13 @@ stages:
     - checkout: self
   
     # Publish source artifact
-    - publish: $(System.DefaultWorkingDirectory)
-      artifact: source
-      displayName: 'Publish source artifact'
+    - ${{ if containsValue(parameters.pipelineOperations, 'PublishSourceArtifact') }}:
+      - publish: $(System.DefaultWorkingDirectory)
+        artifact: source
+        displayName: 'Publish source artifact'
 
     # Include pipeline for access to pipeline scripts
-    - ${{ if eq(parameters.includePipeline, 'true') }}:
+    - ${{ if not(containsValue(parameters.pipelineOperations,'ExcludePipeline')) }}:
       - checkout: Carpenter
 
     - task: PowerShell@2
@@ -356,6 +254,8 @@ stages:
         filePath: $(Carpenter.Pipeline.ScriptPath)/InitializePipeline.ps1
         arguments: -Verbose
       displayName: Initialize pipeline
+      env:
+        CARPENTER_PIPELINEBOT_GITHUB_TOKEN: $(PipelineBot-GitHub-PAT)
       name: initializePipeline
 
     - template: step/display-environment.yml
@@ -363,18 +263,13 @@ stages:
   - template: job/build.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
-      deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
@@ -382,17 +277,12 @@ stages:
     - template: job/deploy.yml
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
-        includePipeline: ${{ parameters.includePipeline }}
+        pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-        versionType: ${{ parameters.versionType }}
-        incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-        buildDotNet: ${{ parameters.buildDotNet }}
-        executeUnitTests: ${{ parameters.executeUnitTests }}
-        sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
@@ -418,17 +308,12 @@ stages:
   - template: stage/stack.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
@@ -454,17 +339,12 @@ stages:
   - template: stage/stack.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
@@ -490,17 +370,12 @@ stages:
   - template: stage/stack.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
-      includePipeline: ${{ parameters.includePipeline }}
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
+      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-      versionType: ${{ parameters.versionType }}
-      incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
-      sonarCloud: ${{ parameters.sonarCloud }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
@@ -525,22 +400,17 @@ stages:
       - test1
       - test2
 
-  # Only deploy to productioni on Prerelease and Release builds
+  # Only deploy to production on Prerelease and Release builds
   - ${{ if and(eq(variables['Build.Reason'],'Manual'), or(eq(parameters.pipelineReason,'Prerelease'),eq(parameters.pipelineReason,'Release'))) }}:
     - template: stage/stack.yml
       parameters:
         pipelineVersion: ${{ parameters.pipelineVersion }}
-        includePipeline: ${{ parameters.includePipeline }}
+        pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
+        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
         defaultPoolName: ${{ parameters.defaultPoolName }}
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-        defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
-        versionType: ${{ parameters.versionType }}
-        incrementVersionOnRelease: ${{ parameters.incrementVersionOnRelease }}
-        buildDotNet: ${{ parameters.buildDotNet }}
-        executeUnitTests: ${{ parameters.executeUnitTests }}
-        sonarCloud: ${{ parameters.sonarCloud }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}

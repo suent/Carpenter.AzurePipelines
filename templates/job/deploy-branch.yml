@@ -28,18 +28,21 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
+  # See docs/configuration.md for parameter documentation.
 
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
+- name: pipelineOperations
+  type: object
 
 - name: pipelineReason
   type: string
 
 - name: defaultPoolType
+  type: string
+
+- name: defaultPoolVMImage
   type: string
 
 - name: defaultPoolName
@@ -48,27 +51,9 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: defaultPoolVMImage
-  type: string
-
-- name: versionType
-  type: string
-
-- name: buildDotNet
-  type: boolean
-
-- name: executeUnitTests
-  type: boolean
-
-- name: sonarCloud
-  type: string
-
 - name: updateNuGetQuality
   type: string
 
-- name: deployNuGet
-  type: string
-  
 - name: gitHubServiceConnection
   type: string
 
@@ -106,21 +91,17 @@ jobs:
     variables:
     - template: ../variable/carpenter-dev.yml
       parameters:
+        pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
-        versionType: ${{ parameters.versionType }}
-        buildDotNet: ${{ parameters.buildDotNet }}
-        executeUnitTests: ${{ parameters.executeUnitTests }}
-        sonarCloud: ${{ parameters.sonarCloud }}
-        deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
 
   steps:
   # Include pipeline for access to pipeline scripts
-  - ${{ if ne(parameters.includePipeline, 'true') }}:
+  - ${{ if containsValue(parameters.pipelineOperations,'ExcludePipeline') }}:
     - checkout: self
-  - ${{ if eq(parameters.includePipeline, 'true') }}:
+  - ${{ if not(containsValue(parameters.pipelineOperations,'ExcludePipeline')) }}:
     - checkout: Carpenter
 
   - template: ../step/initialize-job-nosource.yml     
@@ -134,4 +115,4 @@ jobs:
       arguments: '-Verbose -Stack ${{ parameters.stack }}'
     displayName: 'Publish branch: ${{ parameters.stack }}'
     env:
-      CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
+      CARPENTER_PIPELINEBOT_GITHUB_TOKEN: $(PipelineBot-GitHub-PAT)

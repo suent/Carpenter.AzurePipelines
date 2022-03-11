@@ -28,18 +28,21 @@
 
 parameters:
 
-  # See docs/parameters.md for parameter documentation.
+  # See docs/configuration.md for parameter documentation.
 
 - name: pipelineVersion
   type: number
 
-- name: includePipeline
-  type: boolean
+- name: pipelineOperations
+  type: object
 
 - name: pipelineReason
   type: string
 
 - name: defaultPoolType
+  type: string
+
+- name: defaultPoolVMImage
   type: string
 
 - name: defaultPoolName
@@ -48,25 +51,7 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: defaultPoolVMImage
-  type: string
-    
-- name: versionType
-  type: string
-
-- name: buildDotNet
-  type: boolean
-
-- name: executeUnitTests
-  type: boolean
-
-- name: sonarCloud
-  type: boolean
-
 - name: sonarCloudServiceConnection
-  type: string
-
-- name: deployBranch
   type: string
 
 - name: deployNuGet
@@ -98,13 +83,9 @@ jobs:
   variables:
   - template: ../variable/carpenter-dev.yml
     parameters:
+      pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
-      versionType: ${{ parameters.versionType }}
-      buildDotNet: ${{ parameters.buildDotNet }}
-      executeUnitTests: ${{ parameters.executeUnitTests }}
-      sonarCloud: ${{ parameters.sonarCloud }}
-      deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
 
@@ -112,13 +93,12 @@ jobs:
   - checkout: self
 
   # Include pipeline for access to pipeline scripts
-  - ${{ if eq(parameters.includePipeline, 'true') }}:
+  - ${{ if not(containsValue(parameters.pipelineOperations,'ExcludePipeline')) }}:
     - checkout: Carpenter
-
 
   - template: ../step/display-environment.yml
 
-  - ${{ if eq(parameters.buildDotNet, 'true') }}:
+  - ${{ if containsValue(parameters.pipelineOperations, 'BuildDotNet') }}:
 
     - task: NuGetAuthenticate@0
       displayName: Setup NuGet authentication
@@ -131,7 +111,7 @@ jobs:
         version: 6.x
         installationPath: $(Carpenter.DotNet.Path)
 
-    - ${{ if eq(parameters.sonarCloud, 'true') }}:
+    - ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
       - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
         displayName: 'Prepare SonarCloud analysis'
         condition: succeeded()
@@ -153,41 +133,42 @@ jobs:
         projects: '$(Carpenter.Solution.Path)'
         arguments: '--output $(Carpenter.Output.Binaries.Path) --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
 
-    - task: CopyFiles@2
-      displayName: 'Copy NuGet.Config'
-      condition: succeeded()
-      inputs:
-        cleanTargetFolder: true
-        sourceFolder: $(Carpenter.Project.Path)
-        contents: 'NuGet.Config'
-        targetFolder: $(Carpenter.Output.NuGet.Path)
+    - ${{ if containsValue(parameters.pipelineOperations, 'PackageNuGet') }}:
+      - task: CopyFiles@2
+        displayName: 'Copy NuGet.Config'
+        condition: succeeded()
+        inputs:
+          cleanTargetFolder: true
+          sourceFolder: $(Carpenter.Project.Path)
+          contents: 'NuGet.Config'
+          targetFolder: $(Carpenter.Output.NuGet.Path)
 
-    - task: CopyFiles@2
-      displayName: 'Copy nupkg to output'
-      condition: succeeded()
-      inputs:
-        sourceFolder: $(Carpenter.Output.Binaries.Path)
-        contents: '*.nupkg'
-        targetFolder: $(Carpenter.Output.NuGet.Path)
+      - task: CopyFiles@2
+        displayName: 'Copy nupkg to output'
+        condition: succeeded()
+        inputs:
+          sourceFolder: $(Carpenter.Output.Binaries.Path)
+          contents: '*.nupkg'
+          targetFolder: $(Carpenter.Output.NuGet.Path)
 
-    - task: DeleteFiles@1
-      displayName: 'Remove nupkg from binaries'
-      condition: succeeded()
-      inputs:
-        sourceFolder: $(Carpenter.Output.Binaries.Path)
-        contents: '*.nupkg'
+      - task: DeleteFiles@1
+        displayName: 'Remove nupkg from binaries'
+        condition: succeeded()
+        inputs:
+          sourceFolder: $(Carpenter.Output.Binaries.Path)
+          contents: '*.nupkg'
+  
+      - publish: '$(Carpenter.Output.NuGet.Path)'
+        displayName: 'Publish nuget artifact'
+        artifact: package.nuget
+        condition: succeeded()
 
     - publish: '$(Carpenter.Output.Binaries.Path)'
       displayName: 'Publish binaries artifact'
       artifact: binaries
       condition: succeeded()
 
-    - publish: '$(Carpenter.Output.NuGet.Path)'
-      displayName: 'Publish nuget artifact'
-      artifact: package.nuget
-      condition: succeeded()
-
-    - ${{ if eq(parameters.sonarCloud, 'true') }}:
+    - ${{ if containsValue(parameters.pipelineOperations, 'TestDotNet') }}:
       - task: DotNetCoreCLI@2
         displayName: 'Perform unit tests'
         condition: succeeded()
@@ -209,8 +190,9 @@ jobs:
           buildPlatform: Any CPU
           publishRunAttachments: true
     
+    - ${{ if containsValue(parameters.pipelineOperations, 'CollectTestCoverage') }}:
       - script: |
-          dotnet tool install -g dotnet-reportgenerator-globaltool
+          dotnet tool install -g --add-source https://api.nuget.org/v3/index.json --ignore-failed-sources dotnet-reportgenerator-globaltool 
           reportgenerator -reports:$(Carpenter.Output.Tests.Path)/coverage.cobertura.xml -targetdir:$(Carpenter.Output.TestCoverage.Path) "-reporttypes:Cobertura"
         displayName: Prepare code coverage
         condition: succeeded()
@@ -224,13 +206,14 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: '$(Carpenter.Output.TestCoverage.Path)/Cobertura.xml'
 
+    - ${{ if containsValue(parameters.pipelineOperations, 'TestDotNet') }}:
       - publish: '$(Carpenter.Output.Tests.Path)'
         displayName: 'Publish tests-L0 artifact'
         artifact: tests-L0
         condition: succeeded()
         continueOnError: true
 
-    - ${{ if eq(parameters.sonarCloud, 'true') }}:
+    - ${{ if containsValue(parameters.pipelineOperations, 'AnalyzeSonar') }}:
       - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
         displayName: 'Perform SonarCloud analysis'
         condition: succeeded()

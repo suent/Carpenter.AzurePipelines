@@ -30,3 +30,4 @@ steps:
 - powershell: |
      dir env:
   displayName: Display environment variables
+  condition: always()

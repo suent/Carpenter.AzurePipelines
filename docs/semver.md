@@ -10,7 +10,8 @@ To enable SemVer versioning, add the following parameter to your yaml.
 stages:
 - template: template/carpenter-default.yml
   parameters:
-    versionType: SemVer
+    pipelineOperations:
+    - VersionSemVer
 ```
 
 ## The `VERSION` file
@@ -39,7 +40,7 @@ For example:
 
 ### Prerelease
 
-Prerelease builds can be initiated manually by selecting Prerelease as the pipelineReason.
+Prerelease builds can be initiated manually by selecting **Prerelease** as the `pipelineReason`.
 
 A prereleaseLabel is also required.
 
@@ -48,13 +49,15 @@ Fox example:
 
 ### Release
 
-Release builds can be initiated manually by selecting Release as the pipelineReason.
+Release builds can be initiated manually by selecting **Release** as the `pipelineReason`.
 
 For example:
 0.2.0
 
 #### Automatically increment version file
 
-If the incrementVersionOnRelease parameter is true, the VERSION file will be incremented.
+If the `pipelineOperations` parameter contains **IncrementVersionOnRelease**, the VERSION file will be incremented.
 
-The Carpenter.PipelineBot.Token variable or PipelineBot-GitHub-PAT vault secret will need to be populated. This can be done by adding the variable to your pipeline definition, or creating a Variable Group and adding it to your azure-pipelines.yml file.
+The Carpenter.PipelineBot.Token variable or PipelineBot-GitHub-PAT vault secret will need to be populated. This can be
+done by adding the variable to your pipeline definition, or creating a Variable Group and adding it to your
+azure-pipelines.yml file.

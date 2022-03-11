@@ -68,7 +68,7 @@ pr:
                     # for example: a PR build, where the PR has been updated
 
 
-# Infrastructure variables
+# Infrastructure/Pipeline Variables
 variables:
 
   # See docs/configuration.md for variable documentation.
@@ -76,16 +76,28 @@ variables:
 - name: Carpenter.Project
   value: Carpenter.AzurePipelines
 
-#- name: Carpenter.Version.VersionFile
-#  value: VERSION
+#- name: Carpewnter.Solution.Path
+#  value: $(Carpenter.Project.Path)/Solution.sln
 
 - name: Carpenter.Version.RevisionOffset
   value: 258
+
+#- name: Carpenter.Version.VersionFile
+#  value: VERSION
+
+- name: Carpenter.SonarCloud.ProjectKey
+  value: Suent_Carpenter.AzurePipelines
 
 # Infrastructure populates:
 #   Carpenter.PipelineBot
 #   Carpenter.PipelineBot.Email
 #   Carpenter.PipelineBot.Name
+#   Carpenter.SonarCloud.Organization
+#   Carpenter.Deploy.NuGet.TargetFeed.Dev
+#   Carpenter.Deploy.NuGet.TargetFeed.Test1
+#   Carpenter.Deploy.NuGet.TargetFeed.Test2
+#   Carpenter.Deploy.NuGet.TargetFeed.Stage
+#   Carpenter.Deploy.NuGet.TargetFeed.Prod
 - group: Infrastructure
 
 # Infrastructure-Vault populates:
@@ -103,30 +115,32 @@ stages:
     # See docs/configuration.md for parameter documentation.
 
     pipelineVersion: 1
-    includePipeline: false
+    pipelineOperations:
+    - ExcludePipeline
+    - PublishSourceArtifact
+    - VersionSemVer
+    - BuildDotNet
+    - PackageNuGet
+    - TestDotNet
+    - CollectTestCoverage
+    - AnalyzeSonar
+    - DeployBranch
+    - DeployNuGet
+    - IncrementVersionOnRelease
+    - UpdateNuGetQuality
     pipelineReason: ${{ parameters.pipelineReason }}
-    defaultPoolType: 'Private'
-    defaultPoolName: 'Default'
-    defaultPoolDemands:
-    - Agent.OS -equals Linux
-    - Agent.OSArchitecture -equals X64
+    #defaultPoolType: 'Private'
     #defaultPoolVMImage: 'ubuntu-latest'
-    versionType: SemVer
+    #defaultPoolName: 'Default'
+    #defaultPoolDemands:
+    #- Agent.OS -equals Linux
+    #- Agent.OSArchitecture -equals X64
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
-    incrementVersionOnRelease: true
-    buildDotNet: true
-    executeUnitTests: true
-    sonarCloud: true
-    sonarCloudOrganization: suent
-    sonarCloudProjectKey: Suent_Carpenter.AzurePipelines
     sonarCloudServiceConnection: SonarCloudAnalysis1
     deployBranch: 'test1,test2,stage,prod'
     deployNuGet: 'dev,stage,prod'
-    nuGetTargetFeedDev: AzureArtifacts
-    #nuGetTargetFeedTest1:
-    #nuGetTargetFeedTest2:
-    nuGetTargetFeedStage: github.com
-    nuGetTargetFeedProd: nuget.org
+
+
     updateNuGetQuality: 'stage,prod'
     nuGetQualityFeed: suent
     #nuGetQualityDev:
