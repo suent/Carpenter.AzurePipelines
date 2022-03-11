@@ -7,22 +7,6 @@
 
 [CmdletBinding()]
 param(
-	[string] $BuildReason = $env:BUILD_REASON,
-	[string] $PipelineVersion = $env:CARPENTER_PIPELINE_VERSION,
-	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
-	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
-	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
-	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
-	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
-	[string] $versionFile = $env:CARPENTER_VERSION_VERSIONFILE,
-	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
-	[string] $PrereleaseLabel = $env:CARPENTER_PRERELEASE_LABEL,
-	[string] $deployNuGet = $env:CARPENTER_DEPLOY_NUGET,
-	[string] $nuGetTargetFeedDev = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_DEV,
-	[string] $nuGetTargetFeedTest1 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST1,
-	[string] $nuGetTargetFeedTest2 = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_TEST2,
-	[string] $nuGetTargetFeedStage = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_STAGE,
-	[string] $nuGetTargetFeedProd = $env:CARPENTER_DEPLOY_NUGET_TARGETFEED_PROD,
 	[string] $UpdateNuGetQuality = $env:CARPENTER_NUGET_QUALITY,
 	[string] $NuGetQualityFeed = $env:CARPENTER_NUGET_QUALITY_FEED,
 	[string] $NuGetQualityDev = $env:CARPENTER_NUGET_QUALITY_DEV,

@@ -285,11 +285,6 @@ stages:
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
-        nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
-        nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
-        nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-        nuGetTargetFeedStage: ${{ parameters.nuGetTargetFeedStage }}
-        nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
         nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
         nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
@@ -316,11 +311,6 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
-      nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
-      nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
-      nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-      nuGetTargetFeedStage: ${{ parameters.nuGetTargetFeedStage }}
-      nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
       nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
@@ -347,11 +337,6 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
-      nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
-      nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
-      nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-      nuGetTargetFeedStage: ${{ parameters.nuGetTargetFeedStage }}
-      nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
       nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
@@ -378,11 +363,6 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
-      nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
-      nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
-      nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-      nuGetTargetFeedStage: ${{ parameters.nuGetTargetFeedStage }}
-      nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
       nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
@@ -413,11 +393,6 @@ stages:
         defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
-        nuGetTargetFeedDev: ${{ parameters.nuGetTargetFeedDev }}
-        nuGetTargetFeedTest1: ${{ parameters.nuGetTargetFeedTest1 }}
-        nuGetTargetFeedTest2: ${{ parameters.nuGetTargetFeedTest2 }}
-        nuGetTargetFeedStage: ${{ parameters.nuGetTargetFeedStage }}
-        nuGetTargetFeedProd: ${{ parameters.nuGetTargetFeedProd }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
         nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
         nuGetQualityDev: ${{ parameters.nuGetQualityDev }}

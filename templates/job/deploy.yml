@@ -57,21 +57,6 @@ parameters:
 - name: deployNuGet
   type: string
 
-- name: nuGetTargetFeedDev
-  type: string
-
-- name: nuGetTargetFeedTest1
-  type: string
-
-- name: nuGetTargetFeedTest2
-  type: string
-
-- name: nuGetTargetFeedStage
-  type: string
-
-- name: nuGetTargetFeedProd
-  type: string
-
 - name: stack
   type: string
 
