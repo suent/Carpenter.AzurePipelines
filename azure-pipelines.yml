@@ -129,12 +129,12 @@ stages:
     - IncrementVersionOnRelease
     - UpdateNuGetQuality
     pipelineReason: ${{ parameters.pipelineReason }}
-    defaultPoolType: 'Private'
+    #defaultPoolType: 'Private'
     #defaultPoolVMImage: 'ubuntu-latest'
-    defaultPoolName: 'Default'
-    defaultPoolDemands:
-    - Agent.OS -equals Linux
-    - Agent.OSArchitecture -equals X64
+    #defaultPoolName: 'Default'
+    #defaultPoolDemands:
+    #- Agent.OS -equals Linux
+    #- Agent.OSArchitecture -equals X64
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
     sonarCloudServiceConnection: SonarCloudAnalysis1
     deployBranch: 'test1,test2,stage,prod'
