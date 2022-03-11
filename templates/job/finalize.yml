@@ -137,7 +137,7 @@ jobs:
         addChangeLog: true
       displayName: Add GitHub Release
   
-  - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev'), containsValue(parameters.pipelineOperation, 'IncrementVersionOnRelease'), eq(parameters.pipelineReason, 'Release')) }}:
+  - ${{ if and(eq(variables['Build.SourceBranch'],'refs/heads/main'),eq(parameters.stack,'dev'), containsValue(parameters.pipelineOperations, 'IncrementVersionOnRelease'), eq(parameters.pipelineReason, 'Release')) }}:
     - task: PowerShell@2
       inputs:
         targetType: 'filePath'
