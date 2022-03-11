@@ -171,32 +171,32 @@ variables:
 - name: Carpenter.Deploy.NuGet
   value: $[ dependencies.initialize.outputs['initializePipeline.deployNuGet'] ]
 
-  - name: Carpenter.NuGet.Quality
-    value: $[ dependencies.initialize.outputs['initializePipeline.updateNuGetQuality'] ]
+- name: Carpenter.NuGet.Quality
+  value: $[ dependencies.initialize.outputs['initializePipeline.updateNuGetQuality'] ]
   
-  - ${{ if ne(parameters.updateNuGetQuality,'') }}:
-    - name: Carpenter.NuGet.Quality.Feed
-      value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityFeed'] ]
+- ${{ if ne(parameters.updateNuGetQuality,'') }}:
+  - name: Carpenter.NuGet.Quality.Feed
+    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityFeed'] ]
 
-  - ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
-    - name: Carpenter.NuGet.Quality.Dev
-      value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityDev'] ]
+- ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
+  - name: Carpenter.NuGet.Quality.Dev
+    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityDev'] ]
  
-  - ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
-    - name: Carpenter.NuGet.Quality.Test1
-      value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityTest1'] ]
+- ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
+  - name: Carpenter.NuGet.Quality.Test1
+    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityTest1'] ]
  
-  - ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
-    - name: Carpenter.NuGet.Quality.Test2
-      value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityTest2'] ]
+- ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
+  - name: Carpenter.NuGet.Quality.Test2
+    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityTest2'] ]
  
-  - ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
-    - name: Carpenter.NuGet.Quality.Stage
-      value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityStage'] ]
+- ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
+  - name: Carpenter.NuGet.Quality.Stage
+    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityStage'] ]
  
-  - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
-    - name: Carpenter.NuGet.Quality.Prod
-      value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityProd'] ]
+- ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
+  - name: Carpenter.NuGet.Quality.Prod
+    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetQualityProd'] ]
  
 - name: Carpenter.GitHub.ServiceConnection
   value: $[ dependencies.initialize.outputs['initializePipeline.gitHubServiceConnection'] ]
