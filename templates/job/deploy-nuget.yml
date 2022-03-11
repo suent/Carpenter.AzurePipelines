@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: deployNuGet
-  type: string
-
 - name: updateNuGetQuality
   type: string
   
