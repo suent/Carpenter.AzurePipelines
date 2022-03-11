@@ -11,6 +11,13 @@
   * [Carpenter.Pipeline.Path](#carpenterpipelinepath)
   * [Carpenter.Pipeline.ScriptPath](#carpenterpipelinescriptpath)
   * [Carpenter.Pipeline.Reason (pipelineReason)](#carpenterpipelinereason-pipelinereason)
+* [PipelineBot](#pipelinebot)
+  * [Carpenter.PipelineBot.Name](#carpenterpipelinebotname)
+  * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
+  * [Carpenter.PipelineBot.GitHub.Username](#carpenterpipelinebotgithubusername)
+  * [PipelineBot-AzureDevOps-PAT](#pipelinebot-azuredevops-pat)
+  * [PipelineBot-GitHub-PAT](#pipelinebot-github-pat)
+  * [PipelineBot-NuGet-PAT](#pipelinebot-nuget-pat)
 * [Pool Configuration](#pool-configuration)
   * [Carpenter.Pool.Default.Type (defaultPoolType)](#carpenterpooldefaulttype-defaultpooltype)
   * [Carpenter.Pool.Default.Demands (defaultPoolDemands)](#carpenterpooldefaultdemands-defaultpooldemands)
@@ -71,11 +78,7 @@
   * [Carpenter.GitHub.ServiceConnection](#carpentergithubserviceconnection)
   * [Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)](#carpentergitaddtagondevmain-addgittagondevmain)
   * [Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)](#carpentergithubreleaseonprod-addgithubreleaseonprod)
-* [PipelineBot](#pipelinebot)
-  * [Carpenter.PipelineBot](#carpenterpipelinebot)
-  * [Carpenter.PipelineBot.Email](#carpenterpipelinebotemail)
-  * [Carpenter.PipelineBot.Name](#carpenterpipelinebotname)
-  * [PipelineBot-GitHub-PAT](#pipelinebot-github-pat)
+
 
 
 # Configuring Carpenter.AzurePipelines
@@ -159,6 +162,48 @@ the `pipelineReason` parameter is used.
 
 Project versioning and deployment options are dependent on the build purpose. The default value during a manual build
 is **CI**.
+
+## PipelineBot
+
+The PipelineBot is automation that manages the pipeline and its outside connections.
+
+For more information, see [pipeline-bot.md](pipeline-bot.md).
+
+### Carpenter.PipelineBot.Name
+
+The name of the pipeline bot.
+
+### Carpenter.PipelineBot.Email
+
+The email address of the pipeline bot.
+
+### Carpenter.PipelineBot.GitHub.Username
+
+The GitHub username for the pipeline bot.
+
+### PipelineBot-AzureDevOps-PAT
+The Azure DevOps personal access token for the pipeline bot. This value should be supplied to the pipeline as a secret
+variable, through a variable group, or through an Azure key vault.
+
+### PipelineBot-GitHub-PAT
+
+The GitHub personal access token for the pipeline bot. This value should be supplied to the pipeline as a secret
+variable, through a variable group, or through an Azure key vault.
+
+This token is used by the following operations:
+* AddGitTags
+* DeployNuGet (when target is github.com)
+* IncrementVersion
+* PublishBranch
+
+### PipelineBot-NuGet-PAT
+
+The nuget.org personal access token for the pipeline bot. This value should be supplied to the pipeline as a secret
+variable, through a variable group, or through an Azure key vault.
+
+This token is used by the following operations:
+
+* DeployNuGet (when target is nuget.org)
 
 ## Pool Configuration
 
@@ -348,38 +393,38 @@ The SonarCloud service connection to use. This value is set by the `sonarCloudSe
 
 ### Carpenter.Deploy.Branch
 
-Comma separated list of stacks deploy branch should execute for. This value is set by the `deployBranch`
-parameter if `pipelineOperations` contains **DeployBranch**.
+Comma separated list of stacks deploy branch should execute for. This value is set by the `deployBranch` parameter if
+`pipelineOperations` contains **DeployBranch**.
 
 ### Carpenter.Deploy.NuGet
 
-Comma separated list of stacks deploy nuget should execute for. Publishes NuGet packages created by
-this pipeline. This value is set by the `deployNuGet` parameter.
+Comma separated list of stacks deploy nuget should execute for. This value is set by the `deployNuGet` parameter if
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Dev
 
-The target NuGet feed to use when deploying NuGet packages to the Dev stack. This value is set by the
-`deployNuGetTargetFeedDev` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Dev stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Test1
 
-The target NuGet feed to use when deploying NuGet packages to the Test1 stack. This value is set by the
-`deployNuGetTargetFeedTest1` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Test1 stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Test2
 
-The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is set by the
-`deployNuGetTargetFeedTest2` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Stage
 
-The target NuGet feed to use when deploying NuGet packages to the Stage stack. This value is set by the
-`deployNuGetTargetFeedStage` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Stage stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Prod
 
-The target NuGet feed to use when deploying NuGet packages to the Prod stack. This value is set by the
-`deployNuGetTargetFeedProd` parameter.
+The target NuGet feed to use when deploying NuGet packages to the Prod stack. This value is used when
+`pipelineOperations` contains **DeployNuGet**.
 
 ### Carpenter.NuGet.Quality
 
@@ -429,30 +474,3 @@ by the `addGitTagOnDevMain` parameter. The default value is **false**.
 
 If true, a GitHub release is created during the Production Finalize. This value is set by the `addGitHubReleaseOnProd`
 parameter. The default value is **false**.
-
-## PipelineBot
-
-The PipelineBot is automation that manages the pipeline and its outside connections.
-
-### Carpenter.PipelineBot
-
-The GitHub username for the pipeline bot.
-
-### Carpenter.PipelineBot.Email
-
-The email address of the pipeline bot.
-
-### Carpenter.PipelineBot.Name
-
-The name of the pipeline bot.
-
-### PipelineBot-GitHub-PAT
-
-The GitHub personal access token for the pipeline bot. This value should be supplied to
-the pipeline as a secret variable through a Variable group or through an Azure key vault.
-
-This token is used by the following jobs/steps:
-* AddGitTags
-* DeployNuGet (when target is github.com)
-* IncrementVersion
-* PublishBranch

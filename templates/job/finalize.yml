@@ -51,9 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: deployNuGet
-  type: string
-
 - name: updateNuGetQuality
   type: string
 
@@ -102,7 +99,6 @@ jobs:
         pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
-        deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
 
@@ -123,7 +119,7 @@ jobs:
         filePath: $(Carpenter.Pipeline.ScriptPath)/AddGitTags.ps1
         arguments: -Verbose
       env:
-        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
+        CARPENTER_PIPELINEBOT_GITHUB_TOKEN: $(PipelineBot-GitHub-PAT)
       displayName: Add Git tags
 
   - ${{ if and(eq(parameters.addGitHubReleaseOnProd,'true'),eq(parameters.stack,'prod')) }}:
@@ -149,7 +145,7 @@ jobs:
         arguments: -Verbose
       displayName: Update project version
       env:
-        CARPENTER_PIPELINEBOT_TOKENSECRET: $(PipelineBot-GitHub-PAT)
+        CARPENTER_PIPELINEBOT_GITHUB_TOKEN: $(PipelineBot-GitHub-PAT)
 
   - powershell: |
       "##vso[build.addbuildtag]Deployed-${{ parameters.stack }}"

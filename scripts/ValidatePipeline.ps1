@@ -41,41 +41,6 @@ Write-ScriptHeader "$scriptName"
 
 
 
-if ((($DeployNuGet -Split ",").Trim()) -Contains "dev") {
-	Write-Verbose "Validating nuGetTargetFeedDev"
-	if (-Not ($NuGetTargetFeedDev)) {
-		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains dev."
-	}
-}
-
-if ((($DeployNuGet -Split ",").Trim()) -Contains "test1") {
-	Write-Verbose "Validating nuGetTargetFeedTest1"
-	if (-Not ($NuGetTargetFeedTest1)) {
-		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains test1."
-	}
-}
-
-if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
-	Write-Verbose "Validating nuGetTargetFeedTest2"
-	if (-Not ($NuGetTargetFeedTest2)) {
-		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains test2."
-	}
-}
-
-if ((($DeployNuGet -Split ",").Trim()) -Contains "stage") {
-	Write-Verbose "Validating nuGetTargetFeedStage"
-	if (-Not ($NuGetTargetFeedStage)) {
-		Write-PipelineError "The nuGetTargetFeedStage parameter is required when deployNuGet contains stage."
-	}
-}
-
-if ((($DeployNuGet -Split ",").Trim()) -Contains "prod") {
-	Write-Verbose "Validating nuGetTargetFeedProd"
-	if (-Not ($NuGetTargetFeedProd)) {
-		Write-PipelineError "The nuGetTargetFeedDev parameter is required when deployNuGet contains prod."
-	}
-}
-
 if ($UpdateNuGetQuality) {
 	Write-Verbose "Validating nuGetQualityFeed"
 	if (-Not ($NuGetQualityFeed)) {

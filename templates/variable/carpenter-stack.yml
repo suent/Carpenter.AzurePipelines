@@ -39,9 +39,6 @@ parameters:
 - name: defaultPoolType
   type: string
 
-- name: deployNuGet
-  type: string
-
 - name: updateNuGetQuality
   type: string
 
@@ -64,6 +61,12 @@ variables:
 
 - name: Carpenter.Pipeline.Reason
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineReason'] ]
+
+- name: Carpenter.PipelineBot.Name
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineBotName']]
+
+- name: Carpenter.PipelineBot.Email
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.pipelineBotEmail']]
 
 - name: Carpenter.Pool.Default.Type
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.defaultPoolType'] ]
@@ -170,26 +173,6 @@ variables:
 
 - name: Carpenter.Deploy.NuGet
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.deployNuGet'] ]
-
-- ${{ if contains(parameters.deployNuGet,'dev') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedDev'] ]
-
-- ${{ if contains(parameters.deployNuGet,'test1') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedTest1'] ]
-
-- ${{ if contains(parameters.deployNuGet,'test2') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedTest2'] ]
-
-- ${{ if contains(parameters.deployNuGet,'stage') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedStage'] ]
-
-- ${{ if contains(parameters.deployNuGet,'prod') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetTargetFeedProd'] ]
 
 - name: Carpenter.NuGet.Quality
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.updateNuGetQuality'] ]

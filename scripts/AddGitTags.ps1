@@ -1,19 +1,16 @@
 [CmdletBinding()]
 param(
-    [string] $Version = $env:CARPENTER_VERSION,
     [string] $AgentBuildDirectory = $env:AGENT_BUILDDIRECTORY,
-    [string] $PipelineBotTokenSecret = $env:CARPENTER_PIPELINEBOT_TOKENSECRET,
-    [string] $PipelineBotToken = $env:CARPENTER_PIPELINEBOT_TOKEN,
-    [string] $RepositoryUri = $env:BUILD_REPOSITORY_URI,
-    [string] $PipelineBot = $env:CARPENTER_PIPELINEBOT,
+    [string] $BuildRepositoryUri = $env:BUILD_REPOSITORY_URI,
+    [string] $BuildSourceBranch = $env:BUILD_SOURCEBRANCH,
+    [string] $BuildSourceVersion = $env:BUILD_SOURCEVERSION,
+    [string] $HttpProxy = $env:http_proxy,
+    [string] $HttpsProxy = $env:https_proxy,
     [string] $PipelineBotName = $env:CARPENTER_PIPELINEBOT_NAME,
     [string] $PipelineBotEmail = $env:CARPENTER_PIPELINEBOT_EMAIL,
-    [string] $RequestedFor = $env:BUILD_REQUESTEDFOR,
-    [string] $RequestedForEmail = $env:BUILD_REQUESTEDFOREMAIL,
-    [string] $SourceVersion = $env:BUILD_SOURCEVERSION,
-    [string] $SourceBranch = $env:BUILD_SOURCEBRANCH,
-    [string] $HttpProxy = $env:http_proxy,
-    [string] $HttpsProxy = $env:https_proxy
+    [string] $PipelineBotGitHubUsername = $env:CARPENTER_PIPELINEBOT_GITHUB_USERNAME,
+    [string] $PipelineBotGitHubToken = $env:CARPENTER_PIPELINEBOT_GITHUB_TOKEN,
+    [string] $Version = $env:CARPENTER_VERSION
 )
 
 $scriptName = Split-Path $PSCommandPath -Leaf
@@ -37,29 +34,10 @@ git config --global init.defaultBranch main
 git init "$workingDirectory"
 git config advice.detachedHead false
 
-# determine authorization
-if ($PipelineBotTokenSecret) {
-    if ($PipelineBotTokenSecret -eq "`$(PipelineBot-GitHub-PAT)") {
-        Write-PipelineError "The PipelineBot-GitHub-PAT secret variable could not be found."
-    }
-    Write-Host "Using: PipelineBot-GitHub-PAT"
-    $token = $PipelineBotTokenSecret
-} else {
-    Write-Host "Using: Carpenter.PipelineBot.Token"
-    $token = $PipelineBotToken
-}
-$repositoryUri = $repositoryUri -replace "github.com","$($PipelineBot):$($token)@github.com"
+$buildRepositoryUri = $BuildRepositoryUri -replace "github.com","$($PipelineBotGitHubUsername):$($PipelineBotGitHubToken)@github.com"
 
-# configure user
-if ($PipelineBotName -and $PipelineBotEmail) {
-    $gitUserEmail = $PipelineBotEmail
-    $gitUser = $PipelineBotName
-} else {
-    $gitUserEmail = $RequestedForEmail
-    $gitUser = $RequestedFor
-}
-git config user.email "$gitUserEmail"
-git config user.name "$gitUser"
+git config user.email "$PipelineBotEmail"
+git config user.name "$PipelineBotName"
 
 # configure proxy
 if ($HttpProxy) {
@@ -70,16 +48,16 @@ if ($HttpsProxy) {
 }
 
 # clone repository
-git remote add origin $repositoryUri
+git remote add origin $buildRepositoryUri
 git config gc.auto 0
 git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin
-git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin  +$SourceVersion
-git checkout --progress --force $SourceVersion
+git fetch --force --tags --prune --prune-tags --progress --no-recurse-submodules origin  +$BuildSourceVersion
+git checkout --progress --force $BuildSourceVersion
 
 # add tags
 git tag v$($Version)
 
 # push tags
-git push --tags origin HEAD:$SourceBranch
+git push --tags origin HEAD:$BuildSourceBranch
 
 Pop-Location

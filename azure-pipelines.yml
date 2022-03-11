@@ -93,6 +93,11 @@ variables:
 #   Carpenter.PipelineBot.Email
 #   Carpenter.PipelineBot.Name
 #   Carpenter.SonarCloud.Organization
+#   Carpenter.Deploy.NuGet.TargetFeed.Dev
+#   Carpenter.Deploy.NuGet.TargetFeed.Test1
+#   Carpenter.Deploy.NuGet.TargetFeed.Test2
+#   Carpenter.Deploy.NuGet.TargetFeed.Stage
+#   Carpenter.Deploy.NuGet.TargetFeed.Prod
 - group: Infrastructure
 
 # Infrastructure-Vault populates:
@@ -133,14 +138,9 @@ stages:
     prereleaseLabel: ${{ parameters.prereleaseLabel }}
     sonarCloudServiceConnection: SonarCloudAnalysis1
     deployBranch: 'test1,test2,stage,prod'
-
-
     deployNuGet: 'dev,stage,prod'
-    nuGetTargetFeedDev: AzureArtifacts
-    #nuGetTargetFeedTest1:
-    #nuGetTargetFeedTest2:
-    nuGetTargetFeedStage: github.com
-    nuGetTargetFeedProd: nuget.org
+
+
     updateNuGetQuality: 'stage,prod'
     nuGetQualityFeed: suent
     #nuGetQualityDev:

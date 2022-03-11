@@ -294,6 +294,8 @@ stages:
         filePath: $(Carpenter.Pipeline.ScriptPath)/InitializePipeline.ps1
         arguments: -Verbose
       displayName: Initialize pipeline
+      env:
+        CARPENTER_PIPELINEBOT_GITHUB_TOKEN: $(PipelineBot-GitHub-PAT)
       name: initializePipeline
 
     - template: step/display-environment.yml

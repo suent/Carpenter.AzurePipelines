@@ -101,7 +101,30 @@ This operation uses the following settings:
 
 ## DeployNuGet
 
+Publishes NuGet packages created by this pipeline.
 
+Required operations:
+
+* PackageNuGet
+
+This operation uses the following settings:
+
+* Carpenter.Deploy.NuGet.TargetFeed.Dev
+* Carpenter.Deploy.NuGet.TargetFeed.Test1
+* Carpenter.Deploy.NuGet.TargetFeed.Test2
+* Carpenter.Deploy.NuGet.TargetFeed.Stage
+* Carpenter.Deploy.NuGet.TargetFeed.Prod
+
+## AddGitTag
+
+Adds a Git tag for the build number.
+
+This operation uses the following settings:
+
+* Carpenter.PipelineBot.Name
+* Carpenter.PipelineBot.Email
+* Carpenter.PipelineBot.GitHub.Username
+* PipelineBot-GitHub-PAT
 
 ## IncrementVersionOnRelease
 

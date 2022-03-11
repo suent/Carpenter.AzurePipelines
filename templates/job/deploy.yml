@@ -118,7 +118,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
@@ -126,7 +125,7 @@ jobs:
         jobDependsOn:
         - build
 
-- ${{ if contains(parameters.deployNuGet,parameters.stack) }}:
+- ${{ if contains(parameters.deployNuGet, parameters.stack) }}:
   - template: ../job/deploy-nuget.yml
     parameters:
       pipelineVersion: ${{ parameters.pipelineVersion }}
@@ -155,7 +154,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
@@ -173,7 +171,6 @@ jobs:
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-    deployNuGet: ${{ parameters.deployNuGet }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
     addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}

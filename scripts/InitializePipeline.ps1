@@ -11,20 +11,24 @@ param(
 	[string] $AgentToolsDirectory = $env:AGENT_TOOLSDIRECTORY,
 	[string] $BuildDefinitionName = $env:BUILD_DEFINITIONNAME,
 	[string] $BuildReason = $env:BUILD_REASON,
+	[string] $BuildRequestedFor = $env:BUILD_REQUESTEDFOR,
+	[string] $BuildRequestedForEmail = $env:BUILD_REQUESTEDFOREMAIL,
 	[string] $SystemDefaultWorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINE_VERSION,
 	[string] $PipelineOperations = $env:CARPENTER_PIPELINE_OPERATIONS,
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
 	[string] $PipelineScriptPath = $env:CARPENTER_PIPELINE_SCRIPTPATH,
 	[string] $PipelineReason = $env:CARPENTER_PIPELINE_REASON,
+	[string] $PipelineBotName = $env:CARPENTER_PIPELINEBOT_NAME,
+	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINEBOT_EMAIL,
+	[string] $PipelineBotGitHubUsername = $env:CARPENTER_PIPELINEBOT_GITHUB_USERNAME,
+	[string] $PipelineBotGitHubToken = $env:CARPENTER_PIPELINEBOT_GITHUB_TOKEN,
 	[string] $DefaultPoolType = $env:CARPENTER_POOL_DEFAULT_TYPE,
 	[string] $DefaultPoolVMImage = $env:CARPENTER_POOL_DEFAULT_VMIMAGE,
 	[string] $DefaultPoolName = $env:CARPENTER_POOL_DEFAULT_NAME,
 	[string] $DefaultPoolDemands = $env:CARPENTER_POOL_DEFAULT_DEMANDS,
 	[string] $Project = $env:CARPENTER_PROJECT,
 	[string] $SolutionPath = $env:CARPENTER_SOLUTION_PATH,
-	[string] $PipelineBot = $env:CARPENTER_PIPELINE_BOT,
-	[string] $PipelineBotEmail = $env:CARPENTER_PIPELINE_BOTEMAIL,
 	[string] $RevisionOffset = $env:CARPENTER_VERSION_REVISIONOFFSET,
 	[string] $ContinuousIntegrationDate = $env:CARPENTER_CONTINUOUSINTEGRATION_DATE,
 	[string] $SonarCloudOrganization = $env:CARPENTER_SONARCLOUD_ORGANIZATION,
@@ -160,6 +164,51 @@ Else {
 
 # Add pipeline reason as tag
 Write-Host "##vso[build.addbuildtag]Build-$pipelineReason"
+
+
+######################################################################################################################
+# PipelineBot Settings
+######################################################################################################################
+
+if (($ops -contains 'AddGitTag') -or ($ops -contains 'IncrementVersionOnRelease') -or ($ops -contains 'DeployBranch')) {
+
+	# Carpenter.PipelineBot.Name and Carpenter.PipelineBot.Email
+	Write-Verbose "Validating Carpenter.PipelineBot.Name & Carpenter.PipelineBot.Email"
+	if ((-not ($PipelineBotName)) -and (-not ($PipelineBotEmail))) {
+		Write-Host "Carpenter.PipelineBot.Name and/or Carpenter.PipelineBot.Email is not populated. Using $BuildRequestedFor <$($BuildRequestedForEmail)> when interacting with the git repository."
+		$PipelineBotName = $BuildRequestedFor
+		$PipelineBotEmail = $BuildRequestedForEmail
+	}
+	$pipelineBotName = Set-CarpenterVariable -VariableName "Carpenter.PipelineBot.Name" -OutputVariableName pipelineBotName -Value $PipelineBotName
+	$pipelineBotEmail = Set-CarpenterVariable -VariableName "Carpenter.PipelineBot.Email" -OutputVariableName pipelineBotEmail -Value $PipelineBotEmail
+
+	# Carpenter.PipelineBot.GitHub.Username
+	Write-Verbose "Validating Carpenter.PipelineBot.GitHub.Username"
+	if (-not ($PipelineBotGitHubUsername)) {
+		Write-PipelineError "The Carpenter.PipelineBot.GitHub.Username variable is required when pipelineOperations contains AddGitTag, DeployBranch, or IncrementVersionOnRelease."
+	}
+	
+}
+
+if (($ops -contains 'AddGitTag') -or `
+	($ops -contains 'IncrementVersionOnRelease') -or `
+	($ops -contains 'DeployBranch') -or `
+	(($ops -contains 'DeployNuGet') -and (($NuGetTargetFeedDev -eq 'github.com') -or ($NuGetTargetFeedTest1 -eq 'github.com') -or ($NuGetTargetFeedTest2 -eq 'github.com') -or ($NuGetTargetFeedStage -eq 'github.com') -or ($NuGetTargetFeedProd -eq 'github.com')))) {
+
+	# Carpenter.PipelineBot.GitHub.Token
+	Write-Verbose "Validating PipelineBot-GitHub-PAT"
+	if ($PipelineBotGitHubToken -eq "`$(PipelineBot-GitHub-PAT)") {
+		Write-PipelineError "The PipelineBot-GitHub-PAT variable is required when pipelineOperations contains AddGitTag, DeployBranch, IncrementVersionOnRelease or DeployNuGet with a github.com target."
+	}
+}
+
+if (($ops -contains 'DeployNuGet') -and (($NuGetTargetFeedDev -eq 'nuget.org') -or ($NuGetTargetFeedTest1 -eq 'nuget.org') -or ($NuGetTargetFeedTest2 -eq 'nuget.org') -or ($NuGetTargetFeedStage -eq 'nuget.org') -or ($NuGetTargetFeedProd -eq 'nuget.org'))) {
+	# Carpenter.PipelineBot.NuGet.Token
+	Write-Verbose "Validating PipelineBot-NuGet-PAT"
+	if ($PipelineBotGitHubToken -eq "`$(PipelineBot-NuGet-PAT)") {
+		Write-PipelineError "The PipelineBot-NuGet-PAT variable is required when pipelineOperations contains DeployNuGet with a nuget.org target."
+	}
+}
 
 
 ######################################################################################################################
@@ -421,7 +470,7 @@ if ($ops -contains "AnalyzeSonar") {
 }
 
 ######################################################################################################################
-# Deploy Branch
+# Deployment
 ######################################################################################################################
 
 # Carpenter.Deploy.Branch (deployBranch)
@@ -431,16 +480,59 @@ if ($ops -contains "DeployBranch") {
 	}
 	$deployBranch = Set-CarpenterVariable -VariableName "Carpenter.Deploy.Branch" -OutputVariableName "deployBranch" -Value $DeployBranch
 } else {
-	Write-PipelineWarning "The deployBranch parameter '$DeployBranch' is being ignored because pipelineOperations does not contain DeployBranch."
+	if ($DeployBranch) {
+		Write-PipelineWarning "The deployBranch parameter '$DeployBranch' is being ignored because pipelineOperations does not contain DeployBranch."
+	}
 }
 
+# Carpenter.Deploy.NuGet (deployNuGet)
+if ($ops -contains "DeployNuGet") {
+	if (-not ($DeployBranch)) {
+		Write-PipelineError "The deployNuGet parameter is required when pipelineOperations contains DeployNuGet."
+	}
+	$deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet
+	
+	if ((($DeployNuGet -Split ",").Trim()) -Contains "dev") {
+		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Dev"
+		if (-Not ($NuGetTargetFeedDev)) {
+			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Dev variable is required when deployNuGet contains dev."
+		}
+	}
 
-$deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet
-$nuGetTargetFeedDev = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Dev" -OutputVariableName "nuGetTargetFeedDev" -Value $NuGetTargetFeedDev
-$nuGetTargetFeedTest1 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test1" -OutputVariableName "nuGetTargetFeedTest1" -Value $NuGetTargetFeedTest2
-$nuGetTargetFeedTest2 = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Test2" -OutputVariableName "nuGetTargetFeedTest2" -Value $NuGetTargetFeedTest2
-$nuGetTargetFeedStage = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Stage" -OutputVariableName "nuGetTargetFeedStage" -Value $NuGetTargetFeedStage
-$nuGetTargetFeedProd = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet.TargetFeed.Prod" -OutputVariableName "nuGetTargetFeedProd" -Value $NuGetTargetFeedProd
+	if ((($DeployNuGet -Split ",").Trim()) -Contains "test1") {
+		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Test1"
+		if (-Not ($NuGetTargetFeedTest1)) {
+			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Test1 variable is required when deployNuGet contains test1."
+		}
+	}
+
+	if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
+		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Test2"
+		if (-Not ($NuGetTargetFeedTest2)) {
+			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Test2 variable is required when deployNuGet contains test2."
+		}
+	}
+
+	if ((($DeployNuGet -Split ",").Trim()) -Contains "stage") {
+		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Stage"
+		if (-Not ($NuGetTargetFeedStage)) {
+			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Stage variable is required when deployNuGet contains stage."
+		}
+	}
+
+	if ((($DeployNuGet -Split ",").Trim()) -Contains "prod") {
+		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Prod"
+		if (-Not ($NuGetTargetFeedProd)) {
+			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Prod variable is required when deployNuGet contains prod."
+		}
+	}
+
+} else {
+	if ($DeployNuGet) {
+		Write-PipelineWarning "The deployNuGet parameter '$DeployNuGet' is being ignored because pipelineOperations does not contain DeployNuGet."
+	}
+}
+
 
 $updateNuGetQuality = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality" -OutputVariableName "updateNuGetQuality" -Value $UpdateNuGetQuality
 $nuGetQualityFeed = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Feed" -OutputVariableName "nuGetQualityFeed" -Value $NuGetQualityFeed

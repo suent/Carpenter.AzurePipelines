@@ -39,9 +39,6 @@ parameters:
 - name: defaultPoolType
   type: string
 
-- name: deployNuGet
-  type: string
-
 - name: updateNuGetQuality
   type: string
 
@@ -61,6 +58,15 @@ variables:
 
 - name: Carpenter.Pipeline.Reason
   value: $[ dependencies.initialize.outputs['initializePipeline.pipelineReason'] ]
+
+- name: Carpenter.PipelineBot.Name
+  value: $[ dependencies.initialize.outputs['initializePipeline.pipelineBotName']]
+
+- name: Carpenter.PipelineBot.Email
+  value: $[ dependencies.initialize.outputs['initializePipeline.pipelineBotEmail']]
+
+- name: Carpenter.Pool.Default.Type
+  value: $[ dependencies.initialize.outputs['initializePipeline.defaultPoolType'] ]
 
 - ${{ if eq(parameters.defaultPoolType,'Hosted') }}:
   - name: Carpenter.Pool.Default.VMImage
@@ -103,7 +109,6 @@ variables:
   - ${{ if containsValue(parameters.pipelineOperations, 'TestDotNet') }}:
     - name: Carpenter.Output.Tests.Path
       value: $[ dependencies.initialize.outputs['initializePipeline.testsPath'] ]
-
 
 - ${{ if containsValue(parameters.pipelineOperations,'VersionSemVer') }}:
 
@@ -165,26 +170,6 @@ variables:
 
 - name: Carpenter.Deploy.NuGet
   value: $[ dependencies.initialize.outputs['initializePipeline.deployNuGet'] ]
-
-- ${{ if contains(parameters.deployNuGet,'dev') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Dev
-    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetTargetFeedDev'] ]
-
-- ${{ if contains(parameters.deployNuGet,'test1') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Test1
-    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetTargetFeedTest1'] ]
-
-- ${{ if contains(parameters.deployNuGet,'test2') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Test2
-    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetTargetFeedTest2'] ]
-
-- ${{ if contains(parameters.deployNuGet,'stage') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Stage
-    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetTargetFeedStage'] ]
-
-- ${{ if contains(parameters.deployNuGet,'prod') }}:
-  - name: Carpenter.Deploy.NuGet.TargetFeed.Prod
-    value: $[ dependencies.initialize.outputs['initializePipeline.nuGetTargetFeedProd'] ]
 
   - name: Carpenter.NuGet.Quality
     value: $[ dependencies.initialize.outputs['initializePipeline.updateNuGetQuality'] ]
