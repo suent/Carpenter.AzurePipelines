@@ -113,7 +113,7 @@ variables:
     - name: Carpenter.Output.Tests.Path
       value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.testsPath'] ]
 
-- ${{ if contains(parameters.pipelineOperations,'VersionSemVer') }}:
+- ${{ if containsValue(parameters.pipelineOperations,'VersionSemVer') }}:
 
   - name: Carpenter.Version.RevisionOffset
     value:  $[ stageDependencies.dev.initialize.outputs['initializePipeline.revisionOffset'] ]
