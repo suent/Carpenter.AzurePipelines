@@ -14,6 +14,7 @@ param(
 	[string] $BuildRequestedFor = $env:BUILD_REQUESTEDFOR,
 	[string] $BuildRequestedForEmail = $env:BUILD_REQUESTEDFOREMAIL,
 	[string] $SystemDefaultWorkingDirectory = $env:SYSTEM_DEFAULTWORKINGDIRECTORY,
+	[string] $PullRequestNumber = $env:SYSTEM_PULLREQUEST_PULLREQUESTNUMBER,
 	[string] $PipelineVersion = $env:CARPENTER_PIPELINE_VERSION,
 	[string] $PipelineOperations = $env:CARPENTER_PIPELINE_OPERATIONS,
 	[string] $PipelinePath = $env:CARPENTER_PIPELINE_PATH,
