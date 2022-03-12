@@ -132,6 +132,8 @@ jobs:
         command: build
         projects: '$(Carpenter.Solution.Path)'
         arguments: '--output $(Carpenter.Output.Binaries.Path) --configuration Debug --version-suffix "$(Carpenter.Version.Label)" /p:VersionPrefix=$(Carpenter.Version.BaseVersion) /p:Version=$(Carpenter.Version) /p:AssemblyVersion=$(Carpenter.Version.Major).0.0.0 /p:FileVersion=$(Carpenter.Version.BaseVersion).$(Carpenter.Version.Revision) /p:InformationalVersion=$(Carpenter.Version) /p:PackageVersion=$(Carpenter.Version) /p:GeneratePackageOnBuild=true'
+      env:
+        CARPENTER_PIPELINEBOT_GITHUB_TOKEN: $(PipelineBot-GitHub-PAT)
 
     - ${{ if containsValue(parameters.pipelineOperations, 'PackageNuGet') }}:
       - task: CopyFiles@2
