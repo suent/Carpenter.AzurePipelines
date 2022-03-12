@@ -51,12 +51,6 @@ parameters:
 - name: defaultPoolDemands
   type: object
 
-- name: updateNuGetQuality
-  type: string
-  
-- name: gitHubServiceConnection
-  type: string
-
 - name: stack
   type: string
 
@@ -98,7 +92,6 @@ jobs:
         pipelineOperations: ${{ parameters.pipelineOperations }}
         pipelineReason: ${{ parameters.pipelineReason }}
         defaultPoolType: ${{ parameters.defaultPoolType }}
-        updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
 
   steps:

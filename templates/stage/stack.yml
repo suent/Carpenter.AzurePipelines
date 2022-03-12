@@ -111,8 +111,6 @@ stages:
           pipelineOperations: ${{ parameters.pipelineOperations }}
           pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
-          updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-          gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
     jobs:
     - template: ../job/deploy.yml
