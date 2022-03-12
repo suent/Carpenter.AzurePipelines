@@ -27,15 +27,13 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 
 ## Features
 
-* [Pipeline Versioning](docs/pipeline-versioning.md)
-* [Configurable Pool](docs/configure-pool.md)
-* [Build Versioning](docs/build-versioning.md)
-  * [Build Revision](docs/build-revision.md)
-  * [Semantic Versioning 2.0.0](docs/semver.md)
+* [Semantic Versioning 2.0.0](docs/semver.md)
 * [Build](docs/build.md)
 * [Test](docs/test.md)
 * [Analyze](docs/analysis.md)
 * [Deploy](docs/deploy.md)
+
+And more! Additional features described at: [docs/features.md](docs/features.md)
 
 ## Usage
 
