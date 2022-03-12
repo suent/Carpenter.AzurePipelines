@@ -14,7 +14,7 @@ You can define the pipline version that you want to use in your pipeline yaml:
     pipelineVersion: 1
 ```
 
-When making a breaking change [`pipelineVersion`](../configuration.md##carpenterpipelineversion-pipelineversion)
+When making a breaking change [`pipelineVersion`](../configuration.md#carpenterpipelineversion-pipelineversion)
 can be used to require manual intervention to pipelines which extend this template.
 
 This step can be modified:
