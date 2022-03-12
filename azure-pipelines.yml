@@ -147,5 +147,3 @@ stages:
     deployNuGet: 'dev,stage,prod'
     updateNuGetQuality: 'stage,prod'
     gitHubServiceConnection: botRepositoryAccess
-
-    addGitHubReleaseOnProd: true

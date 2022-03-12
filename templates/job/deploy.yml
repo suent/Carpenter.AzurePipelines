@@ -84,9 +84,6 @@ parameters:
 - name: gitHubServiceConnection
   type: string
 
-- name: addGitHubReleaseOnProd
-  type: string
-
 
 jobs:
 
@@ -149,7 +146,6 @@ jobs:
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-    addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
     stack: ${{ parameters.stack }}
     jobDependsOn:
     - ${{ if eq(parameters.stack, 'dev') }}:

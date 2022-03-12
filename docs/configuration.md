@@ -76,9 +76,6 @@
 * [Integrations](#integrations)
   * [Carpenter.GitHub.ServiceConnection (gitHubServiceConnection)](#carpentergithubserviceconnection-githubserviceconnection)
   
-  * [Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)](#carpentergithubreleaseonprod-addgithubreleaseonprod)
-
-
 
 # Configuring Carpenter.AzurePipelines
 
@@ -467,8 +464,3 @@ contains **UpdateNuGetQuality**.
 
 The service connection to use when executing GitHub tasks. This value is set by the `gitHubServiceConnection`
 parameter when `pipelineOperations` contains **AddGitHubRelease**.
-
-### Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)
-
-If true, a GitHub release is created during the Production Finalize. This value is set by the `addGitHubReleaseOnProd`
-parameter. The default value is **false**.

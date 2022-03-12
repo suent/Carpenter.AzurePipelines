@@ -117,10 +117,6 @@ parameters:
   type: string
   default: ''
 
-- name: addGitHubReleaseOnProd
-  type: boolean
-  default: false
-
 
 stages:
 - stage: dev
@@ -289,7 +285,6 @@ stages:
         nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: dev
 
 # Deploys to stacks only on changes to main branch
@@ -314,7 +309,6 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: test1
       stackName: Test 1
       stackDependsOn:
@@ -339,7 +333,6 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: test2
       stackName: Test 2
       stackDependsOn:
@@ -364,7 +357,6 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: stage
       stackName: Staging
       stackDependsOn:
@@ -393,7 +385,6 @@ stages:
         nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: prod
         stackName: Production
         stackDependsOn:
