@@ -1,7 +1,17 @@
 [Carpenter.AzurePipelines Operations](#carpenterazurepipelines-operations)
 * [ExcludePipeline](#excludepipeline)
 * [PublishSourceArtifact](#publishsourceartifact)
+* [VersionSemVer](#versionsemver)
+* [BuildDotNet](#builddotnet)
+* [PackageNuGet](#packagenuget)
+* [TestDotNet](#testdotnet)
+* [CollectTestCoverage](#collecttestcoverage)
+* [AnalyzeSonar](#analyzesonar)
+* [DeployBranch](#deploybranch)
+* [DeployNuGet](#deploynuget)
+* [AddGitTag](#addgittag)
 * [IncrementVersionOnRelease](#incrementversiononrelease)
+* [UpdateNuGetQuality](#updatenugetquality)
 
 # Carpenter.AzurePipelines Operations
 
@@ -109,6 +119,7 @@ Required operations:
 
 This operation uses the following settings:
 
+* Carpenter.Deploy.NuGet (deployNuGet)
 * Carpenter.Deploy.NuGet.TargetFeed.Dev
 * Carpenter.Deploy.NuGet.TargetFeed.Test1
 * Carpenter.Deploy.NuGet.TargetFeed.Test2
@@ -117,7 +128,7 @@ This operation uses the following settings:
 
 ## AddGitTag
 
-Adds a Git tag for the build number.
+Adds a Git tag for the build number to the source repository.
 
 This operation uses the following settings:
 
@@ -142,3 +153,19 @@ This operation uses the following settings:
 * Carpenter.Version.Patch
 
 ## UpdateNuGetQuality
+
+Updates the quality of a NuGet package stored in an Azure Artifacts feed.
+
+Required operations:
+
+* DeployNuGet
+
+This operation uses the following settings:
+
+* Carpenter.NuGet.Quality
+* Carpenter.NuGet.Quality.Feed
+* Carpenter.NuGet.Quality.Dev
+* Carpenter.NuGet.Quality.Test1
+* Carpenter.NuGet.Quality.Test2
+* Carpenter.NuGet.Quality.Stage
+* Carpenter.NuGet.Quality.Prod

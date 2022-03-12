@@ -493,35 +493,35 @@ if ($ops -contains "DeployNuGet") {
 	}
 	$deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet
 	
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "dev") {
+	if ((($deployNuGet -Split ",").Trim()) -Contains "dev") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Dev"
 		if (-Not ($NuGetTargetFeedDev)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Dev variable is required when deployNuGet contains dev."
 		}
 	}
 
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "test1") {
+	if ((($deployNuGet -Split ",").Trim()) -Contains "test1") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Test1"
 		if (-Not ($NuGetTargetFeedTest1)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Test1 variable is required when deployNuGet contains test1."
 		}
 	}
 
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
+	if ((($deployNuGet -Split ",").Trim()) -Contains "test2") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Test2"
 		if (-Not ($NuGetTargetFeedTest2)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Test2 variable is required when deployNuGet contains test2."
 		}
 	}
 
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "stage") {
+	if ((($deployNuGet -Split ",").Trim()) -Contains "stage") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Stage"
 		if (-Not ($NuGetTargetFeedStage)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Stage variable is required when deployNuGet contains stage."
 		}
 	}
 
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "prod") {
+	if ((($deployNuGet -Split ",").Trim()) -Contains "prod") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Prod"
 		if (-Not ($NuGetTargetFeedProd)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Prod variable is required when deployNuGet contains prod."
@@ -535,12 +535,61 @@ if ($ops -contains "DeployNuGet") {
 }
 
 
-$updateNuGetQuality = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality" -OutputVariableName "updateNuGetQuality" -Value $UpdateNuGetQuality
-$nuGetQualityFeed = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Feed" -OutputVariableName "nuGetQualityFeed" -Value $NuGetQualityFeed
-$nuGetQualityDev = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Dev" -OutputVariableName "nuGetQualityDev" -Value $NuGetQualityDev
-$nuGetQualityTest1 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test1" -OutputVariableName "nuGetQualityTest1" -Value $NuGetQualityTest1
-$nuGetQualityTest2 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test2" -OutputVariableName "nuGetQualityTest2" -Value $NuGetQualityTest2
-$nuGetQualityStage = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Stage" -OutputVariableName "nuGetQualityStage" -Value $NuGetQualityStage
-$nuGetQualityProd = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Prod" -OutputVariableName "nuGetQualityProd" -Value $NuGetQualityProd
+######################################################################################################################
+# Integrations
+######################################################################################################################
+
+# Carpenter.NuGet.Quality (updateNuGetQuality)
+if ($ops -contains "UpdateNuGetQuality") {
+	if (-not ($UpdateNuGetQuality)) {
+		Write-PipelineError "The updateNuGetQuality parameter is required when pipelineOperations contains UpdateNuGetQuality."
+	}
+	$updateNuGetQuality = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality" -OutputVariableName "updateNuGetQuality" -Value $UpdateNuGetQuality
+	
+	Write-Verbose "Validating Carpenter.NuGet.Quality.Feed"
+	if (-Not ($NuGetQualityFeed)) {
+		Write-PipelineError "The Carpenter.NuGet.Quality.Feed variable is required when pipelineOperations contains UpdateNuGetQuality."
+	}
+
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "dev") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Dev"
+		if (-Not ($NuGetQualityDev)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Dev variable is required when updateNuGetQuality contains dev."
+		}
+	}
+
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "test1") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Test1"
+		if (-Not ($NuGetQualityTest1)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Test1 variable is required when updateNuGetQuality contains test1."
+		}
+	}
+
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "test2") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Test2"
+		if (-Not ($NuGetQualityTest2)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Test2 variable is required when updateNuGetQuality contains test2."
+		}
+	}
+
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "stage") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Stage"
+		if (-Not ($NuGetQualityStage)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Stage variable is required when updateNuGetQuality contains stage."
+		}
+	}
+
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "prod") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Prod"
+		if (-Not ($NuGetQualityProd)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Prod variable is required when updateNuGetQuality contains prod."
+		}
+	}
+
+} else {
+	if ($DeployNuGet) {
+		Write-PipelineWarning "The updateNuGetQuality parameter '$UpdateNuGetQuality' is being ignored because pipelineOperations does not contain UpdateNuGetQuality."
+	}
+}
 
 $gitHubServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.GitHub.ServiceConnection" -OutputVariableName "gitHubServiceConnection" -Value $GitHubServiceConnection

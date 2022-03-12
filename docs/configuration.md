@@ -59,22 +59,21 @@
   * [Carpenter.SonarCloud.ProjectKey](#carpentersonarcloudprojectkey)
   * [Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)](#carpentersonarcloudserviceconnection-sonarcloudserviceconnection)
 * [Deployment variables](#deployment-variables)
-  * [Carpenter.Deploy.Branch](#carpenterdeploybranch)
-
-
-  * [Carpenter.Deploy.NuGet](#carpenterdeploynuget)
+  * [Carpenter.Deploy.Branch (deployBranch)](#carpenterdeploybranch-deploybranch)
+  * [Carpenter.Deploy.NuGet (deployNuGet)](#carpenterdeploynuget-deploynuget)
   * [Carpenter.Deploy.NuGet.TargetFeed.Dev](#carpenterdeploynugettargetfeeddev)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test1](#carpenterdeploynugettargetfeedtest1)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test2](#carpenterdeploynugettargetfeedtest2)
   * [Carpenter.Deploy.NuGet.TargetFeed.Stage](#carpenterdeploynugettargetfeedstage)
   * [Carpenter.Deploy.NuGet.TargetFeed.Prod](#carpenterdeploynugettargetfeedprod)
-  * [Carpenter.NuGet.Quality](#carpenternugetquality)
+  * [Carpenter.NuGet.Quality (updateNuGetQuality)](#carpenternugetquality-updatenugetquality)
   * [Carpenter.NuGet.Quality.Feed](#carpenternugetqualityfeed)
   * [Carpenter.NuGet.Quality.Dev](#carpenternugetqualitydev)
   * [Carpenter.NuGet.Quality.Test1](#carpenternugetqualitytest1)
   * [Carpenter.NuGet.Quality.Test2](#carpenternugetqualitytest2)
   * [Carpenter.NuGet.Quality.Stage](#carpenternugetqualitystage)
   * [Carpenter.NuGet.Quality.Prod](#carpenternugetqualityprod)
+  
   * [Carpenter.GitHub.ServiceConnection](#carpentergithubserviceconnection)
   * [Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)](#carpentergitaddtagondevmain-addgittagondevmain)
   * [Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)](#carpentergithubreleaseonprod-addgithubreleaseonprod)
@@ -391,12 +390,12 @@ The SonarCloud service connection to use. This value is set by the `sonarCloudSe
 
 ## Deployment variables
 
-### Carpenter.Deploy.Branch
+### Carpenter.Deploy.Branch (deployBranch)
 
 Comma separated list of stacks deploy branch should execute for. This value is set by the `deployBranch` parameter if
 `pipelineOperations` contains **DeployBranch**.
 
-### Carpenter.Deploy.NuGet
+### Carpenter.Deploy.NuGet (deployNuGet)
 
 Comma separated list of stacks deploy nuget should execute for. This value is set by the `deployNuGet` parameter if
 `pipelineOperations` contains **DeployNuGet**.
@@ -426,39 +425,41 @@ The target NuGet feed to use when deploying NuGet packages to the Stage stack. T
 The target NuGet feed to use when deploying NuGet packages to the Prod stack. This value is used when
 `pipelineOperations` contains **DeployNuGet**.
 
-### Carpenter.NuGet.Quality
+### Carpenter.NuGet.Quality (updateNuGetQuality)
 
 Comma separated list of stacks update quality should execute for. Updates the described quality of
-a NuGet package using the Artifact views. This value is set by the `updateNuGetQuality` parameter.
+a NuGet package using the Artifact views. This value is set by the `updateNuGetQuality` parameter if
+`pipelineOperations` contains **UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Feed
 
-The Azure DevOps Artifact NuGet package feed to use when updating quality.
+The Azure DevOps Artifact NuGet package feed to use when updating quality. This value is used when
+`pipelineOperations` contains **UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Dev
 
-The target quality when updating quality on the Developer stack. This value is set by the
-`nuGetQualityDev` parameter.
+The target quality when updating quality on the Developer stack. This value is used when
+`pipelineOperations` contains **UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Test1
 
-The target quality when updating quality on the Test 1 stack. This value is set by the
-`nuGetQualityTest1` parameter.
+The target quality when updating quality on the Test 1 stack. This value is used when
+`pipelineOperations` contains **UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Test2
 
-The target quality when updating quality on the Test 2 stack. This value is set by the
-`nuGetQualityTest2` parameter.
+The target quality when updating quality on the Test 2 stack. This value is used when
+`pipelineOperations` contains **UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Stage
 
-The target quality when updating quality on the Staging stack. This value is set by the
-`nuGetQualityStage` parameter.
+The target quality when updating quality on the Staging stack. This value is used when
+`pipelineOperations` contains **UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Prod
 
-The target quality when updating quality on the Production stack. This value is set by the
-`nuGetQualityProd` parameter.
+The target quality when updating quality on the Production stack. This value is used when
+`pipelineOperations` contains **UpdateNuGetQuality**.
 
 ### Carpenter.GitHub.ServiceConnection
 
