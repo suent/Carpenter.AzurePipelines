@@ -117,10 +117,6 @@ parameters:
   type: string
   default: ''
 
-- name: addGitTagOnDevMain
-  type: boolean
-  default: false
-
 - name: addGitHubReleaseOnProd
   type: boolean
   default: false
@@ -293,7 +289,6 @@ stages:
         nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
         addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: dev
 
@@ -319,7 +314,6 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
       addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: test1
       stackName: Test 1
@@ -345,7 +339,6 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
       addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: test2
       stackName: Test 2
@@ -371,7 +364,6 @@ stages:
       nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
       nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
       addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: stage
       stackName: Staging
@@ -401,7 +393,6 @@ stages:
         nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
         nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
         addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: prod
         stackName: Production

@@ -146,7 +146,6 @@ stages:
     deployBranch: 'test1,test2,stage,prod'
     deployNuGet: 'dev,stage,prod'
     updateNuGetQuality: 'stage,prod'
-
     gitHubServiceConnection: botRepositoryAccess
-    addGitTagOnDevMain: true
+
     addGitHubReleaseOnProd: true

@@ -10,6 +10,7 @@
 * [DeployBranch](#deploybranch)
 * [DeployNuGet](#deploynuget)
 * [AddGitTag](#addgittag)
+* [AddGitHubRelease](#addgithubrelease)
 * [IncrementVersionOnRelease](#incrementversiononrelease)
 * [UpdateNuGetQuality](#updatenugetquality)
 

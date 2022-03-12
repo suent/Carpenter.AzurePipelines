@@ -84,9 +84,6 @@ parameters:
 - name: gitHubServiceConnection
   type: string
 
-- name: addGitTagOnDevMain
-  type: string
-
 - name: addGitHubReleaseOnProd
   type: string
 
@@ -152,7 +149,6 @@ jobs:
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-    addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
     addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
     stack: ${{ parameters.stack }}
     jobDependsOn:

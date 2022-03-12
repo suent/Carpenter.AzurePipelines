@@ -73,9 +73,9 @@
   * [Carpenter.NuGet.Quality.Test2](#carpenternugetqualitytest2)
   * [Carpenter.NuGet.Quality.Stage](#carpenternugetqualitystage)
   * [Carpenter.NuGet.Quality.Prod](#carpenternugetqualityprod)
+* [Integrations](#integrations)
+  * [Carpenter.GitHub.ServiceConnection (gitHubServiceConnection)](#carpentergithubserviceconnection-githubserviceconnection)
   
-  * [Carpenter.GitHub.ServiceConnection](#carpentergithubserviceconnection)
-  * [Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)](#carpentergitaddtagondevmain-addgittagondevmain)
   * [Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)](#carpentergithubreleaseonprod-addgithubreleaseonprod)
 
 
@@ -427,9 +427,9 @@ The target NuGet feed to use when deploying NuGet packages to the Prod stack. Th
 
 ### Carpenter.NuGet.Quality (updateNuGetQuality)
 
-Comma separated list of stacks update quality should execute for. Updates the described quality of
-a NuGet package using the Artifact views. This value is set by the `updateNuGetQuality` parameter if
-`pipelineOperations` contains **UpdateNuGetQuality**.
+Comma separated list of stacks update quality should execute for. Updates the described quality of a NuGet package
+using the Artifact views. This value is set by the `updateNuGetQuality` parameter if `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Feed
 
@@ -438,38 +438,35 @@ The Azure DevOps Artifact NuGet package feed to use when updating quality. This 
 
 ### Carpenter.NuGet.Quality.Dev
 
-The target quality when updating quality on the Developer stack. This value is used when
-`pipelineOperations` contains **UpdateNuGetQuality**.
+The target quality when updating quality on the Developer stack. This value is used when `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Test1
 
-The target quality when updating quality on the Test 1 stack. This value is used when
-`pipelineOperations` contains **UpdateNuGetQuality**.
+The target quality when updating quality on the Test 1 stack. This value is used when `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Test2
 
-The target quality when updating quality on the Test 2 stack. This value is used when
-`pipelineOperations` contains **UpdateNuGetQuality**.
+The target quality when updating quality on the Test 2 stack. This value is used when `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Stage
 
-The target quality when updating quality on the Staging stack. This value is used when
-`pipelineOperations` contains **UpdateNuGetQuality**.
+The target quality when updating quality on the Staging stack. This value is used when `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Prod
 
-The target quality when updating quality on the Production stack. This value is used when
-`pipelineOperations` contains **UpdateNuGetQuality**.
+The target quality when updating quality on the Production stack. This value is used when `pipelineOperations`
+contains **UpdateNuGetQuality**.
 
-### Carpenter.GitHub.ServiceConnection
+## Integrations
 
-The service connection to use when executing GitHub tasks. This value is set byt the
-`gitHubServiceConnection` parameter.
+### Carpenter.GitHub.ServiceConnection (gitHubServiceConnection)
 
-### Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)
-
-If true, git sources are tagged with the build number on Developer Finalize against the main branch. This value is set
-by the `addGitTagOnDevMain` parameter. The default value is **false**.
+The service connection to use when executing GitHub tasks. This value is set by the `gitHubServiceConnection`
+parameter when `pipelineOperations` contains **AddGitHubRelease**.
 
 ### Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)
 

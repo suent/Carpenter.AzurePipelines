@@ -493,6 +493,7 @@ if ($ops -contains "DeployNuGet") {
 	}
 	$deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet
 	
+	# Carpenter.Deploy.NuGet.TargetFeed.Dev
 	if ((($deployNuGet -Split ",").Trim()) -Contains "dev") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Dev"
 		if (-Not ($NuGetTargetFeedDev)) {
@@ -500,6 +501,7 @@ if ($ops -contains "DeployNuGet") {
 		}
 	}
 
+	# Carpenter.Deploy.NuGet.TargetFeed.Test1
 	if ((($deployNuGet -Split ",").Trim()) -Contains "test1") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Test1"
 		if (-Not ($NuGetTargetFeedTest1)) {
@@ -507,6 +509,7 @@ if ($ops -contains "DeployNuGet") {
 		}
 	}
 
+	# Carpenter.Deploy.NuGet.TargetFeed.Test2
 	if ((($deployNuGet -Split ",").Trim()) -Contains "test2") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Test2"
 		if (-Not ($NuGetTargetFeedTest2)) {
@@ -514,6 +517,7 @@ if ($ops -contains "DeployNuGet") {
 		}
 	}
 
+	# Carpenter.Deploy.NuGet.TargetFeed.Stage
 	if ((($deployNuGet -Split ",").Trim()) -Contains "stage") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Stage"
 		if (-Not ($NuGetTargetFeedStage)) {
@@ -521,6 +525,7 @@ if ($ops -contains "DeployNuGet") {
 		}
 	}
 
+	# Carpenter.Deploy.NuGet.TargetFeed.Prod
 	if ((($deployNuGet -Split ",").Trim()) -Contains "prod") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Prod"
 		if (-Not ($NuGetTargetFeedProd)) {
@@ -546,11 +551,13 @@ if ($ops -contains "UpdateNuGetQuality") {
 	}
 	$updateNuGetQuality = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality" -OutputVariableName "updateNuGetQuality" -Value $UpdateNuGetQuality
 	
+	# Carpenter.NuGet.Quality.Feed
 	Write-Verbose "Validating Carpenter.NuGet.Quality.Feed"
 	if (-Not ($NuGetQualityFeed)) {
 		Write-PipelineError "The Carpenter.NuGet.Quality.Feed variable is required when pipelineOperations contains UpdateNuGetQuality."
 	}
 
+	# Carpenter.NuGet.Quality.Dev
 	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "dev") {
 		Write-Verbose "Validating Carpenter.NuGet.Quality.Dev"
 		if (-Not ($NuGetQualityDev)) {
@@ -558,6 +565,7 @@ if ($ops -contains "UpdateNuGetQuality") {
 		}
 	}
 
+	# Carpenter.NuGet.Quality.Test1
 	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "test1") {
 		Write-Verbose "Validating Carpenter.NuGet.Quality.Test1"
 		if (-Not ($NuGetQualityTest1)) {
@@ -565,6 +573,7 @@ if ($ops -contains "UpdateNuGetQuality") {
 		}
 	}
 
+	# Carpenter.NuGet.Quality.Test2
 	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "test2") {
 		Write-Verbose "Validating Carpenter.NuGet.Quality.Test2"
 		if (-Not ($NuGetQualityTest2)) {
@@ -572,6 +581,7 @@ if ($ops -contains "UpdateNuGetQuality") {
 		}
 	}
 
+	# Carpenter.NuGet.Quality.Stage
 	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "stage") {
 		Write-Verbose "Validating Carpenter.NuGet.Quality.Stage"
 		if (-Not ($NuGetQualityStage)) {
@@ -579,6 +589,7 @@ if ($ops -contains "UpdateNuGetQuality") {
 		}
 	}
 
+	# Carpenter.NuGet.Quality.Prod
 	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "prod") {
 		Write-Verbose "Validating Carpenter.NuGet.Quality.Prod"
 		if (-Not ($NuGetQualityProd)) {
@@ -592,4 +603,13 @@ if ($ops -contains "UpdateNuGetQuality") {
 	}
 }
 
-$gitHubServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.GitHub.ServiceConnection" -OutputVariableName "gitHubServiceConnection" -Value $GitHubServiceConnection
+if ($ops -contains "AddGitHubRelease") {
+	if (-not ($GitHubServiceConnection)) {
+		Write-PipelineError "The gitHubServiceConnection parameter is required when pipelineOperations contains AddGitHubRelease."
+	}
+	$gitHubServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.GitHub.ServiceConnection" -OutputVariableName "gitHubServiceConnection" -Value $GitHubServiceConnection
+} else {
+	if ($GitHubServiceConnection) {
+		Write-PipelineWarning "The gitHubServiceConnection parameter '$GitHubServiceConnection' is being ignored because pipelineOperations does not contain AddGitHubRelease."
+	}
+}
