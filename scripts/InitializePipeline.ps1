@@ -85,6 +85,8 @@ $validOps = "ExcludePipeline",`
 			"AnalyzeSonar",`
 			"DeployBranch",`
 			"DeployNuGet",`
+			"AddGitTag",
+			"AddGitHubRelease",
 			"IncrementVersionOnRelease",`
 			"UpdateNuGetQuality"
 foreach ($op in $ops) {

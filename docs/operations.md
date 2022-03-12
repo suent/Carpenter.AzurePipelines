@@ -138,6 +138,14 @@ This operation uses the following settings:
 * Carpenter.PipelineBot.GitHub.Username
 * PipelineBot-GitHub-PAT
 
+## AddGitHubRelease
+
+Adds a release for this build on GitHub for the prod stack.
+
+This operation uses the following settings:
+
+* Carpenter.GitHub.ServiceConnection (gitHubServiceConnection)
+
 ## IncrementVersionOnRelease
 
 Increments the patch portion of the version on a release when using SemVer versioning.

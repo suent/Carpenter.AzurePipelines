@@ -132,6 +132,8 @@ stages:
     - AnalyzeSonar
     - DeployBranch
     - DeployNuGet
+    - AddGitTag
+    - AddGitHubRelease
     - IncrementVersionOnRelease
     - UpdateNuGetQuality
     pipelineReason: ${{ parameters.pipelineReason }}
