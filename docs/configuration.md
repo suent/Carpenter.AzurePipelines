@@ -282,7 +282,7 @@ contains **TestDotNet**.
 
 ## Build Versioning
 
-For more information, see [build-versioning.md](build-versioning.md).
+For more information, see [build-versioning.md](features/build-versioning.md).
 
 ### Carpenter.Version.RevisionOffset
 
@@ -341,7 +341,7 @@ The version string (without version metadata). This value is determined during p
 The date code of the continuous integration build. This value is determined during template expansion when
 `pipelineReason` is **CI** if `pipelineOperations` contains **VersionSemVer**.
 
-### Carpenter.ContinuousIntegration.Revsision
+### Carpenter.ContinuousIntegration.Revision
 
 The revision of the continuous integration build. Increments for each build under a specific date. This value is
 determined during pipeline execution when `pipelineReason` is **CI** if `pipelineOperations` contains
