@@ -9,6 +9,7 @@ the template yaml files.
 
 You can define the pipline version that you want to use in your pipeline yaml:
 ```
+stages:
 - template: template/carpenter-default.yml@Carpenter
   parameters:
     pipelineVersion: 1
