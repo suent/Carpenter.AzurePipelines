@@ -128,7 +128,7 @@ This value is set by the `pipelineVersion` parameter. The default value is **1**
 To ensure that future changes to the pipeline do not break pipelines which extend this template, it is recommended
 that this parameter is passed to the template.
 
-For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
+For more information, see: [pipeline-versioning.md](features/pipeline-versioning.md)
 
 ### Carpenter.Pipeline.Operations (pipelineOperations)
 
@@ -161,9 +161,9 @@ is **CI**.
 
 ## PipelineBot
 
-The PipelineBot is automation that manages the pipeline and its outside connections.
+The PipelineBot is automation that manages the pipeline and its outside connections and external services.
 
-For more information, see [pipeline-bot.md](pipeline-bot.md).
+For more information, see [pipeline-bot.md](features/pipeline-bot.md).
 
 ### Carpenter.PipelineBot.Name
 
@@ -203,7 +203,7 @@ This token is used by the following operations:
 
 ## Pool Configuration
 
-For more information, see [configure-pool.md](configure-pool.md).
+For more information, see [configure-pool.md](features/configure-pool.md).
 
 ### Carpenter.Pool.Default.Type (defaultPoolType)
 

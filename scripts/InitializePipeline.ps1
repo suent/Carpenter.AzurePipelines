@@ -193,16 +193,15 @@ if (($ops -contains 'AddGitTag') -or ($ops -contains 'IncrementVersionOnRelease'
 	
 }
 
+# Carpenter.PipelineBot.GitHub.Token
 if (($ops -contains 'AddGitTag') -or `
 	($ops -contains 'IncrementVersionOnRelease') -or `
 	($ops -contains 'DeployBranch') -or `
 	(($ops -contains 'DeployNuGet') -and (($NuGetTargetFeedDev -eq 'github.com') -or ($NuGetTargetFeedTest1 -eq 'github.com') -or ($NuGetTargetFeedTest2 -eq 'github.com') -or ($NuGetTargetFeedStage -eq 'github.com') -or ($NuGetTargetFeedProd -eq 'github.com')))) {
-
-	# Carpenter.PipelineBot.GitHub.Token
-	Write-Verbose "Validating PipelineBot-GitHub-PAT"
-	if ($PipelineBotGitHubToken -eq "`$(PipelineBot-GitHub-PAT)") {
-		Write-PipelineError "The PipelineBot-GitHub-PAT variable is required when pipelineOperations contains AddGitTag, DeployBranch, IncrementVersionOnRelease or DeployNuGet with a github.com target."
-	}
+		Write-Verbose "Validating PipelineBot-GitHub-PAT"
+		if ($PipelineBotGitHubToken -eq "`$(PipelineBot-GitHub-PAT)") {
+			Write-PipelineError "The PipelineBot-GitHub-PAT variable is required when pipelineOperations contains AddGitTag, DeployBranch, IncrementVersionOnRelease or DeployNuGet with a github.com target."
+		}
 }
 
 if (($ops -contains 'DeployNuGet') -and (($NuGetTargetFeedDev -eq 'nuget.org') -or ($NuGetTargetFeedTest1 -eq 'nuget.org') -or ($NuGetTargetFeedTest2 -eq 'nuget.org') -or ($NuGetTargetFeedStage -eq 'nuget.org') -or ($NuGetTargetFeedProd -eq 'nuget.org'))) {
