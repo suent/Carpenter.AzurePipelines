@@ -5,7 +5,8 @@ information about SemVer can be found at [https://semver.org/](https://semver.or
 
 ## Enabling SemVer versioning
 
-To enable SemVer versioning, add the following parameter to your yaml.
+To enable Semantic Versioning, pass the [**VersionSemVer**](../../operations.md#versionsemver) operation to the
+[`pipelineOperations`](../configuration.md#carpenterpipelineoperations-pipelineoperations) parameter:
 
 ```
 stages:
