@@ -1,4 +1,4 @@
-# Semantic Versioning 2.0.0
+# Semantic Versioning
 
 Carpenter supports Semantic Versioning 2.0.0 to better define how version numbers are assigned and incremented. More
 information about SemVer can be found at [https://semver.org/](https://semver.org/).

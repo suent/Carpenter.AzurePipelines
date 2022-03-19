@@ -243,8 +243,8 @@ The absolute path of the project source. This value is determined during pipelin
 
 ### Carpenter.Solution.Path
 
-The absolute path to the solution. This value is determined during pipeline execution if `pipelineOperations` contains
-**BuildDotNet**.
+The absolute path to the solution. If a value is not supplied via a the variable, this value is determined during
+pipeline execution if `pipelineOperations` contains **BuildDotNet**.
 
 ## Tools Configuration
 
@@ -368,8 +368,7 @@ The prerelease revision. This value is determined during pipeline execution when
 
 ## SonarCloud Analysis
 
-For more information:
-https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
+For more information, see [analysis-sonarcloud.md](features/analysis/analysis-sonarcloud.md).
 
 ### Carpenter.SonarCloud.Organization
 
@@ -392,11 +391,14 @@ The SonarCloud service connection to use. This value is set by the `sonarCloudSe
 Comma separated list of stacks deploy branch should execute for. This value is set by the `deployBranch` parameter if
 `pipelineOperations` contains **DeployBranch**.
 
+For more information, see [deploy-branch.md](features/deploy/deploy-branch.md)
+
 ### Carpenter.Deploy.NuGet (deployNuGet)
 
 Comma separated list of stacks deploy nuget should execute for. This value is set by the `deployNuGet` parameter if
 `pipelineOperations` contains **DeployNuGet**.
 
+For more information, see [deploy-nuget.md](features/deploy/deploy-nuget.md)
 ### Carpenter.Deploy.NuGet.TargetFeed.Dev
 
 The target NuGet feed to use when deploying NuGet packages to the Dev stack. This value is used when

@@ -29,9 +29,11 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 
 * [Build Versioning](docs/features/build-versioning.md)
 * [Build](docs/features/build.md)
-* [Test](docs/test.md)
-* [Analyze](docs/analysis.md)
-* [Deploy](docs/deploy.md)
+* [Package](docs/features/package.md)
+* [Test](docs/features/test.md)
+* [Analyze](docs/features/analysis.md)
+* [Deploy](docs/features/deploy.md)
+* [Integrate](docs/features/integrations.md)
 
 And more! Additional features described at: [docs/features.md](docs/features.md)
 
