@@ -59,32 +59,8 @@ parameters:
 
 - name: updateNuGetQuality
   type: string
-
-- name: nuGetQualityFeed
-  type: string
-
-- name: nuGetQualityDev
-  type: string
-
-- name: nuGetQualityTest1
-  type: string
-
-- name: nuGetQualityTest2
-  type: string
-
-- name: nuGetQualityStage
-  type: string
-
-- name: nuGetQualityProd
-  type: string
-  
+ 
 - name: gitHubServiceConnection
-  type: string
-
-- name: addGitTagOnDevMain
-  type: string
-
-- name: addGitHubReleaseOnProd
   type: string
 
 - name: stack
@@ -111,8 +87,6 @@ stages:
           pipelineOperations: ${{ parameters.pipelineOperations }}
           pipelineReason: ${{ parameters.pipelineReason }}
           defaultPoolType: ${{ parameters.defaultPoolType }}
-          updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-          gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
 
     jobs:
     - template: ../job/deploy.yml
@@ -127,13 +101,5 @@ stages:
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-        nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
-        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: ${{ parameters.stack }}

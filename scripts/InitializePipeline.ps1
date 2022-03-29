@@ -85,6 +85,8 @@ $validOps = "ExcludePipeline",`
 			"AnalyzeSonar",`
 			"DeployBranch",`
 			"DeployNuGet",`
+			"AddGitTag",
+			"AddGitHubRelease",
 			"IncrementVersionOnRelease",`
 			"UpdateNuGetQuality"
 foreach ($op in $ops) {
@@ -191,16 +193,15 @@ if (($ops -contains 'AddGitTag') -or ($ops -contains 'IncrementVersionOnRelease'
 	
 }
 
+# Carpenter.PipelineBot.GitHub.Token
 if (($ops -contains 'AddGitTag') -or `
 	($ops -contains 'IncrementVersionOnRelease') -or `
 	($ops -contains 'DeployBranch') -or `
 	(($ops -contains 'DeployNuGet') -and (($NuGetTargetFeedDev -eq 'github.com') -or ($NuGetTargetFeedTest1 -eq 'github.com') -or ($NuGetTargetFeedTest2 -eq 'github.com') -or ($NuGetTargetFeedStage -eq 'github.com') -or ($NuGetTargetFeedProd -eq 'github.com')))) {
-
-	# Carpenter.PipelineBot.GitHub.Token
-	Write-Verbose "Validating PipelineBot-GitHub-PAT"
-	if ($PipelineBotGitHubToken -eq "`$(PipelineBot-GitHub-PAT)") {
-		Write-PipelineError "The PipelineBot-GitHub-PAT variable is required when pipelineOperations contains AddGitTag, DeployBranch, IncrementVersionOnRelease or DeployNuGet with a github.com target."
-	}
+		Write-Verbose "Validating PipelineBot-GitHub-PAT"
+		if ($PipelineBotGitHubToken -eq "`$(PipelineBot-GitHub-PAT)") {
+			Write-PipelineError "The PipelineBot-GitHub-PAT variable is required when pipelineOperations contains AddGitTag, DeployBranch, IncrementVersionOnRelease or DeployNuGet with a github.com target."
+		}
 }
 
 if (($ops -contains 'DeployNuGet') -and (($NuGetTargetFeedDev -eq 'nuget.org') -or ($NuGetTargetFeedTest1 -eq 'nuget.org') -or ($NuGetTargetFeedTest2 -eq 'nuget.org') -or ($NuGetTargetFeedStage -eq 'nuget.org') -or ($NuGetTargetFeedProd -eq 'nuget.org'))) {
@@ -493,35 +494,40 @@ if ($ops -contains "DeployNuGet") {
 	}
 	$deployNuGet = Set-CarpenterVariable -VariableName "Carpenter.Deploy.NuGet" -OutputVariableName "deployNuGet" -Value $DeployNuGet
 	
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "dev") {
+	# Carpenter.Deploy.NuGet.TargetFeed.Dev
+	if ((($deployNuGet -Split ",").Trim()) -Contains "dev") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Dev"
 		if (-Not ($NuGetTargetFeedDev)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Dev variable is required when deployNuGet contains dev."
 		}
 	}
 
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "test1") {
+	# Carpenter.Deploy.NuGet.TargetFeed.Test1
+	if ((($deployNuGet -Split ",").Trim()) -Contains "test1") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Test1"
 		if (-Not ($NuGetTargetFeedTest1)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Test1 variable is required when deployNuGet contains test1."
 		}
 	}
 
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "test2") {
+	# Carpenter.Deploy.NuGet.TargetFeed.Test2
+	if ((($deployNuGet -Split ",").Trim()) -Contains "test2") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Test2"
 		if (-Not ($NuGetTargetFeedTest2)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Test2 variable is required when deployNuGet contains test2."
 		}
 	}
 
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "stage") {
+	# Carpenter.Deploy.NuGet.TargetFeed.Stage
+	if ((($deployNuGet -Split ",").Trim()) -Contains "stage") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Stage"
 		if (-Not ($NuGetTargetFeedStage)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Stage variable is required when deployNuGet contains stage."
 		}
 	}
 
-	if ((($DeployNuGet -Split ",").Trim()) -Contains "prod") {
+	# Carpenter.Deploy.NuGet.TargetFeed.Prod
+	if ((($deployNuGet -Split ",").Trim()) -Contains "prod") {
 		Write-Verbose "Validating Carpenter.Deploy.NuGet.TargetFeed.Prod"
 		if (-Not ($NuGetTargetFeedProd)) {
 			Write-PipelineError "The Carpenter.Deploy.NuGet.TargetFeed.Prod variable is required when deployNuGet contains prod."
@@ -535,12 +541,76 @@ if ($ops -contains "DeployNuGet") {
 }
 
 
-$updateNuGetQuality = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality" -OutputVariableName "updateNuGetQuality" -Value $UpdateNuGetQuality
-$nuGetQualityFeed = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Feed" -OutputVariableName "nuGetQualityFeed" -Value $NuGetQualityFeed
-$nuGetQualityDev = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Dev" -OutputVariableName "nuGetQualityDev" -Value $NuGetQualityDev
-$nuGetQualityTest1 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test1" -OutputVariableName "nuGetQualityTest1" -Value $NuGetQualityTest1
-$nuGetQualityTest2 = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Test2" -OutputVariableName "nuGetQualityTest2" -Value $NuGetQualityTest2
-$nuGetQualityStage = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Stage" -OutputVariableName "nuGetQualityStage" -Value $NuGetQualityStage
-$nuGetQualityProd = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality.Prod" -OutputVariableName "nuGetQualityProd" -Value $NuGetQualityProd
+######################################################################################################################
+# Integrations
+######################################################################################################################
 
-$gitHubServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.GitHub.ServiceConnection" -OutputVariableName "gitHubServiceConnection" -Value $GitHubServiceConnection
+# Carpenter.NuGet.Quality (updateNuGetQuality)
+if ($ops -contains "UpdateNuGetQuality") {
+	if (-not ($UpdateNuGetQuality)) {
+		Write-PipelineError "The updateNuGetQuality parameter is required when pipelineOperations contains UpdateNuGetQuality."
+	}
+	$updateNuGetQuality = Set-CarpenterVariable -VariableName "Carpenter.NuGet.Quality" -OutputVariableName "updateNuGetQuality" -Value $UpdateNuGetQuality
+	
+	# Carpenter.NuGet.Quality.Feed
+	Write-Verbose "Validating Carpenter.NuGet.Quality.Feed"
+	if (-Not ($NuGetQualityFeed)) {
+		Write-PipelineError "The Carpenter.NuGet.Quality.Feed variable is required when pipelineOperations contains UpdateNuGetQuality."
+	}
+
+	# Carpenter.NuGet.Quality.Dev
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "dev") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Dev"
+		if (-Not ($NuGetQualityDev)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Dev variable is required when updateNuGetQuality contains dev."
+		}
+	}
+
+	# Carpenter.NuGet.Quality.Test1
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "test1") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Test1"
+		if (-Not ($NuGetQualityTest1)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Test1 variable is required when updateNuGetQuality contains test1."
+		}
+	}
+
+	# Carpenter.NuGet.Quality.Test2
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "test2") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Test2"
+		if (-Not ($NuGetQualityTest2)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Test2 variable is required when updateNuGetQuality contains test2."
+		}
+	}
+
+	# Carpenter.NuGet.Quality.Stage
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "stage") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Stage"
+		if (-Not ($NuGetQualityStage)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Stage variable is required when updateNuGetQuality contains stage."
+		}
+	}
+
+	# Carpenter.NuGet.Quality.Prod
+	if ((($updateNuGetQuality -Split ",").Trim()) -Contains "prod") {
+		Write-Verbose "Validating Carpenter.NuGet.Quality.Prod"
+		if (-Not ($NuGetQualityProd)) {
+			Write-PipelineError "The Carpenter.NuGet.Quality.Prod variable is required when updateNuGetQuality contains prod."
+		}
+	}
+
+} else {
+	if ($DeployNuGet) {
+		Write-PipelineWarning "The updateNuGetQuality parameter '$UpdateNuGetQuality' is being ignored because pipelineOperations does not contain UpdateNuGetQuality."
+	}
+}
+
+if ($ops -contains "AddGitHubRelease") {
+	if (-not ($GitHubServiceConnection)) {
+		Write-PipelineError "The gitHubServiceConnection parameter is required when pipelineOperations contains AddGitHubRelease."
+	}
+	$gitHubServiceConnection = Set-CarpenterVariable -VariableName "Carpenter.GitHub.ServiceConnection" -OutputVariableName "gitHubServiceConnection" -Value $GitHubServiceConnection
+} else {
+	if ($GitHubServiceConnection) {
+		Write-PipelineWarning "The gitHubServiceConnection parameter '$GitHubServiceConnection' is being ignored because pipelineOperations does not contain AddGitHubRelease."
+	}
+}

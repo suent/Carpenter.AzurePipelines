@@ -57,8 +57,6 @@ parameters:
 - name: deployNuGet
   type: string
 
-- name: updateNuGetQuality
-  type: string
 
 jobs:
 - job: build
@@ -86,7 +84,6 @@ jobs:
       pipelineOperations: ${{ parameters.pipelineOperations }}
       pipelineReason: ${{ parameters.pipelineReason }}
       defaultPoolType: ${{ parameters.defaultPoolType }}
-      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
 
   steps:

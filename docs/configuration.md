@@ -59,27 +59,23 @@
   * [Carpenter.SonarCloud.ProjectKey](#carpentersonarcloudprojectkey)
   * [Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)](#carpentersonarcloudserviceconnection-sonarcloudserviceconnection)
 * [Deployment variables](#deployment-variables)
-  * [Carpenter.Deploy.Branch](#carpenterdeploybranch)
-
-
-  * [Carpenter.Deploy.NuGet](#carpenterdeploynuget)
+  * [Carpenter.Deploy.Branch (deployBranch)](#carpenterdeploybranch-deploybranch)
+  * [Carpenter.Deploy.NuGet (deployNuGet)](#carpenterdeploynuget-deploynuget)
   * [Carpenter.Deploy.NuGet.TargetFeed.Dev](#carpenterdeploynugettargetfeeddev)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test1](#carpenterdeploynugettargetfeedtest1)
   * [Carpenter.Deploy.NuGet.TargetFeed.Test2](#carpenterdeploynugettargetfeedtest2)
   * [Carpenter.Deploy.NuGet.TargetFeed.Stage](#carpenterdeploynugettargetfeedstage)
   * [Carpenter.Deploy.NuGet.TargetFeed.Prod](#carpenterdeploynugettargetfeedprod)
-  * [Carpenter.NuGet.Quality](#carpenternugetquality)
+  * [Carpenter.NuGet.Quality (updateNuGetQuality)](#carpenternugetquality-updatenugetquality)
   * [Carpenter.NuGet.Quality.Feed](#carpenternugetqualityfeed)
   * [Carpenter.NuGet.Quality.Dev](#carpenternugetqualitydev)
   * [Carpenter.NuGet.Quality.Test1](#carpenternugetqualitytest1)
   * [Carpenter.NuGet.Quality.Test2](#carpenternugetqualitytest2)
   * [Carpenter.NuGet.Quality.Stage](#carpenternugetqualitystage)
   * [Carpenter.NuGet.Quality.Prod](#carpenternugetqualityprod)
-  * [Carpenter.GitHub.ServiceConnection](#carpentergithubserviceconnection)
-  * [Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)](#carpentergitaddtagondevmain-addgittagondevmain)
-  * [Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)](#carpentergithubreleaseonprod-addgithubreleaseonprod)
-
-
+* [Integrations](#integrations)
+  * [Carpenter.GitHub.ServiceConnection (gitHubServiceConnection)](#carpentergithubserviceconnection-githubserviceconnection)
+  
 
 # Configuring Carpenter.AzurePipelines
 
@@ -132,7 +128,7 @@ This value is set by the `pipelineVersion` parameter. The default value is **1**
 To ensure that future changes to the pipeline do not break pipelines which extend this template, it is recommended
 that this parameter is passed to the template.
 
-For more information, see: [pipeline-versioning.md](pipeline-versioning.md)
+For more information, see: [pipeline-versioning.md](features/pipeline-versioning.md)
 
 ### Carpenter.Pipeline.Operations (pipelineOperations)
 
@@ -165,9 +161,9 @@ is **CI**.
 
 ## PipelineBot
 
-The PipelineBot is automation that manages the pipeline and its outside connections.
+The PipelineBot is automation that manages the pipeline and its outside connections and external services.
 
-For more information, see [pipeline-bot.md](pipeline-bot.md).
+For more information, see [pipeline-bot.md](features/pipeline-bot.md).
 
 ### Carpenter.PipelineBot.Name
 
@@ -207,7 +203,7 @@ This token is used by the following operations:
 
 ## Pool Configuration
 
-For more information, see [configure-pool.md](configure-pool.md).
+For more information, see [configure-pool.md](features/configure-pool.md).
 
 ### Carpenter.Pool.Default.Type (defaultPoolType)
 
@@ -247,8 +243,8 @@ The absolute path of the project source. This value is determined during pipelin
 
 ### Carpenter.Solution.Path
 
-The absolute path to the solution. This value is determined during pipeline execution if `pipelineOperations` contains
-**BuildDotNet**.
+The absolute path to the solution. If a value is not supplied via a the variable, this value is determined during
+pipeline execution if `pipelineOperations` contains **BuildDotNet**.
 
 ## Tools Configuration
 
@@ -286,7 +282,7 @@ contains **TestDotNet**.
 
 ## Build Versioning
 
-For more information, see [build-versioning.md](build-versioning.md).
+For more information, see [build-versioning.md](features/build-versioning.md).
 
 ### Carpenter.Version.RevisionOffset
 
@@ -345,7 +341,7 @@ The version string (without version metadata). This value is determined during p
 The date code of the continuous integration build. This value is determined during template expansion when
 `pipelineReason` is **CI** if `pipelineOperations` contains **VersionSemVer**.
 
-### Carpenter.ContinuousIntegration.Revsision
+### Carpenter.ContinuousIntegration.Revision
 
 The revision of the continuous integration build. Increments for each build under a specific date. This value is
 determined during pipeline execution when `pipelineReason` is **CI** if `pipelineOperations` contains
@@ -372,8 +368,7 @@ The prerelease revision. This value is determined during pipeline execution when
 
 ## SonarCloud Analysis
 
-For more information:
-https://github.com/suent/carpenter-azure-pipelines/blob/main/doc/analysis-sonarcloud.md
+For more information, see [analysis-sonarcloud.md](features/analysis/analysis-sonarcloud.md).
 
 ### Carpenter.SonarCloud.Organization
 
@@ -391,16 +386,19 @@ The SonarCloud service connection to use. This value is set by the `sonarCloudSe
 
 ## Deployment variables
 
-### Carpenter.Deploy.Branch
+### Carpenter.Deploy.Branch (deployBranch)
 
 Comma separated list of stacks deploy branch should execute for. This value is set by the `deployBranch` parameter if
 `pipelineOperations` contains **DeployBranch**.
 
-### Carpenter.Deploy.NuGet
+For more information, see [deploy-branch.md](features/deploy/deploy-branch.md)
+
+### Carpenter.Deploy.NuGet (deployNuGet)
 
 Comma separated list of stacks deploy nuget should execute for. This value is set by the `deployNuGet` parameter if
 `pipelineOperations` contains **DeployNuGet**.
 
+For more information, see [deploy-nuget.md](features/deploy/deploy-nuget.md)
 ### Carpenter.Deploy.NuGet.TargetFeed.Dev
 
 The target NuGet feed to use when deploying NuGet packages to the Dev stack. This value is used when
@@ -409,68 +407,62 @@ The target NuGet feed to use when deploying NuGet packages to the Dev stack. Thi
 ### Carpenter.Deploy.NuGet.TargetFeed.Test1
 
 The target NuGet feed to use when deploying NuGet packages to the Test1 stack. This value is used when
-`pipelineOperations` contains **DeployNuGet**.
+`pipelineOperations` contains **DeployNuGet**. Valid options are AzureArtifacts, github.com, or nuget.org.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Test2
 
 The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is used when
-`pipelineOperations` contains **DeployNuGet**.
+`pipelineOperations` contains **DeployNuGet**. Valid options are AzureArtifacts, github.com, or nuget.org.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Stage
 
 The target NuGet feed to use when deploying NuGet packages to the Stage stack. This value is used when
-`pipelineOperations` contains **DeployNuGet**.
+`pipelineOperations` contains **DeployNuGet**. Valid options are AzureArtifacts, github.com, or nuget.org.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Prod
 
 The target NuGet feed to use when deploying NuGet packages to the Prod stack. This value is used when
-`pipelineOperations` contains **DeployNuGet**.
+`pipelineOperations` contains **DeployNuGet**. Valid options are AzureArtifacts, github.com, or nuget.org.
 
-### Carpenter.NuGet.Quality
+### Carpenter.NuGet.Quality (updateNuGetQuality)
 
-Comma separated list of stacks update quality should execute for. Updates the described quality of
-a NuGet package using the Artifact views. This value is set by the `updateNuGetQuality` parameter.
+Comma separated list of stacks update quality should execute for. Updates the described quality of a NuGet package
+using the Artifact views. This value is set by the `updateNuGetQuality` parameter if `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Feed
 
-The Azure DevOps Artifact NuGet package feed to use when updating quality.
+The Azure DevOps Artifact NuGet package feed to use when updating quality. This value is used when
+`pipelineOperations` contains **UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Dev
 
-The target quality when updating quality on the Developer stack. This value is set by the
-`nuGetQualityDev` parameter.
+The target quality when updating quality on the Developer stack. This value is used when `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Test1
 
-The target quality when updating quality on the Test 1 stack. This value is set by the
-`nuGetQualityTest1` parameter.
+The target quality when updating quality on the Test 1 stack. This value is used when `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Test2
 
-The target quality when updating quality on the Test 2 stack. This value is set by the
-`nuGetQualityTest2` parameter.
+The target quality when updating quality on the Test 2 stack. This value is used when `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Stage
 
-The target quality when updating quality on the Staging stack. This value is set by the
-`nuGetQualityStage` parameter.
+The target quality when updating quality on the Staging stack. This value is used when `pipelineOperations` contains
+**UpdateNuGetQuality**.
 
 ### Carpenter.NuGet.Quality.Prod
 
-The target quality when updating quality on the Production stack. This value is set by the
-`nuGetQualityProd` parameter.
+The target quality when updating quality on the Production stack. This value is used when `pipelineOperations`
+contains **UpdateNuGetQuality**.
 
-### Carpenter.GitHub.ServiceConnection
+## Integrations
 
-The service connection to use when executing GitHub tasks. This value is set byt the
-`gitHubServiceConnection` parameter.
+### Carpenter.GitHub.ServiceConnection (gitHubServiceConnection)
 
-### Carpenter.Git.AddTagOnDevMain (addGitTagOnDevMain)
-
-If true, git sources are tagged with the build number on Developer Finalize against the main branch. This value is set
-by the `addGitTagOnDevMain` parameter. The default value is **false**.
-
-### Carpenter.GitHub.ReleaseOnProd (addGitHubReleaseOnProd)
-
-If true, a GitHub release is created during the Production Finalize. This value is set by the `addGitHubReleaseOnProd`
-parameter. The default value is **false**.
+The service connection to use when executing GitHub tasks. This value is set by the `gitHubServiceConnection`
+parameter when `pipelineOperations` contains **AddGitHubRelease**.

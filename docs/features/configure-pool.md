@@ -1,6 +1,6 @@
 # Configuring the agent pool
 
-By default, Carpenter uses the Hosted pool using the `ubuntu-latest` VM image.
+By default, Carpenter.AzurePipelines uses the Hosted pool using the `ubuntu-latest` VM image.
 
 ## Agent pool configuration
 
@@ -10,6 +10,10 @@ The following parameters are used to configure the pool.
 
 The default pool type to use for jobs. Possible values are **Private** or **Hosted**.
 
+### defaultPoolVMImage
+
+The VM Image to use when using Hosted pool type.
+
 ### defaultPoolName
 
 The pool name to use when using Private pool type.
@@ -18,12 +22,8 @@ The pool name to use when using Private pool type.
 
 The demands for the agent when using a Private pool type.
 
-For more information:
+For more information on pool demands:
 https://docs.microsoft.com/en-us/azure/devops/pipelines/process/demands?view=azure-devops&tabs=yaml
-
-### defaultPoolVMImage
-
-The VM Image to use when using Hosted pool type.
 
 ## Examples
 

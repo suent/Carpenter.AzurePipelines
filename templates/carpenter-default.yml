@@ -89,41 +89,9 @@ parameters:
   type: string
   default: ''
 
-- name: nuGetQualityFeed
-  type: string
-  default: ''
-
-- name: nuGetQualityDev
-  type: string
-  default: ''
-
-- name: nuGetQualityTest1
-  type: string
-  default: ''
-
-- name: nuGetQualityTest2
-  type: string
-  default: ''
-
-- name: nuGetQualityStage
-  type: string
-  default: ''
-
-- name: nuGetQualityProd
-  type: string
-  default: ''
-
 - name: gitHubServiceConnection
   type: string
   default: ''
-
-- name: addGitTagOnDevMain
-  type: boolean
-  default: false
-
-- name: addGitHubReleaseOnProd
-  type: boolean
-  default: false
 
 
 stages:
@@ -205,31 +173,7 @@ stages:
 
     - name: Carpenter.NuGet.Quality
       value: ${{ parameters.updateNuGetQuality }}
-    
-    - ${{ if ne(parameters.updateNuGetQuality,'') }}:
-      - name: Carpenter.NuGet.Quality.Feed
-        value: ${{ parameters.nuGetQualityFeed }}
 
-    - ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
-      - name: Carpenter.NuGet.Quality.Dev
-        value: ${{ parameters.nuGetQualityDev }}
- 
-    - ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
-      - name: Carpenter.NuGet.Quality.Test1
-        value: ${{ parameters.nuGetQualityTest1 }}
- 
-    - ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
-      - name: Carpenter.NuGet.Quality.Test2
-        value: ${{ parameters.nuGetQualityTest2 }}
- 
-    - ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
-      - name: Carpenter.NuGet.Quality.Stage
-        value: ${{ parameters.nuGetQualityStage }}
- 
-    - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
-      - name: Carpenter.NuGet.Quality.Prod
-        value: ${{ parameters.nuGetQualityProd }}
- 
     - ${{ if ne(parameters.gitHubServiceConnection,'') }}:
       - name: Carpenter.GitHub.ServiceConnection
         value: ${{ parameters.gitHubServiceConnection }}
@@ -271,7 +215,6 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
       deployNuGet: ${{ parameters.deployNuGet }}
-      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: job/deploy.yml
@@ -286,15 +229,7 @@ stages:
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-        nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
-        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: dev
 
 # Deploys to stacks only on changes to main branch
@@ -312,15 +247,7 @@ stages:
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-      nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
-      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: test1
       stackName: Test 1
       stackDependsOn:
@@ -338,15 +265,7 @@ stages:
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-      nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
-      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: test2
       stackName: Test 2
       stackDependsOn:
@@ -364,15 +283,7 @@ stages:
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-      nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-      addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
-      addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
       stack: stage
       stackName: Staging
       stackDependsOn:
@@ -394,15 +305,7 @@ stages:
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-        nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-        addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
-        addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
         stack: prod
         stackName: Production
         stackDependsOn:

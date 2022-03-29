@@ -62,32 +62,8 @@ parameters:
 
 - name: updateNuGetQuality
   type: string
-
-- name: nuGetQualityFeed
-  type: string
-
-- name: nuGetQualityDev
-  type: string
-
-- name: nuGetQualityTest1
-  type: string
-
-- name: nuGetQualityTest2
-  type: string
-
-- name: nuGetQualityStage
-  type: string
-
-- name: nuGetQualityProd
-  type: string
   
 - name: gitHubServiceConnection
-  type: string
-
-- name: addGitTagOnDevMain
-  type: string
-
-- name: addGitHubReleaseOnProd
   type: string
 
 
@@ -103,7 +79,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
@@ -120,8 +95,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-      gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
@@ -138,8 +111,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-      gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
@@ -157,8 +128,6 @@ jobs:
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
     updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
-    addGitTagOnDevMain: ${{ parameters.addGitTagOnDevMain }}
-    addGitHubReleaseOnProd: ${{ parameters.addGitHubReleaseOnProd }}
     stack: ${{ parameters.stack }}
     jobDependsOn:
     - ${{ if eq(parameters.stack, 'dev') }}:

@@ -4,7 +4,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Suent_Carpenter.AzurePipelines&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Suent_Carpenter.AzurePipelines)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Suent_Carpenter.AzurePipelines&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Suent_Carpenter.AzurePipelines)
 [![Release](https://vsrm.dev.azure.com/suent/_apis/public/Release/badge/f805856b-08a0-459b-89c8-66f8ec61d6e1/1/4)](https://dev.azure.com/suent/Carpenter/_release?view=all&_a=releases&definitionId=1)
-[![Carpenter.AzurePipelines NuGet package](https://feeds.dev.azure.com/suent/_apis/public/Packaging/Feeds/6e861335-193a-4afe-97aa-2097572c51f9@ba500766-c1dc-4b9b-aaa6-3f7021545343/Packages/db5f766a-90a7-4c00-b2b5-3336a63b27a0/Badge)](https://www.nuget.org/Carpenter.AzurePipelines)
+[![Carpenter.AzurePipelines NuGet package](https://feeds.dev.azure.com/suent/_apis/public/Packaging/Feeds/6e861335-193a-4afe-97aa-2097572c51f9@ba500766-c1dc-4b9b-aaa6-3f7021545343/Packages/db5f766a-90a7-4c00-b2b5-3336a63b27a0/Badge)](https://www.nuget.org/packages/Carpenter.AzurePipelines)
 
 [Carpenter.AzurePipelines](#carpeneterazurepipelines)
 
@@ -27,15 +27,15 @@ For more information on Azure Pipelines see the [YAML schema](https://docs.micro
 
 ## Features
 
-* [Pipeline Versioning](docs/pipeline-versioning.md)
-* [Configurable Pool](docs/configure-pool.md)
-* [Build Versioning](docs/build-versioning.md)
-  * [Build Revision](docs/build-revision.md)
-  * [Semantic Versioning 2.0.0](docs/semver.md)
-* [Build](docs/build.md)
-* [Test](docs/test.md)
-* [Analyze](docs/analysis.md)
-* [Deploy](docs/deploy.md)
+* [Build Versioning](docs/features/build-versioning.md)
+* [Build](docs/features/build.md)
+* [Package](docs/features/package.md)
+* [Test](docs/features/test.md)
+* [Analyze](docs/features/analysis.md)
+* [Deploy](docs/features/deploy.md)
+* [Integrate](docs/features/integrations.md)
+
+And more! Additional features described at: [docs/features.md](docs/features.md)
 
 ## Usage
 

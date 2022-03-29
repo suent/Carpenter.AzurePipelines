@@ -1,7 +1,18 @@
 [Carpenter.AzurePipelines Operations](#carpenterazurepipelines-operations)
 * [ExcludePipeline](#excludepipeline)
 * [PublishSourceArtifact](#publishsourceartifact)
+* [VersionSemVer](#versionsemver)
+* [BuildDotNet](#builddotnet)
+* [PackageNuGet](#packagenuget)
+* [TestDotNet](#testdotnet)
+* [CollectTestCoverage](#collecttestcoverage)
+* [AnalyzeSonar](#analyzesonar)
+* [DeployBranch](#deploybranch)
+* [DeployNuGet](#deploynuget)
+* [AddGitTag](#addgittag)
+* [AddGitHubRelease](#addgithubrelease)
 * [IncrementVersionOnRelease](#incrementversiononrelease)
+* [UpdateNuGetQuality](#updatenugetquality)
 
 # Carpenter.AzurePipelines Operations
 
@@ -31,6 +42,8 @@ This operation uses the following settings:
 * Carpenter.Version.Label
 * Carpenter.Version
 
+For more information, see [Semantic Versioning](features/build-versioning/semantic-versioning.md).
+
 ## BuildDotNet
 
 Performs a build of the solution using the dotnet command line tool.
@@ -40,6 +53,8 @@ This operation uses the following settings:
 * Carpenter.Solution.Path
 * Carpenter.Output.Path
 * Carpenter.Output.Binaries.Path
+
+For more information, see [Build using .NET Core (dotnet)](features/build/build-dotnet.md).
 
 ## PackageNuGet
 
@@ -53,6 +68,8 @@ This operation uses the following settings:
 
 * Carpenter.Output.NuGet.Path
 
+For more information, see [Package using NuGet](features/package/package-nuget.md).
+
 ## TestDotNet
 
 Executes testing using the dotnet command line tool.
@@ -65,6 +82,8 @@ This operation uses the following settings:
 
 * Carpenter.Output.Tests.Path
 
+For more information, see [Testing using .NET Core (dotnet)](features/package/package-nuget.md).
+
 ## CollectTestCoverage
 
 Generates and collects Cobertura and OpenCover code coverage information. 
@@ -76,6 +95,8 @@ Required operations:
 This operation uses the following settings:
 
 * Carpenter.Output.TestCoverage.Path
+
+For more information, see [Testing using .NET Core (dotnet)](features/package/package-nuget.md).
 
 ## AnalyzeSonar
 
@@ -91,6 +112,8 @@ This operation uses the following settings:
 * Carpenter.SonarCloud.ProjectKey
 * Carpenter.SonarCloud.ServiceConnection (sonarCloudServiceConnection)
 
+For more information, see [Analyzing using SonarCloud](features/analysis/analysis-sonarcloud.md).
+
 ## DeployBranch
 
 Creates a branch of this builds source to represent code on a stack.
@@ -98,6 +121,8 @@ Creates a branch of this builds source to represent code on a stack.
 This operation uses the following settings:
 
 * Carpenter.Deploy.Branch (deployBranch)
+
+For more information, see [Deploy a Branch](features/deploy/deploy-branch.md).
 
 ## DeployNuGet
 
@@ -109,6 +134,7 @@ Required operations:
 
 This operation uses the following settings:
 
+* Carpenter.Deploy.NuGet (deployNuGet)
 * Carpenter.Deploy.NuGet.TargetFeed.Dev
 * Carpenter.Deploy.NuGet.TargetFeed.Test1
 * Carpenter.Deploy.NuGet.TargetFeed.Test2
@@ -117,7 +143,7 @@ This operation uses the following settings:
 
 ## AddGitTag
 
-Adds a Git tag for the build number.
+Adds a Git tag for the build number to the source repository.
 
 This operation uses the following settings:
 
@@ -125,6 +151,14 @@ This operation uses the following settings:
 * Carpenter.PipelineBot.Email
 * Carpenter.PipelineBot.GitHub.Username
 * PipelineBot-GitHub-PAT
+
+## AddGitHubRelease
+
+Adds a release for this build on GitHub for the prod stack.
+
+This operation uses the following settings:
+
+* Carpenter.GitHub.ServiceConnection (gitHubServiceConnection)
 
 ## IncrementVersionOnRelease
 
@@ -142,3 +176,19 @@ This operation uses the following settings:
 * Carpenter.Version.Patch
 
 ## UpdateNuGetQuality
+
+Updates the quality of a NuGet package stored in an Azure Artifacts feed.
+
+Required operations:
+
+* DeployNuGet
+
+This operation uses the following settings:
+
+* Carpenter.NuGet.Quality
+* Carpenter.NuGet.Quality.Feed
+* Carpenter.NuGet.Quality.Dev
+* Carpenter.NuGet.Quality.Test1
+* Carpenter.NuGet.Quality.Test2
+* Carpenter.NuGet.Quality.Stage
+* Carpenter.NuGet.Quality.Prod

@@ -39,12 +39,6 @@ parameters:
 - name: defaultPoolType
   type: string
 
-- name: updateNuGetQuality
-  type: string
-
-- name: gitHubServiceConnection
-  type: string
-
 
 variables:
 - name: Carpenter.Pipeline.Version
@@ -176,31 +170,6 @@ variables:
 
 - name: Carpenter.NuGet.Quality
   value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.updateNuGetQuality'] ]
-  
-- ${{ if ne(parameters.updateNuGetQuality,'') }}:
-  - name: Carpenter.NuGet.Quality.Feed
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetQualityFeed'] ]
 
-- ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
-  - name: Carpenter.NuGet.Quality.Dev
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetQualityDev'] ]
- 
-- ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
-  - name: Carpenter.NuGet.Quality.Test1
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetQualityTest1'] ]
- 
-- ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
-  - name: Carpenter.NuGet.Quality.Test2
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetQualityTest2'] ]
- 
-- ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
-  - name: Carpenter.NuGet.Quality.Stage
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetQualityStage'] ]
- 
-- ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
-  - name: Carpenter.NuGet.Quality.Prod
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.nuGetQualityProd'] ]
-
-- ${{ if ne(parameters.gitHubServiceConnection,'') }}:
-  - name: Carpenter.GitHub.ServiceConnection
-    value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.gitHubServiceConnection'] ]
+- name: Carpenter.GitHub.ServiceConnection
+  value: $[ stageDependencies.dev.initialize.outputs['initializePipeline.gitHubServiceConnection'] ]

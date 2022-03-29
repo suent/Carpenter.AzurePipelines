@@ -89,15 +89,21 @@ variables:
   value: Suent_Carpenter.AzurePipelines
 
 # Infrastructure populates:
-#   Carpenter.PipelineBot
 #   Carpenter.PipelineBot.Email
 #   Carpenter.PipelineBot.Name
+#   Carpenter.PipelineBot.GitHub.Username
 #   Carpenter.SonarCloud.Organization
 #   Carpenter.Deploy.NuGet.TargetFeed.Dev
 #   Carpenter.Deploy.NuGet.TargetFeed.Test1
 #   Carpenter.Deploy.NuGet.TargetFeed.Test2
 #   Carpenter.Deploy.NuGet.TargetFeed.Stage
 #   Carpenter.Deploy.NuGet.TargetFeed.Prod
+#   Carpenter.NuGet.Quality.Dev
+#   Carpenter.NuGet.Quality.Test1
+#   Carpenter.NuGet.Quality.Test2
+#   Carpenter.NuGet.Quality.Stage
+#   Carpenter.NuGet.Quality.Prod
+
 - group: Infrastructure
 
 # Infrastructure-Vault populates:
@@ -126,6 +132,8 @@ stages:
     - AnalyzeSonar
     - DeployBranch
     - DeployNuGet
+    - AddGitTag
+    - AddGitHubRelease
     - IncrementVersionOnRelease
     - UpdateNuGetQuality
     pipelineReason: ${{ parameters.pipelineReason }}
@@ -139,15 +147,5 @@ stages:
     sonarCloudServiceConnection: SonarCloudAnalysis1
     deployBranch: 'test1,test2,stage,prod'
     deployNuGet: 'dev,stage,prod'
-
-
     updateNuGetQuality: 'stage,prod'
-    nuGetQualityFeed: suent
-    #nuGetQualityDev:
-    #nuGetQualityTest1:
-    #nuGetQualityTest2:
-    nuGetQualityStage: Prerelease
-    nuGetQualityProd: Release
     gitHubServiceConnection: botRepositoryAccess
-    addGitTagOnDevMain: true
-    addGitHubReleaseOnProd: true
