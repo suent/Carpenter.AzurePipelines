@@ -126,7 +126,6 @@ jobs:
     defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
     defaultPoolName: ${{ parameters.defaultPoolName }}
     defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-    updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
     gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
     stack: ${{ parameters.stack }}
     jobDependsOn:
