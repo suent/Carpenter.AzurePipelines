@@ -263,7 +263,6 @@ stages:
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
       sonarCloudServiceConnection: ${{ parameters.sonarCloudServiceConnection }}
       deployNuGet: ${{ parameters.deployNuGet }}
-      updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
 
   - ${{ if eq(variables['Build.SourceBranch'],'refs/heads/main') }}:
     - template: job/deploy.yml
