@@ -89,30 +89,6 @@ parameters:
   type: string
   default: ''
 
-- name: nuGetQualityFeed
-  type: string
-  default: ''
-
-- name: nuGetQualityDev
-  type: string
-  default: ''
-
-- name: nuGetQualityTest1
-  type: string
-  default: ''
-
-- name: nuGetQualityTest2
-  type: string
-  default: ''
-
-- name: nuGetQualityStage
-  type: string
-  default: ''
-
-- name: nuGetQualityProd
-  type: string
-  default: ''
-
 - name: gitHubServiceConnection
   type: string
   default: ''
@@ -197,31 +173,7 @@ stages:
 
     - name: Carpenter.NuGet.Quality
       value: ${{ parameters.updateNuGetQuality }}
-    
-    - ${{ if ne(parameters.updateNuGetQuality,'') }}:
-      - name: Carpenter.NuGet.Quality.Feed
-        value: ${{ parameters.nuGetQualityFeed }}
 
-    - ${{ if contains(parameters.updateNuGetQuality,'dev') }}:
-      - name: Carpenter.NuGet.Quality.Dev
-        value: ${{ parameters.nuGetQualityDev }}
- 
-    - ${{ if contains(parameters.updateNuGetQuality,'test1') }}:
-      - name: Carpenter.NuGet.Quality.Test1
-        value: ${{ parameters.nuGetQualityTest1 }}
- 
-    - ${{ if contains(parameters.updateNuGetQuality,'test2') }}:
-      - name: Carpenter.NuGet.Quality.Test2
-        value: ${{ parameters.nuGetQualityTest2 }}
- 
-    - ${{ if contains(parameters.updateNuGetQuality,'stage') }}:
-      - name: Carpenter.NuGet.Quality.Stage
-        value: ${{ parameters.nuGetQualityStage }}
- 
-    - ${{ if contains(parameters.updateNuGetQuality,'prod') }}:
-      - name: Carpenter.NuGet.Quality.Prod
-        value: ${{ parameters.nuGetQualityProd }}
- 
     - ${{ if ne(parameters.gitHubServiceConnection,'') }}:
       - name: Carpenter.GitHub.ServiceConnection
         value: ${{ parameters.gitHubServiceConnection }}
@@ -277,12 +229,6 @@ stages:
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-        nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
         stack: dev
 
@@ -301,12 +247,6 @@ stages:
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-      nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: test1
       stackName: Test 1
@@ -325,12 +265,6 @@ stages:
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-      nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: test2
       stackName: Test 2
@@ -349,12 +283,6 @@ stages:
       deployBranch: ${{ parameters.deployBranch }}
       deployNuGet: ${{ parameters.deployNuGet }}
       updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-      nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-      nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-      nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-      nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-      nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-      nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
       gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: stage
       stackName: Staging
@@ -377,12 +305,6 @@ stages:
         deployBranch: ${{ parameters.deployBranch }}
         deployNuGet: ${{ parameters.deployNuGet }}
         updateNuGetQuality: ${{ parameters.updateNuGetQuality }}
-        nuGetQualityFeed: ${{ parameters.nuGetQualityFeed }}
-        nuGetQualityDev: ${{ parameters.nuGetQualityDev }}
-        nuGetQualityTest1: ${{ parameters.nuGetQualityTest1 }}
-        nuGetQualityTest2: ${{ parameters.nuGetQualityTest2 }}
-        nuGetQualityStage: ${{ parameters.nuGetQualityStage }}
-        nuGetQualityProd: ${{ parameters.nuGetQualityProd }}
         gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
         stack: prod
         stackName: Production

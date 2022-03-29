@@ -62,24 +62,6 @@ parameters:
 
 - name: updateNuGetQuality
   type: string
-
-- name: nuGetQualityFeed
-  type: string
-
-- name: nuGetQualityDev
-  type: string
-
-- name: nuGetQualityTest1
-  type: string
-
-- name: nuGetQualityTest2
-  type: string
-
-- name: nuGetQualityStage
-  type: string
-
-- name: nuGetQualityProd
-  type: string
   
 - name: gitHubServiceConnection
   type: string
