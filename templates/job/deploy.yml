@@ -79,7 +79,6 @@ jobs:
       defaultPoolVMImage: ${{ parameters.defaultPoolVMImage }}
       defaultPoolName: ${{ parameters.defaultPoolName }}
       defaultPoolDemands: ${{ parameters.defaultPoolDemands }}
-      gitHubServiceConnection: ${{ parameters.gitHubServiceConnection }}
       stack: ${{ parameters.stack }}
       ${{ if eq(parameters.stack, 'dev') }}:
         jobDependsOn:
