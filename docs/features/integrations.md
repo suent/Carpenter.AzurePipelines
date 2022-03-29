@@ -1,4 +1,11 @@
+# Carpenter.AzurePipelines Integrations
 
-## Update NuGet Package Quality view
+Carpenter.AzurePipelines can integrate with popular services.
 
-The `updateNuGetQuality` parameter allows views to be added to NuGet packages in Azure Artifacts.
+# Azure DevOps
+
+For more information, see [Azure DevOps Integrations](integrations/azure-devops.md).
+
+# GitHub
+
+For more information, see [GitHub Integrations](integrations/github.md).

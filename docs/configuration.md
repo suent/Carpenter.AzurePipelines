@@ -407,22 +407,22 @@ The target NuGet feed to use when deploying NuGet packages to the Dev stack. Thi
 ### Carpenter.Deploy.NuGet.TargetFeed.Test1
 
 The target NuGet feed to use when deploying NuGet packages to the Test1 stack. This value is used when
-`pipelineOperations` contains **DeployNuGet**.
+`pipelineOperations` contains **DeployNuGet**. Valid options are AzureArtifacts, github.com, or nuget.org.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Test2
 
 The target NuGet feed to use when deploying NuGet packages to the Test2 stack. This value is used when
-`pipelineOperations` contains **DeployNuGet**.
+`pipelineOperations` contains **DeployNuGet**. Valid options are AzureArtifacts, github.com, or nuget.org.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Stage
 
 The target NuGet feed to use when deploying NuGet packages to the Stage stack. This value is used when
-`pipelineOperations` contains **DeployNuGet**.
+`pipelineOperations` contains **DeployNuGet**. Valid options are AzureArtifacts, github.com, or nuget.org.
 
 ### Carpenter.Deploy.NuGet.TargetFeed.Prod
 
 The target NuGet feed to use when deploying NuGet packages to the Prod stack. This value is used when
-`pipelineOperations` contains **DeployNuGet**.
+`pipelineOperations` contains **DeployNuGet**. Valid options are AzureArtifacts, github.com, or nuget.org.
 
 ### Carpenter.NuGet.Quality (updateNuGetQuality)
 
